@@ -1,0 +1,263 @@
+<include file="public:header"/>
+<style>
+.container {margin-top: 0rem;}
+
+</style>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('shop/main')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.shop_name}>分店
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+	</header>
+	  
+	<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3">
+					<img src="/static/default/wap/image/share/share-weibo.png" />
+					<p>新浪微博</p>
+				</li>
+				<li class="-mob-share-tencentweibo x3">
+					<img src="/static/default/wap/image/share/share-twb.png" />
+					<p>腾讯微博</p>
+				</li>
+				<li class="-mob-share-qzone x3">
+					<img src="/static/default/wap/image/share/share-qzone.png" />
+					<p>QQ空间</p>
+				</li>
+				
+				<li class="-mob-share-qq x3">
+					<img src="/static/default/wap/image/share/share-py.png" />
+					<p>QQ好友</p>
+				</li>
+				<li class="-mob-share-weixin x3">
+					<img src="/static/default/wap/image/share/share-weixin.png" />
+					<p>微信</p>
+				</li>
+				<li class="-mob-share-renren x3">
+					<img src="/static/default/wap/image/share/share-renren.png" />
+					<p>人人网</p>
+				</li>
+				<li class="-mob-share-kaixin x3">
+					<img src="/static/default/wap/image/share/share-kaixin.png" />
+					<p>开心网</p>
+				</li>
+				<li id="mui-card-close" class="mui-card-close x3">
+					<img src="/static/default/wap/image/share/share-close.png" />
+					<p>关闭</p>
+				</li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+	
+	<div class="container">
+		<div class="line detail-base">
+			<div class="x4">
+				<div class="pic">
+					<img src="__ROOT__/attachs/<{$detail.logo}>" />
+				</div>
+			</div>
+			<div class="x5">
+				<h1><{$detail.shop_name}><if condition="!empty($detail['name'])">(<{$detail['name']}>)</if></h1>
+				<p><span class="ui-starbar"><span style="width:<{$detail.score}>%"></span></span></p>
+				<p>浏览量: <{$detail.view}> 次</p>
+				<p class="text-small"><span class="text-yellow"><{$ex.business_time}> </span></p>
+			</div>
+			<div class="x3">
+				<gt name="detail.niu_date" value="$today" >
+					<p class="text-center"><img src="/static/default/wap/image/shop/icon-cx.png" /></p>
+				</gt>
+				
+			</div>
+		</div>
+		<div class="blank-10"></div>
+		<hr />
+		<div class="line detail-contact">
+			<div class="x9">
+				<p class="addr"><i class="icon icon-map-marker"></i> <{$detail.addr}> </p>
+				<p class="margin-top"><i class="icon icon-phone"></i> 营业时间：<{$detail.business_time}></p>
+			</div>
+            
+            <!--有错误先这样使用-->
+			<div class="x3">
+				<a class="favor" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>">
+					<div class="txt radius-circle bg-green"><i class="icon-heart"></i></div>
+					<p>关注该商家</p>
+					<p class="text-small">已关注<em class="text-yellow"><{$favnum}></em>人</p>
+				</a>
+			</div>
+            <!--有错误先这样结束--> 
+            
+            
+		</div>
+		<div class="blank-10"></div>
+        
+           <div class="list-link detail-link radius-none">
+			 <php>$sb = D('ShopBranch');$rsb = $sb -> where('shop_id ='.$detail['shop_id']) -> count();</php>
+			<a href="<{:U('shop/branch/',array('shop_id'=>$detail['shop_id']))}>">
+				<span class="txt txt-little radius-little bg-yellow">店</span> 查看另外<{$rsb}>家店铺
+				<span class="float-right icon-angle-right"></span>
+			</a>
+			
+		</div>
+        <div class="blank-10"></div>
+        
+        
+		<div class="list-link detail-link radius-none">
+			<div class="line border-bottom">
+				<div class="x6 border-right text-center">
+					<a href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"><i class="icon icon-send"></i> 导航到这去</a>
+				</div>
+				<div class="x6 text-center">
+					<a href="tel:<{$detail.telephone}>"><i class="icon icon-phone"></i> <{$detail.telephone}></a>
+				</div>
+			</div>
+      <if condition="!empty($tuans)"><!--显示近期团购数据-->			
+           <volist name="tuans" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+				<span class="txt txt-little radius-little bg-green">团</span> <{$item.title}>
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+
+            </if><!--显示近期团购结束-->
+            
+           <if condition="!empty($goods)"><!--显示近期商品数据-->			
+           <volist name="goods" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">
+				<span class="txt txt-little radius-little bg-yellow">商</span> <{$item.title}>
+        
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+
+            </if><!--显示近期商品结束-->
+            
+            
+             <if condition="!empty($coupon)"><!--显示近期优惠券数据-->			
+           <volist name="coupon" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>">
+				<span class="txt txt-little radius-little bg-dot">劵</span> <{$item.title}>
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+
+            </if><!--显示近期优惠劵结束-->
+            
+            
+             <if condition="!empty($huodong)"><!--显示近期活动数据-->			
+           <volist name="huodong" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('huodong/detail',array('activity_id'=>$item['activity_id']))}>">
+				<span class="txt txt-little radius-little bg-dot">活</span> <{$item.title}>
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+
+            </if><!--显示近期活动结束-->
+            
+            
+            
+              <if condition="!empty($ele_menu)"><!--显示近期外卖数据-->			
+           <volist name="ele_menu" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('mobile/ele/shop/',array('shop_id'=>$item['shop_id']))}>">
+				<span class="txt txt-little radius-little bg-yellow">外</span> <{:bao_msubstr($item['product_name'],0,8)}> -￥<{:round($item['price']/100,2)}>
+        
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+ 
+            </if><!--显示近期外卖结束-->
+            
+            
+            
+            
+            
+              <if condition="!empty($ding_menu)"><!--显示近期菜单数据-->			
+           <volist name="ding_menu" id="item" key="index"><!--循环输出的一条数据-->
+            <a href="<{:U('mobile/ding/menu/',array('shop_id'=>$item['shop_id'],'yuyue_id'=>$item['cate_id']))}>">
+				<span class="txt txt-little radius-little bg-yellow">菜</span> <{:bao_msubstr($item['menu_name'],0,8)}>-￥<{:round($item['ding_price']/100,2)}>
+        
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            </volist>
+            <else/>
+       
+            </if><!--显示近期商品结束-->
+            
+            
+            
+             
+			<a href="<{:U('shop/book',array('shop_id'=>$detail['shop_id']))}>">
+				<span class="txt txt-little radius-little bg-blue">约</span> 预约去消费
+				<span class="float-right icon-angle-right"></span>
+			</a>
+            
+            
+		</div>
+		<div class="blank-10"></div>
+     
+		<div class="panel detail-intro radius-none">
+			<div class="panel-head">商家介绍</div>
+			<div class="panel-body">
+				<{$detail.details}>
+				<gt name="detail.niu_date" value="$today" >
+				<span class="niu"><img src="/static/default/wap/image/shop/icon-niu.png" /></span>
+				</gt>
+			</div>
+		</div>
+
+		
+		<div class="blank-10"></div>
+
+		<!--<div class="detail-title">
+			<h4 id="ping">会员评价</h4>
+			<a class="more" href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">查看更多评价</a>
+		</div>
+		<div class="detail-ping">
+			<volist name="list" id="var" key="index">
+			<if condition="$index elt 5">
+			<div class="media media-x">
+					<a class="float-left" href="#">
+						<img class="radius" src="__ROOT__/attachs/<{$$sers[$var['user_id']]['face']|default='avatar.jpg'}>" />
+					</a>
+					<div class="media-body">
+						<strong><{$users[$var['user_id']]['nickname']}></strong>
+						<{$var.contents}>
+						<div class="ping-pic">
+							<volist name="pics" id="pic" key="index">
+							<eq name="pic.dianping_id" value="$var['dianping_id']">
+								<img src="__ROOT__/attachs/<{$pic.pic|default='default.jpg'}>" />
+							</eq>
+							</volist>
+						</div>
+					</div>
+			</div>
+			</if>
+			</volist>
+		</div>-->
+	</div>
+	
+<include file="public/footer" />

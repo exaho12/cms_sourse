@@ -1,0 +1,10 @@
+        <div class="footer">
+          <div class="footter_nav">
+             <calldata mdl="Systemcontent" order="orderby asc" limit="0,10" cache="86400">   
+              <a href="<{:U('article/system',array('content_id'=>$item['content_id']))}>" title="<{$item.title}>"  target="_blank"><{$item.title}></a> <if condition="$index lt 9">|</if>
+            </calldata>
+          </div>
+          <p>copyright 2013-2113 <{$Think.SERVER.HTTP_HOST}> All Rights Reserved <{$CONFIG.site.sitename}>版权所有 <{$CONFIG.site.tongji}></p>
+		</div>
+    </body>
+</html>

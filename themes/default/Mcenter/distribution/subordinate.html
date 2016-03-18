@@ -1,0 +1,52 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('distribution/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的下级
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button <eq name='level' value='1'>bg-dot active</eq>" href="<{:LinkTo('subordinate',array('level'=>1))}>">一级会员</a>
+			<a class="block button <eq name='level' value='2'>bg-dot active</eq>" href="<{:LinkTo('subordinate',array('level'=>2))}>">二级会员</a>
+			<a class="block button <eq name='level' value='3'>bg-dot active</eq>" href="<{:LinkTo('subordinate',array('level'=>3))}>">三级会员</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="list-media-x" id="list-media">
+	<ul>
+		<foreach name="list" item="item">
+			<!-- 循环 -->
+			<li class="line padding">
+				<div class="x6">
+					<strong>用户ID：</strong> <{$item['user_id']}>
+				</div>
+				<div class="x6">
+					<strong>帐户名：</strong><{$item['account']}>
+				</div>
+			</li>
+			<li class="line padding">
+				<div class="x6">
+					<strong>昵称：</strong><{$item['nickname']}>
+				</div>
+				<div class="x6">
+					<strong>Email：</strong><{$item['email']}>
+				</div>
+			</li>
+			<!-- 循环 -->
+		</foreach>
+	</ul>
+	<div style="text-align: center"><{$page}></div>
+</div>	
+
+<include  file='public:footer'/>

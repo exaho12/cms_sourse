@@ -1,0 +1,104 @@
+<include file="public:header"/>
+
+<style>
+.container {margin-top: 0rem;}
+.list-media-x li {border-bottom: thin solid #eee;}
+.list-media-x ul {padding: 0;list-style: none;}
+p, .p {margin-bottom: 0px; }
+</style>
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('shop/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			商家分店
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+	</header>
+    
+    
+	  
+	<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3">
+					<img src="/static/default/wap/image/share/share-weibo.png" />
+					<p>新浪微博</p>
+				</li>
+				<li class="-mob-share-tencentweibo x3">
+					<img src="/static/default/wap/image/share/share-twb.png" />
+					<p>腾讯微博</p>
+				</li>
+				<li class="-mob-share-qzone x3">
+					<img src="/static/default/wap/image/share/share-qzone.png" />
+					<p>QQ空间</p>
+				</li>
+				
+				<li class="-mob-share-qq x3">
+					<img src="/static/default/wap/image/share/share-py.png" />
+					<p>QQ好友</p>
+				</li>
+				<li class="-mob-share-weixin x3">
+					<img src="/static/default/wap/image/share/share-weixin.png" />
+					<p>微信</p>
+				</li>
+				<li class="-mob-share-renren x3">
+					<img src="/static/default/wap/image/share/share-renren.png" />
+					<p>人人网</p>
+				</li>
+				<li class="-mob-share-kaixin x3">
+					<img src="/static/default/wap/image/share/share-kaixin.png" />
+					<p>开心网</p>
+				</li>
+				<li id="mui-card-close" class="mui-card-close x3">
+					<img src="/static/default/wap/image/share/share-close.png" />
+					<p>关闭</p>
+				</li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+    
+    
+ <div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active"><{$rs.shop_name}> (共 <{$count}> 家分店)</a>
+		</div>
+	</div>
+</div>   
+
+<div class="list-media-x" id="list-media">
+	<ul>
+    <volist name="branch" id="r">
+    <li class="line padding">
+        <div class="x12">
+            <p><a href="<{:U('shop/shop',array('shop_id'=>$rs['shop_id'],'branch_id'=>$r['branch_id']))}>">分店名称：<{$rs.shop_name}> (<{$r.name}>)</a> </p>
+            <p class="text-small">分店地址：</span> <{$r.addr}>---距离<{$r.d}></p>       
+			<p class="text-right padding-top">                     
+            <a href="<{:U('shop/gps',array('shop_id'=>$r['shop_id']))}>" class="button button-small bg-green">导航</a>
+            <a href="tel:<{$r.telephone}>" class="button button-small bg-dot">联系商家</a>
+            <a href="<{:U('shop/shop',array('shop_id'=>$r['shop_id'],'branch_id'=>$r['branch_id']))}>" class="button button-small bg-dot">去逛逛</a>                          
+            </p>           
+        </div>
+    </li> 
+    </volist>
+  </ul>
+</div>
+
+<include file="public/footer" />

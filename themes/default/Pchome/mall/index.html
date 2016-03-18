@@ -1,0 +1,738 @@
+<include file="public:header" /> 
+
+<include file="public:top"/>
+
+<div class="nav">
+
+    <div class="navList">
+
+        <ul>
+
+            <li class="navListAll"><span class="navListAllt">全部商品分类<em></em></span>
+          <div class="shadowy navAll">
+                    <include file="public:cate"/>
+                </div>
+            </li>
+
+<php>
+$map = array('status' => 4);
+$navigations = D('Navigation');
+$nav = $navigations ->where($map)->order(array('orderby' => 'asc'))->select();
+</php>
+
+<volist name="nav" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<!--top END-->
+
+
+
+<div class="content zy_content">
+
+    <div class="left zy_content_l">
+
+        <div class="goods_flBox" id="shopping">
+
+            <ul>
+
+                <if condition="!empty($selArr)">
+
+                    <li class="goods_flListLf">
+
+                        <ul>
+
+                            <li class="goods_flLi"><a class="goods_flLiA" href="<{:U('mall/index')}>">全部</a></li>
+
+                            <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            <script>
+
+                                $(function () {
+
+                                    $('.goods_flLiLf .goods_flLiA').hover(function () {
+
+                                        $(this).parent().find('.goods_flLiLfk').show();
+
+                                        $(this).addClass("on");
+
+                                    });
+
+                                    $('.goods_flLiLf').hover(function () {
+
+                                    }, function () {
+
+                                        $(this).find('.goods_flLiLfk').hide();
+
+                                        $(this).children(".goods_flLiA").removeClass("on");
+
+                                    });
+
+                                    $('.goods_flLiFl').hover(function () {
+
+                                        $(this).parent().find('.goods_flLiLfk').hide();
+
+                                        $(this).parent().find(".goods_flLiA").removeClass("on");
+
+                                    });
+
+                                });
+
+                            </script>
+
+
+
+                            <if condition="!empty($cat)">
+
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>0,'cate_id'=>0))}>"><{$goodscate[$cat]['cate_name']}><em></em></a><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>0,'cates'=>0,'cate_id'=>0))}>" class="goods_flLiFl">ｘ</a>
+
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>0,'cates'=>0,'cate_id'=>0))}>">全部</a>
+
+                                        <foreach name="goodscate" item="item">
+
+                                            <eq name="item.parent_id" value="0">
+
+                                            |<a <eq name="item.cate_id" value="$cat">class="on"</eq>  href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$item['cate_id'],'cates'=>0,'cate_id'=>0))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                            </eq>
+
+                                        </foreach>
+
+                                    </div>
+
+                                </li>
+
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            </if>
+                             <if condition="!empty($cates)">
+
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates))}>"><{$goodscate[$cates]['cate_name']}><em></em></a><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>0))}>" class="goods_flLiFl">ｘ</a>
+
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>0))}>">全部</a>
+
+                                        <foreach name="goodscate" item="item">
+
+                                            <eq name="item.parent_id" value="$cat">
+
+                                            |<a <eq name="item.cate_id" value="$cates">class="on"</eq> href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$item['cate_id'],'cate_id'=>0))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                            </eq>
+
+                                        </foreach>
+
+                                    </div>
+
+                                </li>
+
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            </if>
+
+                            <if condition="!empty($cate_id)">
+
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates,'cate_id'=>$cate_id))}>"><{$goodscate[$cate_id]['cate_name']}><em></em></a><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates,'cate_id'=>0))}>" class="goods_flLiFl">ｘ</a>
+
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates,'cate_id'=>0))}>">全部</a>
+
+                                        <foreach name="goodscate" item="item">
+
+                                            <eq name="item.parent_id" value="$cates">
+
+                                            |<a <eq name="item.cate_id" value="$cate_id">class="on"</eq> href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates,'cate_id'=>$item['cate_id']))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                            </eq>
+
+                                        </foreach>
+
+                                    </div>
+
+                                </li>
+
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            </if>
+
+                            <if condition="!empty($area_id)">
+
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('mall/index',$linkArr,array('area'=>$area_id))}>"><{$areas[$area_id]['area_name']}><em></em></a><a href="<{:LinkTo('mall/index',$linkArr,array('area'=>0,'business'=>0))}>" class="goods_flLiFl">ｘ</a>
+
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('mall/index',$linkArr,array('area'=>0))}>">全部</a>
+
+                                        <foreach name="areas" item="item">
+
+                                                    <eq name="item.city_id" value="$city_id">
+
+
+
+                                            |<a <eq name="item.area_id" value="$area_id">class="on"</eq> href="<{:LinkTo('mall/index',$linkArr,array('area'=>$item['area_id'],'business'=>0))}>"><{$areas[$item['area_id']]['area_name']}></a>
+
+                                            </eq>
+
+                                        </foreach>
+
+                                    </div>
+
+                                </li>
+
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            </if>
+
+                            <if condition="!empty($business_id)">
+
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('mall/index',$linkArr,array('area'=>$area_id,'business'=>$business_id))}>"><{$bizs[$business_id]['business_name']}><em></em></a><a href="<{:LinkTo('mall/index',$linkArr,array('area'=>$area_id,'business'=>0))}>" class="goods_flLiFl">ｘ</a>
+
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('mall/index',$linkArr,array('area'=>$area_id,'business'=>0))}>">全部</a>
+
+                                        <foreach name="bizs" item="item">
+
+                                            <eq name="item.area_id" value="$area_id">
+
+                                            |<a <eq name="item.business_id" value="$business_id">class="on"</eq> href="<{:LinkTo('mall/index',$linkArr,array('area'=>$area_id,'business'=>$item['business_id']))}>"><{$bizs[$item['business_id']]['business_name']}></a>
+
+                                            </eq>
+
+                                        </foreach>
+
+                                    </div>
+
+                                </li>
+
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+
+                            </if>
+
+                          
+
+                        </ul>
+
+                    </li>
+
+                </if>
+
+                <if condition="empty($cat)">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l">分类：</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr)}>">全部</a>
+
+                            <foreach name="goodscate" item="item">
+
+                                <eq name="item.parent_id" value="0">
+
+                                <a class="goods_flListA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                </eq>
+
+                            </foreach>
+
+                        </div>
+
+                    </li>
+
+                </if>
+                 <if condition="!empty($cat) and empty($cates)">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l">分类：</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat))}>">全部</a>
+
+                            <foreach name="goodscate" item="item">
+
+                                <eq name="item.parent_id" value="$cat">
+
+                                <a class="goods_flListA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$item['cate_id']))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                </eq>
+
+                            </foreach>
+
+                        </div>
+
+                    </li>
+
+                </if>
+
+                <if condition="!empty($cates) and empty($cate_id)">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l">分类：</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates))}>">全部</a>
+
+                            <foreach name="goodscate" item="item">
+
+                                <eq name="item.parent_id" value="$cates">
+
+                                <a class="goods_flListA" href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$cat,'cates'=>$cates,'cate_id'=>$item['cate_id']))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a>
+
+                                </eq>
+
+                            </foreach>
+
+                        </div>
+
+                    </li>
+
+                </if>
+                <if condition="!empty($cate_id) && !empty($cate['select1'])">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l"><{$cate['select1']}>:</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('s1'=>0))}>">全部</a>
+
+                           <foreach name="attrs.select1" item="item">
+
+                                <a class='goods_flListA <eq name="s1" value="$item.attr_id">on</eq>' href="<{:LinkTo('mall/index',$linkArr,array('s1'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+
+                              
+
+                            </foreach>
+                            
+
+                        </div>
+
+                    </li>
+
+                </if>
+                  <if condition="!empty($cate_id) && !empty($cate['select2'])">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l"><{$cate['select2']}>:</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('s2'=>0))}>">全部</a>
+
+                           <foreach name="attrs.select2" item="item">
+
+                                <a class='goods_flListA <eq name="s2" value="$item.attr_id">on</eq>' href="<{:LinkTo('mall/index',$linkArr,array('s2'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+
+                              
+
+                            </foreach>
+                            
+
+                        </div>
+
+                    </li>
+
+                </if>
+                  <if condition="!empty($cate_id) && !empty($cate['select3'])">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l"><{$cate['select3']}>:</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('s3'=>0))}>">全部</a>
+
+                           <foreach name="attrs.select3" item="item">
+
+                                <a class='goods_flListA <eq name="s3" value="$item.attr_id">on</eq>' href="<{:LinkTo('mall/index',$linkArr,array('s3'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+
+                              
+
+                            </foreach>
+                            
+
+                        </div>
+
+                    </li>
+
+                </if>
+                  <if condition="!empty($cate_id) && !empty($cate['select4'])">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l"><{$cate['select4']}>:</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('s4'=>0))}>">全部</a>
+
+                           <foreach name="attrs.select4" item="item">
+
+                                <a class='goods_flListA <eq name="s4" value="$item.attr_id">on</eq>' href="<{:LinkTo('mall/index',$linkArr,array('s4'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+
+                              
+
+                            </foreach>
+                            
+
+                        </div>
+
+                    </li>
+
+                </if>
+                 <if condition="!empty($cate_id) && !empty($cate['select5'])">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l"><{$cate['select5']}>:</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr,array('s5'=>0))}>">全部</a>
+
+                           <foreach name="attrs.select5" item="item">
+
+                                <a class='goods_flListA <eq name="s5" value="$item.attr_id">on</eq>' href="<{:LinkTo('mall/index',$linkArr,array('s5'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+
+                              
+
+                            </foreach>
+                            
+
+                        </div>
+
+                    </li>
+
+                </if>
+
+                <if condition="empty($area_id)">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l">地区：</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr)}>">全部</a>
+
+                            <foreach name="areas" item="item">
+							<php>if($item['city_id'] == $city_id){</php>
+                                <a class="goods_flListA" href="<{:LinkTo('mall/index',$linkArr,array('area'=>$item['area_id']))}>"><{$item.area_name}></a>
+							<php>}</php>
+                            </foreach>
+
+                        </div>
+
+                    </li>
+
+                </if>
+
+                <if condition="!empty($area_id) and empty($business_id)">
+
+                    <li class="goods_flList">
+
+                        <div class="left goods_flList_l">商圈：</div>
+
+                        <div class="left goods_flList_r">
+
+                            <a class="goods_flListA on" href="<{:LinkTo('mall/index',$linkArr)}>">全部</a>
+
+                            <foreach name="bizs" item="item">
+
+                                <eq name="item.area_id" value="$area_id">
+
+                                <a class="goods_flListA" href="<{:LinkTo('mall/index',$linkArr,array('business'=>$item['business_id']))}>"><{$item.business_name}></a>
+
+                                </eq>
+
+                            </foreach>
+
+                        </div>
+
+                    </li>
+
+                </if>
+
+            
+
+            </ul>
+
+        </div>
+
+        <div class="nearbuy_sxk">
+
+            <ul>
+
+                <li class="nearbuy_sxkLi <if condition='empty($order) or $order eq d'>on</if> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'d'))}>">默认排序</a></li>
+
+                <li class="nearbuy_sxkLi <eq name='order' value='s'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'s'))}>">销量排序<em class="em_up"></em></a></li>
+
+                <li class="nearbuy_sxkLi <eq name='order' value='p'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'p'))}>">价格排序<em></em></a></li>
+
+                <li class="nearbuy_sxkLi <eq name='order' value='v'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'v'))}>">人气排序<em class="em_up"></em></a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="qg-sp-listBox">
+
+            <div class="qg-sp-list">
+
+                <ul>
+
+                    <foreach name="list" item="item">
+
+                        <li>
+
+                            <div class="qg-sp-liBox">
+
+                                <div class="img"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a></div>
+		<if condition="$item['num'] eq 0"><span class="mallmgl"></span></if>
+                                <p class="rap"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><{:bao_msubstr($item['title'],0,12,false)}></a></p>                                
+                               
+
+                                <div class="sc_cpList_gj">
+
+                                    <span class="left">
+
+                                        <span class="sc_cpList_gjj">
+
+                                            <i>￥</i>
+
+                                            <{$item.mall_price}>
+
+                                        </span>
+
+                                        <span class="sc_cpList_yj">
+
+                                            ￥
+
+                                            <del><{$item.price}></del>
+
+                                        </span>
+
+                                    </span>
+
+                                    <span class="right">
+
+                                       <div class="num"><a class="jq_addcart" href="<{:U('mall/cartadd3',array('goods_id'=>$item['goods_id']))}>"><img src="__TMPL__statics/images/tp_33.png"></a></div>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    </foreach>
+
+                </ul>
+
+            </div>
+
+        </div>
+					<script>
+
+                                var num = '<{$cartnum}>';
+
+                   $(document).ready(function () {
+                        $(document).on('click', '.jq_addcart', function (e) {
+                            e.preventDefault();
+                            $.get($(this).attr('href'), function (data) {
+                                if (data.msg) {
+                                    num++;
+                                    $("#num").html(num);
+									layer.msg(data.msg);
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            }, 'json');
+                        });
+                    });
+                </script>
+
+        <div class="x">
+
+            <{$page}>
+
+        </div>
+
+    </div>
+
+    <div class="right zy_content_r">
+
+        <div class="qg-sp-tab-box">
+
+            <script>
+
+                $(function () {
+
+                    $(".qg-sp-tab span").each(function (e) {
+
+                        $(this).click(function () {
+
+                            $(this).parent().find("span").removeClass("on");
+
+                            $(this).addClass("on");
+
+                            $(".qg-sp-tab-nr .qg-sp-tab-nrList").each(function (i) {
+
+                                if (e == i) {
+
+                                    $(this).parent().find(".qg-sp-tab-nrList").hide();
+
+                                    $(this).show();
+
+                                }
+
+                                else {
+
+                                    $(this).hide();
+
+                                }
+
+                            });
+
+                        });
+
+                        $(".qg-sp-tab span").eq(0).click();
+
+                    });
+
+                });
+
+            </script>
+
+            <div class="qg-sp-tab">
+
+                <span class="on">人气排行</span>
+
+                <span>销售排行</span>
+
+            </div>
+
+            <div class="qg-sp-tab-nr">
+
+                <div class="qg-sp-tab-nrList">
+
+                    <ul>
+
+                        <calldata mdl="Goods" order="views desc" where="end_date EGT '{$today}' AND audit=1 AND closed=0 AND city_id = '{$city_id}'" cache="3600" limit="0,6">
+
+                            <li>
+
+                                <div class="qg-sp-liBox">
+
+                                    <div class="img"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a><if condition="$item['num'] eq 0"><span class="mallmgl"></span></if></div>
+
+                                    <p class="rap"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><{:bao_msubstr($item['title'],0,12,false)}></a></p>
+
+                                    <div class="sc_cpList_gj">
+
+                                        <span class="left">
+
+                                            <span class="sc_cpList_gjj">
+
+                                                <i>￥</i><{:round($item['mall_price']/100,2)}>
+
+                                            </span>
+
+                                            <span class="sc_cpList_yj">
+
+                                                ￥<del><{:round($item['price']/100,2)}></del>
+
+                                            </span>
+
+                                        </span>
+
+                                        <span class="right">
+
+                                           <div class="num"><a class="jq_addcart" href="<{:U('mall/cartadd3',array('goods_id'=>$item['goods_id']))}>"><img src="__TMPL__statics/images/tp_33.png"></a></div>
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </calldata>
+
+                    </ul>
+
+                </div>
+
+                <div class="qg-sp-tab-nrList">
+
+                    <ul>
+
+                        <calldata mdl="Goods" order="sold_num desc" where="end_date EGT '{$today}' AND audit=1 AND closed=0 AND city_id = '{$city_id}'" cache="3600" limit="0,6">
+
+                            <li>
+
+                                <div class="qg-sp-liBox">
+
+                                    <div class="img"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a><if condition="$item['num'] eq 0"><span class="mallmgl"></span></if></div>
+
+                                    <p class="rap"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><{:bao_msubstr($item['title'],0,12,false)}></a></p>
+
+                                    <div class="sc_cpList_gj">
+
+                                        <span class="left">
+
+                                            <span class="sc_cpList_gjj">
+
+                                                <i>￥</i><{:round($item['mall_price']/100,2)}>
+
+                                            </span>
+
+                                            <span class="sc_cpList_yj">
+
+                                                ￥<del><{:round($item['price']/100,2)}></del>
+
+                                            </span>
+
+                                        </span>
+
+                                        <span class="right">
+
+                                            <div class="num"><a class="jq_addcart" href="<{:U('mall/cartadd3',array('goods_id'=>$item['goods_id']))}>"><img src="__TMPL__statics/images/tp_33.png"></a></div>
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </calldata>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<include file="public:footer"/>

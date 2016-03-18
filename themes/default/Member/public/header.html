@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>用户中心</title>        
+
+        <link href="__TMPL__statics/css/newstyle.css" rel="stylesheet" type="text/css" />
+
+        <link href="themes/default/statics/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="__TMPL__statics/js/jquery.js"></script>
+
+        <script> var BAO_PUBLIC = '__PUBLIC__';
+
+            var BAO_ROOT = '__ROOT__';</script>
+
+        <script src="__PUBLIC__/js/web.js"></script>
+
+        <script src="__PUBLIC__/js/layer/layer.js"></script>
+
+        <script>
+
+        </script>
+
+    </head>
+
+    <body>
+
+
+
+        <iframe id="baocms_frm" name="baocms_frm" style="display:none;"></iframe>
+
+        <include file="./themes/default/Pchome/public/topOne.html" />
+
+        <include file="./themes/default/Pchome/public/top.html" />        
+
+        <include file="./themes/default/Pchome/public/nav2.html" />
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                $('#selectBoxInput').on("mouseleave", function () {
+
+                    $('.selectList').stop().hide();
+
+                }).on("mouseenter", function(){
+
+                    $('.selectList').stop().slideDown();
+
+                });
+
+                $('.selectList').on("mouseleave", function(){
+
+                    $(this).stop().hide();
+
+                }).on("mouseenter", function(){
+
+                    $(this).stop().show();
+
+                });
+
+
+
+                $(".selectList li a").click(function () {
+
+                    $("#selectBoxInput").html($(this).html());
+
+                    $('.selectList').hide();
+
+                });
+
+
+
+                    $('.menu_fllist2 > .item2').hover(function () {
+
+                        $(this).addClass('on');
+
+                        $(this).children('.menu_flklist2').css('display', 'block');
+
+                    }, function () {
+
+                        $(this).removeClass('on');
+
+                        $(this).children('.menu_flklist2').css('display', 'none');
+
+                    });//导航菜单js
+
+                });
+
+            </script>
+
+            <div class="main_c">
+
+            
+
+            <div class="w-user-info">
+
+                    <div class="user-name-wrap fl">
+
+                      <span class="user-name">您好：<{$MEMBER['nickname']}></span>
+
+                      <span class="account-info-con">等级：VIP<{$MEMBER['rank_id']}>&nbsp;&nbsp;</span>
+
+                      <if condition="!empty($MEMBER['mobile'])">
+
+                      <span class="tit">手机已绑定</span>
+
+                      <span class="account-info-con"><{$MEMBER.mobile}></span>
+
+                      <span class="account-info-btn"><a class="link" href="<{:U('set/mobile2')}>" id="j-uc-bind-phone">修改</a></span>
+
+                      <else/>
+
+                      <span class="account-info-con">未绑定手机</span>
+
+                      <span class="account-info-btn"><a class="link" href="<{:U('set/mobile2')}>" id="j-uc-bind-phone">绑定</a></span>
+
+                      </if>
+
+                    </div>
+
+                <ul class="user-money-wrap fr">
+
+                    <li>
+
+                        <span class="tit">我的余额</span>
+
+                        <span class="org"> &nbsp;¥<{:round($MEMBER['money']/100,2)}><a class="user_cz" href="<{:U('money/money')}>">充值</a></span>
+
+                    </li>
+
+                    <li>
+
+                        <span class="tit">我的金块</span>
+
+                        <span class="org"> &nbsp;¥<{$MEMBER['gold']}><a class="user_cz" href="<{:U('money/gold')}>">充值</a></span>
+
+                    </li>
+
+                    <li class="last">
+
+                        <span class="tit">我的积分</span>
+
+                        <span class="org">&nbsp;<{$MEMBER['integral']}></span>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+
+                <div class="content_left">
+
+                    <ul>
+
+                        <li class="index_nav">
+
+                            <h3 style="border-top:none;">订单中心</h3>
+
+                            <div class="indexnav_li">
+
+                                <ul>
+
+							
+
+                                    <li><a <if condition="$ctl eq 'order' or $ctl eq 'ele' ">class="on"</if> href="<{:U('order/index')}>">我的订单</a></li>
+
+                                    <li><a <if condition="$ctl eq 'index' ">class="on"</if> href="<{:U('index/index')}>">我的抢购券</a></li>
+
+                                    <li><a <if condition="$ctl eq 'coupon' ">class="on"</if> href="<{:U('coupon/index')}>">优惠券下载</a></li>
+
+                                    <li><a <if condition="$ctl eq 'yuyue' ">class="on"</if> href="<{:U('yuyue/index')}>">我的预约</a></li>
+									<if condition="$open_lifeservice eq '1' ">
+                                    <li><a <if condition="$ctl eq 'mylifeservice' ">class="on"</if> href="<{:U('mylifeservice/index')}>">我的家政</a></li>
+                                    </if>
+									<if condition="$open_jifen eq '1' ">
+                                    <li><a <if condition="$ctl eq 'exchange' ">class="on"</if> href="<{:U('exchange/index')}>">我的兑换</a></li>
+                                   </if>
+
+                                    <li><a <if condition="$ctl eq 'ding' ">class="on"</if> href="<{:U('ding/index')}>">我的订座</a></li>
+
+                                </ul>
+
+                            </div>
+
+                        </li>
+
+
+
+                        <li class="index_nav">
+
+                            <h3>会员服务</h3>
+
+                            <div class="indexnav_li">
+
+                                <ul>
+
+
+
+                                    <li><a <if condition="$ctl eq 'money' ">class="on"</if> href="<{:U('money/money')}>">充值管理</a></li>
+
+                                    <li><a <if condition="$ctl eq 'myactivity' ">class="on"</if> href="<{:U('myactivity/index')}>">我的活动</a></li>
+									<if condition="$open_life eq '1' ">
+                                    <li><a <if condition="$ctl eq 'life' ">class="on"</if> href="<{:U('life/index')}>">我的分类信息</a></li>
+									</if>
+                                    <li><a <if condition="$ctl eq 'message' ">class="on"</if> href="<{:U('message/index')}>">我的消息</a></li>
+
+                                    <li><a <if condition="$ctl eq 'dianping' ">class="on"</if> href="<{:U('dianping/index')}>">我的点评</a></li>
+
+                                    <li><a <if condition="$ctl eq 'favorites' ">class="on"</if> href="<{:U('favorites/index')}>">我的关注</a></li>
+
+                                    <li><a <if condition="$ctl eq 'recognition' ">class="on"</if> href="<{:U('recognition/index')}>">我的认领商家</a></li>
+                                    <if condition="$open_express eq '1' ">
+                                    <li><a <if condition="$ctl eq 'express' ">class="on"</if> href="<{:U('express/index')}>">我的快递</a></li>
+									</if>
+                                </ul>
+
+                            </div>
+
+                        </li>
+
+
+
+                        <li class="index_nav">
+
+                            <h3>账户中心</h3>
+
+                            <div class="indexnav_li">
+
+                                <ul>
+
+
+
+                                    <li><a <if condition="$ctl eq 'cash' ">class="on"</if> href="<{:U('cash/index')}>">申请提现</a></li>
+
+                                    <li><a <if condition="$ctl eq 'set' ">class="on"</if> href="<{:U('set/base')}>">账户设置</a></li>
+
+                                    <li><a <if condition="$ctl eq 'address' ">class="on"</if> href="<{:U('address/index')}>">收货地址</a></li>
+
+                                    <li><a <if condition="$ctl eq 'logs' ">class="on"</if> href="<{:U('logs/integral')}>">日志管理</a></li>
+
+
+
+                                </ul>
+
+                            </div>
+
+                        </li>
+
+
+                  <if condition="$distribution eq '1' ">
+                        <li class="index_nav">
+                            <h3>分销中心</h3>
+                            <div class="indexnav_li">
+                                <ul>
+                                    <li><a <if condition="$act eq 'profit' ">class="on"</if> href="<{:U('distribution/profit', array('status' => 1))}>">收益统计</a></li>
+                                    <li><a <if condition="$act eq 'subordinate' ">class="on"</if> href="<{:U('distribution/subordinate')}>">我的下级</a></li>
+                                    <li><a <if condition="$act eq 'superior' ">class="on"</if> href="<{:U('distribution/superior')}>">我的上级</a></li>
+                                    <li><a <if condition="$act eq 'qrcode' ">class="on"</if> href="<{:U('distribution/qrcode')}>">二维码</a></li>
+                                    <li><a <if condition="$act eq 'poster' ">class="on"</if> href="<{:U('distribution/poster')}>">我的海报</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                      </if>  
+                        
+                    </ul>
+
+                </div>
+
+
+

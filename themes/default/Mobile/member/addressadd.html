@@ -1,0 +1,80 @@
+<include  file='public:header'/>    
+<body>
+    <header>
+        <i class="icon-goback"></i>
+        <div class="title">新增收货地址</div>
+    </header>
+    <div class="integra-ui-content" style="font-size:0.14rem; margin:0.5rem 0px;">
+        <form  action="<{:U('member/addressadd',array('goods_id'=>$goods_id))}>" method="post">
+            <ul class="list_tj">
+                
+                <li>地区：<div class="select">
+                        <span  class="selectOption">请选择...</span>
+                        <input type="hidden" id="area_id" name="data[area_id]" value=""/>
+                        <div class="option" id="option">
+                            <ul>
+                                <foreach name="areas" item="var">
+								<eq name="var.city_id" value="$city_id">
+                                    <li rel="<{$var.area_id}>" class="optionLi"><{$var.area_name}></li>
+									</eq>
+                                </foreach>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>商圈：<div  class="select">
+                        <span  class="selectOption">请选择...</span>
+                        <input type="hidden" id="business_id" name="data[business_id]" value=""/>
+                        <div class="option" id="options">
+                            <ul>
+                                <foreach name="business" item="var">
+                                    <li style="display: none;" rel="<{$var.business_id}>" data="<{$var.area_id}>" class="optionLi">
+                                        <{$var.business_name}>
+                                    </li>
+                                </foreach>   
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <script>
+                    $(document).ready(function () {
+                        $(".selectOption").click(function () {
+                            $(this).parent().find(".option").toggle();
+                        });
+
+                        $("#option li").click(function () {
+                            $(this).parents(".select").find(".selectOption").html($(this).html());
+                            $("#area_id").val($(this).attr('rel'));
+                            var area_id = $(this).attr('rel');
+                            $("#options li").each(function () {
+                                if ($(this).attr('data') == area_id) {
+                                    $(this).show();
+                                }else{
+                                    $(this).hide();
+                                }
+                            });
+                            $(this).parents("#option").hide();
+                        });
+                        
+                        $("#options li").click(function () {
+                            $(this).parents(".select").find(".selectOption").html($(this).html());
+                            $("#business_id").val($(this).attr('rel'));
+                             $(this).parents("#options").hide();
+                            });
+                        
+                    });
+                </script>
+
+                <li>收货人：<input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="cjinput" /></li>
+                <li>手机号码：<input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="cjinput" /></li>
+                <li>具体地址：<input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="cjinput" /></li>
+                <input type="hidden" value="<{$backurl}>" name="backurl" id="backurl" />
+            </ul>
+
+            <div class="span85 radius">
+                <input type="submit" class="aniu" value="确认添加"/>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

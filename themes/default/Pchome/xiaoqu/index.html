@@ -1,0 +1,61 @@
+<include file='public:header_news'/> <div class="blank-10"></div>
+	<div class="container">
+		<div class="menu-table">
+			<div class="filter-section">
+				<php>
+				foreach($areas as $va){
+					if($va['area_id'] == $area_id){
+						$area_select = $va;
+					}
+				}
+				</php>
+				<if condition="!empty($cat) || !empty($area_id)">
+				<div class="filter-bread">
+					<a class="button button-small" href="<{:U('xiaoqu/index')}>">全部</a>
+					<if condition="!empty($area_id)">
+					<a class="button button-small" href="<{:U('xiaoqu/index',array('cat'=>$cat,'business'=>$business))}>"><{$area_select['area_name']}> <i class="icon icon-times"></i></a>
+					</if>
+
+				</div>
+				</if>
+				
+				<div class="filter-list filter-first">
+					<div class="list-label">
+						地区：
+					</div>
+					<ul class="list-sect">
+						<li <if condition="$area_id eq null">class="current"</if>><a href="<{:U('xiaoqu/index',array('cat'=>$cat))}>">全部</a></li>
+						<volist name="areas" id="var">
+                       <php>if($var['city_id'] == $city_id){</php>
+						<li <eq name="var.area_id" value="$area_id">class="current"</eq>><a title="<{$var.area_name}>" href="<{:U('xiaoqu/index',array( 'cat'=>$cat, 'area'=>$var['area_id']))}>"><{$var.area_name}></a></li>
+                        <php>}</php>
+						</volist>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="blank-10"></div>
+		
+		<div class="index-box">
+			<ul>
+				<foreach name="list" item="item">
+					<li>
+						<a class="item-pic" href="<{:U('xiaoqu/detail',array('community_id'=>$item['community_id']))}>" target="_blank"><img class="lazy" src="/attachs/<{$item[pic]|default='default.jpg'}>" alt="<{$item[name]}>" /></a>
+						<h2><a href="<{:U('xiaoqu/detail',array('community_id'=>$item['community_id']))}>" target="_blank"><{$item[name]}></a></h2>
+						<p><i class="icon-map-marker"></i> <{$item[addr]}></p>
+					</li>
+				</foreach>
+			</ul>
+		</div>
+
+		<div class="blank-10"></div>
+		
+		<div class="text-center">
+			<div class="pagination">
+				<{$page}>
+			</div>
+		</div>
+
+	</div>
+
+<include  file='public:footer'/>

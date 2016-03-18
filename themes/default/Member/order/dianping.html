@@ -1,0 +1,82 @@
+<include file="public:header"/>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.raty.min.js"></script>
+<div class="content_right">
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <div class="mytitle">商品“<{$goodsdetails['title']}>”的点评</div>
+    </div>
+    <form  target="baocms_frm" action="<{:U('member/order/dianping',array('order_id'=>$order_id))}>" method="post">
+        <div class="addAddress_nr">
+            <ul>
+                <li>
+                        <div class="left"><span>评价：</span></div>
+                        <div class="lef">
+                            <span id="jq_star" style="float:left;"></span>
+                            <script>
+                                $(document).ready(function () {
+
+                                    $("#jq_star").raty({
+                                        numberMax: 5,
+                                        path: '__PUBLIC__/js/img/',
+                                        starOff: 'star-off.png',
+                                        starOn: 'star-on.png',
+                                        scoreName: 'data[score]'
+                                    });
+
+                                });
+                            </script>         
+                        </div>
+                    </li>
+                
+                <li>
+                    <div class="left"><span>评价内容：</span></div>
+                    <div class="lef">
+                        <textarea name="data[contents]" rows="6" cols="30"><{$detail.contents|default=''}></textarea>
+                    </div>
+                </li>
+                <li>
+                    <div class="left">
+                        <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                        <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                        <span>上传图片：</span>
+                    </div>
+                    <div class="lef" style="float: left;">
+                        <div>
+                            <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+                        </div>
+                        <div class="jq_uploads_img">
+                            <foreach  name="photos" item="item">
+                        <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                            <img width="200" height="100" src="__ROOT__/attachs/<{$item.pic}>">  
+                            <input type="hidden" name="photos[]" value="<{$item.pic}>" />  
+                            <a class="myInfor_sx" href="#">取消</a>  
+                        </span>
+                        </foreach>
+                        </div>
+                        <script>
+                            $("#logo_file").uploadify({
+                                'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                'uploader': '<{:U("app/upload/uploadify",array("model"=>"goodsdianping"))}>',
+                                'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                'buttonText': '上传图片',
+                                'fileTypeExts': '*.gif;*.jpg;*.png',
+                                'queueSizeLimit': 5,
+                                'onUploadSuccess': function (file, data, response) {
+                                    var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos[]" value="' + data + '" />    <a class="myInfor_sx" href="#">取消</a>  </span>';
+                                    $(".jq_uploads_img").append(str);
+                                }
+                            });
+
+                            $(document).on("click", ".jq_uploads_img a", function () {
+                                $(this).parent().remove();
+                            });
+                        </script>
+                    </div>
+                </li>
+            </ul>
+            <div class="addAddress_bcqx addAddress_bcqx2"><input class="bc" type="submit" value="确认点评" /></div>
+        </div>
+    </form>
+</div>
+</div>
+<include file="public:footer"/>

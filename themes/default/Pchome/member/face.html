@@ -1,0 +1,42 @@
+<include file="member:head"/>
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+            <li><a href="<{:U('member/nickname')}>">昵称设置</a></li>
+            <li class="on"><a href="<{:U('member/face')}>">修改头像</a></li>
+            <li><a href="<{:U('member/password')}>">修改密码</a></li>
+            <li><a href="<{:U('member/myaddress')}>">收货地址</a></li>
+        </ul>
+    </div>
+    <form method="post"  action="<{:U('member/face')}>"  target="baocms_frm">
+        <div class="HeadPort_nr">
+            <div class="HeadPort_sc">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                <div class="left"><img id="face_img" width="103" height="95"  src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" /><span class="head_mc">建议尺寸:<{$CONFIG.attachs.user.thumb.thumb}></span></div>
+                <div class="lef">
+                    <div style="width: 200px;height: 100px; float: left;">
+                        <input type="hidden" name="face" value="<{$MEMBER.face}>" id="data_face" />
+                        <input id="face_file" name="face_file" type="file" multiple="true" value="" />
+                    </div>
+                    <script>
+                        $("#face_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"user"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传头像',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_face").val(data);
+                                $("#face_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="headPort_subm"><input type="submit" class="headPort_bc" value="保存头像" /></div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<div class="pop-box">
+<div class="dialog show radius">
+	<div class="dialog-head">
+		<span class="dialog-close close rotate-hover"></span>
+		<strong>提交给<{$detail.name}></strong>
+	</div>
+
+	<div class="dialog-body">
+		<form method="post" class="form-auto form form-block" target="x-frame" action="<{:U('xiaoqu/feedback',array('community_id'=>$detail['community_id']))}>">
+			<div class="form-group">
+				<div class="field field-icon">
+					<input type="text" class="input" id="title" name="data[title]" size="40" data-validate="required:必填信息" placeholder="反馈主题" />
+					<span class="icon icon-keyboard-o"></span>
+				</div>
+			</div>
+
+	
+			<div class="form-group">
+				 <textarea rows="5" class="input"  name="data[details]" placeholder="反馈内容" style="width:355px;"></textarea>
+			</div>
+	
+			<div class="form-button">
+				<button class="button bg-yellow" type="submit">提交反馈</button>
+			</div>
+
+		</form>
+	</div>
+</div>

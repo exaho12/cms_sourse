@@ -1,0 +1,56 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">抽奖功能</a> > <a>抽奖插件</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('award/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">抽奖标题：<input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/><input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/></div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" href="<{:U('award/create')}>">发布抽奖+</a></div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('award/index')}>">抽奖功能</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+             <th height="40" width="100">抽奖标题</th>
+
+            <th width="100">二维码</th>
+            <th width="160">抽奖链接</th>
+            <th width="70">结束时间</th>
+            <th width="70">状态</th>
+            <th width='200'>操作</th>
+        </tr>
+        <foreach name="list" item="var">
+            <php>$url = __HOST__.U('mobile/award/index',array('award_id'=>$var['award_id']));</php>
+            <tr>
+                <td><{$var.title}></td>
+                <td style="height: 80px;"><img src="__ROOT__/attachs/<{$var.file|default='default.jpg'}>"  style="width: 80px; margin: 0px auto;" /></td>
+                <td><{$url}></td>
+                <td><{$var.expire_date}></td>
+                <td><eq name="var.is_online" value="0">未启用<else/>已启用</eq></td>
+            <td>
+                <eq name="var.is_online" value="0">
+
+                <a href="<{:U('awardgoods/index',array('award_id'=>$var['award_id']))}>">设置奖项</a>
+            <else />
+            <a href="<{:U('awardgoods/index',array('award_id'=>$var['award_id']))}>">剩余奖品</a>
+            </eq>
+
+            <eq name="var.is_online" value="0"><a href="<{:U('award/edit',array('award_id'=>$var['award_id']))}>">编辑</a></eq>
+            <eq name="var.is_online" value="0"><a mini='confirm' href="<{:U('award/audit',array('award_id'=>$var['award_id']))}>">启用抽奖</a></eq>
+            <eq name="var.is_online" value="1"> <a  href="<{:U('awardwinning/index',array('award_id'=>$var['award_id']))}>">中奖名单</a> </eq>
+            </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

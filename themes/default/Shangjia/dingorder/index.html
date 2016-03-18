@@ -1,0 +1,62 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="<{:U('ding/setting')}>">订座</a> > 订单</li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('dingorder/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+        <input type="hidden" value='<{$status}>' name='status'>
+            订单号：<input type="text" name="order_no" value="<{$order_no}>" class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li <if condition="empty($status) || $status eq 3">class="tuanfabu_tabli tabli_change on"<else/>class="tuanfabu_tabli tabli_change"</if>><a href="<{:U('dingorder/index',array('status'=>'3'))}>">未消费</a></li>
+            <li <if condition="$status eq 4">class="tuanfabu_tabli tabli_change on"<else/>class="tuanfabu_tabli tabli_change"</if>><a href="<{:U('dingorder/index',array('status'=>'4'))}>">已消费</a></li>
+            <li <if condition="$status eq 2">class="tuanfabu_tabli tabli_change on"<else/>class="tuanfabu_tabli tabli_change"</if>><a href="<{:U('dingorder/index',array('status'=>'2'))}>">未支付</a></li>
+            <li <if condition="$status eq 1">class="tuanfabu_tabli tabli_change on"<else/>class="tuanfabu_tabli tabli_change"</if>><a href="<{:U('dingorder/index',array('status'=>'1'))}>">已退款</a></li>
+        </ul>
+    </div>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+        	<td>订单号</td>
+            <td>地点</td>
+            <td>预约日期</td>
+            <td>预约时间</td>
+            <td>预计人数</td>
+            <td>支付定金</td>
+            <td>联系人</td>
+            <td>电话</td>
+            
+            <td>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+		   <if condition="$arr[$var['ding_id']]['shop_id'] eq $shop_id">
+            <tr>
+                <td><{$var.order_no}></td>
+                <td><{$arr[$var['ding_id']]['room_id']}></td>
+                <td><{$arr[$var['ding_id']]['last_date']}></td>
+                <td><{$arr[$var['ding_id']]['last_t']}></td>
+                <td><{$arr[$var['ding_id']]['number']}></td>
+                <td><{:round($var['need_price']/100,2)}>元</td>
+                <td><{$var.name}></td>
+                <td><{$var.mobile}></td>
+            <td>
+            	<if condition="empty($status) || $status eq 3 || $status eq 4">
+                	<a href="<{:U('dingorder/detail',array('order_id'=>$var['order_id']))}>">查看</a>
+                </if>
+            </td>
+            </tr>
+			</if>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include file='public:footer'/>

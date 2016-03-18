@@ -1,0 +1,79 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			精选榜单
+		</div>
+	</header>
+    <script>
+		$(function(){
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x6"><span>分类</span><i></i></li>
+			<li class="x6"><span>排序</span><i></i></li>
+		</ul>
+	</div>
+	<div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="on">
+				<a href="<{:LinkTo('billboard/index',array('cate_id'=>'0','area_id'=>$area_id))}>">全部分类</a> 
+				</li>
+				<volist name="billcate" id="var">
+					<li><a href="<{:U('billboard/index',array('cate_id'=>$var['cate_id'],'is_hot'=>$is_hot,'is_new'=>$is_new,'is_chose'=>$chose))}>"><{$var.cate_name}></a></li>
+				</volist>
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="down_menuList_li"><a <eq name="is_hot" value="1">class="on"</eq> href="<{:U('billboard/index',array('cate_id'=>$cate_id,'is_hot'=>1))}>" >热门</a></li>
+				<li class="down_menuList_li"><a <eq name='is_new' value='1'> class="on"</eq>href="<{:U('billboard/index',array('cate_id'=>$cate_id,'is_new'=>1))}>">新榜</a></li>         
+				<li class="down_menuList_li"><a <eq name="is_chose" value="1">class="on"</eq>href="<{:U('billboard/index',array('cate_id'=>$cate_id,'is_chose'=>1))}>">精选</a></li>
+			</ul>
+		</div>
+		
+		<div class="serch-bar-mask-bg"></div>
+	</div>
+	<div class="blank-40"></div>
+    <div id="bd-list" class="bd-list">
+		<ul></ul>
+	</div>
+	<script>
+		$(document).ready(function () {
+			// 加载数据
+			loaddata('<{$nextpage}>', $("#bd-list ul"), true);
+		});
+	</script>
+<include file='public:footer'/>  

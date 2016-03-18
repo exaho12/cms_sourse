@@ -1,0 +1,64 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.shop_name}>
+		</div>
+		<div class="top-share">
+			<a href="<{:U('shop/favorites/',array('shop_id'=>$detail['shop_id']))}>" id="share-btn">关注+</a>
+		</div>
+	</header>  
+	
+	
+    
+    
+      <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a>
+			<a class="block button" href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a>
+		</div>
+	</div>
+</div>   
+
+
+	
+	<div class="tuan-detail">
+		<div class="line banner">	
+			<img src="__ROOT__/attachs/<{$shop.photo}>">	
+			<div class="title">
+				<h1><{$detail.shop_name}></h1>
+				<p>月售<{$detail.month_num}>份&nbsp;&nbsp;总售<{$detail.sold_num}></p>
+			</div>	
+		</div>
+        
+        
+
+        
+
+		<div class="line info">
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">退</div></span>
+				<span class="text-green">店铺地址：<{$shop.addr}></span>
+			</div>
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray"><i class="icon-user"></i></div></span>
+				<span class="text-gray">营业时间：<{$ex.business_time}></span>
+			</div>
+            
+        
+        
+        
+       
+       
+		<div class="blank-10 bg"></div>
+	</div>
+    
+ <include file='public:footer'/>   
+
+
+
+

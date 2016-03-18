@@ -1,0 +1,39 @@
+/*主页幻灯*/
+.main-banner{width:100%;position:relative;}
+.main-banner img{width:100%;}
+
+/*主页分类*/
+.main-cate td{padding:0;}
+.main-cate a{display:block;width:100%;text-align:center;padding:10px 0;}
+.main-cate p{margin:0;padding:5px 0;}
+.main-cate img{width:40%;}
+
+
+/*优惠列表*/
+.coupon-list .shop{overflow:hidden;height:40px;line-height:40px;border-bottom:thin solid #eee;font-size:14px;padding:0 10px;background:#FAFAFA;font-weight:bold;}
+.coupon-list .shop span{float:right;font-weight:normal;}
+.coupon-list .item{border-bottom:thin solid #eee;display:block;overflow:hidden;padding:10px;position:relative;}
+.coupon-list .item  .pic{width:90%;height:100px;}
+.coupon-list .item h3{height:20px;line-height:20px;overflow:hidden;font-size:14px;}
+.coupon-list .item .intro{line-height:20px;height:40px;color:#999;margin:5px 0;overflow:hidden;font-size:12px;}
+.coupon-list .item .info{line-height:20px;height:20px;color:#999;padding:5px 0;border-top:thin dotted #eee;font-size:12px;}
+
+/*优惠详情*/
+.hd-detail .detail-pic{width:100%;max-height:250px;position:relative;}
+.hd-detail .detail-pic img{width:100%;max-height:250px;}
+.hd-detail .detail-pic p{position:absolute;height:40px;line-height:40px;color:#FFF;width:100%;padding:0 10px;left:0;bottom:0;background:rgba(0,0,0,0.85);margin:0;}
+
+.hd-detail .detail-ctrl{background:#FFF;border-bottom:thin solid #eee;height:60px;padding:10px;overflow:hidden;line-height:40px;}
+.hd-detail .detail-ctrl span{float:left;font-size:14px;}
+.hd-detail .detail-ctrl em{color:#F60;font-size:16px;}
+.hd-detail .detail-ctrl .btn-sign {background: #F60; color: #fff; height:30px; line-height:30px; border-radius: 3px;padding:0 20px;margin-top:5px;}
+.hd-detail .detail-ctrl .btn-signed {background: #EEE; color: #fff; height:30px; line-height:30px; border-radius: 3px;padding:0 20px;margin-top:5px;}
+.hd-detail .detail-info {background:#FFF;border-top:thin solid #eee;border-bottom:thin solid #eee;padding:0 10px;}
+.hd-detail .detail-info h1{height:40px;line-height:40px;font-size:14px;border-bottom:thin solid #eee;font-weight:bold;}
+.hd-detail .detail-info p{line-height:20px;border-bottom:thin solid #eee;padding:10px 0;margin:0;}
+.hd-detail .detail-info p:last-child{border:none!important;}
+.hd-detail .detail-con{background:#FFF;margin-top:10px;}
+.hd-detail .detail-con .con-hd{height:40px;line-height:40px;padding:0 10px;border-bottom:thin solid #eee;font-size:14px;font-weight:bold;}
+.hd-detail .detail-con .con-bd{font-size:13px!important;padding:10px;font-weight:bold;}
+.hd-detail .detail-con .con-bd *{font-size:13px!important;line-height:22px;}
+.hd-detail .detail-con .con-bd img{max-width:100%;}

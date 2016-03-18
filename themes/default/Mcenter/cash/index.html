@@ -1,0 +1,80 @@
+<include file='public:header'/> 
+<link rel="stylesheet" href="/static/default/wap/css/housekeeping.css"/>  
+	<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet" />
+	<script src="/static/default/wap/other/jquery-ui.js"></script> 
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			提现申请
+		</div>
+	</header>
+
+
+
+<!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="<{:LinkTo('/mcenter/cash')}>">申请提现</a>
+			<a class="block button <eq name='aready' value='1'>bg-dot active</eq>" href="<{:LinkTo('/mcenter/cash/cashlog')}>">提现记录</a>
+		</div>
+	</div>
+</div>
+
+
+
+   	<div class="blank-20"></div> 
+    
+    <form action="<{:U('/mcenter/cash')}>" method="post" target="x-frame">
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">当前用户：</span>
+		<span class="x9"><{$MEMBER['account']}>（<{$MEMBER['nickname']}>）</span>
+	</div>
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">提现金额：</span>
+		<span class="x5"><input type="text" name="money" id="money" class="text-input" ></span>
+		<span class="x4"><em class="text-small text-gray">可提<{$money}>元<em></span>
+	</div>
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">开户银行：</span>
+		<span class="x9"><input type="text" name="bank_name" id="bank_name" class="text-input"  placeholder="请输入开户银行" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">银行账号：</span>
+		<span class="x9"><input type="text" name="bank_num" id="bank_num" class="text-input"  placeholder="请输入银行账户" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">具体支行：</span>
+		<span class="x9"><input type="text" name="bank_branch" id="bank_branch" class="text-input"  placeholder="请输入具体支行名字" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">开户名：</span>
+		<span class="x9"><input type="text" name="bank_realname" id="bank_realname" class="text-input" placeholder="输入开户名" ></span>
+
+	</div>
+    
+	<div class="container">
+		<div class="blank-30"></div>
+		<p><span class="text-dot">小提示：</span> 请您认真填写!</p>
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+            <eq name="money" value="0">
+            <button class="button button-big button-block bg-gray">您的余额不足</button>                                     
+            <else/>
+            <button class="button button-big button-block bg-dot">确认申请</button>
+            </eq>   
+		
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+
+	
+<include file='public:footer'/>  
+

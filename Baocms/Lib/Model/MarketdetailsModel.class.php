@@ -1,0 +1,28 @@
+<?php
+
+/* 
+ * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
+ * 作者：baocms团队
+ * 官网：www.baocms.com
+ * 邮件: youge@baocms.com  QQ 800026911
+ */
+
+class MarketdetailsModel extends CommonModel{
+    protected $pk   = 'market_id';
+    protected $tableName =  'market_details';
+     public function upDetails($market_id,$data){
+        $market_id = (int)$market_id;
+        $data['market_id'] = $market_id;
+        $rows = $this->find($market_id);
+        if($rows){
+            $this->save($data);
+        }else{
+            $this->add($data);
+        }
+        return true;
+    }
+    
+    
+
+    
+}

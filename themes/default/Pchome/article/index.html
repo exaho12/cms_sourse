@@ -1,0 +1,109 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<div class="main">
+    <div class="nav">
+        <h3>全部资讯</h3>
+
+        <foreach name="cates" item="item">
+            <eq name="item.parent_id" value="0"> 
+            <dl>
+                <dt  id="bao_news_cate_<{$item.cate_id}>"><span></span><{$item.cate_name}></dt>
+                <dd style="display: none">
+                <foreach name="cates" item="item2">
+                    <eq name="item2.parent_id" value="$item.cate_id"> 
+                    <a href="<{:U('article/index',array('cat'=>$item2['cate_id']))}>"><{$item2.cate_name}></a>
+                    </eq>
+                </foreach>
+                </dd>
+            </dl>
+            </eq>
+        </foreach>
+        <script>
+            var parent_id = <{$parent_id|default="0"}>;
+            $(document).ready(function(e){
+                $(".nav dl dt").click(function(e){
+                    $(".nav dl dt").removeClass('cur');
+                    $(".nav dl dd").css('display','none');
+                    $(this).addClass('cur');
+                    $(this).parent().find('dd').css('display','block');
+                });   
+                
+                if(parent_id){
+                    $("#bao_news_cate_"+parent_id).click();
+                }else{
+                    $(".nav dl dt").eq(0).click();
+                }
+            });    
+        </script>
+
+    </div>
+    <div class="content" style="float: none;">
+        <div class="cAdd mBan2">
+  
+             <div id="slideBox7" class="slideBox" style="height: 220px;">
+                               
+                                <div class="bd">
+                                    <ul>
+                                        <calldata mdl="Ad" where=" closed=0 AND site_id=52  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="43200" order="orderby asc">                                  
+                                            <li><a href="<{$item.link_url}>" target="_blank" > <img src="__ROOT__/attachs/<{$item.photo}>"  width="710" height="220"></a></li>
+                                        </calldata> 
+                                   
+                                    </ul>
+                                </div>
+                                <div class="hd">
+                                    <ul>
+                                        <calldata mdl="Ad" where=" closed=0 AND site_id=52  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="43200" order="orderby asc">                                  
+                                        <li><{$index}></li>   
+                                        </calldata> 
+                           
+                                    </ul>
+                                </div>
+                            </div>
+                        <script>
+                            $("#slideBox7").slide({mainCell:".bd ul",effect:"fold",autoPlay:true,trigger:"click"});
+
+                        </script>
+        
+        </div>
+        <ul class="cFb">
+            <li><a href="<{:U('shop/apply')}>" >商家入驻申请</a></li>
+            <li class="li2"><a href="<{:U('share/share')}>" >免费发布分享</a></li>
+            <li class="li3"><a href="<{:U('ele/index')}>" ><{$CONFIG.site.sitename}>餐饮频道</a></li>
+        </ul>
+        <div class="cl"></div>
+        <div class="mrRank" style="margin-top:58px;">
+            <em>排序方式：</em>   丨   <code><a href="<{:U('article/index',array('cat'=>$cat,'order'=>1))}>">默认</a></code>丨   <code><a href="<{:U('article/index',array('cat'=>$cat,'order'=>2))}>">热度</a></code>  
+        </div>
+        <div class="arclist" style="overflow:hidden;">
+
+            <foreach name="list" item="var">
+                <dl style="width:1176px;">
+                    <dt>                          
+                    <a title="<{$var.title}>" target="_blank" href="<{:U('article/detail',array('article_id'=>$var['article_id']))}>">
+                        <img width="133" height="133" src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" />
+                    </a>
+                    </dt>
+                    <dd style="width:1035px;">
+                        <h3><a title="<{$var.title}>" target="_blank" href="<{:U('article/detail',array('article_id'=>$var['article_id']))}>"><{$var.title}></a></h3>
+                        <p class="txt">
+                          <{:bao_msubstr($var['details'],0,150)}>
+                        </p>
+                        <p class="tit">
+                            <span><{$var.create_time|date='Y-m-d',###}></span>
+                            <em>总浏览：<code><{$var.views}></code></em>   
+                        </p>
+
+                    </dd>
+                </dl>
+            </foreach>
+
+        </div>
+        <div class="cl"></div>
+        <div class="pages">
+            <{$page}>
+        </div>
+    </div>
+</div>
+<div class="cl"></div>
+<!--main end-->
+<include  file='public:footer'/>  

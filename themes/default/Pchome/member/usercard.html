@@ -1,0 +1,46 @@
+<include  file='member:header'/>    
+<!--中间-->
+<div id="conter">
+    <!--左边-->
+<include  file='member:left'/>    
+    <!--右边-->
+    <div class="con_right">
+        <div class="con_right_nav01"><h1>我的会员卡</h1></div>
+        <div class="con_gw_font">
+            
+                <div>
+              <table cellpadding="0" cellspacing="0" width="100%" class="dd_nav">
+                   <tr height="40">
+                        <th>编号</th>
+                        <th >商铺</th>
+                        <th >会员卡</th>
+                        <th >积分</th>
+                        <th> 领取时间</th>
+                    </tr>
+
+                    <volist name="list" id="item">
+                        <tr>
+                            
+                            <td><{$i}></td>
+                            <td><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$shops[$item['shop_id']]['shop_name']}></a></td>
+                            <td><img src="__ROOT__/attachs/<{$shopdetails[$item['shop_id']]['card_photo']}>" /></td>
+                            <td><{$item['integral']}></td>
+                            <td><{$item['create_time']|date="Y-m-d H:i",###}></td>
+
+                        </tr>
+                    </volist>
+                    <tr>
+                        <td colspan="6" style="text-align: right"><{$page}></td>
+                    </tr>
+
+                </table>
+                 </div>
+          
+        </div>
+    </div>
+    <!--右边结束-->
+    <div class="clear"></div>
+</div>
+<!--底部-->
+</body>
+</html>

@@ -1,0 +1,3 @@
+<?php
+//000000086400a:4:{i:3;a:4:{s:7:"cate_id";s:1:"3";s:9:"cate_name";s:12:"靖西新闻";s:9:"parent_id";s:1:"1";s:7:"orderby";s:1:"0";}i:4;a:4:{s:7:"cate_id";s:1:"4";s:9:"cate_name";s:12:"旅游资讯";s:9:"parent_id";s:1:"0";s:7:"orderby";s:1:"0";}i:5;a:4:{s:7:"cate_id";s:1:"5";s:9:"cate_name";s:12:"旅游资讯";s:9:"parent_id";s:1:"4";s:7:"orderby";s:1:"0";}i:1;a:4:{s:7:"cate_id";s:1:"1";s:9:"cate_name";s:12:"新闻资讯";s:9:"parent_id";s:1:"0";s:7:"orderby";s:1:"1";}}
+?>

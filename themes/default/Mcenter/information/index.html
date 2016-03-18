@@ -1,0 +1,111 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			账户信息
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="<{:U('info/face')}>">
+				上传头像
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+		<li>
+			<a href="<{:U('info/nickname')}>">
+				用户昵称<em><{$res.nickname}></em>
+			</a>
+		</li>
+		<li>
+			<a href="<{:U('mcenter/addrs/index')}>">
+				收货地址<em><{$addr_count}>个</em>
+			</a>
+		</li>
+        <li>
+			<a href="<{:U('mcenter/info/account')}>">
+				更换绑定账号
+                <i class="icon-angle-right"></i>
+			</a>
+		</li>
+		
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<php>$mobile = substr_replace($res['mobile'],'****',3,4);</php>
+<div class="panel-list border-top">
+	<ul>
+		<li>
+			<a <if condition="!empty($res['mobile'])">id="change_mobile"<else/>id="bind_mobile"</if> href="javascript:void(0);">
+				绑定手机<notempty name="res.mobile"><em class="text-green"><{$mobile}></em><else/><em class="text-gray">未绑定</em></notempty>
+			</a>
+		</li>
+		<li>
+			<?php if(!isset($bind['weixin'])){?>
+			<a href="<{:U('mobile/passport/wxlogin')}>">
+				绑定微信<em class="text-gray">未绑定</em>
+			</a>
+			<?php }else{?>
+			<a href="javascript:;">
+				绑定微信<em class="text-green">已绑定</em>
+			</a>
+			<?php }?>
+		</li>
+		<li>
+			<?php if(!isset($bind['qq'])){?>
+			<a href="<{:U('mobile/passport/qqlogin')}>">
+				绑定QQ<em class="text-gray">未绑定</em>
+			</a>
+			<?php }else{?>
+			<a href="javascript:;">
+				绑定QQ<em class="text-green">已绑定</em>
+			</a>
+			<?php }?>
+		</li>
+		<li>
+			<?php if(!isset($bind['weibo'])){?>
+			<a href="<{:U('mobile/passport/wblogin')}>">
+				绑定微博<em class="text-gray">未绑定</em>
+			</a>
+			<?php }else{?>
+			<a href="javascript:;">
+				绑定微博<em class="text-green">已绑定</em>
+			</a>
+			<?php }?>
+		</li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>	
+<div class="panel-list border-top">
+	<ul>
+		<li>
+			<a href="<{:U('info/password')}>">
+				修改密码
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>	
+	</ul>
+</div>
+
+<notempty name="res.mobile">
+<script>
+	$('#change_mobile').click(function(){
+		change_user_mobile('<{:U("mobile/tuan/tuan_sendsms")}>','<{:U("mobile/tuan/tuan_mobile")}>');
+	})
+</script>
+<else/>
+<script>
+	check_user_mobile('<{:U("mobile/tuan/tuan_sendsms")}>','<{:U("mobile/tuan/tuan_mobile")}>');
+	$('#bind_mobile').click(function(){
+		check_user_mobile('<{:U("mobile/tuan/tuan_sendsms")}>','<{:U("mobile/tuan/tuan_mobile")}>');
+	})
+</script>
+</notempty>
+<include file='public:footer'/>

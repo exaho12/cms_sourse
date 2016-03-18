@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">推送</li>
+        <li class="li2">APP推送管理</li>
+        <li class="li2 li3">群发推送</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是平台信鸽相关的， 当然 appid 和 appsecret 也影响商户的信鸽相关</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('setting/xinge')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <!--
+                <tr>
+                    <td class="lfTdBt" width="160" >URL(服务器地址)：</td>
+                    <td class="rgTdBt">
+                        <{$CONFIG.site.host}>/xinge/index.php
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >TOKEN：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[token]" value="<{$CONFIG.xinge.token|default=''}>" class="scAddTextName " />
+                        <code>32位的MD5值最适合！但是一般不限制！可以随意填写！这个需要配置到微信公共帐号那边</code>
+                    </td>
+                </tr>-->
+                <tr>
+                    <td class="lfTdBt" >安卓APPID：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appid]" value="<{$CONFIG.xinge.appid}>" class="scAddTextName " />
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt" >安卓appsecret：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appsecret]" value="<{$CONFIG.xinge.appsecret}>" class="scAddTextName " />
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt" >安卓ACCESS KEY：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appaccesskey]" value="<{$CONFIG.xinge.appaccesskey}>" class="scAddTextName " />
+                    </td>
+                </tr>  
+                <tr>
+                    <td  class="lfTdBt" >苹果APPID：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[iosappid]" value="<{$CONFIG.xinge.iosappid}>" class="scAddTextName " />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td  class="lfTdBt" >苹果appsecret：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[iosappsecret]" value="<{$CONFIG.xinge.iosappsecret}>" class="scAddTextName " />
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt" >苹果ACCESS KEY：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[iosaccesskey]" value="<{$CONFIG.xinge.iosaccesskey}>" class="scAddTextName " />
+                    </td>
+                </tr>   
+
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

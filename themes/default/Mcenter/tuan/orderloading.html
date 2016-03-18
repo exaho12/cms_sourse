@@ -1,0 +1,75 @@
+
+
+<foreach name="list" item="item">
+
+
+    <!-- 循环 -->
+    <li class="line ">
+    	<dt>
+        <a class="x4">订单编号：<{$item['order_id']}></a>
+       <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$item['tuan_id']['shop_id']))}>">  
+        <{$shops[$item['tuan_id']['shop_id']]['shop_name']}> <span class=" icon-angle-right"></span> </a></dt>
+  <dd class="zhong">
+        <div class="x4">
+            <a href="<{:U('mcenter/tuan/detail',array('order_id'=>$item['order_id']))}>"><img style="width:90%;" src="__ROOT__/attachs/<{$tuans[$item['tuan_id']]['photo']}>"></a>
+        </div>
+        <div class="x8">
+            <p><a href="<{:U('mcenter/tuan/detail',array('order_id'=>$item['order_id']))}>"><{:bao_Msubstr($tuans[$item['tuan_id']]['title'],0,16)}></a> </p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right"><{:bao_Msubstr($tuans[$item['tuan_id']]['intro'],0,20)}><a class="text-dot1" href="<{:U('mobile/tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">[详细]</a></span>
+			</p>
+            <p class="text-smal text-dot1" >下单时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
+
+         </div>
+         
+         <dt>
+             <div class="x12">
+             <span class="margin-right">共：X<{$item['num']}>件&nbsp; &nbsp;&nbsp;实付：¥<{:round($item['need_pay']/100,2)}>元</span>
+             <span>价值：¥<{:round($item['total_price']/100,2)}>元</span>
+             </div>
+         </dt>  
+       
+			
+        
+      </dd>
+      <dl>
+      <p class="text-right padding-top">
+            <a href="<{:U('mcenter/tuan/detail',array('order_id'=>$item['order_id']))}>" class="button button-small">查看详情</a>
+            <eq name="item.status" value="0">
+            
+            <a href="<{:U('tuan/delete',array('order_id'=>$item['order_id']))}>" class="button button-small">取消抢购</a>
+            <eq name="item.status" value="-0">
+            <a class="button button-small bg-blue">货到付款</a>
+            </eq>
+            <else /> 
+            <php>
+                $tc = D('TuanCode');
+                $rtc = $tc -> where('order_id ='.$item['order_id']) -> find();
+            </php>
+            <eq name="rtc.is_used" value="1">
+                <a class="button button-small bg-gray" href="javascript:void(0)">已完成</a>
+                <eq name="item.is_dianping" value="0">
+                    <a href="<{:U('tuan/dianping',array('order_id'=>$item['order_id']))}>" class="button button-small bg-yellow">点评</a>
+                <else/>
+                    <a class="button button-small bg-gray" href="javascript:void(0)">已评价</a>
+                </eq>
+            <else/>
+                <a class="button button-small bg-blue" href="javascript:void(0)">已付款</a> 
+                <a class="button button-small" href="javascript:void(0)">未消费</a>
+                
+                <php>
+                $code_ids = D('TuanCode') -> where('order_id ='.$item['order_id']) -> find();
+                $code_id = $code_ids['code_id'];
+               </php>
+                
+                <a class="button button-small bg-dot" href="<{:U('mcenter/tuancode/weixin',array('code_id'=>$code_id))}>">抢购卷</a>
+            </eq>
+			</eq>
+			</p>
+      
+      
+      </dl>
+    </li>
+    <!-- 循环 -->
+    <div class="blank-10 bg"></div>
+</foreach>

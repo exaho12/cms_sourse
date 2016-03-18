@@ -1,0 +1,119 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<include  file='public:nav2'/>
+<!--top END-->
+<div class="bangdan">
+	<div class="bdnav">
+		<div class="class_area">
+			<div class="classification">
+				<span>分类:</span>
+				<a class="first_item" href="<{:U('billboard/bdlist')}>">全部</a>
+				<volist name="billcate" id="var">
+					<a <eq name="var.cate_id" value="$billdetail['cate_id']">class="on"</eq> href="<{:U('billboard/bdlist',array('cate_id'=>$var['cate_id']))}>"><{$var.cate_name}></a>
+				</volist>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="bangdan">
+	<div class="bangdan_container lt">
+		<div class="bangdanOne">
+			<ul>
+				<li class="top_L lt">
+					<td><img src="__ROOT__/attachs/<{$billdetail.photo|default='default.jpg'}>" class="w80" /></td>
+				</li>
+				<li class="top_R lt">
+					<h1><{$billdetail.title}></h1>
+					<div class="clear"></div>
+					<div class="bd_intro">
+						<p class="arrowUpm"><img src="__TMPL__statics/images/arrowUpm.gif"></p>
+						<div class="intro"><{$billdetail.intro}></div>
+					</div>
+				</li>
+			</ul>
+			<div class="user">
+				<ul>
+					<li><img src="__TMPL__statics/images/time.jpg"><{$billdetail.create_time|date="Y-m-d H:i",###}></li>
+					<li class="user_share">
+						<h2>                         <span style="width: 120px;color:#fb3c10 !important" data-tag="share_1" class="bdsharebuttonbox"><a href="javascript:void(0);" data-cmd="more">分享</a></span><{$detail.title}></h2>                   
+					</li>
+					<script>
+						window._bd_share_config={share : [{"tag" : "share_1",'bdCustomStyle':'__TMPL__statics/empty.css'}]};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+					</script>
+					<li class="liulang"><img src="__TMPL__statics/images/eyes.png"><{$billdetail.looknum}>人</li>
+				</ul>
+			</div>
+		</div>
+		<p class="bangdanNum">上榜商户(<{$count}>)</p>
+
+		<ul>
+			<volist name="list" id="var">
+				<li class="bangdanTp">
+					<div class="left">
+						<a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">  <img width="140" height="140" src="__ROOT__/attachs/<{$billshops[$var['shop_id']]['photo']|default='default.jpg'}>" alt=""/></a>
+						<span class="sjpNum">票数：<{$var.votenum}></span>
+
+					</div>
+					<div class="right">
+						<div class="bangdanShTp">
+							<div class="bangdanShTp_lf">
+								<div class="shName"><{$billshops[$var['shop_id']]['shop_name']}></div>
+								<div class="shAddress"><{$billshops[$var['shop_id']]['addr']}></div>
+							</div>
+							<if condition="$var['work'] eq 1"><a mini="act" href="<{:U('billboard/vote',array('bill_id'=>$var['bill_id']))}>">  <div class="bangdanShTp_rg"><input type="button" class="submit" value="投一票" /></div></a><else/><a href="javascript:void(0);">  <div class="bangdanShTp_rg"><input type="button" class="submit1" value="已经投过票" /></div></a></if>
+						</div>
+						<div class="sbReason ">上榜理由：<span class="sbReasonNr"><{$var.reason}></span></div>
+						<div class="sb_bg"></div>
+						<div class="bdPl">
+							<div class="latestPl"><span class="lef">最新点评：</span><span class="rig"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>#dianping">更多</a></span></div>
+							<ul class="plList">
+								<li class="plLi">
+									<if condition="$var['dianping']['user_id'] neq null">
+										<div class="le"><img class="headX" width="35" height="35" src="__ROOT__/attachs/<{$users[$var['dianping']['user_id']]['face']|default='default.jpg'}>" /></div>
+										<div class="ce">
+											<div class="namePl"><{$users[$var['dianping']['user_id']]['nickname']}></div>
+											<p class="plNr"><{$var['dianping']['contents']}><span class="time"><{$var['dianping']['create_time']|date="Y-m-d",###}><span></p>
+										</div>
+										<else/>
+										<p class="namePl" style="font-size: 14px;">暂无点评</p>
+									</if>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="cl"></div>
+				</li>
+			</volist>
+			<div class="bdList_fy">
+				<{$page}>
+			</div>
+
+
+		</div>
+		<div class="bangdan_R rt">
+			<div class="first_bd">
+				<h2>首推榜单</h2>
+				<ul>
+					<calldata mdl="Billboard" order="looknum  asc"  cache="1800" limit="0,4">
+						<li><a class="st_A" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>">查看详情</a><a class="st_B" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{$item.title}></a></li>
+
+					</calldata>
+				</ul>
+			</div>
+
+			<div class="rank_bd">
+				<h2>排名榜单</h2>
+				<ul>
+					<calldata mdl="Billboard" order="orderby asc"  cache="1800" limit="0,10">
+						<li> <a href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><span><{:bao_msubstr($item['title'],0,4,false)}>：</span><{$item.intro}></a></li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	
+	<div class="cl"></div>
+	<!--main end-->
+	<include file="public:footer"/>

@@ -1,0 +1,27 @@
+<div class="nav">
+
+        <div class="navList">
+
+
+
+<ul>
+
+<li class="navListAll"><!-- <img src="__TMPL__statics/images/ico_1.png" class="left"/> --><!--<i class="nav-bz left"></i>--><span class="navListAllt">全部抢购分类</span>
+ <!--<div class="shadowy navAll">此处显示  class "navAll" 的内容</div>-->
+ </li>
+
+
+<volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$var.target eq 1">target="_blank"</if> <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="clear"></div>

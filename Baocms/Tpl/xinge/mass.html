@@ -1,0 +1,44 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信鸽</li>
+        <li class="li2">APP推送管理</li>
+        <li class="li2 li3">群发消息</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('xinge/mass')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr class="jq_type_2">
+                    <td class="lfTdBt">标题：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr class="jq_type_2">
+                    <td class="lfTdBt">选择发送平台：</td>
+                    <td class="rgTdBt">
+                        <select  name="data[plat]"  class="seleFl  jq_type" >
+                            <option  value="0" >安卓平台</option>
+                            <option  value="1" >苹果平台</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="jq_type_2">
+                    <td class="lfTdBt">链接地址：</td>
+                    <td class="rgTdBt"><input type="text" name="data[url]" value="<{$detail.url|default=''}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">详情：</td>
+                    <td class="rgTdBt">
+                        <textarea  id="data_details" name="data[contents]" style="width:800px;height:360px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="立刻发送" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

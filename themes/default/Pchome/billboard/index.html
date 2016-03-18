@@ -1,0 +1,101 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<include  file='public:nav2'/>
+<!--top END-->
+
+<div class="bangdan">
+    <div class="bdnav">
+
+        <div class="class_area">
+            <div class="classification">
+                <span>分类:</span>
+                <a <if condition="empty($cate_id)">class="first_item on"<else/> class="first_item"</if> href="<{:U('billboard/bdlist')}>">全部</a>
+                <volist name="billcate" id="var">
+                    <a href="<{:U('billboard/bdlist',array('cate_id'=>$var['cate_id']))}>"><{$var.cate_name}></a>
+                </volist>
+            </div>
+
+        </div>
+
+        <div class="bangdan_item hot_bd">
+            <h1>热门榜单</h1>
+            <ul class="hot_list">
+                <calldata mdl="Billboard" order="list_id desc" where="is_hot=1 AND closed=0" cache="1800" limit="0,4">
+                    <li>
+                        <a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>"/>
+                        <span><{:bao_msubstr($item['title'],0,12,false)}></span></a>
+                    </li>
+                </calldata>
+            </ul>
+        </div>
+        <div class="bangdan_item latest_bd">
+            <h1>最新榜单</h1>
+            <ul class="latest_list">
+                <volist name='billcate' id='var' key='index'>
+                    <li class="list_X lt">
+                        <div class="cate_item lt">
+                            <a target="_blank" href="<{:U('billboard/bdlist',array('cate_id'=>$var['cate_id']))}>">
+                                <td><img src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" class="w80" /></td>
+                                <h4><{$var['cate_name']}></h4>
+                            </a>
+                            <a target="_blank" class="more" href="<{:U('billboard/bdlist',array('cate_id'=>$var['cate_id']))}>">更多 </a>
+                        </div>
+                        <div class="bill_list lt">
+                            <ul>
+                                <php>$i=0;</php>
+                                <volist name="news" id="item" key="num">
+                                    <if condition="$item['cate_id'] eq $var['cate_id']">
+                                        <php>$i++;if($i <= 6){</php>
+                                        <if condition="$i elt 3"><li>
+                                                <span class="food_3y"><{$i}></span><a target="_blank" title="<{$item.title}>" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{:bao_msubstr($item['title'],0,16,true)}></a></li>
+                                            <else/>
+                                            <li>
+                                                <span><{$i}></span><a target="_blank" title="<{$item.title}>" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{:bao_msubstr($item['title'],0,16,true)}></a></li>
+                                        </if>
+                                        <php>}</php>
+                                    </if>
+                                </volist>
+                            </ul>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+    <div class="bangdan_item selected_bd">
+        <h1>精选榜单</h1>
+        <div class="selected_list">
+            <calldata mdl="Billboard" order="looknum desc" where="is_chose=1 AND closed=0"  limit="0,25">
+                <if condition="$index eq 1">
+                    <div class="big_item lt">
+                        <div class="pic">
+                            <a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>"/><h2> <{$item.title}></h2></a>
+                        </div>
+                        <div class="des">
+                            <div class="pl"><span class="lt">排序:1</span><span class="rt">浏览：<{$item.looknum}></span></div>
+                            <p><b>简介：</b><{:bao_msubstr($item['intro'],0,100,true)}></p>
+                        </div>
+                    </div>
+                <elseif condition="$index%6 eq 2"/>
+                    <ul class="small_item lt">
+                        <li>
+                            <a target="_blank" title="<{$item.title}>" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><img class="lt" src="__ROOT__/attachs/<{$item.photo}>" width='200' height="206"/></a>
+                            <div class="list_con lt">
+                                <div class="more"><a target="_blank" href="<{:U('billboard/bdlist')}>">更多</a></div>
+                                <p><span></span><a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{:bao_msubstr($item['title'],0,16,false)}></a></p>
+                <elseif condition="$index%6 eq 1"/>  
+                                <p><span></span><a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{:bao_msubstr($item['title'],0,16,false)}></a></p>
+                            </div>
+                        </li>
+                    </ul>
+                <else/>
+                    <p><span></span><a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{:bao_msubstr($item['title'],0,16,false)}></a></p>
+                </if>
+            </calldata>
+        </div>
+    </div>
+</div>
+</div>
+<div class="cl"></div>
+<!--main end-->
+<include file="public:footer"/>

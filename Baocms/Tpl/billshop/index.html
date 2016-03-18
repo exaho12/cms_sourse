@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">上榜榜单</li>
+        <li class="li2 li3">榜单管理</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>榜单统一由后台添加</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('billshop/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div>  
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="bill_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>上榜商家</td>
+                        <td>联系商家</td>
+                        <td>商家图片</td>
+                        <td>上榜理由</td>
+                        <td>上榜时间</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_bill_id" type="checkbox" name="bill_id[]" value="<{$var['bill_id']}>" /></td>
+                            <td><{$var.bill_id}></td>
+                            <td><{$shop[$var['shop_id']]['shop_name']}></td>
+                            <td><{$shop[$var['shop_id']]['tel']}></td>
+                            <td><img src="__ROOT__/attachs/<{$shop[$var['shop_id']]['photo']}>" class="w80" /></td>
+                            <td><{$var.reason}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                                <{:BA('billshop/delete',array("bill_id"=>$var["bill_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('billshop/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

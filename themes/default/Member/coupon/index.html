@@ -1,0 +1,38 @@
+<include file="public:header"/>
+<div class="content_right">   
+    <div class="tgdd">
+        <div class="tgdd_t">
+            <ul>
+                <li <if condition="$status eq 1 or empty($status)">class="on"</if> ><a href="<{:U('coupon/index',array('status'=>1))}>">全部</a></li>
+            <li <if condition="$status eq 2">class="on"</if> ><a href="<{:U('coupon/index',array('status'=>2))}>">未使用</a></li>
+            <li <if condition="$status eq 3">class="on"</if> ><a href="<{:U('coupon/index',array('status'=>3))}>">已使用</a></li>
+            </ul>
+        </div>
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <th>优惠券</th>
+                <th>商铺名</th>
+                <th>优惠券代码</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            <volist name="list" id="var">
+                <tr class="tgdd_nrC" style="margin-top:10px;">
+                    <td style="text-align:left;">
+                        <div class="tgdd_tw">
+                            <div class="left"><a  target="_blank"  href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$coupons[$var['coupon_id']]['photo']}>" width="81" height="50" /></a></div>
+                            <div class="lef"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/coupon/detail',array('coupon_id'=>$var['coupon_id']))}>"><{$coupons[$var['coupon_id']]['title']}></a><p>有效期至：<{$coupons[$var['coupon_id']]['expire_date']}></p></div>
+                        </div>
+                    </td>
+                    <td class="tgdd_nrCtd"><a target="_blank"  href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>" class="Thevoucher_spm"><{$shops[$var['shop_id']]['shop_name']}></a></td>
+                    <td class="tgdd_nrCtd"><{$var.code}></td>
+                    <td class="tgdd_nrCtd"><eq name="var.is_used" value="0">未使用<else/>已使用</eq><a class="orderDet" href=""></a></td>
+                    <td><a mini='confirm' class="myInfor_sx"  href="<{:U('coupon/delete',array('download_id'=>$var['download_id']))}>">删除</a></td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="x"><{$page}></div>
+</div> 
+</div>
+<include file="public:footer"/>

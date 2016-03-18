@@ -1,0 +1,27 @@
+<present name="message">
+<php>$seo_title = '提示信息_'.$CONFIG[site][sitename];</php>
+<else/>
+<php>$seo_title = '错误提示_'.$CONFIG[site][sitename];</php>
+</present>
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav"/>
+<style>
+	.alert-box{padding:60px 0;background:#FCFCFC;margin-bottom:-30px;}
+	.alert-box .alert {margin:40px;padding:30px;border:thin solid #DDD;}
+	.alert-box .alert strong{font-size:14px;margin-bottom:10px;display:block;}
+	.alert-box .alert p{margin:20px 0;}
+</style>
+<div class="layout alert-box">
+	<div class="blank-10"></div>
+	<div class="container">
+		<div class="alert alert-red radius">
+			<strong>错误提示</strong>
+			<p>由于系统更新，您所访问页面找不到了，请返回首页重新访问！</p>
+			<a href="<{:U('index/index')}>" class="button bg radius">返回首页</a>
+			<a class="button bg-red radius" href="<{:U('index/index')}>">立刻跳转</a>
+		</div>
+	</div>
+	<div class="blank-10"></div>
+</div>
+<include  file='public:footer'/>

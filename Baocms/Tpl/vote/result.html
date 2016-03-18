@@ -1,0 +1,35 @@
+<div class="main-jsgl">
+    <div class="jsglNr">
+        <div class="title">“<{$detail.title}>”的投票结果</div>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox" style="width: 750px;">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; margin: 20px 0px;"  >
+                    <tr>
+                        <td >选项：</td>
+                    <td >投票次数：</td>
+                    <td>占总数比例：</td>
+                    </tr>
+                    <volist name="options" id="var" key="i">
+                    <tr>
+                        <td class="rgTdBt"><{$var.title}></td>
+                        <td class="rgTdBt"><{$var.number}></td>
+                    <php>
+                        $rat = round(($var['number']/$total)*100);
+                        $ratio = ($var['number']/$total)*500;
+                        $ratio = floor($ratio);
+                    </php>
+
+                    <script>
+                        var div<{$i}>= document.getElementById("ratio<{$i}>"); //得到这个DIV。
+                        div<{$i}> .style.width = <{$ratio}> + 'px';
+                    </script>
+                    <td class="rgTdBt"><div class="all"><div id="ratio<{$i}>" class="ratio" style="background: #FF0000; height: 24px; line-height: 24px;" ></div><div class="rat"><{$rat}>%</div></div></td>
+                    </tr>
+                </volist>
+                </table>
+            </div>
+        </form>
+
+    </div>
+</div>  
+

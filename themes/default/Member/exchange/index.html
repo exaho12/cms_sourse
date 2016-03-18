@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<div class="content_right"> 
+<div class="tgdd">
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <th width="360">兑换商品</th>
+                <th width="60">花费积分</th>
+                <th>收货地址</th>
+                <th width="60">兑换时间</th>
+                <th width="60">状态</th>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td style="text-align:left;"><div class="tgdd_tw">
+                            <div class="left"><a target="_blank" href="<{:U('pchome/jifen/detail',array('goods_id'=>$var['goods_id']))}>"><img src="__ROOT__/attachs/<{$goods[$var['goods_id']]['face_pic']}>" width="81" height="60" /></a></div>
+                            <div class="lef"><a class="myChange_sp" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>">商铺：<{$shops[$var['shop_id']]['shop_name']}></a><p><{:bao_msubstr($goods[$var['goods_id']]['title'],0,20,false)}></p><p>兑换时间：<{$var.create_time|date='Y-m-d H:i',###}></p></div>
+                        </div></td>
+                    <td class="tgdd_nrCtd"><{$goods[$var['goods_id']]['integral']}></td>
+                    <td class="tgdd_nrCtd">
+                        <{$areas[$addrs[$var['addr_id']]['area_id']]['area_name']}>
+                        <{$business[$addrs[$var['addr_id']]['business_id']]['business_name']}>
+                        <{$addrs[$var['addr_id']]['addr']}>,
+                        <{$addrs[$var['addr_id']]['name']}>,
+                        <{$addrs[$var['addr_id']]['mobile']}>
+                    </td>
+                    <td class="tgdd_nrCtd"><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                    <td class="tgdd_nrCtd"><eq name="var.audit" value="1">已审核<else/>未审核</eq></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="x"><{$page}></div>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

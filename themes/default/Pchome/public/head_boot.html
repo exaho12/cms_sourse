@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta name="renderer" content="webkit">
+<meta name="applicable-device" content="pc">
+<title><{$seo_title}></title>
+<meta name="keywords" content="<{$seo_keywords}>" />
+<meta name="description" content="<{$seo_description}>" />
+<!--<meta property="qc:admins" content="461532267760012776375" />-->
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/static/default/boot/css/boot.css"  />
+<link rel="stylesheet" href="/static/default/boot/css/base.css"  />
+<link rel="stylesheet" href="/static/default/boot/css/layout.css"  />
+<link rel="stylesheet" href="/static/default/boot/css/<{$ctl}>.css"  />
+<script src="/static/default/boot/js/jquery.js"></script>
+<script src="/static/default/boot/js/public.js"></script>
+<script src="/static/default/boot/js/boot.js"></script>
+<script src="/static/default/boot/js/niucms.js"></script>
+
+<style>
+#logo a {
+    background: none;
+    text-indent: 0px; 
+}
+</style>
+</head>
+<body>
+	<iframe name="niu-frame" class="hidden"></iframe>
+	<!-- 顶栏 -->
+	<div id="topbar">
+		<div class="container">
+			<div class="passport pull-left">
+            
+            <if condition="empty($MEMBER)">
+				<a href="<{:U('pchome/passport/login')}>">登录</a>
+				<span class="split">|</span>
+				<a href="<{:U('passport/register')}>">注册</a>
+				<span class="split">|</span>
+                
+            <else/>
+            
+                <a href="<{:U('member/index/index')}>">欢迎您：<{$MEMBER.nickname}></a>
+				<span class="split">|</span>
+				<a href="<{:U('member/index/index')}>">个人中心</a>
+				<span class="split">|</span>
+                <a href="<{:U('passport/register')}>">退出登录</a>
+				<span class="split">|</span>
+                 
+            </if>
+                 
+                 
+				<a href="<{:U('passport/register')}>">手机APP</a>
+			</div>
+			<div class="passport pull-right">
+				<div class="ui-beacon-drop pull-right">
+					<a href="javascript:;" class="ui-beacon-item-link" rel="nofollow">商家支持 <i class="ui-beacon-hollow-arrow"><em></em><b></b></i></a>
+					<div class="ui-beacon-subs sale-services">
+						<ul class="list-unstyled list-inline">
+							<li><a href="<{:U('shangjia/login/index')}>" target="_blank">商家中心</a></li>
+							<li><a href="<{:U('community/index/index')}>" target="_blank">物业登录</a></li>
+                            <li><a href="<{:U('delivery/index/index')}>" target="_blank">物流中心</a></li>
+                            <li><a href="<{:U('pchome/jifen/index')}>" target="_blank">积分商城</a></li>
+						</ul>
+					</div>
+				</div>
+				<a href="/">网站首页</a>
+				<span class="split">|</span>
+				<a href="<{:U('member/order/index')}>">用户中心</a>
+				<span class="split">|</span>
+				<a href="<{:U('member/order/index')}>">我的订单</a>
+				<span class="split">|</span>
+				<a href="<{:U('mall/cart')}>">购物车 <i class="topbar-cart-icon fa fa-cart hot"></i> <strong id="cart-count"><{$cartnum|default='0'}></strong></a>
+				<span class="split">|</span>
+			</div>
+		</div>
+	</div>
+	<!-- /顶栏 -->
+
+
+	<!-- 头部 -->
+	<div id="header">
+		<div class="container">
+			<div id="logo">
+            <if condition="!empty($CONFIG['site']['logo'])">
+                <a href="<{:U('pchome/index/index')}>"><img width="214" height="53" src="__ROOT__/attachs/<{$CONFIG.site.logo}>" /></a>
+                <else/>
+                <a href="<{:U('pchome/index/index')}>"><img width="214" height="53" src="__PUBLIC__/img/logo_03.png" /></a>
+            </if> 
+            
+            
+            </div>
+			<div id="city">
+				<div class="cities-toggle ui-beacon-drop">
+					<a href="javascript:;" class="cities-toggle-btn ui-beacon-item-link" rel="nofollow"><{$city_name}><i class="ui-beacon-hollow-arrow"><em></em><b></b></i></a>
+					<div class="ui-beacon-subs cities-toggle-content city-select">
+                    
+                    	<div class="cityselect">
+                            <dl class="cityselect-hot">
+                                <dt>您当前所在城市：</dt>
+                                <dd><a href="javascript:;" id="emptyhistory"><{$city_name}></a></dd>
+                            </dl>
+                            <div>
+                                <div>
+                                </div>
+                        
+                                <div class="cityselect-areas active">
+                                
+                    
+              		             <foreach name="citylists" item="item"> 
+                                    <dl>
+                                        <dt><{$key}></dt>
+                                        <dd>
+                                        <volist name="item" id="var" key="i">
+                                        <a href="<{:U('pchome/city/change',array('city_id'=>$var['city_id']))}>"><{$var.name}></a>
+                                         </volist>
+                                        
+                                        </dd>
+                                    </dl>
+                                   </foreach>  
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                    
+                    </div>
+				</div>
+				
+			
+				<script>
+					$(function(){
+						$(".city-select").cityselect({},function(data){
+							$(this).html(data);
+						})
+					})
+				</script>
+
+			</div>
+			<!-- 全局搜索 -->
+			<div class="search">
+				<div class="search-entity">
+					<div class="search-tab clearfix">
+						<ul class="list-unstyled search-nav">
+							<li class="active" data-action="/items/search" data-type="1">全部</li>
+						</ul>
+					</div>
+					<form class="search-form" method="post" action="<{:U('pchome/all/index')}>">
+						<input type="text" class="search-text" name="keyword" placeholder="请输入关键字" />
+						<button class="search-button"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+			</div>
+			<!-- /全局搜索 -->
+			<div id="safe-pay">
+				<a href="<{:U('mall/index')}>" >安全有保障！</a>
+			</div>
+		</div>
+	</div>
+	<!-- /头部 -->
+	
+	<!-- 导航 -->
+	<div id="navbar">
+		<div class="container">
+			<div class="navs">
+				<ul class="navs-list">
+					<eq name='contrl' value='index'>
+					<li id="categories">
+						<h3 class="categories-heading">
+							<span class="fa fa-list"></span>
+							智慧城市 ·  服务
+							<i class="ui-beacon-hollow-arrow"><em></em><b></b></i>
+						</h3>
+						<include file='public:menu' /> 
+					</li>
+					</eq>
+                    
+                 
+                    
+                    <volist name="navigations" id="var" key="index" >
+                    <if condition="($var.parent_id eq 0)"> 
+                    
+                    <li><a  <if condition="$var.target eq 1">target="_blank"</if> <if condition="$ctl eq $var['title']"> class="active"<else/>class="navA"</if> href="<{$var['url']}>" title="<{$var['nav_name']}>" ><{$var['nav_name']}></a></li>
+                    </if>
+                    </volist>
+                    
+					
+					
+				</ul>
+				<a href="<{:U('pchome/shop/apply')}>" class="sale-sign">
+					商家入驻
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- /导航 -->
+	
+	<!-- 内容 -->

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title><{$seo_title}></title>
+        <meta name="keywords" content="<{$seo_keywords}>" />
+        <meta name="description" content="<{$seo_description}>" />
+        <link href="__TMPL__statics/css/hy.css" rel="stylesheet" type="text/css" />
+        <script> var NIU_PUBLIC = '__PUBLIC__'; var NIU_ROOT = '__ROOT__'; </script>
+        <script src="__PUBLIC__/js/jquery.js"></script>
+          <script src="__PUBLIC__/js/jquery-ui.min.js"></script>
+          <link href="__PUBLIC__/js/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link href="__PUBLIC__/js/jquery-ui.theme.min.css" rel="stylesheet" type="text/css" />
+        <link href="__PUBLIC__/css/public.css" rel="stylesheet" type="text/css" />
+        <script src="__PUBLIC__/js/web.js"></script>
+        <script>
+            $(function() {
+                $(".dropdown").hover(function() {
+                    $(this).addClass("dropdown-open dropdown-open-app");
+                },
+                function() {
+                    $(this).removeClass("dropdown-open dropdown-open-app");
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <iframe id="w-frame" name="w-frame" style="display:none;"></iframe>
+        <!--头部-->
+        <div id="head">
+         
+           <include  file='blog:top'/>    
+        </div> 

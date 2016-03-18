@@ -1,0 +1,171 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>
+<include  file='public:nav3'/>  
+<div class="content" style="margin-top:20px;">
+    <div class="seat-box">
+        <div class="left seat-box-l">
+            <div class="goods_flBox">
+                <ul>
+
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">商圈：</div>
+                        <div class="left goods_flList_r">
+                            <a <if condition="empty($area_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/news',$linkArr,array('area_id'=>0))}>">全部</a>
+                           <foreach name="areas" item="item"> 
+                                <php>if($item['city_id'] == $city_id){</php>
+                                <a class="goods_flListA" href="<{:U('ding/news',array('area'=>$item['area_id']))}>"><{$item.area_name}></a> 
+                                <php>}</php>
+                            </foreach>
+                        </div>
+                    </li>
+                    <li>
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a <if condition="empty($keyw)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/news',$linkArr,array('keyword'=>0))}>">全部</a>
+                            <volist name='keyword' id='item'>
+                                <a href="<{:LinkTo('ding/news',$linkArr,array('keyword'=>$item[key_id]))}>" <if condition="$keyw eq $item['key_id']">class="goods_flListA on"<else/>class="goods_flListA"</if>><{$item.keyword}></a>
+                            </volist>
+
+                        </div>
+                    </li>
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">类别：</div>
+                        <div class="left goods_flList_r">
+                            <a <if condition="empty($price)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/news',$linkArr,array('price'=>0))}>">全部</a>
+
+                            <volist name='price_list' id='item'>
+                                <a  href="<{:LinkTo('ding/news',$linkArr,array('price'=>$key))}>" <if condition="$price eq $key">class="goods_flListA on"<else/>class="goods_flListA"</if>><{$item}></a>
+                            </volist>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="nearbuy_sxk">
+                <ul>
+                    <li <if condition="$order gt 6 || $order lt 2">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>1))}>">默认</a></li>
+                    <li <if condition="$order eq 2">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>2))}>">销量<em class="em_up"></em></a></li>
+                    <li <if condition="$order eq 3">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>3))}>">价格<em></em></a></li>
+                    <li <if condition="$order eq 4">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>4))}>">口味<em class="em_up"></em></a></li>
+                    <li <if condition="$order eq 5">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>5))}>">环境<em class="em_up"></em></a></li>
+                    <li <if condition="$order eq 6">class="nearbuy_sxkLi on"<else/>class="nearbuy_sxkLi"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/news',$linkArr,array('order'=>6))}>">服务<em class="em_up"></em></a></li>
+                </ul>
+            </div>
+
+
+            <div class="seat-room">
+                <ul>
+                    <volist name='shop_list' id='item'>
+                        <li class="seat-room-list">
+                            <div class="seat-room-box">
+                                <div class="left seat-room-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img width="210px;" height="146px;" src="__ROOT__/attachs/<{$item['photo']}>" /></a>
+                                    <div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($set[$item['shop_id']]['money']/100,2)}></span></div>
+                                </div>
+                                <div class="left seat-room-content">
+                                    <p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
+                                    <p><em class="ico-1"></em><{:bao_msubstr($item[addr],0,15)}></p>
+                                    <p><em class="ico-2"></em>粉丝数：<span class="c1"><{$item.fans_num}></span> 人均：<span class="c1">￥<{:round($item['price']/100,2)}></span></p>
+                                    <p><{$cate[$item['cate_id']]['d1']}>：<{$item.d1}>　<{$cate[$item['cate_id']]['d2']}>：<{$item.d2}>　<{$cate[$item['cate_id']]['d3']}>：<{$item.d3}></p>
+                                    <p>
+                                        <span class="state <if condition="$set[$item['shop_id']]['is_ting'] eq 0">on</if>">大厅<if condition="$set[$item['shop_id']]['is_ting'] eq 0">（已约满）<else/>（有空位）</if></span><span class="state <if condition="$set[$item['shop_id']]['is_bao'] eq 0">on</if>">包厢 <if condition="$set[$item['shop_id']]['is_bao'] eq 0">（已约满）<else/>（有空位）</if></span></p>
+                                </div>
+                            </div>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+
+
+
+            <div class="x">
+                <{$page}>
+            </div>
+
+
+
+        </div>
+        <div class="left seat-box-r">
+            <div class="seat-ad-wx"><img src="__TMPL__statics/img/seat-wx.jpg" width="280" height="330" /></div>
+            <div class="seat-ad">
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.seat-ad_flexslider').flexslider({
+                            directionNav: true,
+                            pauseOnAction: false,
+                            /*slideshow: false,*/
+                            /*manualControlEvent:"hover",*/
+                        });
+
+                    });//首页轮播js
+                </script>
+                <div class="seat-ad_flexslider">
+                    <ul class="slides">
+                        <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=17" limit="0,3" cache="21600" order="orderby asc">
+                            <li class="sy_hotgzLi"><a target="_blank" href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="280" height="87" /></a></li>
+                        </calldata>
+                    </ul>
+                </div>
+            </div>
+            <div class="seat-rank">
+                <div class="title">人气排行榜：</div>
+                <div class="seat-rank-list">
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('.seat-rank_flexslider').flexslider({
+                                directionNav: true,
+                                pauseOnAction: false,
+                                controlNav: false,
+                                slideshow: false,
+                            });
+
+                        });//首页轮播js
+                    </script>
+                    <div class="seat-rank_flexslider">
+                        <ul class="slides">
+                            <li class="sy_hotgzLi">
+                                <ul>
+                                    <volist name='view.shop' id='item'>
+                                        <li>
+                                            <a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="60" height="40" /> </a>
+                                            <p class="rap"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
+                                            <p><span class="spxq_qgpstarBg"><span class="spxq_qgpstar spxq_qgpstar<{$item.score}>"> </span></span></p>
+                                            <div class="clear"></div>
+                                        </li>
+
+                                    </volist>
+                                </ul>
+                            </li>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>
+<div class="topUp">
+    <ul>
+        <li class="topBack"><div class="topBackOn">回到<br />顶部</div></li>
+        <li class="topUpWx"><div class="topUpWxk"><img src="../sjimages/login_wx_03.jpg" /><p>扫描二维码关注微信</p></div></li>
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 100) {
+                $(".topUp").show();
+                $(".indexpop").show();
+
+            } else {
+                $(".topUp").hide();
+                $(".indexpop").hide();
+            }
+        });
+        $(".topUp").click(function () {
+            $("html,body").animate({scrollTop: 0}, 200);
+        });
+    });
+</script>
+</body>
+</html>

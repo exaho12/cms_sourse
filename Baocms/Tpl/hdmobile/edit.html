@@ -1,0 +1,129 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">手机</li>
+        <li class="li2">约会</li>
+        <li class="li2 li3">编辑活动</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('hdmobile/edit',array('huodong_id'=>$detail['huodong_id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">选择用户：</td>
+                    <td  class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" />
+                            <input type="text" name="nickname" id="nickname"  class="manageInput w210"  value="<{$user.nickname}>" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动标题：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput w210" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">限制人数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[limit_num]" value="<{$detail.limit_num|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动类型：</td>
+                    <td  class="rgTdBt"> 
+                        <select name="data[cate_id]" id="cate__id" class="manageSelect w210" >
+                            <option value="0">请选择...</option>
+                            <foreach name="getHuoCate" item="var" key="index">
+                                <option value="<{$index}>" <eq name='detail.cate_id' value='$index'>selected="selected"</eq> ><{$var}></option>
+                            </foreach>   
+                        </select>
+                    </td> 
+                </tr>
+                <td class="lfTdBt">对象：</td>
+                <td  class="rgTdBt"> 
+                    <select name="data[sex]" id="cate__id" class="manageSelect w210">
+                        <option value="0">请选择...</option>
+                        <foreach name="getPeopleCate" item="var" key="index1">
+                            <option value="<{$index1}>" <eq name='detail.sex' value='$index1'>selected="selected"</eq> ><{$var}></option>
+                        </foreach>   
+                    </select>
+                </td> 
+                </tr>
+                <tr>
+                    <td class="lfTdBt">交通方式：</td>
+                    <td class="rgTdBt"> 
+                        <select name="data[traffic]" id="traffic" class="manageSelect w200">
+                            <option value="0">请选择...</option>
+                            <foreach name="traffic" item="var" key="index3">
+                                <option value="<{$index3}>" <eq name='detail.traffic' value='$index3'>selected="selected"</eq> >  <{$var}></option>
+                            </foreach>   
+                        </select>
+                    </td> 
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动简介：</td>
+                    <td  class="rgTdBt"><textarea  name="data[intro]" cols="50" rows="10" ><{$detail.intro|default=''}> </textarea>
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                活动图片：
+                </td>
+                <td>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.huodong.thumb}>
+                    </div>
+                    <script>
+                        $("#photo_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"huodong"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传新闻图片',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_photo").val(data);
+                                $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+
+                    </script>
+                </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动时间：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[time]" value="<{$detail.time|default=''}>" onfocus="WdatePicker({startDate: '%y-%M-01 00', dateFmt: 'yyyy-MM-dd HH', alwaysUseStartDate: true});"  class="inputData"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动地址：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="manageInput w210" />
+                    </td>
+                </tr>   
+                <tr>
+                    <td class="lfTdBt">商家坐标：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            经度<input type="text" name="data[lng]" id="data_lng" value="<{$detail.lng|default=''}>" class="scAddTextName w210 w100" />
+                            纬度 <input type="text" name="data[lat]" id="data_lat" value="<{$detail.lat|default=''}>" class="scAddTextName w210 w100" />
+                        </div>
+                        <a style="margin-left: 10px;" mini="select"  w="600" h="600" href="<{:U('public/maps',array('lat'=>$detail['lat'],'lng'=>$detail['lng']))}>" class="seleSj">百度地图</a>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

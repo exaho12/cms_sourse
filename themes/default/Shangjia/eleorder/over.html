@@ -1,0 +1,106 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">外卖设置</a> > <a>确认订单</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('eleorder/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <if condition="$ding['is_pei'] neq 0">
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('ele/index')}>">外卖营业状态</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/index')}>">确认订单</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/wait')}>">配送中的订单</a></li>
+            <li class="tuanfabu_tabli tabli_change on"  ><a href="<{:U('eleorder/over')}>">已完成订单</a></li>
+           
+            <else/>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/wait')}>">确认订单【配送员配送】</a></li>
+            </if>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>订单ID</td>
+            <td>总价值（含送餐费）</td>
+            <td>结算价格</td>
+            <td>返现金额</td>
+            <td>数量</td>
+            <td>客户</td>
+            <td>配送状态</td>
+            <td>菜品</td>
+            <td>下单时间</td>
+        </tr>
+        <php>
+        $dv = D('Delivery');
+        $dvo = D('DeliveryOrder');
+        $shop = D('Shop');
+        </php>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.order_id}></td>
+                <td><{:round($var['total_price']/100,2)}></td>
+                <td><eq name="var.is_pay" value="1"><{:round($var['total_price']/100,2)}><else />餐到付款</eq></td>
+                <td><{:round($var['fan_price']/100,2)}></td>
+                <td><{$var.num}></td>
+                <td>
+                    <{$areas[$addrs[$var['addr_id']]['area_id']]['area_name']}>、
+                    <{$business[$addrs[$var['addr_id']]['business_id']]['business_name']}>、
+                    <{$addrs[$var['addr_id']]['addr']}>
+                    <{$addrs[$var['addr_id']]['name']}>
+                    <{$addrs[$var['addr_id']]['mobile']}>
+                </td>
+                <td>
+                
+                <php>
+                	$is_pei = $shop -> where('shop_id ='.$var['shop_id']) -> getField('is_pei');
+                    if($is_pei == 0){ //如果是0，则是配送员配送
+                        $did = $dvo->where('type_order_id ='.$var['order_id'].' and type =1')->getField('delivery_id');
+                        $d = $dv -> where('id ='.$did) -> find();
+                    }
+                </php>
+                	
+                <eq name="is_pei" value="0">
+                	配送员：<span style="color:#00ae19;text-decoration:underline;cursor:pointer;" id="is_pei<{$var.order_id}>"><{$d['name']}></span>
+                    <script type="text/javascript">
+                    $('#is_pei<{$var.order_id}>').mouseover(function(){
+						var n = '<{$d.name}>';
+						var m = '<{$d.mobile}>';
+						layer.tips('配送员姓名：'+n+'<br>电话：'+m+'',$(this),{
+						 tips: [2, '#7a7a7a']
+						});
+					})
+						
+					
+                    </script>
+                <else/>
+                	<span style="color:#FF0000;">商家自主配送</span>
+                </eq>
+
+                </td>
+                <td>
+                <foreach name="goods" item="good">
+                    <if condition="$good['order_id'] eq $var['order_id']">    
+                        <p>
+                            <{$products[$good['product_id']]['product_name']}>：<{$good.num}>份
+                        </p>
+                    </if>
+                </foreach>
+                </td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

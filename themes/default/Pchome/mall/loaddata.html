@@ -1,0 +1,17 @@
+<volist name="list" id="item" key="index"> 
+	<li class="line">		
+    <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">		
+    <div class="x3">			<img src="__ROOT__/attachs/<{$item.photo}>" />		
+    </div>		
+    <div class="x9">			<h5><{$item.title}></h5>		
+    	<p class="desc"><{:bao_Msubstr($item[instructions],0,60)}></p>			
+        <p class="info"><span>&yen;<if condition="($item.max_price eq $item.min_price AND $item.max_price gt 0 )"><{:round($item['max_price']/100,2)}>
+                                            <elseif condition="($item.max_price gt 0) AND ($item.min_price gt 0)"/>
+                                                <{:round($item['min_price']/100,2)}>-<{:round($item['max_price']/100,2)}>
+                                            <else/><{:round($item['mall_price']/100,2)}>
+                                            </if></span><em>已售<{$item.sold_num}></em>		
+        	</p>	
+        	</div>		
+            </a>	
+            </li>
+</volist>

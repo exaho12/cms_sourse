@@ -1,0 +1,214 @@
+<php>$seo_title = $detail['title'];</php>
+<include  file='public:head_am'/> 
+
+<div class="am_tuya">
+
+<ol class="am-breadcrumb">
+  <li><a href="<{:U('index/index')}>" class="am-icon-home">首页</a></li>
+  <li><a href="<{:U('news/index')}>">文章资讯</a></li>
+  <if condition="$cate">
+  <li><a href="<{:LinkTo('news/cate',array('cat'=>$cate['cate_id']))}>"><{$cate['cate_name']}></a></li>
+  </if>
+  <li class="am-active"><{$detail.title}></li>
+</ol>
+
+
+<div class="am_tuya_user">
+<div class="am_tuya_user_ico"><img src="<if condition="$shops[$detail['shop_id']]['shop_name'] neq null">__ROOT__/attachs/<{$shops[$detail['shop_id']]['photo']|default='default.jpg'}><else/>__ROOT__/attachs/<{$detail['photo']|default='default.jpg'}></if>" alt=""></div>
+<div class="am_tuya_user_info">
+  <div class="am_tuya_user_info_name"><{$detail.title}> &nbsp;&nbsp;<if condition="$detail.istop eq 1"><a class="am-btn am-btn-danger am-btn-xs toutiao">头条</a></if></div>
+  <div class="am_tuya_user_info_coordinate">文章简介：<{$detail.profiles}></div>
+</div>
+</div>
+
+<div class="am_tuya_content">
+<div class="am_tuya_content_l">
+  <div class="am_albums">
+	<{$detail.details}>
+  </div>
+  <if condition="$detail.valuate eq 0">
+  <div class="am_tuya_more am-margin-top-sm">
+<div class="am_tuya_oneword">热门评论(<{$articlecomments}>)：</div>
+<form class="am-form"  action="<{:U('news/post')}>" target="x-frame" method="post">
+  <input type="hidden" value="0" name="data[parent_id]" />
+  <input type="hidden" value="<{$detail.article_id}>" name="data[post_id]" />
+  <fieldset>
+    <div class="am-form-group"  action="<{:U('news/post')}>" target="x-frame"  method="post">
+      <textarea class="" rows="2" id="doc-ta-1"  name="data[content]"></textarea>
+    </div>
+    <p><button type="submit"  id='hskskla'  class="am-btn am-btn-danger">提交评论</button></p>
+  </fieldset>
+</form>
+<script>
+           $(document).ready(function(){
+                $("#hskskla").click(function(){
+                    var url = $(this).attr('rel');
+                    $.post(url,function(data){
+                        if(data.status == 'login'){
+                            ajaxLogin();
+                        }else if(data.status == 'check_mobile'){
+                            check_user_mobile_for_pc('<{:U("mobile/tuan/tuan_sendsms")}>', '<{:U("mobile/tuan/tuan_mobile")}>');
+                        }else if(data.status == 'success'){
+                            layer.msg(data.msg,{icon:1});
+                        }else{
+                            layer.msg(data.msg,{icon:2});
+                        }
+                    },'json')
+                })
+            });            
+</script>
+<php>$i=0;</php> 
+ <php>$i++;</php> 
+  <article class="am-comment am-padding-sm">
+  <volist name="list" id="data"><!--一级回复-->
+ 
+  <a href="#link-to-user-home"><img src="__ROOT__/attachs/<{$users[$data['user_id']]['face']|default='default.jpg'}>" alt="" class="am-comment-avatar" width="48" height="48"/></a>
+  <div class="am-comment-main am-margin-top-sm">
+    <header class="am-comment-hd">
+      <div class="am-comment-meta">
+        <a href="#link-to-user" class="am-comment-author"><{$data.nickname}></a>&nbsp;&nbsp;&nbsp; 评论于 <time><{:formatTime($data['create_time'])}> 
+        <a href="<{:U('news/zans',array('comment_id'=>$data['comment_id']))}>" class="am-icon-thumbs-up am-padding-left-sm">赞(<{$data.zan}>)</a> 
+        <!--<a comment_id="<{$data.comment_id}>" href="javascript:void(0);" class="comment-reply am-icon-share am-padding-left-sm">回复</a>-->
+        <a class="am-fr"><{$i}>#</a>
+        </time>
+      </div>
+    </header>
+
+	 <div class="am-comment-bd">
+         <p><{$data.content}></p><!--<blockquote>来自：这里显示上一级点评的ID。</blockquote>-->
+     </div>
+     
+    </div>
+    </volist>
+    <p class="am-container am-center"><{$page}></p>
+</article>
+
+    
+</div>
+<else/>
+</if>
+  <!--<div class="am_news_load"><span><i  class="am-icon-spinner am-icon-spin"></i> 查看更多讨论</span></div>-->
+</div>
+<div class="am_tuya_content_r">
+<ul class="am_tuya_r_info">
+<php>
+$tags = $detail['keywords'];
+$tagsarray = array();
+if(!empty($tags)){
+$tagsarray = explode(',',$tags);
+}
+</php><!--输出标签-->
+<if condition="$tagsarray eq null">
+<else/>
+
+<li><i class="am-icon-search"></i><span>
+都在搜：
+<volist name='tagsarray' id='var' key='index'>
+<a target="_blank" class="am-btn am-btn-warning am-btn-xs am-margin-right-xs" href="<{:U("news/index",array("keyword"=>$var))}>"><{:bao_msubstr($var,0,6,false)}></a>
+</volist>
+</span></li>
+
+</if>
+  <li><i class="am-icon-comments"></i><span><{$articlecomments}> 条讨论</span></li>
+  <li><i class="am-icon-eye"></i><span><{$detail.views}> 次查看</span></li>
+  <li><i class="am-icon-clock-o"></i><span>发布 <{$detail.create_time|date='Y-m-d',###}></span></li>
+</ul>
+<!--如果有商家-->
+    <if condition="$shops neq null">
+        <ul class="am_tuya_tag">
+        <if condition="$shops.shop_name neq null">
+            <li><span class="am_tuya_tag_title"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$shops['shop_id']))}>"><{$shops.shop_name}></a></span></li></if>
+            <if condition="$shops.tel neq null"><li><a href=""><span>电话：</span><span><{$shops.tel}></span></a></li></if>
+            <if condition="$shops.qq neq null"><li><a href=""><span>qq：</span><span><{$shops.qq}></span></a></li></if>
+            <if condition="$shops.addr neq null"><li><a href=""><span>地址：</span><span><{:bao_msubstr($shops['addr'],0,12)}></span></a></li></if>
+            <li><a href=""><span>喜欢：</span><span><{$shops.fans_num}>人喜欢</span></a></li>
+        </ul>
+        <else/>
+    </if>
+<!--如果有结束-->    
+<div class="page_hot">
+            <div class="page_hot_title">人气文章</div>
+            <div class="page_hot_list">
+    <calldata mdl="Article" where="closed = 0 AND photo != ''" limit="0,30" cache="43200" order="views desc">        
+    <div class="page_hot_block">
+    <dl>
+        <dt><a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" alt=""></a></dt>
+        <dd>
+            <em><{$item['title']}></em>
+            <div class="hot_block_info">
+                <div class="hot_info_r am-icon-heart"><{$item.views}></div>
+            </div>
+        </dd>
+    </dl>
+  </div>
+ </calldata>
+
+
+       </div>
+      </div>
+      </div>
+</div>
+</div>
+<div class="am_tuya_cai">
+<div class="am_tuya_cai_ti">猜你喜欢这些商家</div>
+<div class="am-g am-imglist">
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-default" >
+  
+  
+  
+ <calldata mdl="Shop" where="audit =1 AND closed=0 AND city_id IN ({$city_ids})" order="orderby asc,fans_num desc,view desc" limit="0,8" cache="7200"> 
+  <li>
+    <div class="am-gallery-item am_list_block">
+      <a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" class="am_img_bg">
+        <img class="am_img animated" src="__ROOT__/attachs/<{$item.photo}>"    data-original="__ROOT__/attachs/<{$item.photo}>" alt="<{$item.shop_name}>"/>
+              </a>
+
+    </div>
+    <a class="am_imglist_user"><span class="am_imglist_user_ico"><img src="__ROOT__/attachs/<{$item.photo}>" alt=""></span><span class="am_imglist_user_font"><{$item.shop_name}></span></a>
+  </li>
+ </calldata>   
+    
+    
+</ul>
+<div class="am_tuya_ckgd"><i class="am-icon-spinner am-icon-spin"></i><a href="<{:U('shop/index')}>"> 查看更多商家</a></div>
+</div>
+
+
+</div>
+
+
+
+<script>
+ $(function(){
+  if ($(window).width() < 600 ) {
+ $('.am_list_item_text').each(
+  function(){
+     if($(this).text().length >= 26){
+        $(this).html($(this).text().substr(0,26)+'...');
+     }});}[]
+
+});
+
+</script>
+
+
+<script>
+			//点击"回复"按钮显示或隐藏回复输入框
+			$("body").delegate(".comment-reply","click",function(){
+				if($(this).next().length>0){//判断出回复div已经存在,去除掉
+					$(this).next().remove();
+				 }else{//添加回复div
+					$(".comment-reply").next().remove();//删除已存在的所有回复div	
+					//添加当前回复div
+					var parent_id = $(this).attr("comment_id");//要回复的评论id
+					var divhtml = "";
+					if('off'!=$(this).attr("replyswitch")){//二级评论回复后三级评论不再提供回复功能,将关闭属性附加到"提交回复"按钮"
+						divhtml = "<form action='/news/post.html' target='baocms_frm' method='post'><input type='hidden' value='"+<{$detail.article_id}>+"' name='data[post_id]' ><input type='hidden' value='"+parent_id+"' name='data[parent_id]' ><div class='div-reply-txt'><textarea class='txt-reply' name='data[content]' class='input'></textarea><div style='margin-top:5px;text-align:right;'><button class='comment-submit button' type='submit' >提交回复</button></div></div></form>";
+					}		 	
+					$(this).after(divhtml);
+				 }
+			});
+			</script>	
+            
+ <iframe id="baocms_frm" name="baocms_frm" style="display:none;"></iframe><!--必须要-->           
+<include  file='public:foot_am'/>   

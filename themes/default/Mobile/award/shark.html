@@ -1,0 +1,157 @@
+<include  file='public:header_news'/>   
+<body>
+     <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('index/index')}>"><i class="icon-goback"></i></a>
+            <div class="title">摇一摇</div>
+            <a class="share" href="javascript:void(0);" id="share"></a>
+        </div>
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js">
+        </script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "<{$detail.title}>",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+            });
+        </script>
+    </header>
+        <div class="loading-div"></div>
+        <div id="shark-body">
+            <section class="shaking_bg">
+                <div class="big_banner">
+                    <div class="sm">使点劲，中大奖</div>
+                </div>
+
+            </section>
+            <script type="text/javascript">
+                var w = window.screen.availWidth ;
+                var h = window.screen.availHeight ;
+                var lock = false;
+
+                if(window.DeviceMotionEvent) {
+                    var speed = 50;
+                    var x = y = z = lastX = lastY = lastZ = 0;
+                    window.addEventListener('devicemotion', function(){
+                        var acceleration =event.accelerationIncludingGravity;
+                        x = acceleration.x;
+                        y = acceleration.y;
+                    
+                        if(Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed) {
+                            if(lock === false){
+                                lock= true;
+                                    <if condition="!empty($award_name)">
+                                    alert("恭喜您中奖了<{$award_name}>!!");location.href='<{:U("award/winning")}>';
+                                    <else/>
+                                    location.href='<{:U("award/sorry",array("award_id"=>$award["award_id"]))}>';
+                                    </if>
+                                
+                                
+                                }                      
+                        }
+                        lastX = x;
+                        lastY = y;
+                    }, false);
+                }
+
+
+            </script>
+            <section class="shaking_prize">
+                <h1>奖品</h1>
+                <div class="detail">
+
+                    <foreach name="goods" item="item">
+                        <p><{$item.award_name}>，<{$item.num}>名，<{$item.goods_name}></p>
+                    </foreach>
+                </div>
+            </section>
+
+            <section class="shaking_prize">
+                <h1>活动规则</h1>
+                <div class="detail">
+                    <p>一、每个手机只限参与一次</p>
+                    <p>二、将此活动页面分享给5位好友，可继续再摇一次</p>
+                </div>
+                <div class="s_box">
+                    <a id="share2" href="javascript:void(0);"><img src="__TMPL__statics/img/guaguale06.png" width="112" height="28"/></a> 
+                </div>
+                <if condition="!empty($award['shop'])">
+                    <div class="tips">温馨提示：次活动的最终解释权归<{$award['shop']['shop_name']}>，如有疑问请致电客服热线:<{$award['shop']['tel']}></div>
+                    <else/>    
+                    <div class="tips">温馨提示：次活动的最终解释权归BAOCMS，如有疑问请致电客服热线0551-63641901</div>
+                </if>
+                <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+                <script type="text/javascript">
+                    baidu.socShare.init({
+                        "afterRender":function(){
+                        },
+                        "client_id":"ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                        "dom_id":"share2",
+                        "content":"<{$award.title}>",
+                        "theme":"web",
+                        "animate":true,
+                        "url":'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                        "pic_url":'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+                    });
+                    baidu.socShare.init({
+                        "afterRender":function(){
+                        },
+                        "client_id":"ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                        "dom_id":"share",
+                        "content":"<{$award.title}>",
+                        "theme":"web",
+                        "animate":true,
+                         "url":'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                        "pic_url":'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+                    });  
+                    
+                </script>
+                <if condition="$award['share']['is_used'] eq 1">
+    	            <div class="float-bg">
+                            <div id="cancel" class="close_btn"><img src="__TMPL__statics/img/close.png"></div>
+                            <script>
+                                $(document).ready(function () {
+                        $("#cancel").click(function () {
+                        $(this).parent().css('display', 'none');
+                        });
+                        });
+                    </script>
+    	                <div class="float-box">
+
+    	                    <h2>很抱歉您已经参加了该活动</h2>
+
+    	                    <div class="weixin"><img src="__ROOT__/attachs/<{$award['code']}>"/></div>
+
+    	                    <h4>
+    	                        您可以将该二维码分享给好友！<br/>
+    	                        如果有5个好友访问了该链接<br />
+    	                        您将重新获得一次摇一摇机会！<br />
+    	                        或者直接 <a id="share3" href="javascript:void(0);" style="color: red;">点击分享→</a>
+    	                    </h4>
+    	                    <script>
+    	                        baidu.socShare.init({
+    	                            "afterRender":function(){
+    	                            },
+    	                            "client_id":"ZVEpDSsmZ0qxa1gmgDAh1Fje",
+    	                            "dom_id":"share3",
+    	                            "content":"<{$award.title}>",
+    	                            "theme":"web",
+    	                            "animate":true,
+    	                            "url":'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+    	                            "pic_url":'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+    	                        });  
+    	                    </script>
+    	                </div>
+
+    	            </div>
+           		</if>
+            </section>
+        </div>
+</body>
+</html>

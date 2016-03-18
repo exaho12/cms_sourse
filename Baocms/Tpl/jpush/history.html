@@ -1,0 +1,57 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">APP</li>
+        <li class="li2">APP推送管理</li>
+        <li class="li2 li3">消息日志</li>
+    </ul>
+    </ul>
+</div>
+<div class="main-jsgl"> 
+    <div class="jsglNr">
+        <div class="tableBox" style="margin: 10px 20px;">
+            <form  target="baocms_frm" method="post">
+                <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                    <tr>
+                        <td>ID</td>
+                        <td>发送类型</td>
+                        <td>接受用户ID</td>
+                        <td>内容</td>
+                        <td>发送平台</td>
+                        <td>链接</td>
+                        <td>发送日期</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td>
+                            <if condition='$var.sendtype eq 0'>
+                                  单发信息  
+                            <else/>
+                                  群发信息
+                            </if>
+                            </td>
+                            <td><if condition='$var.uid eq 0'>
+                                  -  
+                            <else/>
+                                  <{$var.uid}>
+                            </if></td>
+                            <td><{$var.contents}></td>
+                            <td><if condition='$var.type eq all'>
+                                  全部
+                            <else/>
+                                  <{$var.type}>
+                            </if></td>
+                            <td><{$var.url}></td>
+                            <td><{$var.sendtime|date='Y-m-d H:i:s',###}></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </form>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>       

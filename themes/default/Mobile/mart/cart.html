@@ -1,0 +1,99 @@
+<include file='public:header'/>  
+<script src="/static/default/wap/other/cookie.js"></script>
+<script src="/static/default/wap/js/elecart.js"></script>  
+<script src="/static/default/wap/js/dialog.js"></script>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			微店购物车
+		</div>
+	</header>
+<style>
+.list-box a {background-color: transparent; height: auto;padding:0px 5px 0px 0px;}
+.list-have-pic .num-input input{ border:none; background:none;}
+body {background: #fafafa;}
+</style>
+<form method="post" id="bao_buy_form"  action="<{:U('mart/order',array('t'=>$nowtime))}>">
+        <input id="shop_id" type="hidden" name="shop_ids" value=""/><input id="goods_id" type="hidden" name="goods_ids" value=""/>
+        <div id="life" class="page-center-box">
+            <div id="scroll">
+                <!-- 列表 -->
+                <div class="list-have-pic list-have-pic-btn">
+                    <foreach name="cart_goods" item="item">
+                        <div class="list-box list-box-integral">
+                            <div class="list-img">
+                                <img src="__ROOT__/attachs/<{$item.photo}>" />
+                            </div>
+                            <div class="list-content">
+                                <p class="h15"><a target="_blank" href="<{:U('mart/detail',array('goods_id'=>$item['goods_id']))}>"><{$item.title}></a></p>
+                                <p class="c_h"><span class="mr20">单价：￥<{:round($item['mall_price']/100,2)}></span> 合计<span class="price">￥<span id="jq_total_<{$item.goods_id}>"><{:round($item['total_price']/100,2)}></span></span></p>
+                                <div class="num-input">
+                                    <div class="btn jq_jian" val="<{:round($item['mall_price']/100,2)}>" gid="<{$item.goods_id}>" onClick="dec(this);">-</div>
+                                    <div class="input">
+                                        <input data-role="none" type="text" value="<{$item.cart_num}>" readonly name="num[<{$item['goods_id']}>]" class="ordernum" />
+                                    </div>
+                                    <div class="btn active jq_jia" val="<{:round($item['mall_price']/100,2)}>" gid="<{$item.goods_id}>" onClick="addcart(this);">+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </foreach>
+
+                </div>
+            </div>
+        </div>
+        <footer class="footer-cart">
+            <a style="color: #fff;" href="<{:U('mart/cart',array('id'=>$detail['id']))}>"><div class="cart">
+                    <div class="cart-num" id="num"></div>
+                </div></a>
+            <div class="price">￥<span id="jq_total"></span></div>
+            <div class="btn"><a href="javascript:void(0);" onClick="$('#bao_buy_form').submit();" style="color:#FFFFFF;">结算</a></div>
+        </footer>
+    </form>
+</body>
+<script type="text/javascript">
+    function addcart(o) {
+        var data = {}, shop_id = "<{$detail['shop_id']}>";
+        data['goods_id'] = $(o).attr('gid');
+        data['price'] = $(o).attr('val');
+        var p = $(o).attr('val');
+        var tp = $("#jq_total_"+$(o).attr('gid')).html();
+        var v = $(o).parent().find(".ordernum").val();
+        if (v < 99) {
+            v++;
+            tp = parseInt(tp)+parseInt(p);
+            $("#jq_total_"+$(o).attr('gid')).html(tp);
+            $(o).parent().find(".ordernum").val(v);
+        }
+        window.mall.addcart(shop_id, data);
+        $("#num").text(window.mall.count(shop_id));
+        $("#jq_total").html(window.mall.totalprice(shop_id));
+    }
+
+    function dec(e) {
+        var goods_id = $(e).attr('gid'), shop_id = "<{$detail['shop_id']}>";
+        window.mall.dec(shop_id, goods_id);
+        var p = $(e).attr('val');
+        var tp = $("#jq_total_"+$(e).attr('gid')).html();
+        var v = $(e).parent().find(".ordernum").val();
+        if (v > 0) {
+            v--;
+            tp = parseInt(tp)-parseInt(p);
+            $("#jq_total_"+$(e).attr('gid')).html(tp);
+            $(e).parent().find(".ordernum").val(v);
+        }
+        $("#num").text(window.mall.count(shop_id));
+        $("#jq_total").html(window.mall.totalprice(shop_id));
+    }
+    //初始化购物城数据
+    ~function () {
+        var count = window.mall.count("<{$detail['shop_id']}>");
+        var totalprice = window.mall.totalprice("<{$detail['shop_id']}>");
+        $("#num").text(count);
+        $("#jq_total").html(totalprice);
+    }();
+
+</script>
+</body>
+</html>

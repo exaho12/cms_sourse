@@ -1,0 +1,312 @@
+<include  file='public:header'/>
+<php>print_r($str);</php>
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">抢购管理</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('tuan/create')}>" method="post">
+    <div class="mainScAdd ">
+
+        <div class="tableBox">
+
+
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td  class="lfTdBt">商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" oninput="alert(this.value);" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="" class="scAddTextName sj" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                    </td>
+                </tr>
+                <script>
+                    /*
+                     $(document).ready(function (e) {
+                     setInterval(function () {
+                     if ($('#shop_id').val() != '') {
+                     var shop_id = $('#shop_id').val();
+                     var url = '/index.php?c=admin&m=tuan&a=branch&shop_id='+shop_id;
+                     //var url = "<{:U('tuan/branch',array('shop_id'=>"+shop_id+"))}>";
+                     $.get(url, function (data) {
+                     alert(data);
+                     if (data.status == 0) {
+                     $("#branch_select").html(data.str);
+                     }
+                     }, 'html');
+                     }
+                     }, 1000);
+                     });
+                     */
+                </script>
+                <tr>
+                    <td  class="lfTdBt">分类：</td>
+                    <td class="rgTdBt"> 
+                        <select id="data[cate_id]" name="data[cate_id]" class="seleFl w200">
+                            <option value="0">请选择...</option>
+                            <foreach name="cates" item="var">
+                                <eq name="var.parent_id" value="0">
+                                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                <foreach name="cates" item="var2">
+                                    <eq name="var2.parent_id" value="$var.cate_id">
+                                    <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$var2.cate_name}></option>
+                                    </eq>
+                                </foreach>
+                                </eq>
+                            </foreach>
+                        </select>
+                    </td> 
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">商品名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">商品副标题：</td>
+                    <td class="rgTdBt"><input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">参加活动：</td>
+                    <td class="rgTdBt">
+                        <select id="activity_id" name="data[activity_id]" class="seleFl w300">
+                            <option value="0">请选择</option>
+                            <foreach name="hd" item="var">
+                                <option value="<{$var.activity_id}>"><{$var.title}></option>                
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">选择分店：</td>
+                    <td id="branch_select" class="rgTdBt">
+                <foreach name="branch" item="item">
+                    <label style="margin-right: 10px;"><span><{$item.name}>：</span><input style="width: 20px; height: 20px;" type="checkbox" name="branch_id[]" value="<{$item.branch_id}>" /></label>
+                </foreach>
+                </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                图片：
+                </td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.tuan.thumb}>
+                    </div>
+                    <script>
+                        $("#photo_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"tuan"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传图片',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_photo").val(data);
+                                $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+
+                    </script>
+                </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">抢购组图：</td>
+                    <td class="rgTdBt">
+                        <div>
+                            <input id="thumb_file" name="logo_file" type="file" multiple="true" value="" />
+                        </div>
+                        <div class="jq_uploads_img">
+                            <foreach  name="thumb" item="item">
+                                <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                    <img width="200" height="100" src="__ROOT__/attachs/<{$item}>">  
+                                    <input type="hidden" name="thumb[]" value="<{$item}>" />  
+                                    <a href="javascript:void(0);">取消</a>  
+                                </span>
+                            </foreach>
+                        </div>
+                        <script>
+                            $("#thumb_file").uploadify({
+                                'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                'uploader': '<{:U("app/upload/uploadify",array("model"=>"tuan"))}>',
+                                'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                'buttonText': '上传图片',
+                                'fileTypeExts': '*.gif;*.jpg;*.png',
+                                'queueSizeLimit': 5,
+                                'onUploadSuccess': function (file, data, response) {
+                                    var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="thumb[]" value="' + data + '" />    <a href="javascript:void(0);">取消</a>  </span>';
+                                    $(".jq_uploads_img").append(str);
+                                }
+                            });
+
+                            $(document).on("click", ".jq_uploads_img a", function () {
+                                $(this).parent().remove();
+                            });
+
+                        </script>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">属性：</td>
+                    <td class="rgTdBt">
+                        <label><span>是否热门：</span><input type="checkbox" name="data[is_hot]" value="1" /></label>
+                        <label><span style="margin-left: 20px;">是否精选：</span><input type="checkbox" name="data[is_chose]" value="1" /></label>
+                        <label><span style="margin-left: 20px;">是否新单：</span><input type="checkbox" name="data[is_new]" value="1" /></label>
+                        <label><span style="margin-left: 20px;">是否免预约：</span><input type="checkbox" name="data[freebook]" value="1" /></label>
+                        <label><span style="margin-left: 20px;">是否返现1%：</span><input type="checkbox" name="data[is_return_cash]" value="1" /></label><label><span style="margin-left: 20px;">是否仅能下一次单</span><input type="checkbox" name="data[xiadan]" value="1" /></label>
+                    </td>
+                </tr>
+ 				<tr>
+                    <td  class="lfTdBt">每天抢购份数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[xiangou]" value="<{$detail.xiangou|default='0'}>" class="manageInput" />
+					<code>0表示不限购</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">市场价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[price]" value="<{$detail.price|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr><tr>
+                    <td  class="lfTdBt">抢购价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[tuan_price]" value="<{$detail.tuan_price|default=''}>" class="manageInput" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">手机下单优惠价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[mobile_fan]" value="<{$detail.mobile_fan|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">可使用积分：</td>
+                    <td class="rgTdBt"><input type="text" name="data[use_integral]" value="<{$detail.use_integral|default=''}>" class="manageInput" />
+                        <code>100积分抵用1块钱RMB</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">结算价格：</td>
+                    <td class="rgTdBt"><input type="text" name="data[settlement_price]" value="<{$detail.settlement_price|default=''}>" class="manageInput" />
+                        <code>网站和商家结算的价格</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">库存：</td>
+                    <td class="rgTdBt"><input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td  class="lfTdBt">售出数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[sold_num]" value="<{$detail.sold_num|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">开始时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[bg_date]" value="<{$detail.bg_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr><tr>
+                    <td  class="lfTdBt">结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt">虚拟物品过期时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[fail_date]" value="<{$detail.fail_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td  class="lfTdBt">抢购详情：</td>
+                    <td class="rgTdBt">
+                        <script type="text/plain" id="data_details" name="details" style="width:800px;height:360px;"><{$detail.details}></script>
+                    </td>
+                </tr>
+                <link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                        um = UM.getEditor('data_details', {
+                            imageUrl: "<{:U('app/upload/editor')}>",
+                            imagePath: '__ROOT__/attachs/editor/',
+                            lang: 'zh-cn',
+                            langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                            focus: false
+                        });
+                </script>
+                <tr>
+                    <td  class="lfTdBt">购买须知：</td>
+                    <td class="rgTdBt">
+                        <script type="text/plain" id="instructions" name="instructions" style="width:800px;height:360px;"><{$detail.instructions}></script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否分成给上级分销商：</td>
+                    <td class="rgTdBt"><input type="checkbox" name="data[profit_enable]" value='1' <if condition="$detail['profit_enable'] eq 1"> checked="checked" </if> /></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">购买付款后等级升为：</td>
+                    <td class="rgTdBt">
+                        <select name="data[profit_rank_id]" class="seleFl w200">
+                            <option value="0">不设置</option>
+                            <foreach name="ranks" item="item">
+                                <option <eq name="item.rank_id" value="$detail.profit_rank_id">selected="selected"</eq> value="<{$item.rank_id}>"><{$item.rank_name}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">一级会员分成比例：</td>
+                    <td class="rgTdBt"><input type="number" min="0" max="100" name="data[profit_rate1]" value='<{$detail.profit_rate1}>' class="manageInput " />%</td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">二级会员分成比例：</td>
+                    <td class="rgTdBt"><input type="number" min="0" max="100" name="data[profit_rate2]" value='<{$detail.profit_rate2}>' class="manageInput " />%</td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">三级会员分成比例：</td>
+                    <td class="rgTdBt"><input type="number" min="0" max="100" name="data[profit_rate3]" value='<{$detail.profit_rate3}>' class="manageInput " />%</td>
+                </tr>
+                <script>
+                    um2 = UM.getEditor('instructions', {
+                        imageUrl: "<{:U('app/upload/editor')}>",
+                        imagePath: '__ROOT__/attachs/editor/',
+                        lang: 'zh-cn',
+                        langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                        focus: false
+                    });
+                </script>
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

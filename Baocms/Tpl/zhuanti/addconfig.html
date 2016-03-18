@@ -1,0 +1,116 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/colpick.js"></script>
+<link href="__TMPL__statics/css/colpick.css" rel="stylesheet" type="text/css" />
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">专题管理</li>
+        <li class="li2 li3">添加配置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>暂时2级分类</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <a href="<{:U('tuan/index')}>">添加专题商品</a>
+                <a href="<{:U('zhuanti/config')}>">专题配置</a>
+                <a href="<{:U('zhuanti/floor')}>">楼层管理</a>
+            </div>
+        </div>
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <iframe name="baocms_frm" width='0' height='0' ></iframe>
+            <form  target="baocms_frm" action="<{:U('zhuanti/addconfig')}>" method="post" enctype="multipart/form-data">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" width="160" >所属专题：</td>
+                    <td class="rgTdBt">
+                        <select name="data[map_id]" style="width:180px;height:30px;">
+                            <volist name="maps" id="map">
+                                <option value="<{$map['map_id']}>"><{$map['title']}></option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" width="160" >PC背景颜色值：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color_bg]" class="scAddTextName" value="<{$detail.color_bg}>" />&nbsp;&nbsp;<b onclick="picker(this);" style='cursor:pointer;'>点击拾取颜色</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >PC标题栏背景颜色值：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color_title]" class="scAddTextName"  value="<{$detail.color_title}>" />&nbsp;&nbsp;<b onclick="picker(this);" style='cursor:pointer;'>点击拾取颜色</b>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt" width="160" >Mobile背景颜色值：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color_mbg]" class="scAddTextName" value="<{$detail.color_mbg}>" />&nbsp;&nbsp;<b onclick="picker(this);" style='cursor:pointer;'>点击拾取颜色</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >Mobile标题栏背景颜色值：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color_mtitle]" class="scAddTextName"  value="<{$detail.color_mtitle}>" />&nbsp;&nbsp;<b onclick="picker(this);" style='cursor:pointer;'>点击拾取颜色</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >PC Banner图片：</td>
+                    <td class="rgTdBt">
+                        <input type="file" name="photo[]" class="scAddTextName" />
+                        <code>电脑专题Banner</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >Mobile Banner图片：</td>
+                    <td class="rgTdBt">
+                        <input  type="file" name="photo[]" class="scAddTextName " />
+                        <code>手机专题Banner</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >页面标题：</td>
+                    <td class="rgTdBt">
+                        <input  type="text" name="data[title]" class="scAddTextName "  value="<{$detail.title}>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >页面关键字：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[keywords]" style='width:400px;height:100px;'><{$detail.keywords}></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >页面描述：</td>
+                    <td class="rgTdBt">
+                        <textarea name="data[description]" style='width:400px;height:100px;'><{$detail.description}></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </form>
+         </div>
+         </div>     
+    </div>
+</div>
+<script>
+function picker(o)
+{
+    $(o).colpick({
+        onChange:function(hsb,hex,rgb,el,bySetColor) {
+            $(o).prev().val('#'+hex);
+        }
+    });
+}    
+</script>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

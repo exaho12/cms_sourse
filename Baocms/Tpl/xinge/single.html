@@ -1,0 +1,61 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">信鸽</li>
+        <li class="li2">APP推送管理</li>
+        <li class="li2 li3">单发消息</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('xinge/mass')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr class="jq_type_2">
+                    <label>
+                        <td class="lfTdBt">
+                            选择会员
+                        </td>
+                        <td class="rgTdBt">
+                        <input type="hidden" id="user_id" name="data[uid]" value="">
+                        <input type="text" id="nickname" name="nickname" value="" class="text w150 sj">
+                        <a mini="select" w="1000" h="600" href="/admin/user/select.html" class="seleSj">选择用户</a>
+                       </td>
+                    </label>
+                </tr>
+                <tr class="jq_type_2">
+                    <td class="lfTdBt">标题：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr class="jq_type_2">
+                    <td class="lfTdBt">链接地址：</td>
+                    <td class="rgTdBt"><input type="text" name="data[url]" value="<{$detail.url|default=''}>" class="scAddTextName" />
+                        <span>可以空置,空置默认打开APP</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">详情：</td>
+                    <td class="rgTdBt">
+                        <script type="text/plain" id="data_details" name="data[contents]" style="width:800px;height:360px;"></script>
+                    </td>
+                </tr>
+                <link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                        um = UM.getEditor('data_details', {
+                            imageUrl: "<{:U('app/upload/editor')}>",
+                            imagePath: '__ROOT__/attachs/editor/',
+                            lang: 'zh-cn',
+                            langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                            focus: false
+                        });
+                </script>
+            </table>
+            <div class="smtQr"><input type="submit" value="立刻发送" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

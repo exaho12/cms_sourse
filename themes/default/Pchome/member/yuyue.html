@@ -1,0 +1,38 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li><a href="<{:U('member/ordercode')}>">我的抢购券</a></li>
+            <li><a href="<{:U('member/coupon')}>">我的优惠券</a></li>
+            <li><a href="<{:U('member/exchange')}>">我的兑换</a></li>
+            <li class="on"><a href="<{:U('member/yuyue')}>">我的预约</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>商家</td>
+                <td>称呼</td>
+                <td>手机</td>
+                <td>预约IP</td>
+                <td>是否使用</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td style="text-align:left;" width="335px"><div class="tgdd_tw">
+                            <div class="left"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$var['shop_id']]['photo']}>" width="81" height="60" /></a></div>
+                            <div class="lef"><a class="myChange_sp" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">商家：<{$shops[$var['shop_id']]['shop_name']}></a><p>预约时间：<{$var.yuyue_date}> <{$var.yuyue_time}></p><p>电子券：<{$var.code}></p></div>
+                        </div></td>
+                    <td class="tgdd_nrCtd"><{$var.name}></td>
+                    <td class="tgdd_nrCtd"><{$var.mobile}></td>
+                    <td class="tgdd_nrCtd"><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+                    <td class="tgdd_nrCtd"><eq name="var.used" value="1"> 已约过 <else/> 未约过 </eq></td>
+                </tr>
+            </foreach>
+        </table>
+        <{$page}>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>商家分店</h3>
+			</div>
+			<div class="box-bd">
+				<div class="shop-news-list">
+					<ul class="list-media">
+						<foreach name="branchs" item="item">
+                        
+						<li>
+							<div class="media media-x">
+								<div class="media-body">
+                                <!--分店连接：<{:U('shop/shop',array('shop_id'=>$item['shop_id'],'branch_id'=>$item['branch_id']))}>暂时去掉-->
+									<a href="<{:U('shop/shop',array('shop_id'=>$item['shop_id'],'branch_id'=>$item['branch_id']))}>" target="_blank"><h2><{$detail.shop_name}>（<{$item.name}>）</h2></a>
+									<p>评价：<{$item.score_num}></p>
+                                    <p>地址：<{$item.addr}></p>
+                                    <p>电话：<{$item.telephone}></p>
+                                    <p>围观次数：<{$item.view}></p>
+								</div>
+							</div>
+						</li>
+						  </foreach>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><if condition="!empty($seo_title)"><{$seo_title}>_</if><{$CONFIG.site.sitename}></title>
+    <link rel="stylesheet" href="/static/default/news/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/default/news/ctl/<{$ctl}>.css"/>
+    <link rel="stylesheet" href="/static/default/news/css/animate.min.css">
+    <script src="/static/default/news/js/jquery.min.js"></script><!--JQ-->
+    <script src="__PUBLIC__/js/layer/layer.js"></script><!--闲心弹窗依赖JQ-->
+    <script src="__PUBLIC__/js/web.js"></script><!--BAOCMS的东东-->
+    <script src="__TMPL__statics/js/baocms.js"></script><!--BAOCMS的东东-->
+    <script src="/static/default/news/js/amazeui.min.js"></script>
+    <script src="/static/default/news/js/countUp.min.js"></script>
+    <script src="/static/default/news/js/amazeui.lazyload.min.js"></script><!--图片延迟-->
+    
+
+
+</head>
+<body>
+<iframe id="x-frame" name="x-frame" style="display:none;"></iframe><!--必须要-->
+
+<header class="am-topbar am-topbar-inverse">
+    <div class="am-container am-g ">
+    <div class="am-u-sm-12 am-u-lg-2">
+        <h1 class="am-topbar-brand">
+    
+            <if condition="!empty($CONFIG['site']['logo'])">
+            <a  class="am-topbar-logo" href="<{:U('pchome/index/index')}>"><img src="__ROOT__/attachs/<{$CONFIG.site.logo}>" /></a>
+            <else/>
+            <a  class="am-topbar-logo" href="<{:U('pchome/index/index')}>"><img  src="__PUBLIC__/img/logo_03.png" /></a>
+        </if> 
+           
+        </h1>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+                data-am-collapse="{target: '#doc-topbar-collapse-5'}">
+            <span class="am-sr-only">
+                导航切换
+            </span>
+            <span class="am-icon-bars">
+            </span>
+        </button>
+      </div>
+       <div class="am-u-sm-12 am-u-lg-8">
+        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse-5">
+       
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li><a href="<{:U('pchome/index/index')}>">网站首页</a></li>
+            <li class="am-dropdown" data-am-dropdown="">
+                    <a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;">
+                        网站导航
+                        <span class="am-icon-caret-down">
+                        </span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                         <php>
+            $map = array('status' => 4);
+            $navigations = D('Navigation');
+            $nav = $navigations ->where($map)->order(array('orderby' => 'asc'))->select();
+            </php>
+            <volist name="nav" id="var" key="index" >
+            <if condition="($var.parent_id eq 0)"> 
+            <li <if condition="$ctl eq $var['title']">class="am-active"<else/></if>><a href="<{$var['url']}>"><{$var['nav_name']}></a></li>
+            </if>
+            </volist>
+                                   
+                    </ul>
+                </li>
+           
+
+
+                
+               
+               
+                <if condition="empty($MEMBER)">
+                <li><a href="<{:U('pchome/passport/login')}>">登录</a></li>
+                <li><a href="<{:U('passport/register')}>">注册</a></li>
+                <else/>
+                <li><a href="<{:U('member/index/index')}>"><{$MEMBER.nickname}></a></li>
+                <li class="am-dropdown" data-am-dropdown="">
+                    <a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;">
+                        个人中心
+                        <span class="am-icon-caret-down">
+                        </span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <li><a href="<{:U('member/order/index')}>">我的订单</a></li>
+                        <li><a href="<{:U('member/ele/index')}>">我的外卖</a></li>
+                        <li><a href="<{:U('member/yuyue/index')}>">我的预约</a></li>
+                        <li><a href="<{:U('member/dianping/index')}>">我的评价</a></li>
+                        <li><a href="<{:U('member/favorites/index')}>">我的收藏</a></li>                                    
+                        <li><a href="<{:U('member/myactivity/index')}>">我的活动</a></li>
+                        <li><a href="<{:U('member/life/index')}>">会员服务</a></li>
+                        <li><a href="<{:U('member/set/nickname')}>">帐号设置</a></li>
+                                   
+                    </ul>
+                </li>
+                <li><a href="<{:U('pchome/passport/logout')}>">退出</a></li>
+                </if>
+                 
+          
+            </ul>
+           
+             
+           </div> 
+           
+           
+        </div>
+       <div class="am-u-sm-12 am-u-lg-2  am-show-lg-only">    
+        <form id="search_form"  method="post" action="<{:U('pchome/news/index')}>">      
+            <div class="am-input-group  am-margin-top-xs">
+           
+              <input type="text" class="am-form-field" name="keyword" value="<{$keyword}>">
+              <span class="am-input-group-btn">
+                <button  type="submit"  class="am-btn am-btn-danger" type="button" >搜索</button>
+              </span>
+             
+            </div> 
+            </form> 
+        </div>
+        
+       
+  </div>
+
+</header>

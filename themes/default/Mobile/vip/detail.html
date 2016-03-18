@@ -1,0 +1,69 @@
+<include file="public:header"/>
+<body>
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('vip/index')}>"><img  src="__TMPL__statics/img/back_icon.png"></a>
+            一卡通详情
+            <a class="share" href="javascript:void(0);" id="share"><img  src="__TMPL__statics/img/share.png"></a>
+        </div>
+    </header>
+    <div class="bdcolor">
+        <div class="bdcolor_bg"></div>
+        <div class="bdsharebuttonbox" data-tag="share_1">
+            <a class="bds_weixin" data-cmd="weixin">微信</a>
+            <a class="bds_qzone" data-cmd="qzone" href="#">QQ空间</a>
+            <a class="bds_sqq" data-cmd="sqq">腾讯QQ</a>
+            <a class="bds_tqq" data-cmd="tqq">腾讯微博</a>
+            <a class="bds_tsina" data-cmd="tsina">新浪微博</a>
+            <div class="bd-share-popup-footer"><a class="bd-share-popup-close" onclick="$('.bdcolor').hide();" href="javascript:void(0);">取消</a></div>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".share").click(function () {
+                $(".bdcolor").show();
+            });
+        });
+        window._bd_share_config = {
+            common: {
+                bdText: '<{$detail.shop_name}>',
+                bdDesc: '<{$detail.shop_name}>',
+                bdUrl: encodeURIComponent(location.href),
+                bdPic: 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+            },
+            share: [{
+                    "bdSize": 32,
+                }],
+        }
+        with (document)
+            0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+    </script>
+
+    <section class="card_container">
+        <div class="card_con">
+            <h2><{$detail.shop_name}></h2>
+            <span>一卡通全城</span>
+
+        </div>
+        <div class="card_intro">
+            <h4>会员专享<span><{$ex.discounts}></span></h4>
+            <p>温馨提示:<span>您可以在任何一家联盟商家领取一卡通</span></p>
+        </div>
+
+        <div class="card_shop">
+            <a href="javascript:void(0);"><{$detail.shop_name}><img src="__TMPL__statics/img/right_arrow.png"></a>
+
+            <div class="cardshop_site">地址：<{$detail.addr}> 
+                <p><a class="contact_phone" href="tel:<{$detail.tel}>"><s></s><{$detail.tel}></a><a class="go_here" href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>">到这去<s></s></a></p> 
+
+
+                </section>
+                <div class="card_using">
+                    <p>1.领取会员卡：<span>去联盟商家领取会员卡；</span><br/>2.享受优惠：<span>持卡在任意商铺消费都会享受优惠；</span><br/>3.获取积分：<span>用户消费后商家会返一定的积分；</span><br/>4.兑换商品：<span>用户可以用积分兑换精美礼品。</span></p>
+                </div>
+
+
+
+                </body>
+                </html>

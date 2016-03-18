@@ -1,0 +1,56 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('distribution/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			收益统计
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button <eq name='status' value='1'>bg-dot active</eq>" href="<{:LinkTo('profit',array('status'=>1))}>">已分成</a>
+			<!--<a class="block button <eq name='status' value='0'>bg-dot active</eq>" href="<{:LinkTo('profit',array('status'=>0))}>">未分成</a>-->
+			<a class="block button <eq name='status' value='2'>bg-dot active</eq>" href="<{:LinkTo('profit',array('status'=>2))}>">取消分成</a>
+		</div>
+	</div>
+</div>
+
+<div class="list-media-x" id="list-media">
+	<ul>
+		<foreach name="list" item="item">
+			<!-- 循环 -->
+			<li class="line padding">
+				<div class="x6">
+					<strong>订单类型：</strong>
+					<eq name="item.order_type" value="0">
+						团购
+					<else/>
+						商城
+					</eq>
+				</div>
+				<div class="x6">
+					<strong>订单ID：</strong><{$item['order_id']}>
+				</div>
+			</li>
+			<li class="line padding">
+				<div class="x6">
+					<strong>分成金额：</strong><{:round($item['money']/100, 2)}>
+				</div>
+				<div class="x6">
+					<strong>分成时间：</strong><{$item.create_time|date='Y-m-d H:i:s',###}>
+				</div>
+			</li>
+			<!-- 循环 -->
+		</foreach>
+	</ul>
+	<div style="text-align: center"><{$page}></div>
+</div>
+
+<include  file='public:footer'/>

@@ -1,0 +1,43 @@
+<include  file='member:head'/>    
+<!--中间-->
+
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li class="on"><a  href="<{:U('member/myactivity')}>">我参加的活动</a></li>
+            <li ><a href="<{:U('member/life')}>">我的信息</a></li>
+            <li><a href="<{:U('member/dianping')}>">我的点评</a></li>
+            <li><a href="<{:U('member/favorites')}>">我的关注</a></li>
+            <li><a href="<{:U('member/bbs')}>">我的分享</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>活动图片</td>
+                <td>活动标题</td>
+
+                <td>活动地址</td>
+                <td>活动开始时间</td>
+                <td>活动结束时间</td>
+            </tr>
+            <volist name="list" id="item" key="index">
+                <tr class="tgdd_nrt">
+
+
+                    <td><div class="activityImg"><a  target="_blank" href="<{:U('huodong/detail',array('activity_id'=>$item['activity_id']))}>"><img style="margin: 10px auto 1px " width="120" height="81" src="__ROOT__/attachs/<{$activity[$item['activity_id']]['photo']|default='default.jpg'}>" /></a></div></td>
+                    <td><a class="myInfor_sx" target="_blank" href="<{:U('huodong/detail',array('activity_id'=>$item['activity_id']))}>"><{$activity[$item['activity_id']]['title']}></a></td>
+                    <td><{$activity[$item['activity_id']]['addr']}></td>
+                    <td><{$activity[$item['activity_id']]['bg_date']}></td>
+                    <td><{$activity[$item['activity_id']]['end_date']}></td>
+                </tr>
+            </volist>
+        </table>
+        <{$page}>
+
+
+    </div>
+
+</div>
+</body>
+</html>

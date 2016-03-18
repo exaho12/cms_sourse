@@ -1,0 +1,38 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>小区地图</h3>
+			</div>
+			<div class="box-bd">
+				<div class="xiaoqu-map-list">
+					<div id="bd-map" class="map" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=te1e01OcptQgwrg4SyBdPx6h"></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var sContent =
+	"<h4 style='margin:0 0 5px 0;padding:0.2em 0'><{$detail[name]}></h4>" + 
+	"<img style='float:right;margin:4px' id='imgDemo' src='__ROOT__/attachs/<{$detail.pic}>' width='120' height='100' title='<{$detail[name]}>'/>" + 
+	"<p style='margin:0;line-height:1.5;font-size:13px;'>物业：<{$detail.property}></p><p style='margin:0;line-height:1.5;font-size:13px;'>电话：<{$detail[tel]}></p><p style='margin:0;line-height:1.5;font-size:13px;'>地址：<{$detail[addr]}></p>" + 
+	"</div>";
+	var map = new BMap.Map("bd-map");
+	var point = new BMap.Point(<{$detail['lng']}>,<{$detail['lat']}>);
+	var marker = new BMap.Marker(point);
+	var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+	map.centerAndZoom(point,15);
+	map.addOverlay(marker);
+	marker.addEventListener("click", function(){          
+	   this.openInfoWindow(infoWindow);
+	   //图片加载完毕重绘infowindow
+	   document.getElementById('imgDemo').onload = function (){
+		   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+	   }
+	});
+</script>
+
+

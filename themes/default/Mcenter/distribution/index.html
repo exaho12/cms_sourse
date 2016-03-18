@@ -1,0 +1,72 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mcenter/member/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的分销
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="index-top">
+	<div class="top-a">
+		<div class="user">	
+			<span class="avatar">
+				<?php if(strstr($MEMBER['face'],"http")){ ?>
+				<img src="<{$MEMBER.face}>" />
+				<?php }else{ ?>
+				<img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" />
+				<?php }?>
+            </span>
+			<div class="info">	
+				<p><{$MEMBER.nickname}> （VIP <{$MEMBER['rank_id']}>）</p>	
+				<p>
+					<span>积分：<{$MEMBER.integral}></span>
+					<span>余额：<{:round($MEMBER['money']/100,2)}></span>
+					<span>金块：<{:round($MEMBER['gold']/100,2)}></span>
+				</p>	
+			</div>	
+		</div>	
+
+	</div>
+	<div class="top-b">
+	</div>
+	
+	<div class="top-g">
+		<div class="line">
+			<a class="x4 btn btn-1"  href="<{:U('profit', array('status'=>1))}>">
+				<i class="icon-star-o"></i>
+				<p>收益统计</p>
+			</a>
+			<a class="x4 btn btn-2" href="<{:U('subordinate')}>">
+				<i class="icon-bookmark-o"></i>
+				<p>我的下级</p>
+			</a>
+			<a class="x4 btn btn-3" href="<{:U('superior')}>">
+				<i class="icon-history"></i>
+				<p>我的上级</p>
+			</a>
+			<a class="x4 btn btn-4" href="<{:U('qrcode')}>">
+				<i class="icon-cutlery"></i>
+				<p>二维码</p>
+			</a>
+			<a class="x4 btn btn-5" href="<{:U('poster')}>">
+				<i class="icon-tty"></i>
+				<p>我的海报</p>
+			</a>
+			<!--<a class="x4 btn btn-6" href="">
+				<i class="icon-history"></i>
+				<p></p>
+			</a>-->
+		</div>
+	</div>
+	<a class="top-s"  href="<{:U('information/index')}>">
+		 <i class="icon-cog"></i>
+	</a>
+</div>
+
+<include  file='public:footer'/>

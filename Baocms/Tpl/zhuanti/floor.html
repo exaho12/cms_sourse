@@ -1,0 +1,48 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">楼层管理</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <a href="<{:U('tuan/index')}>">添加专题商品</a>
+                <a href="<{:U('zhuanti/config')}>">专题配置</a>
+                <a href="<{:U('zhuanti/addfloor')}>">添加楼层</a>
+            </div>
+        </div>
+
+        <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                    <tr bgcolor="#ffaa7b" height="48px;" style="color:#FFF; font-size:16px; line-height:48px;">
+                        <td>楼层</td>
+                        <td>排序</td>
+                        <td>操作</td>
+                    </tr>
+                    <volist name='floors' id='floor'>
+                    <tr height="48px;" style="color:#555; font-size:16px; line-height:48px;">
+                        <td><{$floor.title}></td>
+                        <td><{$floor.sort}></td>
+                        <td>
+                            <a href="<{:U('zhuanti/editfloor',array('floor_id'=>$floor['floor_id']))}>">编辑</a>&nbsp;
+                            <a href="<{:U('zhuanti/delfloor' ,array('floor_id'=>$floor['floor_id']))}>" mini='act'>删除</a>
+                        </td>
+                    </tr>
+                    </volist>
+                </table>
+                <{$page}>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

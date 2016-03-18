@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>用户中心</title>
+        <link href="__TMPL__statics/css/style.css?v=20150729" rel="stylesheet" type="text/css" />
+        <script src="__TMPL__statics/js/jquery.js"></script>
+        <script> var BAO_PUBLIC = '__PUBLIC__';
+            var BAO_ROOT = '__ROOT__';</script>
+        <script src="__PUBLIC__/js/web.js"></script>
+        <script>
+            $(function () {
+                $('#selectBoxInput').click(function () {
+                    $('.selectList').toggle(300);
+                });
+                $(".selectList li a").click(function () {
+                    $("#selectBoxInput").html($(this).html());
+                    $('.selectList').hide();
+                });
+            });
+        </script>
+    </head>
+    <body> 
+        <div class="topOne">
+                <div class="nr">
+                    <if condition="empty($MEMBER)">
+                        <div class="left"><span class="welcome">您好，欢迎访问<{$CONFIG.site.sitename}></span><a href="<{:U('pchome/passport/login')}>">登陆</a>|<a href="<{:U('passport/register')}>">注册</a>
+                            <else/>
+                            <div class="left">欢迎 <b style="color: red;font-size:14px;"><{$MEMBER.nickname}></b> 来到<{$CONFIG.site.sitename}>&nbsp;&nbsp; <a href="<{:U('member/index/index')}>" >个人中心</a>|<a href="<{:U('pchome/passport/logout')}>" >退出登录</a>
+                            </if>
+                                <div class="topSm"> <span class="topSmt"><em>&nbsp;</em>手机CMS</span>
+                                    <div class="topSmnr"><img src="__PUBLIC__/img/wx.png" width="100" height="100" />
+                                        <p>扫描下载客户端</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right">                    
+                                <ul>
+                                    <li class="liOne"><a class="liOneB" href="<{:U('member/order/index')}>" >我的订单</a><em>&nbsp;</em></li>
+                                    <li class="liOne"><a class="liOneA" href="javascript:void(0);">我的服务<em>&nbsp;</em></a>
+                                        <div class="list">
+                                            <ul>
+                                                <li><a href="<{:U('member/order/index')}>">我的订单</a></li>
+                                                <li><a href="<{:U('member/ele/index')}>">我的外卖</a></li>
+                                                <li><a href="<{:U('member/yuyue/index')}>">我的预约</a></li>
+                                                <li><a href="<{:U('member/dianping/index')}>">我的评价</a></li>
+                                                <li><a href="<{:U('member/favorites/index')}>">我的收藏</a></li>                                    
+                                                <li><a href="<{:U('member/myactivity/index')}>">我的活动</a></li>
+                                                <li><a href="<{:U('member/life/index')}>">会员服务</a></li>
+                                                <li><a href="<{:U('member/set/nickname')}>">帐号设置</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <span>|</span>
+                                    <li class="liOne liOne_visit"><a class="liOneA" href="javascript:void(0);">最近浏览<em>&nbsp;</em></a>
+                                        <div class="list liOne_visit_pull">
+                                            <ul>
+                                                <?php
+                                                    $views = unserialize(cookie('views'));
+                                                    $views = array_reverse($views, TRUE);
+                                                    if($views){
+                                                    foreach($views as $v){
+                                                ?>
+                                                <li class="liOne_visit_pull_li">
+                                                    <a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><img src="__ROOT__/attachs/<{$v.photo}>" width="80" height="50" /></a>
+                                                    <h5><a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><{$v.title}></a></h5>
+                                                    <div class="price_box"><a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><em class="price">￥<{$v.tuan_price}></em><span class="old_price">￥<{$v.price}></span></a></div>
+                                                </li>
+                                                <?php }?>
+                                            </ul>
+                                            <p class="empty"><a href="javascript:;" id="emptyhistory">清空最近浏览记录</a></p>
+                                            <?php }else{?>
+                                            <p class="empty">您还没有浏览记录</p>
+                                            <?php } ?>
+                                        </div>
+                                    </li>
+                                    <span>|</span>
+                                    <li class="liOne"> <a class="liOneA" href="javascript:void(0);">我是商家<em>&nbsp;</em></a>
+                                        <div class="list">
+                                            <ul>
+                                                <li><a href="<{:U('shangjia/login/index')}>">商家登陆</a></li>
+                                                <li><a href="<{:U('shangjia/index/index')}>">微信营销</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <span>|</span>
+                                    <li class="liOne"> <a class="liOneA" href="javascript:void(0);">快捷导航<em>&nbsp;</em></a>
+                                        <div class="list">
+                                            <ul>
+                                                <li><a href="<{:U('pchome/shop/index')}>">商家列表</a></li>
+                                                <li><a href="<{:U('pchome/jifen/index')}>">积分商城</a></li>
+                                                <li><a href="<{:U('pchome/billboard/index')}>">商家榜单</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    $("#emptyhistory").click(function(){
+                        $.get("<{:U('tuan/emptyviews')}>",function(data){
+                            if(data.status == 'success'){
+                                $(".liOne_visit_pull ul li").remove();
+                                $(".liOne_visit_pull p.empty").html("您还没有浏览记录");
+                            }else{
+                                layer.msg(data.msg,{icon:2});
+                            }
+                        },'json')
+
+                        //$.cookie('views', '', { expires: -1 }); 
+                        //$(".liOne_visit_pull ul li").remove();
+                        //$(".liOne_visit_pull p.empty").html("您还没有浏览记录");
+                    })
+                });
+            </script>  
+            <div class="addPay">
+            <div class="between">
+                <div class="middle" style="margin-bottom: 40px;">
+                    <div class="all">
+                        <div class="all_2">
+                            <ul>
+                                <li>1.提交订单<em>&nbsp;</em></li>
+                                <li>2.去支付<em>&nbsp;</em></li>
+                                <li class="on">3.完成<em>&nbsp;</em></li>
+                            </ul>               
+                        </div>
+                        <div class="all_3">
+                            <ul class="ul_3">
+                                <li><img src="__TMPL__statics/images/tp_5.png"><p>随时退</p></li>
+                                <li><img src="__TMPL__statics/images/tp_6.png"><p>不满意免单</p></li>
+                                <li><img src="__TMPL__statics/images/tp_7.png"><p>过期退</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table  class="tab_bor">
+                        <tr>
+                            <td><p class="tab_p1"><img src="__TMPL__statics/images/tp_15.png"></p></td>
+                            <td><p class="tab_p2"><{$message}><a href="<{:U('pchome/ding/index')}>"> &nbsp再去逛逛>></a></p></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><div class="tab_p4"><a href="<{:U('member/ding/index')}>">查看已买购物</a></div></td>
+                        </tr>
+                    </table>
+                    <table class="tab_xx" width="100%">
+                        <tr>
+                            <th colspan="5">订单信息</th>
+                        </tr>
+                        <tr>
+                            <td>订单编号：<{$arr.order_no}></td>
+                            <td>地点:<{$arr.room_id}></td>
+                            <td>付款方式：<{$paytype[$order['use_integral']]['name']}></td>
+                            <td>预约时间：<{$arr.last_date}> &nbsp;<{$arr.last_t}></td>
+                           
+                        </tr>
+                        
+                          <tr>
+                           
+                            <td>预计人数：<{$arr.number}> </td>
+                             <td>支付定金： <{:round($arr['need_price']/100,2)}> 元 &nbsp;&nbsp; (<if condition="$arr[status] eq 1"> 未消费 <elseif condition="$arr[status] eq 2"/> 已消费 <elseif condition="$arr[status] eq -1"/> 已退款 <else/>未支付</if>) </td>
+                             <td>联系人: <{$arr.name}> &nbsp;（<if condition="$sex eq 2">女士<else/>先生</if>） </td>
+                              <td>电话：<{$arr.mobile}>  </td>
+                        </tr>
+                     </table>
+                     <table class="tab_xx" width="100%">
+                        <tr>
+                            <td width="20%"><p class="tuanfabu_nr">菜名</p></td>
+                            <td width="20%"><div class="tuanfabu_nr">缩略图</div></td>
+                            <td width="20%"><p class="tuanfabu_nr">优惠价</p></td>
+                            <td width="20%"><p class="tuanfabu_nr">数量</p></td>
+                             <td width="20%"><p class="tuanfabu_nr">单价</p></td>
+                        </tr>
+                        <volist name='arr.menu' id='item'>
+                            <tr>
+                                <td width="20%"><{$menu[$item[0]][menu_name]}></td>
+                                <td width="20%"><img style="margin: 10px auto; width: 120px;" src="__ROOT__/attachs/<{$menu[$item[0]][photo]}>" /></td>
+                                <td width="20%"><{:round($menu[$item[0]][ding_price]/100,2)}>元</td>
+                                <td width="20%"><{$item[1]}></td>
+                                 <td width="20%"><{:round($menu[$item[0]][ding_price]*$item[1]/100,2)}>元</td>
+                            </tr>
+                        </volist>
+                       
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                            <td><p class="pay_total_p">支付定金：<span>￥<{:round($order['need_price']/100,2)}></span></p></td>
+                        </tr>
+                    </table>      
+                </div>
+            </div>
+            </div>
+            <include file="public:footer"/>

@@ -1,0 +1,37 @@
+<include file="public:header_news"/>
+<body style="background-color:<{$config.color_mbg}>;">
+
+	<header>
+		<a href="#"><i class="icon-goback"></i></a>
+		<div class="title">抢购专题</div>
+		<i class="icon-menu"></i>
+	</header>
+<div class="sjqg_special_content_box">
+    <div class="sjqg_special_banner"><img <eq name="config['mobile_banner']" value="">src="__TMPL__statics/img/sjzt_ad.jpg"<else/>src="/attachs/<{$config.mobile_banner}>"</eq>  ></div>
+    <div class="sjqg_special_content">
+        <div class="sjqg_special_content_bg" style="background-color:<{$config.color_mtitle}>;">
+            <ul>
+                <volist name="goods" id="gd">
+                <li class="sjqg_special_list">
+                    <div class="sjqg_special_list_box">
+                        <div class="img"><img src="/attachs/<{$gd.photo}>">
+                        	<div class="bq"><img src="__TMPL__statics/img/zt_bq.png"></div>
+                        </div>
+                        <div class="wz">
+                            <p class="overflow_clear"><{$gd.title}></p>
+                            <div class="sjqg_special_btn">
+                                <div class="fl sjqg_special_btn_l">￥<{$gd.tuan_price}></div>
+                                <div class="fr sjqg_special_btn_r">
+                                 <a class="btn" href="<{:U('tuan/detail',array('tuan_id'=>$gd['tuan_id']))}>">抢</a></div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                </volist>
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
+</div>
+<include file="public:footer_news"/>

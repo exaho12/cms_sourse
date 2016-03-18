@@ -1,0 +1,12 @@
+<volist name="list" id="var" key="index">
+	<li>
+		<a class="item line" href="<{:U('billboard/detail',array('list_id'=>$var['list_id']))}>">
+			<div class="x3"><img src="__ROOT__/attachs/<{$var.photo}>" /></div>
+			<div class="x9 desc">
+				<h5><{$var['title']}></h5>
+				<p><{:bao_Msubstr($var['intro'],0,40)}></p>
+				<p class="text-right">人气：<{$var['looknum']}></p>
+			</div>	
+		</a>	
+	</li>
+</volist>

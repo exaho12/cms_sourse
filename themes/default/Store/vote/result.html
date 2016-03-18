@@ -1,0 +1,75 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('award/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			投票结果
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn"></a>
+		</div>
+	</header>
+
+
+<script>
+		$(function(){
+			$(".sh_prompt_infor_closs").click(function(){
+				$(".sh_prompt_infor_box").hide();
+			});
+		});
+    </script>
+    <php>
+        $rat = round(($var['number']/$total)*100);
+        $ratio = ($var['number']/$total)*500;
+        $ratio = floor($ratio);
+    </php>
+    
+    <script>
+       
+        var div<{$i}> = document.getElementById("ratio<{$i}>");//得到这个DIV。
+        div<{$i}>.style.width=<{$ratio}>+'px';
+    
+        
+    </script>
+
+
+
+<div class="xiaoqu-list">
+
+
+		<ul id="xiaoqu-list">
+        <foreach name="options" item="var">
+               <li class="line">
+	<a class="item fix hightitem">	
+		
+		</a><div class="x12"><a class="item fix hightitem">	
+			</a><h5><a class="item fix hightitem">选项：<{$var.title}></a>
+            <a class="button button-big bg-yellow float-right"><{$var.number}>票</a></h5>	
+            
+            <p class="addr">占总数比例：<{$rat}>%</p>
+            <p class="addr">中奖时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+            <p class="addr">中奖IP：<{$var.create_ip}></p>
+            
+		</div>
+	
+		</li>
+</foreach>
+
+</ul>  
+	</div>
+
+
+
+
+
+
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+<include file="public:footer"/>

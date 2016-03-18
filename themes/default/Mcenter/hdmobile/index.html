@@ -1,0 +1,32 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的约会
+		</div>
+	<div class="top-signed">
+
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 50%;"><a href="<{:LinkTo('hdmobile/index')}>" class="on">我发布的</a></li>
+        <li style="width: 50%;"><a href="<{:LinkTo('hdmobile/bm')}>" >我参加的</a></li>
+     
+</ul>
+
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+    
+<script>
+	$(document).ready(function () {	 
+		loaddata('<{:U("mcenter/hdmobile/fabuloaddata",array("t"=>$nowtime,"p"=>"0000"))}>', $("#list-media ul"), true);
+	});
+</script>
+<include  file='public:footer'/>

@@ -1,0 +1,79 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('express/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			快递详情
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				<{$detail.title}>
+				<em></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				发布时间：
+				<em class="text-dot"><{$detail.create_time|date='Y-m-d H:i:s',###}></em>
+			</a>
+		</li>
+        
+		
+        <div class="blank-10 bg"></div>
+		<li>
+			<a href="javascript:;">
+				寄件人：
+				<em class="text-dot"><{$detail.from_name}> <{$detail.from_mobile}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				寄件人地址
+				<em><{$detail.from_addr}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				收件人：
+				<em><{$detail.to_name}>  <{$detail.to_mobile}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				收件人地址：
+				<em><{$detail.to_addr}></em>
+			</a>
+		</li>
+		
+	</ul>
+</div>
+		
+<div class="blank-20 bg"></div>
+
+        
+<div class="container text-center">
+<if condition="$item.status eq 0">
+		<a class="button button-block button-big bg-dot" >未处理</a>
+        <elseif condition="$item.status eq 1"/>
+        <a class="button button-block button-big bg-dot" >配送中</a>
+        中<elseif condition="$item.status eq 2"/>
+        <a class="button button-block button-big bg-dot" >已完成</a>
+        <else/>
+        <a class="button button-block button-big bg-dot" >已拒收</a>
+        </if>
+	</div>
+
+<include  file='public:footer'/>   

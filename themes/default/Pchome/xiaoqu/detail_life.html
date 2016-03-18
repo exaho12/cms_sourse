@@ -1,0 +1,19 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>附近信息</h3>
+			</div>
+			<div class="xiaoqu-life-list">
+				<ul>
+					<volist name="life" id="var" key="index">
+						<li><a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank"><{$var.title}></a>
+							<em><{:formatTime($item['create_time'])}></em>
+						</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+

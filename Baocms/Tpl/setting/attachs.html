@@ -1,0 +1,261 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">附件设置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>这里是控制全局缩略图大小等设置的，不懂看教程：<a href="http://www.fengmiyuanma.com/10357.html">http://www.fengmiyuanma.com/10357.html</a></p>
+<form  target="baocms_frm" action="<{:U('setting/attachs')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">水印图片：</td>
+                    <td class="rgTdBt"><div style="width: 300px; height: 100px; float: left;">
+                            <input type="hidden" name="data[water]" value="<{$CONFIG.attachs.water}>" id="data_photo" />
+                            <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                        </div>
+                        <div style="width: 300px; height: 100px; float: left;">
+                            <img id="photo_img" width="100" height="80"  src="__ROOT__/attachs/<{$CONFIG.attachs.water|default='default.jpg'}>" />
+                        </div>
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                <script>
+                    $("#photo_file").uploadify({
+                        'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                        'uploader': '<{:U("app/upload/uploadify",array("model"=>"setting"))}>',
+                        'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                        'buttonText': '设置水印图片',
+                        'fileTypeExts': '*.gif;*.jpg;*.png',
+                        'queueSizeLimit': 1,
+                        'onUploadSuccess': function (file, data, response) {
+                            $("#data_photo").val(data);
+                            $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                        }
+                    });
+                </script>
+                </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">店铺LOGO：</td>
+                    <td class="rgTdBt"><input type="text" name="data[shoplogo][thumb]" value="<{$CONFIG.attachs.shoplogo.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商场LOGO：</td>
+                    <td class="rgTdBt"><input type="text" name="data[marketlogo][thumb]" value="<{$CONFIG.attachs.marketlogo.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商场缩略图：</td>
+                    <td class="rgTdBt"><input type="text" name="data[market][thumb]" value="<{$CONFIG.attachs.market.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商场环境图：</td>
+                    <td class="rgTdBt"><input type="text" name="data[marketpic][thumb]" value="<{$CONFIG.attachs.marketpic.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">网站LOGO：</td>
+                    <td class="rgTdBt"><input type="text" name="data[sitelogo][thumb]" value="<{$CONFIG.attachs.sitelogo.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商家新闻：</td>
+                    <td class="rgTdBt"><input type="text" name="data[shopnews][thumb]" value="<{$CONFIG.attachs.shopnews.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">家政缩略图、组图：</td>
+                    <td class="rgTdBt"><input type="text" name="data[lifeservice][thumb]" value="<{$CONFIG.attachs.lifeservice.thumb}>" class="scAddTextName" /> 
+                    <code>上门家政的图，350*285</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动缩略图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[activity][thumb]" value="<{$CONFIG.attachs.activity.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">优惠券图片：</td>
+                    <td class="rgTdBt"><input type="text" name="data[coupon][thumb]" value="<{$CONFIG.attachs.coupon.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">云购商品图片：</td>
+                    <td class="rgTdBt"><input type="text" name="data[cloud][thumb]" value="<{$CONFIG.attachs.cloud.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">约会缩略图：</td>
+                    <td class="rgTdBt"><input type="text" name="data[huodong][thumb]" value="<{$CONFIG.attachs.huodong.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">榜单缩略图：</td>
+                    <td class="rgTdBt"><input type="text" name="data[billboard][thumb]" value="<{$CONFIG.attachs.billboard.thumb}>" class="scAddTextName"/></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">榜单分类图标：</td>
+                    <td class="rgTdBt"><input type="text" name="data[billcate][thumb]" value="<{$CONFIG.attachs.billcate.thumb}>" class="scAddTextName"/></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">文章缩略图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[article][thumb]" value="<{$CONFIG.attachs.article.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">积分商品：</td>
+                    <td class="rgTdBt"><input type="text" name="data[integralgoods][thumb]" value="<{$CONFIG.attachs.integralgoods.thumb}>" class="scAddTextName"/></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">点餐菜品：</td>
+                    <td class="rgTdBt"><input type="text" name="data[dian][thumb]" value="<{$CONFIG.attachs.dian.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">订座包厢：</td>
+                    <td class="rgTdBt"><input type="text" name="data[dingroom][thumb]" value="<{$CONFIG.attachs.dingroom.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商家点评：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shopdianping][thumb]" value="<{$CONFIG.attachs.shopdianping.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">手机发现：</td>
+                    <td class="rgTdBt"><input type="text" name="data[found][thumb]" value="<{$CONFIG.attachs.found.thumb}>" class="scAddTextName" /> </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">用户头像：</td>
+                    <td class="rgTdBt">
+                        <code>大图</code><input type="text" name="data[user][thumb][thumb]" value="<{$CONFIG.attachs.user.thumb.thumb}>" class="scAddTextName w150" /> 
+                        <code>中图</code><input type="text" name="data[user][thumb][middle]" value="<{$CONFIG.attachs.user.thumb.middle}>" class="scAddTextName w150" /> 
+                        <code>小图</code><input type="text" name="data[user][thumb][small]" value="<{$CONFIG.attachs.user.thumb.small}>" class="scAddTextName w150" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">店铺环境图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shopphoto][thumb]" value="<{$CONFIG.attachs.shopphoto.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">推荐内容：</td>
+                    <td class="rgTdBt"><input type="text" name="data[recommend][thumb]" value="<{$CONFIG.attachs.recommend.thumb}>" class="scAddTextName" /></td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">优惠券：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[coupon][thumb]" value="<{$CONFIG.attachs.coupon.thumb}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">抢购：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tuan][thumb]" value="<{$CONFIG.attachs.tuan.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">生活服务图标：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[lifeservice][icon]" value="<{$CONFIG.attachs.lifeservice.icon}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">生活信息列表图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[life][thumb]" value="<{$CONFIG.attachs.life.thumb}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">生活信息详情图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[lifepic][thumb]" value="<{$CONFIG.attachs.lifepic.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">投票选项图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[votepic][thumb]" value="<{$CONFIG.attachs.votepic.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">微信回复：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[weixin][thumb]" value="<{$CONFIG.attachs.weixin.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">投票banner：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[votebanner][thumb]" value="<{$CONFIG.attachs.votebanner.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">商品：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[goods][thumb]" value="<{$CONFIG.attachs.goods.thumb}>" class="scAddTextName" />  
+                        <code>用于商品详情页以及wap商品详情页，列表页</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">手机店铺轮播图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shopbanner][thumb]" value="<{$CONFIG.attachs.shopbanner.thumb}>" class="scAddTextName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">PC店铺BANNER：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shopbanner1][thumb]" value="<{$CONFIG.attachs.shopbanner1.thumb}>" class="scAddTextName" />
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">菜单缩略图（外卖）：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[eleproduct][thumb]" value="<{$CONFIG.attachs.eleproduct.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">菜品缩略图（订座）：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[dingmenu][thumb]" value="<{$CONFIG.attachs.dingmenu.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">手机商城首页广告图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[mall][thumb]" value="<{$CONFIG.attachs.mall.thumb}>" class="scAddTextName" /> 
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">wap微店缩略图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[weidianpic][thumb]" value="<{$CONFIG.attachs.weidianpic.thumb}>" class="scAddTextName" /> 
+                        <code>wap微店！</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt" style="padding-right: 0px;">wap约会图片上传：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[hdmobilepic][thumb]" value="<{$CONFIG.attachs.hdmobilepic.thumb}>" class="scAddTextName" /> 
+                        <code>wap约会图片！</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">编辑器大图：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[editor][thumb]" value="<{$CONFIG.attachs.editor.thumb}>" class="scAddTextName" /> 
+                        <label>
+                            <input type="checkbox" name="data[editor][water]" value="1"  <eq name="CONFIG.attachs.editor.water" value="1">checked="checked"</eq> />启用水印
+                        </label>
+                        <code>水印只能作用于大于某个条件的图，一般水印只会加在最大的图上面</code> 
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

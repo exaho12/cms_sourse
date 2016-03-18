@@ -1,0 +1,14 @@
+<foreach name="list" item="item">
+	<div class="line padding border-bottom">
+		<div class="x12">
+			<p>
+		<a class="title" href="javascript:void(0);"><font color="green"><{:bao_msubstr($phones[$item['phone_id']]['name'],0,14,false)}></font></a>
+			</p>
+			<p class="text-gray">电话:<font color="bule"><{$phones[$item['phone_id']]['phone']}></font></p>
+			<p class="text-gray x10">有效期:<{$phones[$item['phone_id']]['expiry_date']}> </p><a class="button button-small bg-dot text-right " href="<{:U('convenientphone/delete',array('phone_id'=>$item['phone_id']))}>">删除</a>
+
+		</div>
+	</div>
+	
+	<div class="blank-10 bg"></div>
+</foreach>

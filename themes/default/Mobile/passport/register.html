@@ -1,0 +1,101 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			用户注册
+		</div>
+		<div class="top-share">
+			<a href="<{:U('passport/login')}>">登录</a>
+		</div>
+	</header>
+	
+
+
+	<div class="blank-40"></div>
+
+		<form class="reg-form" action="<{:U('passport/register')}>" method="post" >
+            <if condition="$fuser">
+                <div class="line padding border-bottom">
+                    <span class="x2"><label>推荐人</label></span>
+                    <span class="x10"><{$fuser['nickname']}><input type="hidden" name="fuid" value="<{$fuser['user_id']}>" /></span>
+                </div>
+            </if>
+			<div class="line padding border-bottom">
+				<span class="x2"><label>账号</label></span>
+				<span class="x10"><input id="mobile" type="text" class="text-input" name="account" placeholder="请输入手机号码"></span>
+			</div>
+				
+			<div class="line padding border-bottom">
+				<span class="x2"><label>验证</label></span>
+				<span class="x7"><input id='yzm' type="text" class="text-input" name="scode" placeholder="请输入短信验证码"></span>
+				<span class="x3"><button id="m_zcyz" type="button" class="button button-little bg-dot m_zcyz">获取验证码</button></span>
+			</div>
+			<div class="line padding border-bottom">
+				<span class="x2"><label>密码</label></span>
+				<span class="x10"><input id='password' type="password" class="text-input" name="data[password]" placeholder="请输入密码"></span>
+			</div>
+			<div class="line padding border-bottom">
+				<span class="x2"><label>确认</label></span>
+				<span class="x10"><input id='password_confirm' type="password" class="text-input" name="password2" placeholder="请确认密码"></span>
+			</div>
+
+			<div class="blank-20"></div>
+			<div class="container">
+				<button type="submit" class="button button-block button-big bg-dot">提交并注册</button>
+			</div>
+			
+			<div class="blank-20"></div>
+			<div class="container">
+				<input name="checkbox" type="checkbox" checked="checked"  />
+				我能遵守<{$CONFIG['site']['sitename']}>的用户使用协议和国家的法律法规
+			</div>
+
+		</form>
+	
+    <script>
+        var mobile_timeout;
+        var mobile_count = 100;
+        var mobile_lock = 0;
+        $(function () {
+            $("#m_zcyz").click(function () {
+                if (mobile_lock == 0) {
+                    mobile_lock = 1;
+                    $.ajax({
+                        url: '<{:U("passport/sendsms")}>',
+                        data: 'mobile=' + $("#mobile").val(),
+                        type: 'post',
+                        success: function (data) {
+                            if (data == 1) {
+                                mobile_count = 60;
+                                $(".m_zcyz").addClass("on");
+                                $('#m_zcyz').attr("disabled", "disabled");
+                                BtnCount();
+                            } else {
+                                mobile_lock = 0;
+                                alert(data);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $(".m_zcyz").removeClass("on");
+                $('#m_zcyz').removeAttr("disabled");
+                $('#m_zcyz').html("重新发送");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+            }
+            else {
+                mobile_count--;
+                $('#m_zcyz').html("获取(" + mobile_count.toString() + ")秒");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+    </script>
+	
+	
+<include file="public:footer"/>

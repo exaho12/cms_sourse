@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+	<ul>
+		<li><a href="#">商家管理</a> > <a href="">员工管理</a> > <a>员工列表</a></li>
+	</ul>
+</div>
+<div class="tuan_content">
+	<form method="post" action="<{:U('worker/index')}>">
+		<div class="radius5 tuan_top">
+			<div class="tuan_top_t">
+				<div class="left tuan_topser_l">
+					商家添加员工进行团购、优惠券、预约的受理，还能生成员工的微名片！<input type="text" class="radius3 tuan_topser" name="keyword" value="<{$keyword}>"/><input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+				</div>
+				<div class="right tuan_topfb_r">
+					<a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('worker/create')}>">添加员工+</a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="tuanfabu_tab">
+		<ul>
+			<li class="tuanfabu_tabli on"><a href="<{:U('worker/index')}>">员工列表</a></li>
+		</ul>
+	</div>
+	<table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr style="background-color:#eee;">
+		<td>
+			姓名
+		</td>
+		<td>
+			职务
+		</td>
+		<td>
+			手机号
+		</td>
+		<td>
+			QQ号
+		</td>
+		<td>
+			状态
+		</td>
+		<td>
+			操作
+		</td>
+		
+	</tr>
+	<foreach name="list" item="var">
+	<tr>
+		<td>
+			<{$var.name}>
+		</td>
+		<td>
+			<{$var.work}>
+		</td>
+		<td>
+			<{$var.mobile}>
+		</td>
+		<td>
+			<{$var.qq}>
+		</td>
+		<td>
+			<if condition="$var.status eq 1"><span class="text-green">正常</span></if>
+				<if condition="$var.status eq 0"><span class="text-dot">等待接受</span></if>
+		</td>
+		<td>
+			<a class="tag" href="<{:U('worker/edit',array('worker_id'=>$var['worker_id']))}>">编辑</a>
+			<a class="tag" href="<{:U('worker/delete',array('worker_id'=>$var['worker_id']))}>">删除</a>
+		</td>
+		
+	</tr>
+	</foreach>
+	</table>
+	<{$page}>
+</div>

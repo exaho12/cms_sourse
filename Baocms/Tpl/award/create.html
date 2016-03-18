@@ -1,0 +1,56 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">当前位置</li>
+        <li class="li2">抽奖管理</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('award/create')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">活动：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName w200" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="" class="scAddTextName w200 sj" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                    </td>
+                </tr>  
+
+
+                <tr>
+                    <td class="lfTdBt">类型：</td>
+                    <td class="rgTdBt">
+                        <select name="data[type]" class="seleFl w200">
+                            <foreach name="types" item="item" key="key">
+                                <option value="<{$key}>"  <eq name="detail.type" value="$key">selected="selected"</eq>  ><{$item}></option>
+                            </foreach>
+                        </select>
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">说明：</td>
+                    <td class="rgTdBt"><textarea  name="data[explain]" cols="50" rows="10" ><{$detail.explain|default=''}></textarea>
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[expire_date]" value="<{$detail.expire_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

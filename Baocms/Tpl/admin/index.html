@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">系统</li>
+        <li class="li2">管理员管理</li>
+        <li class="li2 li3">管理员管理</li>
+    </ul>
+</div>
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span>每个角色有对应的权限，默认超级管理员角色不能删除！</p>
+    <div class="jsglNr">
+        <div class="selectNr">
+            <div class="left">
+                <{:BA('admin/create','','添加管理员','load','',500,450)}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('admin/index')}>">
+                    <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  /><input type="submit" value="   搜索"  class="inptButton" />
+                </form>
+            </div>
+        </div>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>用户名</td>
+                        <td>角色</td>
+                        <td>手机</td>
+                        <td>创建时间</td>
+                        <!--<td>创建IP</td>-->
+                        <td>最后登录时间</td>
+                       <!-- <td>最后登录IP</td>-->
+                        <td>操作</td>   
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.admin_id}></td>
+                            <td><{$var.username}></td>
+                            <td><{$var.role_name}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <!--<td><{$var.create_ip}>(<{$var.create_ip_area}>)</td>-->
+                            <td><{$var.last_time|date="Y-m-d H:i:s",###}></td>
+                            <!--<td><{$var.last_ip}>(<{$var.last_ip_area}>)</td>-->
+                            <td>
+                                <{:BA('admin/edit',array("admin_id"=>$var["admin_id"]),'编辑','load','remberBtn',500,450)}>
+                                <{:BA('admin/delete',array("admin_id"=>$var["admin_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+
+                </table>
+                <{$page}>
+            </div>
+        </form>
+
+    </div>
+</div>
+<include  file='public:footer'/>       

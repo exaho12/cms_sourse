@@ -1,0 +1,108 @@
+﻿		<div class="layout">
+
+			<div class="navbar">
+
+				<div class="container">			
+
+					<div class="navbar-body">
+
+						<div class="main-drop float-left">
+
+							<span class="main-drop-title">信息分类 <span class="arrow"></span></span>
+
+							<div class="main-drop-menu out-index">
+
+								<php>$k = 0;</php>
+
+								<foreach name="channelmeans" key="key" item="item">
+
+								<php>$k++;</php>
+
+								<dl>
+
+									<dt><a href="<{:U('life/main',array('channel'=>$key))}>"><{$item}></a></dt>
+
+									<dd class="sub-nav">
+
+										<php>$i=0;</php>
+
+										<foreach name="cates" item="var">
+
+										<if condition="$var['channel_id'] eq $k">
+
+										<php>$i++;</php>
+
+										<if condition="$i lt 5">
+
+										<a href="<{:U('life/main',array('channel'=> $k,'cat'=>$var['cate_id']))}>"><{$var['cate_name']}></a>
+
+										</if>
+
+										</if>
+
+										</foreach>
+
+									</dd>
+
+									<dd class="pop-nav">
+
+										<span><{$item}></span>
+
+										<ul>
+
+											<foreach name="cates" item="var">
+
+											<if condition="$var['channel_id'] eq $k">
+
+											<li><a href="<{:U('life/main',array('channel'=> $k,'cat'=>$var['cate_id']))}>"><{$var['cate_name']}></a></li>
+
+											</if>
+
+											</foreach>
+
+										</ul>
+
+									</dd>
+
+									<span class="icon icon-angle-right"></span>
+
+								</dl>
+
+								</foreach>
+
+							</div>
+
+						</div>
+
+						<ul class="nav nav-inline nav-menu">
+
+
+
+
+
+
+<volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+
+
+
+						</ul>
+
+						<if condition="$ctl eq 'index'">
+
+						<div class="navbar-text navbar-right"><a class="dialogs" href="javascript:;" data-toggle="click" data-target="#shop-cate" data-mask="1" data-width="60%"><i class="icon icon-bars"></i> 选商家</a></div>
+
+						</if>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>

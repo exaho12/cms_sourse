@@ -1,0 +1,46 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">抽奖管理</a> > <a>设置中奖</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">设定自己人，您懂得！</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+    <form method="post"  action="<{:U('awardwinning/create',array('award_id'=>$award_id))}>"  target="baocms_frm">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">商品</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                    <select name="data[goods_id]">
+                        <foreach name="goods" item="item">
+                            <option  <eq name="detail.goods_id" value="$item.goods_id">selected="selected"</eq>  value="<{$item.goods_id}>"><{$item.award_name}>-<{$item.goods_name}></option>
+                        </foreach>
+                    </select>                  
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">姓名</p></td>
+                <td>
+                    <div class="tuanfabu_nr"> <input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="manageInput" /></div>
+                </td>
+            </tr><tr>
+                <td width="120"><p class="tuanfabu_t">手机</p></td>
+                <td>  <div class="tuanfabu_nr"><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="manageInput" /></div>
+                </td>
+            </tr>
+
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

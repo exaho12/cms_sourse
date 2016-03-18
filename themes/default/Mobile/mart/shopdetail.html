@@ -1,0 +1,54 @@
+
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mart/lists',array('id'=>$wshop['id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$wshop.weidian_name}>
+		</div>
+		<div class="top-share">
+			<a href="<{:U('shop/favorites/',array('shop_id'=>$detail['shop_id']))}>" id="share-btn">关注+</a>
+		</div>
+	</header>  
+	
+	
+    
+    
+ <!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 50%;"><a href="<{:U('mart/shopdetail',array('id'=>$wshop['id']))}>" class="on">详情</a></li>
+        <li style="width: 50%;"><a href="<{:U('mart/dianping',array('id'=>$wshop['id']))}>">评价</a></li>
+</ul>
+
+
+	
+	<div class="tuan-detail">
+		<div class="line banner">	
+			<img src="__ROOT__/attachs/<{$wshop.pic}>">	
+			<div class="title">
+				<h1><{$wshop.weidian_name}></h1>
+				<!--<p>关注<b class="fontcl1"><{$wshop.fans_num}></b>人</p>-->
+			</div>	
+		</div>
+        
+        
+
+        
+
+		<div class="line info">
+			<div class="x12">
+				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">地</div></span>
+				<span class="text-green">店铺地址：<{$wshop.addr}></span>
+			</div>
+	    </div>
+        
+        <div class="line info">
+			<div class="x12">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray"><i class="icon-user"></i></div></span>
+				<span class="text-gray">营业时间：<{$wshop.business_time}></span>
+			</div>
+	    </div>
+    
+ <include file='public:footer'/>   
+

@@ -1,0 +1,91 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">营销分析</li>
+        <li class="li2">数据统计</li>
+        <li class="li2 li3">抢购分析</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+    <script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+    <script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+    <script>
+        $(function () {
+            $('#container').highcharts({
+                title: {
+                    text: '抢购订单月趋势图',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'baocms.com',
+                    x: -20
+                },
+                xAxis: {
+                    categories: ['一月', '二月', '三月', '四月', '五月', '六月','七月', '八月', '九月', '十月', '十一月', '十二月']
+                },
+                yAxis: {
+                    title: {
+                        text: '订单数'
+                    },
+                    plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                },
+           
+                series: [{
+                        name: '手机',
+                        data: [<{$showdata.mobile}>]
+                    },{
+                        name: '网站',
+                        data: [<{$showdata.pc}>]
+                    }]
+            });
+        });
+				
+    </script>
+    <div id="container">
+    </div>
+</div>
+    <div class="tableBox">     
+    <script>
+        $(function () {
+            $('#container2').highcharts({
+                title: {
+                    text: '最近一周抢购订单趋势',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'baocms.com',
+                    x: -20
+                },
+                xAxis: {
+                    categories: [<{$weeks.days}>]
+                },
+                yAxis: {
+                    title: {
+                        text: '订单数'
+                    },
+                    plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                },
+           
+                series: [{
+                        name: '手机',
+                        data: [<{$weeks.mobile}>]
+                    },{
+                        name: '网站',
+                        data: [<{$weeks.pc}>]
+                    }]
+            });
+        });		
+    </script>
+    <div id="container2">
+    </div>
+</div>
+<include  file='public:footer'/>       

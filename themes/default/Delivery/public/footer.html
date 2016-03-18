@@ -1,0 +1,44 @@
+	<style>
+	.foot-fixed .foot-item { width: 25%;}
+	</style>
+    
+    <footer class="foot-fixed">		
+    <a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:U('delivery/index/index')}>">		
+    	<span class="icon icon-home"></span>		
+        	<span class="foot-label">首页</span>		
+            </a>
+            		
+            <if condition="$open_express eq '1' ">
+            
+            <a class="foot-item <eq name="ctl" value="index">active</eq>" href="<{:U('lists/index',array('ss'=>0))}>">		
+            <span class="icon icon-cloud-download"></span><span class="foot-label">订单配送</span></a>		
+            
+            <a class="foot-item <eq name="ctl" value="express">active</eq>" href="<{:U('lists/express',array('ss'=>0))}>">			
+            <span class="icon icon-truck"></span><span class="foot-label">众包快递</span></a>	
+            
+            <a class="foot-item <eq name="ctl" value="money">active</eq>" href="<{:U('index/money')}>">			
+            <span class="icon icon-database"></span><span class="foot-label">资金管理</span></a>
+            
+            <else/>
+            
+            
+            <a class="foot-item <eq name="ss" value="0">active</eq>" href="<{:U('lists/index',array('ss'=>0))}>">		
+            <span class="icon icon-cloud-download"></span><span class="foot-label">抢新单</span></a>		
+            
+            <a class="foot-item <eq name="ss" value="2">active</eq>" href="<{:U('lists/index',array('ss'=>2))}>">			
+            <span class="icon icon-truck"></span><span class="foot-label">配送中</span></a>	
+            
+            <a class="foot-item <eq name="ss" value="8">active</eq>" href="<{:U('lists/index',array('ss'=>8))}>">			
+            <span class="icon icon-check-square"></span><span class="foot-label">已完成</span></a>
+            	
+            </if>
+            	
+            
+          
+            
+            </footer>	
+            
+            	<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+                </body>
+                
+                </html>

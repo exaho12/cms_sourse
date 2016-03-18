@@ -1,0 +1,57 @@
+<include  file='member:head'/>    
+<!--中间-->
+
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li ><a  href="<{:U('member/myactivity')}>" target="">我参加的活动</a></li>
+            <li ><a href="<{:U('member/life')}>" target="">我的信息</a></li>
+            <li class="on"><a href="<{:U('member/dianping')}>" target="">我的点评</a></li>
+            <li><a href="<{:U('member/favorites')}>" target="">我的关注</a></li>
+            <li><a href="<{:U('member/bbs')}>" target="">我的分享</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td style="width:200px">商家LOGO</td>
+                <td>商家</td>
+                <td>评价</td>
+                <td>生效日期</td>
+                <td>点评日期</td>
+            </tr>
+            <volist name="list" id="var" key="index">
+
+                <tr class="tgdd_nrt">
+                    <td>
+                        <a class="myInfor_sx" title="<{$shops[$var['shop_id']]['shop_name']}>" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">
+                            <img style="margin:10px auto 1px" width="81" height="50"src="__ROOT__/attachs/<{$shops[$var['shop_id']]['logo']|default='default.jpg'}>" />
+                        </a>
+                    </td>
+                    <td>
+                        <a  class="myInfor_sx" title="<{$shops[$var['shop_id']]['shop_name']}>" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">
+                            <{$shops[$var['shop_id']]['shop_name']}>
+                        </a>
+                    </td>
+                    <td width="150">
+                        <div class="jq_star_show" style="" rel="<{$var['score']*10}>"></div>
+                    </td>
+                    <td>
+                        <{$var.show_date}>
+                    </td>
+                    <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+
+                </tr>
+
+            </volist>
+            <tr>
+                <td colspan="7" style="text-align: center"><{$page}></td>
+            </tr>
+        </table>
+
+    </div>
+</div> 
+</div>
+</body>
+</html>
+

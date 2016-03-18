@@ -1,0 +1,33 @@
+<include  file='member:head'/>     
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+                <li><a href="<{:U('member/money')}>">余额充值</a></li>
+                <li><a href="<{:U('member/recharge')}>" >代金券充值</a></li>
+                <li class="on"><a href="<{:U('member/gold')}>" >金块充值</a></li>
+        </ul>
+    </div>
+    <form method="post" action="<{:U('member/goldpay')}>">
+        <div class="password_nr">
+            <div class="password_input">
+                <div class="left">充值金额：</div>
+                <div class="lef"><input style="width: 140px;" type="text" name="gold" class="cjinput" /></div>
+            </div>
+            <div class="password_input">
+                <div class="left">支付方式：</div>
+                <div class="lef">
+                    <foreach name="payment" item="var">
+                        <eq name="var.is_open" value="1">
+                        <if condition="$var['code'] neq 'weixin' ">
+                            <dd style="margin-bottom: 5px;"><label><em><input style="width: 20px; height: 20px; margin-left: 5px;  margin-right: 15px;" value="<{$var.code}>"  class="cjinput"  name="code" type="radio" /></em><img src="__PUBLIC__/images/<{$var.logo}>" /></label></dd>
+                        </if> 
+                        </eq>
+                    </foreach>  </div>
+            </div>
+            <div class="password_subm"><input class="submit" type="submit" value="立刻充值" /></div>
+        </div>
+</form>
+</div>
+</body>
+</html>
+

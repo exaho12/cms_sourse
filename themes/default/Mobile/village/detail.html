@@ -1,0 +1,259 @@
+<include file='public:header'/>    
+	<script src="/static/default/wap/other/roll.js"></script>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.name}>
+		</div>
+		<div class="top-share">
+			<a href="<{:U('village/index',array('change'=>1))}>" id="cate-btn">切换</a>
+		</div>
+	</header>
+
+	
+	
+        <style>
+            
+#wrap{position: relative;padding: 10px;overflow: hidden;}
+#gradient{width: 100%;height: 35px;background: url() repeat-x;position: absolute;bottom: 0;left: 0;}
+#read-more{padding: 5px;border-top: 4px double #ddd;background: #fff;color: #333;}
+#read-more a{padding-right: 22px;background: url() no-repeat 100% 50%;font-weight: bold;text-decoration: none;}
+#read-more a: hover{color: #000;}
+</style>
+ <script type="text/javascript" src="/static/default/js/jq.js"></script>
+<script type="text/javascript">
+       $(function(){
+         
+	var slideHeight = 175; // px
+	var defHeight = $('#wrap').height();
+	if(defHeight >= slideHeight){
+		$('#wrap').css('height' , slideHeight + 'px');
+		$('#read-more').append('<a href="#">点击查看更多介绍</a>');
+		$('#read-more a').click(function(){
+                  
+			var curHeight = $('#wrap').height();
+			if(curHeight >= slideHeight){
+                         
+				 $('#wrap').css('height' , slideHeight + 'px');
+                                
+				$('#read-more a').html('点击查看更多介绍');
+				$('#gradient').fadeOut();
+			}else{
+                                $('#wrap').css('height' , defHeight + 'px');
+				$('#read-more a').html('点击隐藏');
+				$('#gradient').fadeIn();
+			}
+			return false;
+		});		
+	}
+});
+            </script>
+            <div class="xiaoqu-nav line" style="width: 100%;height: 270px"  >	<img  style="width:100%;height: 100%" src="__ROOT__/attachs/<{$detail[pic]}>" alt="<{$detail.name}>" /></div>
+        <div class="cite-title padding border-bottom">
+     
+          <div class="blank-10 bg"></div>
+		<h5><i class="icon-building"></i>  社区/村介绍</h5>
+	</div>
+        <div  style="text-align: center" >
+             <div id="wrap">	
+                    <{$detail.info}>
+                     <div id="gradient"></div>
+              </div>  
+          <div id="read-more"></div>
+        </div>
+    <div class="blank-10 bg"></div>
+        <div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i> 入驻社区村</h5>
+                <a href="<{:U('village/joinvillage',array('village_id'=>$detail['village_id']))}>">
+					<eq name="village_join" value="0">立即入驻<else/>取消入驻</eq>
+                </a>
+	</div>        
+            <div class="cite-title padding border-bottom">
+		<h5><i class="icon-building"></i>  社区/村工作人员</h5>
+                <a href="<{:U('village/workerslist',array('village_id'=>$detail['village_id']))}>">+ 更多</a>
+	</div>
+        <div class="xiaoqu-nav line" style="font-size:7px" >
+            <foreach name="worker" item="var">
+           <div class="x3 border-right"   >
+           <img src="__ROOT__/attachs/<{$var.photo}>" /> <br/>
+         
+              姓名：<{$var.name}><br/>
+                  职务：<{$var.job}>  
+              </div>
+                </foreach>
+        </div>
+	
+	<div class="blank-10 bg"></div>
+        <div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i> 社区/村意见反馈</h5>
+                <a href="<{:U('village/suggestion',array('village_id'=>$detail['village_id'],'type'=>'1'))}>">+ 意见反馈</a>
+	</div>
+	<div class="text-list">
+		<ul>
+			<foreach name="suggestion" item="item">
+			<li class="padding border-bottom">
+                            <a href="<{:U('village/suggestion',array('village_id'=>$detail['village_id'],'type'=>'1'))}>"><{:bao_Msubstr($item['title'],0,14,false)}><if condition="$item.person neq ''">--意见人：<{$item.person}></if><span><{$item.addtime|date='Y-m-d',###}></span></a>
+			</li>
+			</foreach>
+		</ul>
+	</div>
+         <div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i> 社区/村联系电话：</h5>
+                <a href="tel:<{$detail.tel}> "><{$detail.tel}> 
+				</a> 
+			
+	</div>
+        <div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i> 社区/村地址</h5>
+                <div class="x6 border-right text-center" style="float:right">
+                    <a href="<{:U('village/gps',array('village_id'=>$detail['village_id']))}>"><i class="icon icon-send"></i> 导航到这去</a>
+				</div>
+              
+	</div>
+        <div class="text-list" style="height:40px;word-wrap:break-word;overflow:hidden; margin-left: 10px;"><{$detail.addr}></div>
+        
+	<div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i> 社区/村通知</h5>
+                <a href="<{:U('village/noticelist',array('village_id'=>$detail['village_id'],'type'=>'1'))}>">+ 更多</a>
+	</div>
+	<div class="text-list">
+		<ul>
+			<foreach name="notice" item="item">
+			<li class="padding border-bottom">
+				<a href="<{:U('village/notice',array('id'=>$item['id']))}>"><{:bao_Msubstr($item['title'],0,14,false)}><span><{$item.addtime|date='Y-m-d',###}></span></a>
+			</li>
+			</foreach>
+		</ul>
+	</div>
+	<div class="blank-10 bg"></div>
+        <div class="cite-title padding border-bottom">
+        	<h5><i class="icon-bullhorn"></i> 社区/村活动展示</h5>
+                <a href="<{:U('village/noticelist',array('village_id'=>$detail['village_id'],'type'=>'2'))}>">+ 更多</a>
+	</div>
+	<div class="text-list">
+		<ul>
+			<foreach name="notice_2" item="item">
+			<li class="padding border-bottom">
+				<a href="<{:U('village/notice',array('id'=>$item['id']))}>"><{:bao_Msubstr($item['title'],0,14,false)}><span><{$item.addtime|date='Y-m-d',###}></span></a>
+			</li>
+			</foreach>
+		</ul>
+	</div>
+	<div class="blank-10 bg"></div>
+		
+	<div class="cite-title padding border-bottom">
+		<h5><i class="icon-phone"></i>  便民电话</h5>
+		<a href="<{:U('village/together',array('village_id'=>$detail['village_id']))}>">+ 合作&更多</a>
+	</div>
+	<div class="text-list">
+		<ul>
+			<volist name="phones" id="var" key="index">
+			<li class="padding border-bottom">
+				<a class="line" title="<{$var.name}>" href="tel:<{$var.phone}>">
+					<em class="x4"><{:bao_Msubstr($var['name'],0,4,false)}></em>
+					<em class="x8"><{$var.phone}> <span><i class="icon-angle-right"></i></span></em>
+				</a> 
+			</li>
+			</volist>
+		</ul>
+	</div>
+	<div class="blank-10 bg"></div>
+	<div class="cite-title padding border-bottom">
+		<h5><i class="icon-fire"></i>  身边抢购</h5>
+		<a href="javascript:void(0);" onclick="refresh();"><i class="icon-refresh"></i> 换一换</a>
+	</div>
+	<div class="mart-flush" id="flush">
+		<div class="bd">
+			<ul>
+				<volist name="keys" id="k">
+					<li class="padding">
+						<a class="line" href="<{:U('tuan/detail',array('tuan_id'=>$tuan[$k]['tuan_id']))}>">
+							<div class="x5"><img src="/attachs/<{$tuan[$k]['photo']}>"></div>
+							<div class="x7">
+								<p><{$tuan[$k]['title']}></p>
+								<p>
+								<span class="text-yellow margin-right">￥<{:round($tuan[$k]['tuan_price']/100,2)}></span>
+								<del class="text-gray text-small">￥<{:round($tuan[$k]['price']/100,2)}></del>
+								</p>
+							</div>
+						</a>
+					</li>
+				</volist>
+			</ul>
+		</div>
+	</div>
+	<div class="blank-10 bg"></div>
+	
+	<div class="cite-title padding border-bottom">
+		<h5><i class="icon-user"></i>  附近商家</h5>
+		<a href="<{:U('near/index')}>">+ 更多</a>
+	</div>
+	<div class="xiaoqu-nav line">
+            
+            	<volist name="shoplist" id="item" key="index">
+                     <php>if($item['city_id'] == $city_id){</php>
+                      	<div class="x3 border-right">
+							<a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
+								<img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>">
+                                                                <p><font size="-5"><{$item.shop_name}></font></p>
+							</a>
+					</div>
+                        <php>}</php>
+                    </volist>
+	
+	</div>
+	
+	
+
+	<script>	
+		$(document).ready(function () {
+			TouchSlide({ 
+				slideCell:"#roll",
+				titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+				mainCell:".bd ul", 
+				effect:"left", 
+				autoPlay:false,//自动播放
+				autoPage:true, //自动分页
+			});
+			TouchSlide({ 
+				slideCell:"#flush",
+				mainCell:".bd ul", 
+				effect:"left", 
+				autoPlay:false,//自动播放
+				autoPage:false, //自动分页
+			});
+			
+	//		$(document).ready(function () {
+	//			loaddata('<{$nextpage}>', $("#tie-list ul"), true);
+	//		});
+
+		});
+		
+		function refresh(){
+			var width = $('#flush .bd li').width() + 20;
+			var offset = 0 -( Math.ceil(Math.random()*(<{$tuannum}>-1)) * width );
+			var css = "translateX("+offset+"px)";
+			$('#flush .bd ul').css("transform",css);
+		}
+
+	</script>
+		
+
+	<div class="blank-10 bg"></div>
+	<div class="cite-title padding border-bottom">
+		<h5><i class="icon-comments"></i> 社区/村贴吧</h5>
+		<a href="<{:U('village/tieba',array('village_id'=>$detail['village_id']))}>">+ 进入</a>
+	</div>
+	<div id="tie-list" class="text-list">
+		<ul>
+                    <foreach name="bbs" item="item">
+	<li class="padding border-bottom">
+		<a href="<{:U('village/tie',array('post_id'=>$item['post_id']))}>"><{:bao_Msubstr($item['title'],0,14,false)}><span><{$item['username']}></span></a>
+	</li>
+</foreach>
+		</ul>
+	</div>
+
+<include  file='public:footer'/>    

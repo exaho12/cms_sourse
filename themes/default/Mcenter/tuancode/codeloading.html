@@ -1,0 +1,46 @@
+    <foreach name="list" item="item">
+		<li class="line tuan-card">
+			<div class="x8">
+				<div class="card-l">
+					
+					<p>名称：<{:bao_Msubstr($tuans[$item['tuan_id']]['title'],0,10)}></p>
+                    <p>商家：<{$shops[$item['tuan_id']['shop_id']]['shop_name']}></p>
+                    <p>地址：<{$shops[$item['tuan_id']['shop_id']]['addr']}></p>
+                    <p>订单ID：<{$item.order_id}>&nbsp;<{$shops[$item['tuan_id']['shop_id']]['mobile']}></p>
+					<p>密码：<em class="text-yellow margin-right"><{$item.code}></i></em>
+                         <eq name="item.is_used" value="1">
+                            已使用
+                            <else/>
+                            <eq name="item.status" value="0">
+
+                            <neq name="item.price" value="0">
+                            <a target="x-frame"  href="<{:U('tuancode/refund',array('code_id'=>$item['code_id']))}>">申请退款</a>
+                            <else/>
+                            到店付款
+                            </neq>
+                            <else />
+                            <eq name="item.status" value="1">
+                            正在退款&nbsp;&nbsp;&nbsp;&nbsp;<a target="x-frame"  href="<{:U('tuancode/quxiao',array('code_id'=>$item['code_id']))}>"><font color="#990000">取消退款</font></a>
+                            <else />
+                            已退款
+                            </eq>
+                            </eq>
+                            </eq>
+					</p>
+				</div>
+
+			</div>
+			<div class="x4">
+                <div class="card-l">
+                   <span class="price"><em><{:round($item['price']/100,2)}></em><small>元</small></span>
+                </div>
+				<div class="card-r">
+					<a href="<{:U('tuancode/weixin',array('code_id'=>$item['code_id']))}>">
+						<img src="/static/default/pc/image/wx.png" />
+						<p>点击查看二维码</p>
+					</a>
+				</div>
+			</div>
+		</li>
+		<div class="blank-10 bg"></div>
+    </foreach>

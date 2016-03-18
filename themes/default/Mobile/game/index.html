@@ -1,0 +1,44 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		游戏中心
+	</div>
+	<div class="top-search" style="display:none;">
+		<form method="post" action="<{:U('game/index')}>">
+			<input name="keyword" placeholder="输入的关键字"  />
+			<button type="submit" class="icon-search"></button> 
+		</form>
+	</div>
+	<div class="top-signed">
+		<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+	</div>
+</header>
+
+
+	<script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+		});
+	</script>
+
+	<ul id="game-list" class="game-list"></ul>
+
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#game-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

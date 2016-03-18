@@ -1,0 +1,77 @@
+<include file="public:header"/>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_nr">
+            <ul class="myMessage_details_list">
+                <foreach name="list" item="item">
+                    <li class="list">
+                    <if condition="$item['send'] eq 1">
+                        <img src="__ROOT__/attachs/<{$froms[$item['from_id']]['face']}>" width="48" height="48" />
+                        <div class="author_box">
+
+                            <div class="nr">
+                                <p class="author"><{$froms[$item['from_id']]['nickname']}></p>
+                                <p><{$item.content}></p>
+                                <p class="date"><{$item.create_time|date='Y-m-d H:i',###}></p>
+                            </div>
+                        </div>
+                        <else/>
+                        <div class="from_list">
+                            <ul>
+                                <li>
+                                    <div class="left">
+                                        <p class="wz"><{$item.content}></p>
+                                        <p class="date"><{$item.create_time|date='Y-m-d H:i',###}></p>
+                                    </div>
+                                    <div class="right">
+                                        <img src="__ROOT__/attachs/<{$MEMBER['face']}>" width="48" height="48" />
+                                        <p>我</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </if>
+                    </li>
+                </foreach>
+            </ul>
+            <div class="x"><{$page}></div>
+            <div class="myMessage_details_form">
+                <form action="<{:U('message/reply',array('uid'=>$uid))}>" method="post" target="baocms_frm">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th width="100">我的回复</th>
+                            <td><textarea  id="jq_content" name="content"></textarea></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input class="jq_btn btn" type="submit" value="确认" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    $(".jq_btn").click(function(){
+                        var url = "<{:U('message/reply')}>";
+                        var uid = "<{$uid}>";
+                        var content = $("#jq_content").val();
+                        $.post(url,{uid:uid,content:content},function(data){
+                            if(data.status == 'success'){
+                                layer.msg(data.msg);
+                               setTimeout(function () {
+                                window.location.reload(true);
+                            }, 1000)
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },'json');
+                        
+                    })
+                });
+            </script>
+            
+        </div>
+    </div> 
+</div>
+</div>
+<include file="public:footer"/>

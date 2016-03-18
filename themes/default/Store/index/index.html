@@ -1,0 +1,212 @@
+<include file="public:header"/>
+
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+
+	<div class="top-back">
+
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+
+	</div>
+
+		<div class="top-title">
+
+			商户中心
+
+		</div>
+
+	<div class="top-signed">
+
+		<a href="<{:U('passport/logout')}>"><i class="icon-sign-out"></i></a>
+
+	</div>
+
+</header>
+
+
+
+<div class="index-top">
+
+	<div class="top-a">
+
+		<div class="user">	
+
+			<span class="avatar">    
+
+            <img src="__ROOT__/attachs/<{$SHOP.logo}>" />         
+
+            </span>
+
+			<div class="info">	
+
+				<p>欢迎您，<{$SHOP.shop_name}> <span>店铺类型：<{$shopcates[$SHOP['cate_id']]['cate_name']}></span></p>	
+
+
+                <p>
+
+					<span>邮件： <if condition="!empty($MEMBER['mobile'])">已认证<else/>未认证</if>
+
+                    </span>
+
+					<span>手机：<if condition="!empty($MEMBER['email'])">已认证<else/>未认证</if></span>
+
+					<span>金块：<{$MEMBER.gold}> </span>
+
+				</p>
+
+                
+
+                
+
+			</div>	
+
+		</div>	
+
+
+
+	</div>
+
+	
+
+	
+
+	
+
+	
+
+</div>
+
+
+
+
+
+<div class="panel-list">
+
+	<ul>
+
+		
+
+        
+
+<li><a href="<{:U('branch/index')}>"><span class="icon-asterisk"></span>
+
+店铺管理
+<if condition="$shop_branch gt 0">
+<font><{$shop_branch}>家分店<if condition="$shop_branch_audit gt 0">，待审核<b><{$shop_branch_audit}></b>家。</if></font></if>
+               
+<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('tuan/index')}>"><span class="icon-tags"></span>抢购优惠
+<font>
+<if condition="$counts['tuan_order_code_is_used'] gt 0">
+待消费<{$counts['tuan_order_code_is_used']}>人，
+</if>
+<if condition="$counts['tuan'] gt 0">
+共<{$counts['tuan']}>单
+</if>
+<if condition="$counts['tuan_audit'] gt 0">
+，待审核<b><{$counts['tuan_audit']}></b>单
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+
+<li><a href="<{:U('coupon/index')}>"><span class="icon-key"></span>优惠劵验证
+<if condition="$counts['tuan_order_code_is_used'] gt 0">
+<font>待核销<b><{$counts['tuan_order_code_is_used']}></b>人</font>
+</if>
+<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('mart/index')}>"><span class="icon-home"></span>微店管理
+<font>
+<if condition="$counts['goods_order_two'] gt 0">
+已付款<{$counts['goods_order_two']}>单
+</if>
+<if condition="$counts['goods_order_one'] gt 0">
+，已发货<b><{$counts['goods_order_one']}></b>单。
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('fans/index')}>"><span class="icon-group"></span>粉丝
+<font>
+
+<if condition="$counts['favorites'] gt 0">
+<{$counts['favorites']}>粉丝
+</if>
+<if condition="$counts['totay_favorites'] gt 0">
+，今增加<b><{$counts['totay_favorites']}></b>粉丝。
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+
+
+<li><a href="<{:U('ele/index')}>"><span class="icon-home"></span>外卖
+<font>
+<if condition="$counts['ele_order_two'] gt 0">
+已发货<{$counts['ele_order_two']}>单，
+</if>
+<if condition="$counts['totay_ele_order'] gt 0">
+今日新增<b><{$counts['totay_ele_order']}></b>单
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+
+<li><a href="<{:U('life/index')}>"><span class="icon-truck"></span>同城信息
+<font>
+<if condition="$counts['life'] gt 0">
+<{$counts['life']}>条，
+</if>
+<if condition="$counts['life_audit'] gt 0">
+<b><{$counts['life_audit']}></b>待审核
+</if>
+
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('Ding/index')}>"><span class="icon-cog"></span>订座
+<font>
+<if condition="$counts['ding_order'] gt 0">
+<{$counts['ding_order']}>人订座
+</if>
+<if condition="$counts['totay_ding_order'] gt 0">
+，今日新增<b><{$counts['totay_ding_order']}></b>单
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+<li><a href="<{:U('nearwork/index')}>"><span class="icon-github"></span>人才招聘
+<font>
+<if condition="$counts['work'] gt 0">
+<{$counts['work']}>条招聘
+</if>
+<if condition="$counts['work_audit'] gt 0">
+，<b><{$counts['work_audit']}></b>条待审核
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('housework/index')}>"><span class="icon-random"></span>家政服务<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('money/index')}>"><span class="icon-calendar"></span>结算<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('award/index')}>"><span class="icon-briefcase"></span>营销管理<i class="icon-angle-right"></i></a></li>
+
+<li><a href="<{:U('passport/logout')}>"><span class="icon-sign-out"></span>注销登录<i class="icon-angle-right"></i></a></li>
+
+		
+
+        
+
+       
+
+	</ul>
+
+</div>
+
+
+
+<include  file='public:footer'/>
+

@@ -1,0 +1,35 @@
+<foreach name="list" item="item">
+    <!-- 循环 -->
+    <li class="line padding">
+        <div class="x2">
+			
+        </div>
+
+        <div class="x10">
+			<h5><a href="">金额：<{$var['money'] / 100}></a></h5>
+            <p class="line margin-little-bottom">
+				<span class="float-left">日期：<{$var['addtime']|date='Y-m-d', ###}></span>
+				<span class="float-right">
+                
+                <if condition="$var.status eq 0">
+                <a href="javascript:void(0);" class="jquery-delete button">未审</a>
+                <elseif condition="$var.status eq 1" />
+                <a href="javascript:void(0);" class="jquery-delete button">通过</a>
+                <else />
+                <a href="javascript:void(0);" class="jquery-delete button">拒绝</a>
+            </if>
+            
+   
+                
+                
+                
+                
+                </span>
+			</p>
+          
+		</div>
+	</li>
+    <!-- 循环 -->
+</foreach>
+
+

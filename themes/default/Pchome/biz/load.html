@@ -1,0 +1,6 @@
+<foreach name="list" item="item">
+<li>
+	<h3><a href="<{:U('biz/detail',array('pois_id'=>$item['pois_id']))}>" target="_blank"><{$item['name']}></a></h3>
+	<p><{$item['address']}></p>
+</li>
+</foreach>

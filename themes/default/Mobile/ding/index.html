@@ -1,0 +1,103 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			在线订座
+		</div>
+	</header>
+	<script>
+		$(function () {
+			$("#search-bar li").each(function (e) {
+				$(this).click(function () {
+					if ($(this).hasClass("on")) {
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else {
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function (i) {
+
+						if (e == i) {
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else {
+							$(this).hide();
+						}
+						$(this).find("li").click(function () {
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+	</script>
+    <!-- 筛选TAB -->
+    <div id="search-bar" class="search-bar">
+        <ul class="line">
+            <li class="x3"><span>分类</span><i></i></li>
+            <li class="x3"><span>地区</span><i></i></li>
+            <li class="x3"><span>商圈</span><i></i></li>
+            <li class="x3"><span>排序</span><i></i></li>
+        </ul>
+    </div>
+    <div class="serch-bar-mask" style="display:none;">
+        <div class="serch-bar-mask-list">
+            <ul>
+                <li <if condition="empty($cate)">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('cate'=>0))}>">全部</a></li>
+                <volist name="keywords" id="item" key="index">
+                    <li <if condition="$cate eq $item[key_id]">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('cate'=>$item[key_id]))}>"><{$item.keyword}></a></li>
+                </volist>
+            </ul>
+        </div>
+        <div class="serch-bar-mask-list">
+            <ul>
+                <li <if condition="empty($area)">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('area'=>0,'business'=>0))}>">全部</a></li>
+                <volist name="areas" id="item">
+                    <li <if condition="$item['area_id'] eq $area">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('area'=>$item['area_id']))}>"><{$item.area_name}></a></li>
+                </volist>
+            </ul>
+        </div>
+        <if condition="!empty($area)">
+            <div class="serch-bar-mask-list">
+                <ul>
+                    <li <if condition="empty($business)">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('area'=>$area,'business'=>0))}>">全部</a></li>
+                    <volist name="bizs" id="item">
+                        <eq name="item.area_id" value="$area">
+                        <li <if condition="$item['business_id'] eq $business">class="on"</if> ><a href="<{:LinkTo('ding/index',$linkArr,array('area'=>$area,'business'=>$item['business_id']))}>"><{$item.business_name}></a></li>
+                        </eq>
+                    </volist>
+                </ul>
+            </div>
+        <else/>
+            <div class="serch-bar-mask-list">
+            </div>
+        </if>
+        <div class="serch-bar-mask-list">
+            <ul>
+                <li <if condition="$order gt 4 || $order lt 2">class="on"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/index',$linkArr,array('order'=>1))}>">默认排序</a></li>
+                <li <if condition="$order gt 2">class="on"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/index',$linkArr,array('order'=>2))}>">距离最近</a></li>
+                <li <if condition="$order eq 3">class="on"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/index',$linkArr,array('order'=>3))}>">销量最高<em class="em_up"></em></a></li>
+                <li <if condition="$order eq 4">class="on"</if>><a class="nearbuy_sxkLiA" href="<{:LinkTo('ding/index',$linkArr,array('order'=>4))}>">价格最低<em></em></a></li>
+            </ul>
+        </div>
+        <div class="serch-bar-mask-bg"></div>
+    </div>
+    <div class="blank-40"></div>
+	
+	<ul id="shop-list" class="shop-list"></ul>
+
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+	
+<include file="public:footer"/>

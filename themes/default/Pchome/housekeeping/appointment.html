@@ -1,0 +1,108 @@
+<include  file='public:header_niucms'/>  
+<link rel="stylesheet" href="/static/default/pc/css/ele.css" />
+<link href="/static/default/pc/other/jquery-ui.css" type="text/css" rel="stylesheet">
+<script src="/static/default/pc/other/jquery-ui.js"></script>  
+<body>
+	<div class="container">
+		<div class="blank-20"></div>
+
+		<div class="progress progress-big progress-striped radius">
+			<div class="progress-bar bg-green" style="width:100%;">预约：<{$workTypes[$svc_id]}></div>
+		</div>
+
+		<div class="blank-20"></div>
+	
+		<div class="life-post">
+			<form target="x-frame" class="form-auto" action="<{:U('housekeeping/create',array('svc_id'=>$svc_id))}>" method="post">
+			
+				<div class="line">
+			
+						<div class="form-group">
+							<div class="label"><label for="title">选择服务时间</label></div>
+							<div class="field">
+							  <input type="text" class="input"  name="svctime" size="50" value="<{$today}>"  id="datepicker" />
+							</div>
+						</div>
+						
+	
+						
+						
+						<div class="form-group">
+							<div class="label"><label for="contact">填写服务地点</label></div>
+							<div class="field">
+							  <input type="text" class="input" id="contact"  name="addr" size="50" value="<{$detail.contact|default=''}>" placeholder="填写服务地点" />
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="label"><label for="mobile">填写姓名</label></div>
+							<div class="field">
+							  <input type="text" class="input" id="mobile"  name="name"  size="50"value="<{$detail.mobile|default=''}>" placeholder="填写姓名" />
+							</div>
+						</div>
+				
+			
+
+						
+						<div class="form-group">
+							<div class="label"><label for="addr">填写号码</label></div>
+							<div class="field">
+							  <input type="text" class="input" id="addr"  name="tel" size="50" value="<{$detail.addr|default=''}>" placeholder="填写号码" />
+							</div>
+						</div>
+                        
+                        <div class="form-group">
+							<div class="label"><label for="addr">填写更多要求</label></div>
+							<div class="field">
+							  <input type="text" class="input" id="addr"  name="contents" size="80" value="<{$detail.addr|default=''}>" placeholder="填写更多要求" />
+							</div>
+						</div>
+						
+			
+			
+				
+				</div>
+			
+		
+			
+			<div class="blank-10"></div>
+			<div class="form-button">
+            <input type="hidden" name="keyword" value="project_cleaning">
+				<button class="button bg-dot" type="submit">提交订单</button>
+			</div>
+			</form>
+		</div>
+	</div>
+            
+            
+            <script>
+	jQuery(function($){
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '&#x3c;上月',
+			nextText: '下月&#x3e;',
+			currentText: '今天',
+			monthNames: ['一月','二月','三月','四月','五月','六月',
+			'七月','八月','九月','十月','十一月','十二月'],
+			monthNamesShort: ['一','二','三','四','五','六',
+			'七','八','九','十','十一','十二'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+	$(function() {
+		$( "#datepicker" ).datepicker();
+	});
+</script>
+            
+            
+            
+	
+<include file="public:footer_niucms"/>	

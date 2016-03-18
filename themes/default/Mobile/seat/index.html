@@ -1,0 +1,229 @@
+<include  file='public:header'/>
+<body>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">订座列表</div>
+		<i class="icon-menu"></i>
+	</header>
+	<!-- 筛选TAB -->
+    <script>
+		$(function(){
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+	<div id="search-bar">
+		<ul>
+			<li><span>分类</span><i></i></li>
+			<li><span>地区</span><i></i></li>
+			<li><span>商圈</span><i></i></li>
+			<li><span>排序</span><i></i></li>
+		</ul>
+	</div>
+    
+	<div id="seat" class="page-center-box">
+		<div id="scroll">
+        	<div class="serch-bar-mask" style="display:none;">
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">全部分类</a></li>
+                        <li><a href="#">商务宴请</a></li>
+                        <li><a href="#">情侣约会</a></li>
+                        <li><a href="#">家庭聚会</a></li>
+                        <li><a href="#">朋友聚会</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">全部地区</a></li>
+                        <li><a href="#">商务宴请</a></li>
+                        <li><a href="#">情侣约会</a></li>
+                        <li><a href="#">家庭聚会</a></li>
+                        <li><a href="#">朋友聚会</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">全部商圈</a></li>
+                        <li><a href="#">商务宴请</a></li>
+                        <li><a href="#">情侣约会</a></li>
+                        <li><a href="#">家庭聚会</a></li>
+                        <li><a href="#">朋友聚会</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">全部排序</a></li>
+                        <li><a href="#">商务宴请</a></li>
+                        <li><a href="#">情侣约会</a></li>
+                        <li><a href="#">家庭聚会</a></li>
+                        <li><a href="#">朋友聚会</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-bg"></div>
+            </div>
+			<!-- 列表 -->
+			<div class="list-have-pic">
+				<!-- 循环 -->
+				<div class="list-box">
+					<div class="list-img">
+						<img src="__TMPL__statics/img/banner.jpg" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="__TMPL__statics/img/banner.jpg" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<div class="list-box">
+					<div class="list-img">
+						<img src="#" />
+					</div>
+					<div class="list-content">
+						<p>孙家花园民国主题餐厅<span class="range">2.2KM</span></p>
+						<p class="c_h">地址：包河区芜湖路万达广场</p>
+						<p class="c_h">
+							<span class="seat status-1">大厅(有位)</span>
+							<span class="seat status-2">包厢(紧张)</span>
+						</p>
+					</div>
+				</div>
+				<!-- 循环 -->
+			</div>
+		</div>
+	</div>
+</body>
+</html>

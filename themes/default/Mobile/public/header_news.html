@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head lang="zh-CN">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <title><php>if($config['title'])echo $config['title'];else echo $CONFIG['site']['sitename']</php></title>
+        <link rel="stylesheet" href="__TMPL__statics/css/css_1.css?v=<php>echo time();</php>"/>
+        <link rel="stylesheet" href="__TMPL__statics/css/reset.css?v=<php>echo time();</php>"/>
+        <link rel="stylesheet" href="__TMPL__statics/css/style.css?v=<php>echo time();</php>"/>
+        <link rel="stylesheet" href="__TMPL__statics/css/wl_style.css?v=<php>echo time();</php>"/>
+        
+        <script> var BAO_PUBLIC = '__PUBLIC__';
+            var BAO_ROOT = '__ROOT__';</script>
+        
+        <script src = "__TMPL__statics/js/jquery-1.7.1.min.js?v=20150801" ></script>
+        <script src="__TMPL__statics/js/baocms.js?v=20150801"></script> 
+        <script src="__TMPL__statics/js/jscookie.js?v=20150822"></script>
+        <script src="__TMPL__statics/js/jquery.event.drag-1.5.min.js?v=20150801"></script>
+        <script src="__TMPL__statics/js/jquery.touchSlider.js?v=20150801"></script>
+
+        <script src="__TMPL__statics/js/layer/layer.js?v=20150801"></script>
+        <script src="__PUBLIC__/js/web.js?v=20150718"></script>
+        <script>
+            function bd_encrypt(gg_lat, gg_lon)   // 百度地图测距偏差 问题修复
+            {
+                var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+                var x = gg_lon;
+                var y = gg_lat;
+                var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+                var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+                var bd_lon = z * Math.cos(theta) + 0.0065;
+                var bd_lat = z * Math.sin(theta) + 0.006;
+                dingwei('<{:U("mobile/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
+            }
+            navigator.geolocation.getCurrentPosition(function (position) {
+                bd_encrypt(position.coords.latitude, position.coords.longitude);
+            });
+        </script>
+    </head>

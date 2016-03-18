@@ -1,0 +1,168 @@
+<php>$seo_title = $detail['title'];</php>
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			热门资讯
+		</div>
+        <div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('news/index')}>">
+				<input name="keyword" placeholder="输入新闻的关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+        
+	</header>
+    <script>
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+
+		});
+    </script>
+    
+
+	
+    <div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x6"><span>选择分类</span><i></i></li>
+			<li class="x6"><span>推荐排序</span><i></i></li>
+		</ul>
+	</div>
+    
+    <div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+
+				<li class="<if condition='empty($cat)'>on</if> "><a href="<{:U('mobile/news/index')}>" >全部</a></li>
+			 
+				<foreach name="cates" item="item">
+					<eq name="item.parent_id" value="0"> 
+						<li class="hui <if condition="$item.cate_id eq $cat">on</if> "><a title="<{$item.cate_name}>" href="<{:LinkTo('news/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>                    </eq>
+                        
+                        <foreach name="cates" item="var2">
+                                <eq name="var2.parent_id" value="$item.cate_id">
+                               <li class="<if condition="$var2.cate_id eq $cat">on</if> "><a  style="margin-left:20px;" title="<{$var2.cate_name}>" href="<{:LinkTo('news/index',$linkArr,array('cat'=>$var2['cate_id']))}>"><{$var2.cate_name}></a></li>
+                              
+                                </eq>
+                            </foreach>
+					
+				</foreach>
+				
+			</ul>
+		</div>
+		
+		<div class="serch-bar-mask-list">
+			<ul>
+          
+            
+<li <if condition="$order eq 1">class="on"</if>><a href="<{:LinkTo('news/index',array('cat'=>$cat,'order'=>1))}>">热度优先</a></li>
+<li <if condition="$order eq 2">class="on"</if>><a href="<{:LinkTo('news/index',array('cat'=>$cat,'order'=>2))}>">默认排序</a></li>
+
+
+			</ul>
+		</div>
+	</div>
+    
+    <script>
+		$("#search-bar li").each(function(e){
+			$(this).click(function(){
+				if($(this).hasClass("on")){
+					$(this).parent().find("li").removeClass("on");
+					$(this).removeClass("on");
+					$(".serch-bar-mask").hide();
+				}
+				else{
+					$(this).parent().find("li").removeClass("on");
+					$(this).addClass("on");
+					$(".serch-bar-mask").show();
+				}
+				$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+					
+					if(e==i){
+						$(this).parent().find(".serch-bar-mask-list").hide();
+						$(this).show();
+					}
+					else{
+						$(this).hide();
+					}
+					$(this).find("li").click(function(){
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+					});
+				});
+			});
+		});
+	</script>  
+    
+    <div class="blank-40"></div>	
+	<div id="roll" class="roll">
+		<div class="bd">
+			<ul>
+				<php>$i=0;</php>
+				<calldata mdl="Article" where="closed = 0 AND isroll = 1 AND photo != ''" limit="0,5" cache="43200" order="article_id desc">
+				<php>
+					$i++;
+					if($i==1){
+						$first = $item['title'];
+					}
+				</php>
+				<li>
+					<a class="pic" href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" /></a>
+					<a class="tit" href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><{$item['title']}></a>
+				</li>
+				</calldata>
+			</ul>
+		</div>
+		<div class="hd">
+			<ul></ul>
+		</div>
+	</div>
+	
+	<div class="blank-10"></div>
+	
+	
+	
+	
+	<div class="blank-10"></div>
+	<div class="sec-title">	
+		<div class="divider"></div>	
+		<span>资讯列表：总<{$countss}>条资讯，今日更新：<{$counts.article}>篇</span>
+	</div>
+	
+	<div class="news-list" id="shop-list">
+    
+    <script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+    
+    
+		
+	</div>
+	
+	<script type="text/javascript">	
+		TouchSlide({ 
+			slideCell:"#roll",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			autoPage:true //自动分页
+		});
+	</script>
+
+<include file="public:footer"/>

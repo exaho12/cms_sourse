@@ -1,0 +1,19 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('billboard/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			商户列表
+		</div>
+	</header>
+	
+	<ul class="shop-list" id="shop-list"></ul>
+
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include  file='public:footer'/>  

@@ -1,0 +1,189 @@
+<include file='public:header'/>   
+	<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet" />
+	<script src="/static/default/wap/other/jquery-ui.js"></script> 
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ding/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			餐厅详情
+		</div>
+	</header>
+
+<div class="detail-top padding border-bottom">
+	<div class="line">
+		<div class="x3">
+			<volist name='pic' id='item'>
+			<if condition="$i eq 1">
+				<div class="item"><img src="__ROOT__/attachs/<{$item}>" width="90%"/></div>
+			</if>
+			</volist>
+		</div>
+		<div class="x9">
+			<h5><{$detail.shop.shop_name}></h5>
+			<p class="star"><span class="ui-starbar"><span style="width:<{:round($detail[shop]['score']*2,2)}>%"></span></span></p>
+			<p>人均：<span class="text-dot margin-small-right">￥<{:round($detail[details][price]/100,2)}>元</span>  / <em class="text-dot margin-small-left"><{$all_ping}></em>条评论</p>
+			<p>
+				<span class="margin-small-right"><em class="text-gray"><{$detail['cat']['d1']}>：</em><{$detail[shop][d1]}> 分</span>
+				<span class="margin-small-right"><em class="text-gray"><{$detail['cat']['d2']}>：</em><{$detail[shop][d2]}> 分</span>
+				<span class="margin-small-right"><em class="text-gray"><{$detail['cat']['d3']}>：</em><{$detail[shop][d3]}> 分</span>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="blank-10 bg"></div>
+
+<form class="ding-form" method="post" action="<{:U('ding/yuyue',array('shop_id'=>$detail[shop][shop_id]))}>" >
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">定金：</span><span class="x10"><{:round($detail['set']['money']/100,2)}>元</span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">日期：</span>
+			<php>$t = date('Y-m-d',time());</php>
+			<span class="x10"><input class="date datepicker" id='date' type="text" name="date" value="<{$date|default=$t}>" /></span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">时间：</span>
+			<span class="x10">
+				<empty name="shop_time">
+					<em class="text-gray">该商家暂时没有设置人数</em>
+				<else/>
+					<select name='time' class="select">
+						<volist name='shop_time' id='item'>
+							<option value="<{$item}>"><{$item}></option>
+						</volist>
+					</select>
+				</empty>
+			</span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2">人数：</span>
+			<span class="x10">
+				<empty name="room">
+					<em class="text-gray">该商家暂时没有设置人数</em>
+				<else/>
+					<select name='reson' class="select">
+						<volist name='room' id='item'>
+							<option value="<{$item}>"><{$item}></option>
+						</volist>
+					</select>
+				</empty>
+			</span>
+		</div>
+	</div>
+	<div class="blank-10 bg"></div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2 text-gray">地址：</span>
+			<span class="x10">
+				<{$detail['shop']['addr']}>
+			</span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2 text-gray">导航：</span>
+			<span class="x10">
+				<a href="<{:U('market/gps',array('market_id'=>$detail[shop]['shop_id']))}>">地图导航到这去</a>
+				<i class="icon-angle-right text-gray float-right"></i>
+			</span>
+		</div>
+	</div>
+    <div class="padding border-bottom">
+		<div class="line">
+			<span class="x2 text-gray">点评：</span>
+			<span class="x10">
+				<a href="<{:U('ding/dianping',array('shop_id'=>$detail['shop']['shop_id']))}>"><em class="text-dot margin-small-right"><{$all_ping}></em>条用户点评
+				<i class="icon-angle-right text-gray float-right"></i>
+			</span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2 text-gray">电话：</span>
+			<span class="x10">
+				<a href="tel:<{$detail['shop']['tel']}>"><{$detail['shop']['tel']}></a>
+			</span>
+		</div>
+	</div>
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x2 text-gray">营业：</span>
+			<span class="x10">
+				<{$cfg[$detail['set']['start_time']]}> - <{$cfg[$detail['set']['end_time']]}>营业，饮料区不接受预订
+			</span>
+		</div>
+	</div>
+	
+
+	<div class="blank-40 bg"></div>
+	<if condition="$tuan['tuan_id'] gt 0">
+	<div class="padding border-bottom">
+		<div class="line">
+			<span class="x1"><div class="txt txt-little radius-small bg-red">团</div></span>
+			<span class="x11">
+				<a href="<{:U('tuan/detail',array('tuan_id'=>$tuan['tuan_id']))}>"><{$tuan.title}></a>
+			</span>
+		</div>
+	</div>
+	</if>
+	<if condition="$coupon[coupon_id] gt 0">
+	<div class="padding">
+		<div class="line">
+			<span class="x1"><div class="txt txt-little radius-small bg-red">券</div></span>
+			<span class="x11">
+				<a href="<{:U('coupon/detail',array('coupon_id'=>$coupon['coupon_id']))}>"><{$coupon.title}></a>
+			</span>
+		</div>
+	</div>
+	</if>
+
+	<nav class="cart-bar">
+		<div class="result">
+			<input name="bao" type="submit" class="button bg-dot" value="包厢订座" />
+			<input name="ting" type="submit" class="button bg-dot" value="大厅订座" />
+		</div>
+	</nav>
+</form>	
+<script>
+	jQuery(function($){
+		$.datepicker.regional['zh-CN'] = {
+			closeText: '关闭',
+			prevText: '&#x3c;上月',
+			nextText: '下月&#x3e;',
+			currentText: '今天',
+			monthNames: ['一月','二月','三月','四月','五月','六月',
+			'七月','八月','九月','十月','十一月','十二月'],
+			monthNamesShort: ['一','二','三','四','五','六',
+			'七','八','九','十','十一','十二'],
+			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+			dayNamesMin: ['日','一','二','三','四','五','六'],
+			weekHeader: '周',
+			dateFormat: 'yy-mm-dd',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: true,
+			yearSuffix: '年'};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});
+	$(function() {
+		$('.datepicker').datepicker({
+			beforeShow: function() {
+				$(this).attr("disabled", true);
+			},
+			onClose: function() {
+				$(this).attr("disabled", false);
+			}
+		});
+	});
+</script>
+</body>
+</html>

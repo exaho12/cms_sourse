@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">抽奖功能</a> > <a>抽奖插件</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+  <eq name="is_online" value="0">
+ <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+    <table cellpadding="0"  cellspacing="0" width="100%" >
+        <tr>
+
+            <td align='right'><a class="radius3 sjgl_an tuan_topbt"  href="<{:U('awardgoods/create',array('award_id'=>$award_id))}>">+&nbsp;添加奖项</a></td>
+        </tr> 
+    </table>
+     </div>
+    </div>
+</eq>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('awardgoods/index',array('award_id'=>$award_id))}>">抽奖功能</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+              <th height="40">奖项规格</th>
+            <th>奖品名称</th>
+            <th>中奖概率</th>
+            <th>数量</th>
+            <th>剩余</th>
+<eq name="is_online" value="0">
+            <th>操作</th>
+            </eq>
+        </tr>
+         <foreach name="list" item="var">
+
+            <tr>
+                <td><{$var.award_name}></td>
+                <td><{$var.goods_name}></td>
+                <td>万分之<{$var.prob}></td>
+                <td><{$var.num}></td>
+                <td><{$var.surplus}></td>
+<eq name="is_online" value="0">
+                <td>
+                    <a href="<{:U('awardgoods/edit',array('goods_id'=>$var['goods_id']))}>">编辑</a>
+                    <a mini='confirm' href="<{:U('awardgoods/delete',array('goods_id'=>$var['goods_id']))}>">删除</a>
+                </td>
+                </eq>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

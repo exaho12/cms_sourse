@@ -1,0 +1,70 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">上榜榜单</li>
+        <li class="li2 li3">榜单分类</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>榜单统一由后台添加</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('billcate/create','','添加分类')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('billcate/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div>  
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="list_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>标题</td>
+
+                        <td>图片</td>
+                        <td>排序</td>
+
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_list_id" type="checkbox" name="list_id[]" value="<{$var.list_id}>" /></td>
+                            <td><{$var.cate_id}></td>
+                            <td><{$var.cate_name}></td>
+
+
+                            <td><img src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" class="w80" /></td>
+                            <td><{$var.orderby}></td>
+
+                            <td>
+
+
+                                <{:BA('billcate/edit',array("cate_id"=>$var["cate_id"]),'编辑','','remberBtn')}>
+                                <{:BA('billcate/delete',array("cate_id"=>$var["cate_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('billcate/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

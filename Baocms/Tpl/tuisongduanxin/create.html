@@ -1,0 +1,20 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('tuisongduanxin/create')}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">推送标题：</td>
+                            <td class="rgTdBt">
+                             <textarea name="data[title]" rows="5" cols="40"><{$detail.title|default=''}></textarea><code>内容请勿太多，发送消息无法撤回！</code>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认发送" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>

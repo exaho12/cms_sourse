@@ -1,0 +1,15 @@
+    
+                <volist name='list' id='var'>
+                    <li>
+                        <a class="pic fl" href="<{:U('vip/detail',array('shop_id'=>$var['shop_id']))}>">
+                            <img src="__ROOT__/attachs/<{$var.photo}>">
+                        </a>
+                        <div class="des fr">
+                            <h2>商家：<{:bao_msubstr($var['shop_name'],0,5,flase)}></h2>
+                            <p class="intro">优惠：<{$shopdetails[$var['shop_id']]['discounts']}></p>
+                            <p>地址：<{:bao_msubstr($var['addr'],0,8,true)}></p>
+                            <span>距离：<b><{$var.d}></b></span><a class="fr" href="<{:U('vip/detail',array('shop_id'=>$var['shop_id']))}>">我要领卡</a>
+                        </div>
+                    </li>
+
+                </volist> 

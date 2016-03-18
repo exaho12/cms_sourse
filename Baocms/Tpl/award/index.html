@@ -1,0 +1,93 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">抽奖插件</li>
+        <li class="li2 li3">抽奖管理</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>抽奖功能 包含了 摇一摇 抽奖  及刮刮卡</p>
+    <div class="jsglNr">
+         <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('award/create','','添加内容')}>
+            </div>
+            <div class="right">
+                <form method="post" action="<{:U('award/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />                      
+                        <input type="submit" value="  搜索"  class="inptButton" />
+                    </div> 
+                </form>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+
+
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="award_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>活动</td>
+                        <td>发起商家</td>
+                        <td>类型</td>
+                        <td>说明</td>
+                        <td>结束时间</td>
+                        <td>创建时间</td>
+                        <td>创建IP</td>
+                        <td>是否启用</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_award_id" type="checkbox" name="award_id[]" value="<{$var.award_id}>" /></td>
+                            <td><{$var.award_id}></td>
+                            <td><{$var.title}></td>
+                            <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                            <td><{$types[$var['type']]}></td>
+                            <td><{$var.explain}></td>
+                            <td><{$var.expire_date}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_ip}>(<{$var.create_ip_area}>)</td>
+                            <td>
+                        <eq name="var.is_online" value="1">启用<else/>未启用</eq>
+
+                        </td>
+
+                        <td>
+
+                            <eq name="var.is_online" value="0">
+
+                            <{:BA('award/audit',array("award_id"=>$var["award_id"]),'启用','act','remberBtn')}>
+                            </eq>
+                            <{:BA('awardgoods/index',array("award_id"=>$var["award_id"]),'设置选项','','remberBtn')}>                 
+                            <{:BA('award/edit',array("award_id"=>$var["award_id"]),'编辑','','remberBtn')}>
+                            <{:BA('award/delete',array("award_id"=>$var["award_id"]),'删除','act','remberBtn')}>
+                            <{:BA('awardwinning/index',array("award_id"=>$var["award_id"]),'中奖名单','','remberBtn')}>                 
+
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('award/audit','','批量启用','list',' remberBtn')}>
+                    <{:BA('award/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

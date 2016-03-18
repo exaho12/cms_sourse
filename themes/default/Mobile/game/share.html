@@ -1,0 +1,287 @@
+<php>$seo_title = $detail['name'];</php>
+<include file="public:header"/>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('game/detail',array('id'=>$detail['game_id']))}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		分享游戏
+	</div>
+	<div class="top-signed">
+		<a class="share-btn" rel="nofollow" href="<{:U('game/index')}>"><i class="icon-ellipsis-h"></i></a>
+	</div>
+</header>
+
+<div class="container">
+	<div class="line padding-large">
+		<div class="line border-bottom">
+			<div class="x3">
+				<img src="<{$dir}>logo.png" width="90%" />
+			</div>
+			<div class="x9">
+				<h5><{$detail.name}></h5>
+				<p class="text-small text-gray">我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！</p>
+			</div>
+		</div>
+		<div class="blank-20"></div>
+		<div class="line border-bottom">
+			<div class="x2"></div>
+			<div class="x8">
+				<img src="/static/default/pc/image/wx.png" width="100%" />
+				<p class="text-small text-gray">长按二维码关注公众号，随时娱乐</p>
+			</div>
+			<div class="x2"></div>
+		</div>
+		<div class="blank-10"></div>
+		<p class="text-small"><span class="tag bg-dot margin-right">分享游戏</span>分享获得<{$detail.integral}>积分，积分可以换礼品！</p>
+		
+		
+		
+		<div class="blank-20"></div>
+		<div class="line share">
+			<span class="item">
+				<a id="share-f" rel="nofollow" href="#weixin">
+					<img src="/static/default/wap/image/share/btn-f.png" />
+				</a>  
+			</span>
+			<span class="item">
+				<a id="share-q" rel="nofollow" href="#weixin">
+					<img src="/static/default/wap/image/share/btn-q.png" />
+				</a>  
+			</span>
+			<span class="item">
+				<a id="share-qq" rel="nofollow" href="#weixin">
+					<img src="/static/default/wap/image/share/btn-qq.png" />
+				</a>  
+			</span>
+			<span class="item">
+				<a id="share-wz" rel="nofollow" href="#weixin">
+					<img src="/static/default/wap/image/share/btn-qz.png" />
+				</a>  
+			</span>
+			<span class="item">
+				<a id="share-wb" rel="nofollow" href="#weixin">
+					<img src="/static/default/wap/image/share/btn-wb.png" />
+				</a>  
+			</span>
+		</div>
+		
+		
+	</div>
+</div>
+
+
+<!--微信分享按钮弹窗-->   
+<div href="#x" class="overlay" id="weixin">
+	<span class="tips"></span>
+</div>   
+
+
+
+
+<script>
+
+	wx.config({
+	debug: false,
+	appId: "<{$sign.appId}>",
+	timestamp: <{$sign.timestamp}>,
+	nonceStr: "<{$sign.nonceStr}>",
+	signature: "<{$sign.signature}>",
+	jsApiList: [
+	'checkJsApi',
+	'onMenuShareTimeline',
+	'onMenuShareAppMessage',
+	'onMenuShareQQ',
+	'onMenuShareWeibo',
+	'onMenuShareQZone',
+	'hideMenuItems',
+	'showMenuItems',
+	'hideAllNonBaseMenuItem',
+	'showAllNonBaseMenuItem',
+	'translateVoice',
+	'startRecord',
+	'stopRecord',
+	'onVoiceRecordEnd',
+	'playVoice',
+	'onVoicePlayEnd',
+	'pauseVoice',
+	'stopVoice',
+	'uploadVoice',
+	'downloadVoice',
+	'chooseImage',
+	'previewImage',
+	'uploadImage',
+	'downloadImage',
+	'getNetworkType',
+	'openLocation',
+	'getLocation',
+	'hideOptionMenu',
+	'showOptionMenu',
+	'closeWindow',
+	'scanQRCode',
+	'chooseWXPay',
+	'openProductSpecificView',
+	'addCard',
+	'chooseCard',
+	'openCard'
+	]
+	});
+
+	  
+	var url_d = "http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>";
+	var url_s = "http://<{$_SERVER['HTTP_HOST']}><{:U('game/share',array('id'=>$detail['game_id']))}>";
+
+	
+document.querySelector('#share-f').onclick = function () {
+    wx.onMenuShareAppMessage({
+      title: '<{$detail.name}>',
+      desc: '我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！',
+      link: 'http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>',
+      imgUrl: '<{$dir}>icon.png',
+      trigger: function (res) {
+        // alert('请选择您要分享的好友');
+      },
+      success: function (res) {
+         shareComplete();
+      },
+      cancel: function (res) {
+        shareCancel();
+      },
+      fail: function (res) {
+        shareFail();
+      }
+    });
+};
+
+document.querySelector('#share-q').onclick = function () {
+    wx.onMenuShareTimeline({
+      title: '我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！',
+      link: 'http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>',
+      imgUrl: '<{$dir}>icon.png',
+      trigger: function (res) {
+        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+       //  alert('您选择了分享到好友圈，赶紧分享吧！');
+      },
+      success: function (res) {
+        shareComplete();
+      },
+      cancel: function (res) {
+         shareCancel();
+      },
+      fail: function (res) {
+        shareFail();
+      }
+    });
+};
+
+document.querySelector('#share-qq').onclick = function () {
+	wx.onMenuShareQQ({
+	  title: '<{$detail.name}>',
+	  desc: '我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！',
+	  link: 'http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>',
+	  imgUrl: '<{$dir}>icon.png',
+	  trigger: function (res) {
+		// alert('您选择了分享到QQ，赶紧分享给QQ的好友们吧！');
+	  },
+	  complete: function (res) {
+		// 	alert('您确认了分享！');
+	  },
+	  success: function (res) {
+			shareComplete();
+	  },
+	  cancel: function (res) {
+			shareCancel();
+	  },
+	  fail: function (res) {
+			shareFail();
+	  }
+	});
+};
+
+document.querySelector('#share-wb').onclick = function () {
+    wx.onMenuShareWeibo({
+	  title: '<{$detail.name}>',
+	  desc: '我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！',
+	  link: 'http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>',
+	  imgUrl: '<{$dir}>logo.png',
+      trigger: function (res) {
+       //  alert('您选择了分享到QQ微博,请继续操作');
+      },
+      complete: function (res) {
+       //   alert('您选择了分享到QQ微博,请继续操作');
+      },
+      success: function (res) {
+			shareComplete();
+      },
+      cancel: function (res) {
+			shareCancel();
+      },
+      fail: function (res) {
+			shareFail();
+      }
+    });
+  };
+
+document.querySelector('#share-qz').onclick = function () {
+    wx.onMenuShareQZone({
+	  title: '<{$detail.name}>',
+	  desc: '我在玩<{$detail.name}>，非常有意思，你也来玩玩~ 还能赚礼品哦！',
+	  link: 'http://<{$_SERVER['HTTP_HOST']}><{:U('game/detail',array('id'=>$detail['game_id']))}>',
+	  imgUrl: '<{$dir}>logo.png',
+      trigger: function (res) {
+      //   alert('您选择了分享到QZone，赶紧分享到QQ空间吧！');
+      },
+      complete: function (res) {
+      //    alert('您选择了分享到QZone，赶紧分享到QQ空间吧！');
+      },
+      success: function (res) {
+			shareComplete();
+      },
+      cancel: function (res) {
+			shareCancel();
+      },
+      fail: function (res) {
+		   shareFail();
+      }
+    });
+};
+
+
+function shareComplete(){
+	$.get("<{:U('game/shared',array('id'=>$detail['game_id']))}>", function (data) {
+		if(data == '1'){
+			alert('分享成功，恭喜您获得<{$detail.integral}>积分！');
+			location.href = url_d;
+		}else if(data == '-4'){
+			alert('没有找到该游戏！')
+			location.href = url_d;
+		}else if(data == '-3'){
+			alert('没有登录网站！')
+			location.href = url_d;
+		}else if(data == '-1'){
+			alert('分享成功，不过您已经领取过一次积分奖励了！')
+			location.href = url_d;
+		}else{
+			alert('分享失败，请重试！');
+			location.href = url_s;
+		}
+
+	}, 'html');
+}
+
+function shareFail(){
+	alert('分享失败，请重试！');
+	location.href = url_s
+}
+
+function shareCancel(){
+	alert('您取消了分享，无法获得积分奖励！');
+	location.href = url_s;
+}
+
+
+</script>
+
+
+<include file="public:footer"/>

@@ -1,0 +1,99 @@
+<include file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('community/tieba',array('community_id'=>$detail[community_id]))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			发表帖子
+		</div>
+	</header>
+
+	<form class="post-form" action="<{:U('community/post',array('community_id'=>$detail[community_id]))}>" method="post" target="x-frame" >
+		<input type="hidden" id="photo" name="data[photo]" value="" />
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" value="" placeholder="请输入标题"  />
+			</div>
+			<div class="x3 text-right">
+				<button class="button bg-green margin-small-right" type="submit">发表</button>
+			</div>
+		</div>
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[details]" placeholder="文明上网，登陆发言"></textarea>
+		</div>
+		
+		<div class="blank-10 clearfix"></div>
+		
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<div id="filepicker">选择图片</div>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+		
+		
+	</form>
+	
+	<script>
+		jQuery(function() {
+			var $ = jQuery,
+				$list = $('#filelist'),
+				ratio = window.devicePixelRatio || 1,
+				thumbnailWidth = 100 * ratio,
+				thumbnailHeight = 100 * ratio,
+				uploader;
+			var uploader = WebUploader.create({
+				auto: true,
+				swf: '/static/default/wap/other/Uploader.swf',
+				server: '<{:U("public/upload",array("model"=>"tieba"))}>',
+				pick: '#filepicker',
+				accept: {
+					title: 'Images',
+					extensions: 'gif,jpg,jpeg,bmp,png',
+					mimeTypes: 'image/*'
+				}
+			});
+
+			uploader.on( 'fileQueued', function( file ) {
+				var $li = $('<div id="' + file.id + '" class="file-item thumbnail"><img></div>'),
+					$img = $li.find('img');
+					$list.append( $li );
+				uploader.makeThumb( file, function( error, src ) {
+					if ( error ) {
+						$img.replaceWith('<span>不能预览</span>');
+						return;
+					}
+					$img.attr( 'src', src );
+				}, thumbnailWidth, thumbnailHeight );
+			});
+			
+			uploader.on( 'uploadSuccess', function( file,response ) {
+				$( '#'+file.id ).addClass('upload-state-done');
+				var photo = $("#photo").val();
+				var pic = response['_raw'];
+				if( photo == ""){
+					photo =  pic;
+				}else{
+					photo = photo + "," + pic;
+				}
+				$("#photo").val(photo);
+			});
+
+			uploader.on( 'uploadError', function( file ) {
+				var $li = $( '#'+file.id ),
+					$error = $li.find('div.error');
+				if ( !$error.length ) {
+					$error = $('<div class="error"></div>').appendTo( $li );
+				}
+
+				$error.text('上传失败');
+			});
+		});	
+
+	</script>
+	
+	
+<include file='public:footer'/>  

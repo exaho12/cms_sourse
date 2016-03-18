@@ -1,0 +1,33 @@
+<html>
+    <body>
+        <div style="width: 100%; margin: 0 auto;">
+            <div class="jfbg">
+                <div class="jfbgbox cc" style="width: 600px; margin: 0px auto;">
+                    <div class="subcusee" style="font-size: 20px; line-height: 175px; height: 175px;">
+                        <img style="display: inline-block; float: left;" src="__TMPL__statics/images/wrong.jpg" />
+                        <span style="height: 30px; line-height: 30px; float: left; display: inline-block; margin: 70px 0px 75px 20px; width:360px; text-align: left;"><?php echo($message); ?></span>
+                    </div>
+                    <div class="jfbtn">
+                        <input style="width: 100px; height: 40px; line-height: 40px; text-align: center; background: #da000a; border: none; border-radius: 5px; color: #fff; margin-left: 150px; font-size: 16px; cursor: pointer; font-family:'微软雅黑';" type="button" value="立刻跳转"  onclick="location.href = '<{$jumpUrl}>'"  class="jfBack"  />
+                         页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b>      
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cl"></div>
+        <script type="text/javascript">
+            (function () {
+                var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+                var interval = setInterval(function () {
+                    var time = --wait.innerHTML;
+                    if (time <= 0) {
+                        location.href = href;
+                        clearInterval(interval);
+                    }
+                    ;
+                }, 1000);
+            })();
+        </script>
+    </body>
+</html>

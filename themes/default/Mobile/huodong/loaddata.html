@@ -1,0 +1,40 @@
+<style>
+.shop-list .item { padding: 20px 0 !important;}
+li {list-style-type:none;}
+.txt-little2 {width: 56px;height: 16px;line-height: 16px;font-size: 12px;}
+</style>
+
+
+
+
+
+<foreach name='list' item='item'>
+
+
+<a class="item" href="<{:U('huodong/detail',array('activity_id'=>$item['activity_id']))}>">	
+		<img class="pic" src="__ROOT__/attachs/<{$item.photo}>"/>	
+		<div class="des">	
+			<h5>[<{$cates[$item['cate_id']]['cate_name']}>]<{:bao_msubstr($item['title'],0,26,false)}>
+            <span class="distance">           
+               <if condition="$item['sign'] eq 1">
+               <li onclick="location='javascript:void(0);'" class="txt txt-little2 radius-little bg-gray">已报名</li>
+             <else/>
+ <li onclick="location='<{:U('huodong/sign',array('activity_id'=>$item['activity_id']))}>'" class="txt txt-little2 radius-little bg-dot">立即报名</li>
+             </if>         
+            </span>	
+			</h5>	
+			<div class="info">	
+				<span>时间：<{$item.time}></span>
+				<span><{$item.sign_num}>人已报名</span>	
+			</div>	
+			<span class="addr">	地点：<{:bao_msubstr($item['addr'],0,6,true)}>
+            
+               </span>
+		</div>	
+	</a>
+</foreach>
+
+
+
+  
+            

@@ -1,0 +1,80 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('ding/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		店铺菜单
+	</div>
+</header>
+	
+<div class="line mart-shop">
+	<div class="x3">
+		<ul id="shop-cate" class="shop-cate">
+			<li><a <if condition="$cat eq 0"> class="active" </if>  href="<{:U('ding/menu',array('shop_id'=>$detail['shop_id'],'yuyue_id'=>$yuyue_id))}>">全部分类</a></li>
+			<foreach name="cates" item="item">
+			<li><a <if condition="$item['cate_id'] eq $cat"> class="active" </if> href="<{:U('ding/menu',array('shop_id'=>$detail['shop_id'],'yuyue_id'=>$yuyue_id,'cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+			</foreach>
+		</ul>
+	</div>
+	<div class="x9">
+		<ul class="item-list" id="item-list"></ul>
+	</div>
+</div>
+
+<script>
+	var num = '<{$cartnum}>';
+	var money = 0;
+	$(document).ready(function (e) {
+		loaddata('<{$next}>', $("#item-list"), true);
+		$(document).on('click','.item-addcart',function(e){
+			e.preventDefault();
+			var price = parseFloat($(this).attr('val'));
+			var this_num = parseInt($(this).parent().find('.dian-num').html());
+			var did = 'dian-num-'+$(this).attr('did');
+			$.get($(this).attr('href'),function(data){
+				if(data == 0){
+					num++;
+					money = money + price;
+					$('#'+did).html(this_num+1);
+					$("#num").html(num);
+					$("#all_price").html(money);
+				}
+				
+			},'html');
+			
+		});
+		
+		//JS处理左右宽度
+		var height = $(document).height();
+		var xheight = $("#item-list").height();
+		if(xheight>height){
+			$("#shop-cate").css("height",xheight);
+		}else{
+			$("#shop-cate").css("height",height);
+		}
+		$(window).scroll(function() {
+			var height = $("#shop-cate").height();
+			var xheight = $("#item-list").height();
+			if(xheight>height){
+				$("#shop-cate").css("height",xheight);
+			}
+		});
+		
+	});
+</script>
+                
+	<nav class="cart-bar">
+		<div class="cart">
+			<i class="icon-shopping-cart"></i> 
+			已点 <span class="cart-num" id="num"><{$cartnum}></span> 
+		</div>
+		<div class="result">
+			<a class="button bg-dot"  id="cart_2"  href="<{:U('ding/cart',array('shop_id'=>$shop_id,'yuyue_id'=>$yuyue_id))}>">结算</a>
+		</div>
+	</nav>
+    
+    
+    
+</body>
+</html>

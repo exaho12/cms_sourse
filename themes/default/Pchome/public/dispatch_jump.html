@@ -1,0 +1,29 @@
+<include  file='public:header'/>    
+<include  file='public:top'/>    
+<include  file='public:nav2'/> 
+<script language="javascript">
+    var secs = 2; //倒计时的秒数 
+    var URL;
+    function Load(url) {
+        URL = url;
+        for (var i = secs; i >= 0; i--) {
+            window.setTimeout('doUpdate(' + i + ')', (secs - i) * 1000);
+        }
+    }
+    function doUpdate(num) {
+        document.getElementById('czts_time').innerHTML = num;
+        if (num == 0) {
+            window.location = URL;
+        }
+    }
+</script>
+</head>
+<div class="czts">
+    <present name="message">
+    <div class="cztsnr"><?php echo($message); ?><p class="czts_p">页面自动 跳转中   等待时间：<span class="czts_time" id="czts_time"></span></p></div>
+    <else/>
+    <div class="cztsnr cztsnr_Failure"><?php echo($error); ?><p class="czts_p">页面自动 跳转中   等待时间：<span class="czts_time" id="czts_time"></span></p></div>
+    </present>
+</div>
+<script type="text/javascript">Load("<?php echo($jumpUrl); ?>");</script>
+<include  file='public:footer'/>   

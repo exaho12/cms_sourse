@@ -1,0 +1,22 @@
+<include file="member:head"/>
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+            <li class="on"><a href="<{:U('member/nickname')}>">昵称设置</a></li>
+            <li><a href="<{:U('member/face')}>">修改头像</a></li>
+            <li><a href="<{:U('member/password')}>">修改密码</a></li>
+            <li><a href="<{:U('member/myaddress')}>">收货地址</a></li>
+        </ul>
+    </div>
+    <form method="post"  action="<{:U('member/nickname')}>"  target="baocms_frm">
+        <div class="password_nr">
+            <div class="password_input">
+                <div class="left">设置昵称</div>
+                <div class="lef"><input class="oldPassw" name="nickname" type="text" value="<{$MEMBER.nickname}>" /></div>
+            </div>
+            <div class="password_subm"><input class="submit" type="submit" value="确认保存" /></div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<title>物流配送中心</title>
+
+<include file="public:header"/>
+
+<link rel="stylesheet" href="/static/default/wap/css/delivery.css">
+<script src = "/themes/default/Mobile/statics/js/jquery-1.7.1.min.js" ></script>
+<script src="/themes/default/Mobile/statics/js/layer/layer.js"></script>
+
+<script language="JavaScript"> 
+
+var tms = []; 
+
+var day = []; 
+
+var hour = []; 
+
+var minute = []; 
+
+var second = []; 
+
+function takeCount() { 
+
+setTimeout("takeCount()", 1000); 
+
+for (var i = 0, j = tms.length; i < j; i++) { 
+
+//计数减一 
+
+tms[i] -= 1000; 
+
+//计算时分秒 
+
+var days = Math.floor(tms[i] / (1000 * 60 * 60 * 24)); 
+
+var hours = Math.floor(tms[i] / (1000 * 60 * 60)) % 24; 
+
+var minutes = Math.floor(tms[i] / (1000 * 60)) % 60; 
+
+var seconds = Math.floor(tms[i] / 1000) % 60; 
+
+if (days < 0) 
+
+days = 0; 
+
+if (hours < 0) 
+
+hours = 0; 
+
+if (minutes < 0) 
+
+minutes = 0; 
+
+if (seconds < 0) 
+
+seconds = 0; 
+
+//将时分秒插入到html中 
+
+document.getElementById(day[i]).innerHTML = days; 
+
+document.getElementById(hour[i]).innerHTML = hours; 
+
+document.getElementById(minute[i]).innerHTML = minutes; 
+
+document.getElementById(second[i]).innerHTML = seconds; 
+
+} 
+
+} 
+
+setTimeout("takeCount()", 1000); 
+
+</script> 
+
+
+
+<style>
+
+.table th {border-bottom: 2px dashed #ddd;}
+
+</style>
+
+
+
+
+
+<header class="top-fixed bg-yellow bg-inverse">
+
+	<div class="top-back">
+
+		<a class="top-addr"><i class="icon-angle-left"></i></a>
+
+	</div>
+
+		<div class="top-title">
+
+			订单列表
+
+		</div>
+
+	<div class="top-signed">
+
+		<a href="<{:U('delivery/login/logout')}>">退出</a>
+
+	</div>
+
+</header>
+
+
+
+<ul id="shangjia_tab">
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/index',array('ss'=>0))}>" <eq name='ss' value='0'>class="on"</eq>>抢新单</a></li>
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/index',array('ss'=>2))}>"<eq name='ss' value='2'>class="on"</eq>>配送中</a></li>
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/index',array('ss'=>8))}>"<eq name='ss' value='8'>class="on"</eq>>已完成</a></li>
+</ul>
+
+
+<!-- 筛选TAB -->
+
+<div class="line tab-bar">
+
+	<div class="button-toolbar">
+
+		<div class="button-group">
+
+			<a class="block button bg-dot active" href="#">订单列表
+
+             <eq name="ss" value="0">抢单中</eq>
+
+            <eq name="ss" value="2">配送中</eq>
+
+            <eq name="ss" value="8">已完成</eq>
+
+            </a>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+
+
+
+<div class="container1">
+
+<div class="list-media-x" id="list-media">
+
+	<ul>
+
+<php>$a=1;</php>
+
+<volist name="rdv" id="r"> 
+
+
+
+    <li class="line padding">
+
+        <div class="x12">
+
+            <p class="text-small">订单ID:<{$r.type_order_id}>（类型：             
+
+              <eq name="r.type" value="0">商城
+
+              </eq>
+
+              <eq name="r.type" value="1">外卖
+
+              </eq>）<a class="icon icon-send radius-little " style=" color:#F00; padding:0px 5px;"> 距离<{$r.d}></a>
+
+           </p>
+
+
+
+ 
+
+                          <!--PHP代码开始--><php>
+
+                            if($r['type'] == 0){ //商品
+
+                            $o = D('Order');
+
+                            $res = $o -> where('order_id ='.$r['type_order_id']) -> find();
+
+                            $t = 0;
+
+                            $o2 = D('OrderGoods');
+
+                            $res2 = $o2 -> where('order_id ='.$res['order_id']) ->  select();
+
+                            $o3 = D('Goods');
+
+                            foreach($res2 as $key => $val){
+
+                            $v = $o3->where('goods_id ='.$val['goods_id'])->getField('title');
+
+                            $res2[$key]['t'] = $v ;
+
+                            }
+
+                            }elseif($r['type'] == 1){ //外卖
+
+                            $o = D('EleOrder');
+
+                            $res = $o -> where('order_id ='.$r['type_order_id']) -> find();
+
+                            $t = 1;
+
+                            $o2 = D('EleOrderProduct');
+
+                            $res2 = $o2 -> where('order_id ='.$res['order_id']) ->select();
+
+                            $o3 = D('EleProduct');
+
+                            foreach($res2 as $key => $val){
+
+                            $v = $o3->where('product_id ='.$val['product_id'])->getField('product_name');
+
+                            $res2[$key]['t'] = $v;  
+
+                            }
+
+                            }
+
+                        </php> <!--PHP代码结束-->
+
+                                   
+
+
+
+<!--商品循环开始-->
+
+
+
+<div class="blank-10"></div>
+
+<table class="table">
+
+	<tbody><tr>
+
+		<th>商品信息</th>
+
+		<th>单价</th>
+
+		<th>数量</th>
+
+	</tr>
+
+    <volist name="res2" id="res2">	
+
+	<tr>  
+
+		<td><{:bao_msubstr($res2['t'],0,22,false)}></td>
+
+		<td>￥<php>echo round(($res2['total_price']/$res2['num'])/100,2);</php></td>
+
+		<td> x<{$res2.num}></td>
+
+	</tr> 
+
+    </volist>                   
+
+</tbody></table>
+
+<div class="blank-10"></div>
+
+
+
+
+
+<!--商品循环结束-->
+
+
+
+
+
+
+
+            <p class="text-small">下单时间： <{$res.create_time|date='Y-m-d H:i:s',###}> </p> 
+
+            <div class="blank-10"></div>
+
+            <p class="text-small">商家名称：<{$r.shop_name}>-  <{$r.shop_mobile}></p>
+
+            <p class="text-small">商家地址：<{$r.shop_addr}> </p>
+
+
+
+            <div class="blank-10"></div>
+
+
+
+            <p class="text-small1">买家地址：<{$r.user_addr}> </p>
+
+            <p class="text-small1">买家姓名：<{$r.user_name}> </p>
+
+            <p class="text-small1">买家手机：<{$r.user_mobile}></p>
+
+            
+
+            
+
+<!--规定时间开始-->            
+
+
+
+					<php>
+
+                    $delivery_time = $ex[$r['shop_id']]['delivery_time']*60;
+
+                    $end_time = $r['update_time'] + $delivery_time;
+
+                    $cha = $end_time - $nowtime;
+
+                    $endge_time = date('Y/m/d H:i:s',$end_time);
+
+                    $time = time();
+
+                </php>
+
+<script type="text/javascript"> 
+
+function getRTime(){ 
+
+var EndTime= new Date('<{$endge_time}>'); //截止时间 
+
+var NowTime = new Date(); 
+
+var t =EndTime.getTime() - NowTime.getTime(); 
+
+ 
+
+var d=Math.floor(t/1000/60/60/24); 
+
+var h=Math.floor(t/1000/60/60%24); 
+
+var m=Math.floor(t/1000/60%60); 
+
+var s=Math.floor(t/1000%60); 
+
+if(<{$cha}> > <{$time}>){
+
+document.getElementById("t_d_<{$a}>").innerHTML = d + "天"; 
+
+document.getElementById("t_h_<{$a}>").innerHTML = h + "时"; 
+
+document.getElementById("t_m_<{$a}>").innerHTML = m + "分"; 
+
+document.getElementById("t_s_<{$a}>").innerHTML = s + "秒";
+
+}else{
+
+document.getElementById("t_d_<{$a}>").innerHTML = 00 + "天"; 
+
+document.getElementById("t_h_<{$a}>").innerHTML = 00 + "时"; 
+
+document.getElementById("t_m_<{$a}>").innerHTML = 00 + "分"; 
+
+document.getElementById("t_s_<{$a}>").innerHTML = 00 + "秒"; 
+
+}
+
+}
+
+setInterval(getRTime,1000); 
+
+</script> 
+
+            
+
+            
+
+<if condition="$r.status eq 2">
+
+<if condition="$cha lt $time">
+
+<span style="float: left; color: red;  font-weight: bold; ">已超出商家规定时间</span>
+
+<else/>                                
+
+<div id="CountMsg" class="HotDate"> 
+
+<span>商家要求配送时间:</span> 
+
+<span id="t_d_<{$a}>">00天</span> 
+
+<span id="t_h_<{$a}>">00时</span> 
+
+<span id="t_m_<{$a}>">00分</span> 
+
+<span id="t_s_<{$a}>">00秒</span> 
+
+</div> 
+
+</span>
+
+</if>
+
+</if>         
+
+            
+
+            
+
+            
+
+           
+
+
+
+<div class="blank-10"></div>
+
+<p class="text-right padding-top">
+
+<a href="javascript:void(0);" class="button button-small bg-green">总计：￥<{:round($res['total_price']/100,2)}></a>          
+
+
+
+<eq name="r.status" value="0"><a href="javascript:void(0);" class="button button-small bg-yellow">抢单中</a></eq>
+
+<eq name="r.status" value="2"><a href="javascript:void(0);" class="button button-small bg-yellow">配送中</a></eq>
+
+<eq name="r.status" value="8"><a href="javascript:void(0);" class="button button-small bg-gray">已完成</a></eq> 
+
+
+
+
+
+<eq name="t" value="0"><eq name="res.is_daofu" value="1"><a href="javascript:void(0);" class="button button-small bg-yellow">货到付款</a></eq></eq>
+
+<eq name="t" value="1"><eq name="res.is_pay" value="0"><a href="javascript:void(0);" class="button button-small bg-yellow">货到付款</a></eq></eq>
+
+
+
+
+
+<eq name="r.status" value="0"><a href="javascript:void(0);" val="<{$r.order_id}>" class="button button-small bg-dot qiang_btn">抢单</a></eq>
+
+<eq name="r.status" value="1"><a href="javascript:void(0);" val="<{$r.order_id}>" class="button button-small bg-dot qiang_btn">抢单</a></eq>
+
+<eq name="r.status" value="2"><a href="javascript:void(0);" val="<{$r.order_id}>" class="button button-small bg-dot ok_btn">确认完成</a></eq>
+
+
+
+</p>
+
+          </p>
+
+        </div>
+
+    </li>
+
+    <div class="blank-10 bg"></div>
+
+<php>$a++;</php>
+
+</volist><!--循环结束-->
+
+
+
+
+
+  </ul>
+
+</div> 
+
+</div> 
+
+
+
+
+
+
+
+    
+
+
+
+  <script type="text/javascript" language="javascript">
+
+
+
+   
+
+
+
+   		$(document).ready(function(){
+
+
+
+			$('.qiang_btn').click(function(){
+
+
+
+				var id = $(this).attr('val');
+
+
+
+				$.post('<{:U("lists/handle")}>',{order_id:id},function(result){
+
+
+
+					if(result.status == 'success'){
+
+
+
+						layer.msg(result.message,{icon:6});
+
+
+
+						setTimeout(function(){
+
+
+
+							location.reload(true);
+
+
+
+						},3000);
+
+
+
+					}else{
+
+
+
+						layer.msg(result.message);
+
+
+
+					}
+
+
+
+				},'json');
+
+
+
+			})
+
+
+
+            
+
+
+
+            $('.ok_btn').click(function(){
+
+
+
+			    var id = $(this).attr('val');
+
+
+
+				$.post('<{:U("set_ok")}>',{order_id:id},function(result){
+
+
+
+					if(result.status == 'success'){
+
+
+
+						layer.msg(result.message,{icon:6});
+
+
+
+						setTimeout(function(){
+
+
+
+							location.reload(true);
+
+
+
+						},3000);
+
+
+
+					}else{
+
+
+
+						layer.msg(result.message);
+
+
+
+					}
+
+
+
+				},'json');
+
+
+
+			})
+
+
+
+		})
+
+
+
+   
+
+
+
+   </script>
+
+
+
+   
+
+
+
+   
+
+
+
+
+
+
+
+<include  file='public:footer'/>

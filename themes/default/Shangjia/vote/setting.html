@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">投票功能</a> > <a>设置选项</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+    <span>注意：</span> 投票需要在设置选项后才能启用
+ </div>
+    </div> 
+    <div class="tabnr_change show">
+    <form  target="baocms_frm" action="<{:U('vote/setting',array('vote_id'=>$detail['vote_id']))}>" method="post">
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                <tr>
+                    <td width="140" align="right">投票选项:</td>
+                    <td>
+                        <table width="600" style="margin-left: 10px;" class="jq_table1">
+                            <tr>
+                                <td colspan="2" style="text-align: right;">
+                                    <a class="jq_add" rel="1" href="javascript:void(0);">新增一个</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="200">标题</th>
+                                <th width="100">排序</th>
+                                <th width="100">操作</th>
+                            </tr>
+                            <volist name="options" id="item" key="index">
+                                <tr>
+                                    <td><input type="text" value="<{$item.title}>" name="data[<{$index}>][title]"/></td>
+                                    <td><input type="text" value="<{$item.orderby}>" name="data[<{$index}>][orderby]"/></td>
+                                    <td><a href="javascript:void(0);" class='jq_delete'>删除</a></td>
+                                </tr>  
+                            </volist>
+
+                        </table>
+
+                    </td>
+                    <script>
+                        var num_1 = 0;
+                        $(document).ready(function () {
+                            $(document).on('click', '.jq_delete', function () {
+                                $(this).parent().parent().remove();
+                            });
+
+                            $(".jq_add").click(function () {
+                                var rel = $(this).attr('rel');
+                                num_1++;
+                                var str = '<tr><td><input type="text" name="data[' + num_1 + '][title]"/></td><td><input type="text" name="data[' + num_1 + '][orderby]"/></td><td><a class="jq_delete" href="javascript:void(0);">删除</a></td></tr> ';
+                                $(".jq_table" + rel).append(str);
+                            });
+                        });
+                    </script>
+                
+              
+
+                </tr>
+                <tr>
+                    <td align="right"></td>
+                    <td>
+                        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认保存"  />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>

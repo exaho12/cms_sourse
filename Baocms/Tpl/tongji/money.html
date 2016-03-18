@@ -1,0 +1,103 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+<script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+<div class="mainBt">
+    <ul>
+        <li class="li1">营销分析</li>
+        <li class="li2">数据统计</li>
+        <li class="li2 li3">抢购金额</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="left">
+                <form method="post" action="<{:U('tongji/money')}>">
+                    <div class="seleK">
+                        <label>
+                            <span>开始时间</span><input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="text w200 inputData" style="background-position: 187px -75px;" /></label>
+                        <label><span>结束时间</span><input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="text w200 inputData" style="background-position: 187px -75px;" /></label>
+
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="tableBox">
+            <script>
+                        $(function () {
+                        $('#container').highcharts({
+                        title: {
+                        text: '抢购金额时间段（<{$bg_date}> - <{$end_date}>）内趋势',
+                                x: - 20 //center
+                        },
+                                subtitle: {
+                                text: 'baocms.com',
+                                        x: - 20
+                                },
+                                xAxis: {
+                                categories: [ <{$money.d}> ]
+                                },
+                                yAxis: {
+                                title: {
+                                text: '单位元'
+                                },
+                                        plotLines: [{
+                                        value: 0,
+                                                width: 1,
+                                                color: '#808080'
+                                        }]
+                                },
+                                series: [{
+                                name: '购买金额',
+                                        data: [ <{$money.price}> ]
+                                }]
+                        });
+                        });</script>
+            <div id="container">
+
+            </div>
+        </div>
+
+        <div class="tableBox">  
+            <div class="cl"></div>
+
+            <script>
+                        $(function () {
+                        $('#container2').highcharts({
+                        title: {
+                        text: '抢购金额月趋势',
+                                x: - 20 //center
+                        },
+                                subtitle: {
+                                text: 'baocms.com',
+                                        x: - 20
+                                },
+                                xAxis: {
+                                categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                                },
+                                yAxis: {
+                                title: {
+                                text: '单位元'
+                                },
+                                        plotLines: [{
+                                        value: 0,
+                                                width: 1,
+                                                color: '#808080'
+                                        }]
+                                },
+                                series: [{
+                                name: '购买金额',
+                                        data: [ <{$money_yue}> ]
+                                }]
+                        });
+                        });
+
+            </script>
+            <div id="container2">
+
+            </div>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>       

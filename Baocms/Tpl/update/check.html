@@ -1,0 +1,51 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">当前位置>
+        <li class="li2"> 升级检查</li>
+      
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span> <{$content}></p>
+    <div class="jsglNr">
+     
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+             
+                <td>文件</td>
+                <td>是否可写</td>
+               
+
+               
+                  <foreach name="datas" item="var">
+                <tr>
+             
+                    <td><{$var.file}></td>
+                 
+
+                    <td>
+                        <eq name='var.is_write' value='1'><span style="color: green;">可写</span><else /><span style="color: red;">权限不足</span></eq>
+
+                    </td>
+                </tr>
+                  </foreach>
+                    <tr>
+                        <td colspan="20">
+                            <eq name='is_through' value='1'>
+                         <{:BA('update/runing','','立刻升级','','remmerBtn')}>
+                         </eq>
+                        </td>
+                    </tr>
+                </table>
+               
+
+            </div>
+
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

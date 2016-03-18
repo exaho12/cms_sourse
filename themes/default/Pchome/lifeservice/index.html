@@ -1,0 +1,97 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>
+<include  file='public:nav2'/>  
+<php>
+    $get_cat = $_GET['cat'];
+    if(!$get_cat || empty($get_cat)){$get_cat = 1;}
+</php>
+<div class="content"> 
+    <div class="hdsy_banner" style="height:auto">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.hdsy_flexslider').flexslider({
+                    directionNav: true,
+                    pauseOnAction: false,
+                    /*slideshow: false,*/
+                    /*manualControlEvent:"hover",*/
+                });
+
+            });//首页轮播js
+        </script>
+        <div class="hdsy_flexslider">
+            <ul class="slides">
+
+                <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=60" limit="0,2" cache="21600" order="orderby asc">
+                    <li class="sy_hotgzLi flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;"><a href="<{$item.link_url}>" title="<{$item.title}>" target="_blank"><img width="1200" height="80" src="__ROOT__/attachs/<{$item.photo}>" draggable="false"></a></li>
+                </calldata>
+            </ul>
+            <ol class="flex-control-nav flex-control-paging"></ol>
+
+        </div>
+    </div>
+    <div class="hdsy_tab">
+        <ul>
+        <li class="hdsy_tabLi on"><a href="<{:U('lifeservice/index')}>">全部家政</a></li>
+            <volist name="lifeservicecates" id="item" key="index">
+                <li class="hdsy_tabLi <php>if($get_cat == $item['cate_id']){echo 'on';}</php>"><a href="<{:U('lifeservice/index',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+            </volist>
+        </ul>
+    </div>
+    
+    
+    
+     <div class="yhsy_syList">
+        <ul>
+            <script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script>
+            <foreach name="list" item="item">
+                <li class="yhsy_syLi">
+                    <div class="yhsy_syLiNr">
+                        <a href="<{:U('lifeservice/detail',array('id'=>$item['id']))}>" target="_blank" style="position:relative;">
+                        	<img src="__ROOT__/attachs/<{$item.photo}>" width="230"/>
+                            <a href="<{:U('lifeservice/detail',array('id'=>$item['id']))}>" target="_blank"  class="dui-huan right" style="position:absolute;right:0;bottom:0;margin-bottom:23px;">预约</a>
+                        </a>
+                        <div class="left" style="height:85px;line-height:22px;">
+                            <P style="height:44px;overflow:hidden;">姓名：<{$item.name}></P>
+                            <p>服务价格：<{:round($item['price']/100,2)}>元/<{$item.unit}> </p>
+                        </div>
+                        
+                        <div class="clear"></div>
+                        <script type="text/javascript">
+        $(function () {
+            var str = "<{$host}><{:U('moblie/lifeservice/detail',array('id'=>$item['id']))}>";
+            $("#code_<{$item.id}>").empty();
+            $('#code_<{$item.id}>').qrcode(str);
+        })
+                        </script>
+                        <style>
+                            .yhsy_syLiWx canvas{
+                                width: 102px;
+                                height: 102px;
+                                margin: 0px auto;
+                                padding: 10px;
+                                background: #fff;
+                            }
+                        </style>
+                        <div class="yhsy_syLiBgDw">
+                            <div class="yhsy_syLiBgK">
+                                <div class="yhsy_syLiDwNr">
+                                    <a href="<{:U('lifeservice/detail',array('id'=>$item['id']))}>"><div class="yhsy_syLiWx"><div style="width: 122px; height: 122px; margin: 0px auto;" id="code_<{$item.id}>"></div></div>
+                                        <p>[扫一扫，手机预约家政]</p></a>
+                                </div>
+                                <div class="yhsy_syLiBg"></div>
+                            </div>
+                        </div> 
+                    </div>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+    <div class="x">
+        <{$page}>
+    </div>
+    
+    
+    
+    
+</div>
+<include file="public:footer"/>

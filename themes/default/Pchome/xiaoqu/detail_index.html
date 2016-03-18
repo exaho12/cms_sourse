@@ -1,0 +1,105 @@
+<php>$i=0;</php>
+<foreach name="news"  item="item">
+<php>$i++;</php>
+<eq name="i" value="1">
+<div class="alert alert-red">
+	<span class="close rotate-hover"></span>
+	<strong>最新通知:</strong> <a class="ml-10" title="<{$item.title}>" href="<{:U('xiaoqu/news',array('news_id'=>$item['news_id']))}>" target="_blank"><{$item['title']}></a>
+</div>
+</eq>
+</foreach>
+
+<div class="blank-10"></div>
+
+<div class="line">
+	<div class="x9">
+		<div class="xiaoqu-box">
+			<div class="box-hd">
+				<h3><i class="icon-comments"></i> 小区贴吧</h3>
+			</div>
+			<div class="box-bd">
+				<ul class="tie-list" id="pagingList">
+					<foreach name="posts" item="item">
+					<li class="line">
+						<div class="x1">
+							<span class="rcount"><{$item.reply_num}></span>
+						</div>
+						<div class="x9">
+							<a class="title" href="<{:U('xiaoqu/tie',array('post_id'=>$item['post_id']))}>"><{$item['title']}></a>
+							<p><{:msubstr(strip_tags($item['details']),0,50)}></p>
+							<if condition="!empty($item['gallery'])">
+							<php>$gallery = explode(',',$item['gallery']);</php>
+							<ul class="gallery">
+								<foreach name="gallery" item="var">
+								<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+								</foreach>
+							</ul>
+							</if>
+						</div>
+						<div class="x2">
+							<dl class="reply">
+								<dt><{$item.username}></dt>
+								<dd><{:formatTime($item['create_time'])}></dd>
+							</dl>
+						</div>
+					</li>
+					</foreach>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="x3">
+		<div class="xiaoqu-side">
+			<div class="xiaoqu-box">
+				<div class="box-hd">
+					<h3><i class="icon-group"></i> 小区邻居</h3>
+				</div>
+				<div class="box-bd">
+					<ul class="user-list">
+						<php>$i=0;</php>
+						<foreach name="users" item="item">
+						<php>$i++;</php>
+						<if condition="$item['user_id'] NEQ $MEMBER['user_uid']">
+						<if condition="$i LT 17">
+						<li>
+							<a class="avatar" target="_blank"  href="#">
+								<img src="__ROOT__/attachs/<{$item['face']|default='default.jpg'}>" />
+							</a>
+                            <!--<{:U('blog/index',array('user_id'=>$item['user_id']))}>-->
+							<a  class="nick" target="_blank"  href="#">
+								<{$item['nickname']}>
+							</a>
+						</li>
+						</if>
+						</if>
+						</foreach>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="blank-10"></div>
+			
+			<div class="side-ads">
+				<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'tel'))}>">
+					<img src="/static/default/pc/image/xiaoqu/bm-ad.png" />
+				</a>
+			</div>
+			
+			
+			<div class="blank-10"></div>
+			
+			<div class="side-ads">
+				<a mini="load" href="<{:U('xiaoqu/feedback',array('community_id'=>$detail['community_id']))}>">
+					<img src="/static/default/pc/image/xiaoqu/xiaoqu-report.png" />
+				</a>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+
+<link rel="stylesheet" href="/static/default/pc/css/zoom.css" />
+<script src="/static/default/pc/js/zoom.js"></script>

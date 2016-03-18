@@ -1,0 +1,53 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">结算</a> > <a href="">提现申请</a> > <a>提现日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+      <form method="post" action="<{:U('money/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+             开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>       
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli on"><a href="<{:U('money/tixianlog')}>">提现日志</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('money/tixian')}>">提现</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>金额</td>
+            <td>日期</td>
+			<td>状态</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+            
+                <td><{:round($var['money']/100,2)}>元</td>
+                <td><{$var.addtime|date='Y-m-d H:i:s',###}></td>
+				<td><if condition="$var.status eq 0">
+                        未审核
+                        <elseif condition="$var.status eq 1" />
+                        <font color="green">通过</font>
+                        <else />
+                        <font color="red">拒绝</font>
+                    </if>
+		        </td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

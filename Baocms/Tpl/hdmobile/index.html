@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">手机</li>
+        <li class="li2">约会</li>
+        <li class="li2 li3">活动列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('hdmobile/create','','添加内容')}>
+            </div>
+            <div class="right">
+                <form class="" method="post"  action="<{:U('hdmobile/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <span>活动标题</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value="  搜索"  class="inptButton" />
+                    </div> 
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="huodong_id" /></td>
+                        <td class="w50">活动ID</td>
+                        <td>活动类型</td>
+                        <td class="w300">活动标题</td>
+                        <td>活动图片</td>
+                        <td>活动地址</td>
+                        <td>是否审核</td>
+                        <td>参加人数</td>
+                        <td>活动时间</td>
+                        <td>活动创建IP</td>
+                        <td>操作</td>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_huodong_id" type="checkbox" name="huodong_id[]" value="<{$var.huodong_id}>" /></td>
+                            <td> <{$var.huodong_id}></td>
+                            <td><volist name="getHuoCate" id="v" key="index">
+                            <if condition="$huodong[$var['huodong_id']]['cate_id'] eq $index" ><{$v}></if>
+                        </volist>
+                        </td>
+                        <td><{$var.title}></td>
+                        <td><img src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" class="w120" style="margin: 10px;" /></td>
+                        <td><{$var.addr}></td>
+                        <td><eq name="var.audit" value="0">待确认<else/>已确认</eq></td>
+                        <td><{$var.sign_num}></td>
+                        <td><{$var.time}></td>
+                        <td><{$var.create_ip}></td>
+                        <td>
+                            <{:BA('hdmobilesign/index',array("huodong_id"=>$var["huodong_id"]),'查看报名','','remberBtn')}>
+                            <{:BA('hdmobile/edit',array('huodong_id'=>$var['huodong_id']),'编辑','','remberBtn')}>
+                            <{:BA('hdmobile/delete',array("huodong_id"=>$var["huodong_id"]),'删除','act','remberBtn')}>
+                            <eq name="var.audit" value="0"> <{:BA('hdmobile/audit',array("huodong_id"=>$var["huodong_id"]),'审核','act','remberBtn')}> </eq>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('hdmobile/delete','','批量删除','list','a2')}>
+                    <{:BA('hdmobile/audit','','批量审核','list','remberBtn')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

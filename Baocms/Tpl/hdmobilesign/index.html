@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">手机</li>
+        <li class="li2">约会</li>
+        <li class="li2">活动报名</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top: none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('hdmobilesign/index')}>"> 
+                    <div class="seleHidden" id="seleHidden">
+                        <span>  联系人或电话：</span>
+                        <input type="text" name="keyword" id="keyword"  value="<{$keyword}>"   class="inptText" />
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="sign_id" /></td>
+                        <td>报名ID</td>
+                        <td>用户ID</td>
+                        <td>报名人数</td>
+                        <td>手机号码</td>
+                        <td>姓名</td>
+                        <td>报名时间</td>
+                        <td>报名IP</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_sign_id" type="checkbox" name="sign_id[]" value="<{$var.sign_id}>" /></td>
+                            <td><{$var.sign_id}></td> 
+                            <td><{$var.user_id}></td>
+                            <td><{$var.num}></td>
+                            <td><{$var.mobile}></td>
+                            <td><{$var.name}></td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            <td><{$var.create_ip}></td>
+                        </tr>
+                    </foreach>
+                </table>
+                <if condition="!empty($list)">
+                    <{$page}>
+                    <else/>
+                    <div style="height: 48px; line-height: 48px; color: #666; text-align: center; font-size: 16px; font-family:'宋体';">暂无数据</div>
+                </if>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

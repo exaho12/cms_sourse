@@ -1,0 +1,115 @@
+<include  file='public:header'/>
+<style>.lfTdBt {width: 200px;}</style>
+<div class="mainBt">
+
+    <ul>
+
+        <li class="li1">设置</li>
+
+        <li class="li2">站点功能</li>
+
+        <li class="li2">功能开关</li>
+
+    </ul>
+
+</div>
+
+<div class="main-jsgl main-sc">
+
+    <p class="attention"><span>注意：</span>目前只支持部分板块，关闭后只是前台用户看不到，后台还是可看到功能列表。</p>
+
+    <form  target="baocms_frm" action="<{:U('setting/operation')}>" method="post">
+
+        <div class="tableBox">
+
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+               
+                
+                
+               
+<tr>
+<td class="lfTdBt">开启三级分销功能：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[distribution]" <eq name="CONFIG.operation.distribution" value="1">checked="checked"</eq> value="1"  />开启分销</label>
+<label><input type="radio" name="data[distribution]"  <eq name="CONFIG.operation.distribution" value="0">checked="checked"</eq>  value="0"  />关闭分销</label>
+<code>不运营分销的可以关闭。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启家政：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[lifeservice]" <eq name="CONFIG.operation.lifeservice" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[lifeservice]"  <eq name="CONFIG.operation.lifeservice" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>不运营家政的可以关闭。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启贴吧：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[tieba]" <eq name="CONFIG.operation.tieba" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[tieba]"  <eq name="CONFIG.operation.tieba" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>比如整合了dz的可以不需要贴吧。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启新闻资讯：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[news]" <eq name="CONFIG.operation.news" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[news]"  <eq name="CONFIG.operation.news" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>这个一般都需要的吧。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启分类信息：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[life]" <eq name="CONFIG.operation.life" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[life]"  <eq name="CONFIG.operation.life" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>一般需要用。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启积分商城：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[jifen]" <eq name="CONFIG.operation.jifen" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[jifen]"  <eq name="CONFIG.operation.jifen" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>一般需要开启，还是有用的。</code>
+</td>
+</tr>
+
+<tr>
+<td class="lfTdBt">开启榜单：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[billboard]" <eq name="CONFIG.operation.billboard" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[billboard]"  <eq name="CONFIG.operation.billboard" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>没鸟用，建议关闭。</code>
+</td>
+</tr> 
+
+<tr>
+<td class="lfTdBt">开启卖场：</td>
+<td class="rgTdBt">
+<label><input type="radio" name="data[market]" <eq name="CONFIG.operation.market" value="1">checked="checked"</eq> value="1"  />开启</label>
+<label><input type="radio" name="data[market]"  <eq name="CONFIG.operation.market" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+<code>没鸟用，建议关闭。</code>
+</td>
+</tr>          
+                
+                 
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </form>
+
+</div>
+
+<include  file='public:footer'/>       

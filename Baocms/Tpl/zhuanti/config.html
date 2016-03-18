@@ -1,0 +1,75 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/colpick.js"></script>
+<link href="__TMPL__statics/css/colpick.css" rel="stylesheet" type="text/css" />
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">专题管理</li>
+        <li class="li2 li3">配置管理</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>暂时2级分类</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <a href="<{:U('tuan/index')}>">添加专题商品</a>
+                <a href="<{:U('zhuanti/addconfig')}>">添加专题配置</a>
+                <a href="<{:U('zhuanti/floor')}>">楼层管理</a>
+            </div>
+        </div>
+    <div class="mainScAdd">
+         <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                 <tr bgcolor="#ffaa7b" height="48px;" style="color:#FFF; font-size:16px; line-height:48px;">
+                    <td>配置ID</td>
+                    <td>群组ID</td>
+                    <td>PC背景色</td>
+                    <td>PC标题栏颜色</td>
+                    <td>Mobile背景色</td>
+                    <td>Mobile标题栏颜色</td>
+                    <td>PC Banner</td>
+                    <td>Mobile Banner</td>
+                    <td>页面标题</td>
+                    <td>操作</td>
+                </tr>
+                <volist name="lists" id="item">
+                <tr height="48px;" style="color:#555; font-size:16px; line-height:48px;">
+                    <td><{$item.config_id}></td>
+                    <td><{$item.map_id}></td>
+                    <td><div title="颜色值:<{$item['color_bg']}>" style="background:<{$item['color_bg']}>;width:60px;height:60px;margin:0 auto"></div></td>
+                    <td><div title="颜色值:<{$item['color_title']}>" style="background:<{$item['color_title']}>;width:60px;height:60px;margin:0 auto"></div></td>
+                    <td><div title="颜色值:<{$item['color_mbg']}>" style="background:<{$item['color_mbg']}>;width:60px;height:60px;margin:0 auto"></div></td>
+                    <td><div title="颜色值:<{$item['color_mtitle']}>" style="background:<{$item['color_mtitle']}>;width:60px;height:60px;margin:0 auto"></div></td>
+                    <td><img src="/attachs/<{$item['pc_banner']}>" width="70" height="70"></td>
+                    <td><img src="/attachs/<{$item['mobile_banner']}>" width="70" height="70"></td>
+                    <td><{$item['title']}></td>
+                    <td>
+                        <a href="<{:U('zhuanti/editconfig',array('config_id'=>$item['config_id']))}>">编辑</a>
+                        <a href="<{:U('zhuanti/delconfig',array('config_id'=>$item['config_id']))}>" mini="act">删除</a>
+                    </td>
+                </tr>
+                </volist>
+            </table>
+            <{$page}>
+        </div>
+    </div>
+</div>
+<script>
+function picker(o)
+{
+    $(o).colpick({
+        onChange:function(hsb,hex,rgb,el,bySetColor) {
+            $(o).prev().val('#'+hex);
+        }
+    });
+}    
+</script>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

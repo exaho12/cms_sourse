@@ -1,0 +1,43 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">中奖名单</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('awardwinning/create',array('award_id'=>$award_id))}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">用户：</td>
+                    <td class="rgTdBt"><input type="text" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput w200" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">商品：</td>
+                    <td class="rgTdBt"> <select name="data[goods_id]" class="seleFl w200">
+                            <foreach name="goods" item="item">
+                                <option  <eq name="detail.goods_id" value="$item.goods_id">selected="selected"</eq>  value="<{$item.goods_id}>"><{$item.award_name}>-<{$item.goods_name}></option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">姓名：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">手机：</td>
+                    <td class="rgTdBt"><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

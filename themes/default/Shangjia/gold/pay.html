@@ -1,0 +1,50 @@
+<include  file='public:header'/>
+<style>
+.payment{
+	border: 1px solid #1ca290;
+    display: inline-block;
+    line-height: 30px;
+    cursor: pointer;
+    background-color: #3ec1af;
+    color: #fff;
+    padding: 0 15px;
+	border-radius:3px;
+}
+</style>
+<div class="sjgl_lead">
+	<ul>
+        <li><a href="#">基本资料</a> &gt;<a>金块充值</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+	<div class="radius5 tuan_top">
+		<div class="tuan_top_t">
+			<div class="left tuan_topser_l"><span>注意：</span>金块充值可以选择支付宝或财付通的方式</div>
+		</div>
+	</div>
+    <div class="tabnr_change  show">
+    	<form method="post" action="/shangjia/gold/pay.html">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t"><em>·</em>金块：</p></td>
+                <td>
+                	<div class="tuanfabu_nr"><{$gold}></div>
+                </td>
+            </tr>
+            <tr>
+                <td><p class="tuanfabu_t"><em>·</em>需要支付金额：</p></td>
+                <td>
+                	<div class="tuanfabu_nr"><b style="color: red;"><{$gold}></b>元</div>
+                </td>
+            </tr>
+        </table>
+        <div class="tuanfabu_an">
+        	<{$button}>
+        </div>
+        </form>
+    </div> 
+</div>
+
+
+</body>
+</html>

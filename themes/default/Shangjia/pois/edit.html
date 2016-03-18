@@ -1,0 +1,111 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">黄页</a> > <a>编辑黄页</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">亲，请准确填写您的商家信息，编辑之后需要后台审核才能通过！</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+        <form method="post"  action="<{:U('pois/edit',array('pois_id'=>$detail['pois_id']))}>"  target="baocms_frm">
+            <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+            <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+            <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">商家名称：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">电话：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[telephone]" value="<{$detail.telephone|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">选择类别：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <select id="cate_id" name="data[type]" class="tuanfabu_int tuanfabu_intw2">
+
+							<option value="life" <eq name="detail.type" value="life">selected="selected"</eq>>生活服务</option>
+							<option value="enterprise" <eq name="detail.type" value="enterprise">selected="selected"</eq>>企业单位</option>
+							<option value="hospital" <eq name="detail.type" value="hospital">selected="selected"</eq>>药店医院</option>
+							<option value="cater" <eq name="detail.type" value="cater">selected="selected"</eq>>餐饮小吃</option>
+							<option value="hotel" <eq name="detail.type" value="hotel">selected="selected"</eq>>宾馆酒店</option>
+							<option value="shopping" <eq name="detail.type" value="shopping">selected="selected"</eq>>购物超市</option>
+							<option value="beauty" <eq name="detail.type" value="beauty">selected="selected"</eq>>美容美发</option>
+							<option value="house" <eq name="detail.type" value="house">selected="selected"</eq>>小区社区</option>
+							<option value="education" <eq name="detail.type" value="education">selected="selected"</eq>>教育培训</option>               
+                                   
+                            </select>
+                            <code>必须选择</code>
+                        </div></td>
+                </tr>
+               
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">地址：</p></td>
+                    <td><div class="tuanfabu_nr"><input type="text" name="data[address]" value="<{$detail.address|default='0'}>" class="tuanfabu_int tuanfabu_intw2" />
+ 					</div>
+                    </td>
+                </tr>
+                 <php>$tags = str_replace(',',';',$SHOP[tags]);</php>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">标记：</p></td>
+                    <td><div class="tuanfabu_nr"><input type="text" name="data[tag]" value="<{$detail.tag|default='0'}>" class="tuanfabu_int tuanfabu_intw2" />
+ 					</div>
+                    </td>
+                </tr>
+                <!--坐标开始-->
+               
+                 <tr>
+                    <td width="120"><p class="tuanfabu_t">坐标：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <input type="text" name="data[lng]" id="lng" value="<notempty name="weidian.lng"><{$weidian.lng}><else/><{$the_shop.lng}></notempty>" class="tuanfabu_int tuanfabu_intw2" /> 经度
+                            <input type="text" name="data[lat]" id="lat" value="<notempty name="weidian.lat"><{$weidian.lat}><else/><{$the_shop.lat}></notempty>" class="tuanfabu_int tuanfabu_intw2" /> 纬度
+                        </div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="tuanfabu_t">地图：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=te1e01OcptQgwrg4SyBdPx6h"></script>
+                            <div class="top" style="width:700px; margin-bottom: 20px;">
+                                <div id="r-result">请输入:<input type="text" id="suggestId" class="mapinputs" size="20" value="合肥" /></div>    
+                            </div>
+                            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                            <div id="allmap" style="width: 600px; height:500px;"></div>
+                            <script type="text/javascript">
+							// 百度地图API功能
+							var lng = "<{$CONFIG['site']['lng']}>";
+							var lat = "<{$CONFIG['site']['lat']}>";
+							var map = new BMap.Map("allmap");
+							map.centerAndZoom(new BMap.Point(lng,lat), 16);
+							function showInfo(e){
+								$("#lat").val(e.point.lat);
+								$("#lng").val(e.point.lng);
+								var point = new BMap.Point(e.point.lng, e.point.lat);
+								var marker = new BMap.Marker(point);
+								map.clearOverlays(); 
+								map.addOverlay(marker);  
+							}
+							map.addEventListener("click", showInfo);
+						</script>
+                        </div></td>
+                </tr>
+                <!--坐标结束-->
+                
+                
+                
+            </table>
+            <div class="tuanfabu_an">
+                <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认编辑" />
+            </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

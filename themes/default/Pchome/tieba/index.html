@@ -1,0 +1,238 @@
+<include file='public:header_news'/> <div class="blank-10"></div>
+<div class="container">
+	<div class="line">
+		<div class="x3">
+			<div class="bar-left fixed" data-style="fixed-top" data-offset-fixed="10">
+				<dl class="user-panel">
+					<dt><img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" /></dt>
+					<dd>
+						<span><if condition="!empty($MEMBER)"><{$MEMBER['nickname']}><else />游客</if></span>
+						<span><if condition="!empty($MEMBER)">发帖数：<{$MEMBER['post_num']}><else />点击这里[<a mini="load" href="/tieba/login.html">登录</a>]</if></span>
+					</dd>
+				</dl>
+				<div class="blank-10"></div>
+				<div class="collapse bar-cate">
+					<div class="cate-index"><a href="<{:U('tieba/index')}>"><i class="icon-reorder"></i> 全部板块</a></div>
+					<php>$i=0;</php>
+					<foreach name="sharecates"  item="item"> 
+					<eq name="item.parent_id" value="0">
+					<php>$i++;</php>
+					<div class="panel <eq name='i' value='1'>active</eq>">
+						<div class="panel-head"><h4><{$item.cate_name}></h4></div>
+						<div class="panel-body">
+							<ul>
+								<foreach name="sharecates" item="item2"> 
+								<eq name="item2.parent_id" value="$item.cate_id">
+								<li><a href="<{:U('tieba/index',array('cat'=>$item2['cate_id']))}>"><{$item2.cate_name}></a></li>
+								</eq>
+								</foreach>
+							</ul>
+						</div>
+					</div>
+					</eq>
+					</foreach>
+				</div>
+			</div>
+		</div>
+		<div class="x9">
+			<div class="bar-status">
+				<php>
+				foreach($sharecates as $k){
+					if($k['cate_id']==$cat){
+						$cate = $k;
+						$chid = $k['parent_id'];
+					}
+				}
+				foreach($sharecates as $k){
+					if($k['cate_id']==$chid){
+						$channel = $k;
+					}
+				}
+				</php>
+				<h2><if condition="$cat eq 0">全部板块<else /><{$channel['cate_name']}> / <{$cate['cate_name']}></if></h2>
+				<span>帖子总数：<em><{$total.post}></em></span>
+			</div>
+			<div class="blank-10"></div>
+			<div class="bar-sort">
+				<ul>
+					<li <eq name="order" value="d"> class="current" </eq> >
+						<a href="<{:LinkTo('tieba/index',$linkArr,array('order'=>'d'))}>">默认排序
+							<if condition="$order neq 'd'"><i class="icon-sort-desc"></i><else /><i class="icon-sort-asc"></i></if>
+						</a>
+					</li>  
+					<li <eq name="order" value="x"> class="current" </eq>>
+						<a href="<{:LinkTo('tieba/index',$linkArr,array('order'=>'x'))}>">点赞排序 
+							<if condition="$order neq 'x'"><i class="icon-sort-desc"></i><else /><i class="icon-sort-asc"></i></if>
+						</a>
+					</li>
+					<li <eq name="order" value="t"> class="current" </eq>>
+						<a href="<{:LinkTo('tieba/index',$linkArr,array('order'=>'t'))}>">热度排序 
+							<if condition="$order neq 't'"><i class="icon-sort-desc"></i><else /><i class="icon-sort-asc"></i></if>
+						</a>
+					</li>
+				</ul>
+				<a class="sort-post" href="#post"><i class="icon-pencil-square-o"></i> 我要发帖</a>
+			</div>
+			<div class="blank-10"></div>
+			<div class="bar-list">
+				<if condition="!empty($list)">
+				<ul class="tie-list">
+					<foreach name="list" item="item">
+					<li class="line">
+						<div class="x1">
+							<span class="rcount"><{$item.reply_num}></span>
+						</div>
+						<div class="x9">
+							<div class="title">
+								<a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>"><{$item['title']}></a>
+								<eq name="item.is_fine" value="1"><span class="badge bg-dot">精</span></eq>
+							</div>
+							<p><{:msubstr(strip_tags($item['details']),0,100)}></p>
+							<if condition="!empty($item['pic'])">
+							<php>$gallery = explode(',',$item['pic']);</php>
+							<ul class="gallery">
+								<foreach name="gallery" item="var">
+								<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+								</foreach>
+							</ul>
+							</if>
+						</div>
+						<div class="x2">
+							<dl class="reply">
+								<dt><{$users[$item['user_id']]['nickname']}></dt>
+								<dd><{:formatTime($item['create_time'])}></dd>
+							</dl>
+						</div>
+					</li>
+					</foreach>
+				</ul>
+				<else />
+				<div class="blank-20"></div>
+				<div class="text-center">
+					这里暂时没有人来开辟发帖记录，就等你来破了！
+				</div>
+				</if>
+				<div class="blank-20"></div>
+				<div class="text-center">
+					<div class="pagination">
+						<{$page}>
+					</div>
+				</div>
+				<div class="blank-20"></div>
+			</div>
+			<if condition="!empty($cat)">
+			<div class="tieba-form">
+				<form target="x-frame" action="<{:U('tieba/post')}>" method="post" id="post">
+					<div class="line">
+						<div class="x12">
+							<div class="post-photo">
+								<strong>上传图片</strong> <span>(只有登录成功才能发表帖子、上传图片哦！)</span>											
+								<div class="left">
+                        <script type="text/javascript" src="/Public/js/uploadify/jquery.uploadify.min.js"></script>
+                        <link rel="stylesheet" href="/Public/js/uploadify/uploadify.css">
+                    </div>
+                   <div class="lef" style="float: left;">
+                        <div>
+                            <input id="niu_file" name="niu_file" type="file" multiple="true" value="<{$item.pic}>" />
+							<input type="hidden" id="photo" name="data[photo]" />
+                        </div>
+                        <div class="jq_uploads_img">
+                            <foreach  name="photos" item="item">
+                        <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                            <img width="200" height="100" src="__ROOT__/attachs/<{$item.pic}>">  
+                            <input type="hidden" name="photos" value="<{$item.pic}>" />  
+                            <a class="myInfor_sx" href="#">取消</a>  
+                        </span>
+                        </foreach>
+                        </div>
+                        <script>
+                            $("#niu_file").uploadify({
+                                'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                'uploader': '<{:U("app/upload/uploadify",array("model"=>"tieba"))}>',
+                                'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                'buttonText': '上传图片',
+                                'fileTypeExts': '*.gif;*.jpg;*.png',
+                                'queueSizeLimit': 5,
+                                'onUploadSuccess': function (file, data, response) {
+                                    var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos" value="' + data + '" />    <a class="myInfor_sx" href="#">取消</a>  </span>';
+                                    //$(".jq_uploads_img").append(str);
+									
+									var photo = $("#photo").val();
+									if( photo == ""){
+										photo =  data;
+									}else{
+										photo = photo + "," + data;
+									}
+									$("#photo").val(photo);
+									
+									var strs = '<img width="200" height="100" src="__ROOT__/attachs/' + data + '">';
+									$("#data_details").append(strs);
+                                }
+                            });
+                            $(document).on("click", ".jq_uploads_img a", function () {
+                                $(this).parent().remove();
+                            });
+                        </script>
+ <script>
+									$(document).ready(function () {
+										<if condition="!empty($MEMBER)">
+										$("#niu_file").change(function () {
+											 ajaxupload();
+										});
+										$(document).on("click", "#jq_photo_list  a", function () {
+											$(this).parent().remove();
+										});
+										<else />
+										$("#niu_file").change(function () {
+												alert("登录后刷新页面才可以上传图片！");
+											});
+										</if>
+									});
+									function showauthor(){
+										var author = "<{$detail['user_id']}>";
+										$("#show-list li").each(function(){
+												var uid = $(this).attr("rel");
+												if(uid != author){
+													$(this).hide();
+												}
+										  });	
+									}
+								</script>
+							</div>
+						</div>
+						<div class="x12">
+								<input name="data[cate_id]" value="<{$cat}>" type="hidden">
+								<p>
+									<label>标题</label><input class="input" name="data[title]" value="" type="text">
+								</p>
+								<p>
+									<label>内容</label>
+									<script type="text/plain" id="data_details" name="data[details]" class="post-editor"><{$detail.details}></script>
+									<link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+									<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.simple.js"></script>
+									<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+									<script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+									<script>
+										um = UM.getEditor('data_details', {
+											imageUrl: "<{:U('public/editor')}>",
+											imagePath: '__ROOT__/attachs/editor/',
+											lang: 'zh-cn',
+											langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+											focus: false
+										});
+									</script>
+								</p>
+								<p>
+									<button class="button" type="submit">发表帖子</button>
+								</p>
+						</div>
+					</div>
+				</form>
+			</div>
+			</if>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/default/pc/css/zoom.css" />
+<script src="/static/default/pc/js/zoom.js"></script>
+<include  file='public:footer'/>  

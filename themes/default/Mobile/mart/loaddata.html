@@ -1,0 +1,17 @@
+<volist name="list" id="item" key="index ">
+    <li class="line">
+        <a title="<{$item.weidian_name}>" href="<{:U('mart/lists',array('id'=>$item['id']))}>">
+			<div class="x3">
+				<img src="__ROOT__/attachs/<{$item.pic}>">
+			</div>
+			<div class="x8">
+				<div class="t-box">
+					<h5><{:bao_msubstr($item['weidian_name'],0,10,false)}></h5>
+					<span class="tag bg-sub float-right"><{$item.d}></span>
+				</div>
+				<p>类型：<{$cates[$item['cate_id']]['cate_name']}></p>
+				<p class="addr text-gray" title="<{$item.addr}>"><span class="site"><{$item['addr']}></span></p>
+			</div>
+		</a>
+    </li>
+</volist>

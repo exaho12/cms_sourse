@@ -1,0 +1,86 @@
+<include file="public:header"/>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			在线抢购
+		</div>
+		<div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('tuan/index')}>">
+				<input name="keyword" placeholder="输入团购的关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+	</header>
+	<script>
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>
+	
+	<div class="line">
+		<div id="roll" class="roller">
+			<div class="bd">
+				<ul>
+				<calldata mdl="Ad" where="closed=0 AND site_id=53 and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="43200" order="orderby asc">
+				<li><a href="<{$item.link_url}>" target="_blank" ><img src="__ROOT__/attachs/<{$item.photo}>" /></a></li>
+				</calldata>
+				</ul>
+			</div>
+			<div class="hd">
+				<ul></ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">	
+		TouchSlide({ 
+			slideCell:"#roll",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			autoPage:true //自动分页
+		});
+	</script>
+	
+    <section class="main-cate">
+        <ul>
+            <php>$a = $b =0;</php>
+            <volist name="tuancates" id="item">
+                <eq name="item.parent_id" value="0">
+                <php>$a++;</php>    
+                <if condition="$a lt 9"> 
+                    <li class="<if condition='$a eq 1'> active</if>  <if condition='$a%3 eq 0'>diff</if> "><a title="<{$item.cate_name}>"  href="<{:U('tuan/index',array('cat'=>$item['cate_id']))}>"> <span class="icon0<{$a}>"> </span> <span class="wenzi"><{:bao_Msubstr($item['cate_name'],0,2,false)}></span></a></li>
+                </if>
+                </eq>
+            </volist> 
+            <li class="diff"><a  href="<{:U('tuan/index')}>"><span class="icon09"></span> <span class="wenzi">全部</span></a></li>
+        </ul>
+    </section>
+
+	<div class="line-title bg">
+		<h5>精选团购</h5>
+	</div>
+
+    <div class="main-tuan">
+		<ul id="tuan-list"></ul>
+	</div>
+    <script>
+        $(document).ready(function () {
+            loaddata('<{:U("tuan/push",array("t"=>$nowtime))}>', $("#tuan-list"));
+        });
+    </script>
+<include file='public:footer'/>      		

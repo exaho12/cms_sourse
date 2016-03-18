@@ -1,0 +1,21 @@
+<foreach name="list" item="item">
+	<div class="line padding border-bottom">
+		<div class="x12">
+			<p>标题：<{:bao_msubstr($item['title'],0,14,false)}>
+			</p>
+			<p class="text-gray">内容：<{:bao_msubstr($item['details'],0,32,false)}>...</p>
+			<p class="text-gray">时间：<{$item.create_time|date='Y-m-d',###}></p>
+			<p class=""></p>
+		</div>
+	</div>
+	<div class="line padding">
+		<span class="x6">状态：<if condition="$item['audit'] eq 0"><a class="button button-small bg-blue" href="<{:U('bbs/audit',array('post_id'=>$item['post_id']))}>">审核</a><else/><a class="button button-small bg-gray" href="javascript:void(0);">已审核</a></if></span>
+        
+		<span class="x6 text-right">
+		<a class="button button-small bg-dot" href="<{:U('bbs/detail',array('post_id'=>$item['post_id']))}>">详细</a>
+        <a class="button button-small bg-dot" href="<{:U('bbs/delete',array('post_id'=>$item['post_id']))}>">删除</a>
+        
+        </span>
+	</div>
+	<div class="blank-10 bg"></div>
+</foreach>

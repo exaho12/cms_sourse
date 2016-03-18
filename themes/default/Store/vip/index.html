@@ -1,0 +1,43 @@
+<include file="public:header"/>
+<header>
+    <div class="headerTop">
+        <div class="headerTop_back"><a href="javascript:history.go(-1);"></a></div>
+        <div class="headerTop_t">会员卡</div>
+    </div> 
+</header> 
+<script>
+$(function(){
+	$(".sygg_closs").click(function(){
+		$(this).parent(".sygg").hide();
+	});
+});
+</script>
+<section class="fixed_pad">
+<form class="MemCard_ser" method="post" action="<{:U('vip/index')}>">
+    <div class="MemCard_ser">
+        <div class="MemCard_serBox"><input class="MemCard_serK" type="text" name="keyword" placeholder="请输入手机号"/><input type="image" class="MemCard_serAn" src="__TMPL__statics/images/ser_03.png" width="22" height="22">
+		</div>
+    </div>
+</form>
+<if condition="!empty($user['account'])">
+<table class="MemCard_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>手机号</td>
+		<td>会员名</td>
+        <td>积分</td>
+		<td>操作</td>
+    </tr>
+    <tr>
+		<td><{$user['account']}></td>
+        <td><{$user['nickname']}></td>
+        <td><{$user['integral']}></td>
+		<td><a href="<{:U('vip/bonus',array('uid'=>$user['user_id']))}>">加积分</a></td>
+    </tr>
+	<tr class="bottom">
+		<td colspan="4"><div class="pages"><{$page}></div></td>
+	</tr>
+</table>
+</if>
+</section>
+
+<include file="public:footer"/>

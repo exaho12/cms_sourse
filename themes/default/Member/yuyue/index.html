@@ -1,0 +1,32 @@
+<include file="public:header"/>
+<div class="content_right">
+<div class="tgdd">
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <th>商家</th>
+                <th>称呼</th>
+                <th>手机</th>
+                <th>预约IP</th>
+                <th>是否使用</th>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td style="text-align:left;" width="335px"><div class="tgdd_tw">
+                            <div class="left"><a target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$var['shop_id']]['photo']}>" width="81" height="60" /></a></div>
+                            <div class="lef"><a class="myChange_sp" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>">商家：<{$shops[$var['shop_id']]['shop_name']}></a><p>预约时间：<{$var.yuyue_date}> <{$var.yuyue_time}></p><p>电子券：<{$var.code}></p></div>
+                        </div></td>
+                    <td class="tgdd_nrCtd"><{$var.name}></td>
+                    <td class="tgdd_nrCtd"><{$var.mobile}></td>
+                    <td class="tgdd_nrCtd"><{$var.create_ip}></td>
+                    <td class="tgdd_nrCtd"><eq name="var.used" value="1"> 已约过 <else/> 未约过 </eq></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="x"><{$page}></div>
+    </div>
+</div>
+</div>
+</div></div>
+<include file="public:footer"/>
+

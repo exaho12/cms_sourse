@@ -1,0 +1,64 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="JavaScript:void(0);">物业管理</a> > <a>便民电话</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('bbs/index')}>">
+        <div class="radius5 tuan_top">
+            <div class="tuan_top_t">
+                <div class="left tuan_topser_l">电话名称：<input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/><input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/></div>
+                <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('phone/create')}>">添加电话+</a></div>
+            </div> 
+        </div>
+    </form>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="50">电话编号</td>
+            <td width="120">称呼</td>
+            <td width="50">过期时间</td>
+            <td width="60">操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.phone_id}></td>
+                <td><{$var.name}></td>
+                <td><{$var.expiry_date}></td>
+                <td>
+                    <a class="remove" href="<{:U('phone/edit',array('phone_id'=>$var['phone_id']))}>">编辑</a>
+                    <a class="remove jq_delete" rel="<{$var['phone_id']}>" href="javascript:void(0);">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $(".jq_delete").click(function () {
+                var url = "<{:U('phone/delete')}>";
+                var phone_id = $(this).attr('rel');
+                layer.confirm('您确定要删除？', {
+                    area: ['200px', '150px'], //宽高
+                    btn: ['是的', '不'], //按钮
+                    shade: false //不显示遮罩
+                }, function () {
+                    $.post(url, {phone_id: phone_id}, function (result) {
+                        if (result.status == "success") {
+                            layer.msg(result.msg);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            layer.msg(result.msg);
+                        }
+                    }, 'json');
+                });
+                $('.layui-layer-btn0').css('background', '#2fbdaa');
+            });
+        })
+    </script>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+<include  file='public:footer'/>

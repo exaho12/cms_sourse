@@ -1,0 +1,43 @@
+<include  file='member:head'/>    
+<!--中间-->
+
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li class="on"><a  href="<{:U('member/cashlog')}>">提现记录</a></li>
+            <li ><a href="<{:U('member/cash')}>">申请提现</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>ID</td>
+                <td>提现金额</td>
+                <td>提现日期</td>
+                <td>状态</td>
+            </tr>
+            <volist name="list" id="var" key="index">
+            	<tr class="tgdd_nrt">
+                    <td><{$var.cash_id}></td>
+                    <td><{$var['money'] / 100}> 元</td>
+                    <td><{$var['addtime']|date='Y-m-d', ###}></td>
+                    <td>
+                    <if condition="$var.status eq 0">
+                                未审
+                                <elseif condition="$var.status eq 1" />
+                                <font color="green">通过</font>
+                                <else />
+                                <font color="red">拒绝</font>
+                            </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+        <{$page}>
+
+
+    </div>
+
+</div>
+</body>
+</html>

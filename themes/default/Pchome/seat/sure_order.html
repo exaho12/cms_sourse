@@ -1,0 +1,61 @@
+<include file='public:seat_header'/>  
+<script>
+	$(function(){
+		$.reset_input();
+		$('form').submit(function(){
+			if ($('#phone').val() == '')
+			{
+				$._alert('请输入手机号码');
+				return false;	
+			}
+			if ($('#name').val() == '')
+			{
+				$._alert('请输入联系人姓名');
+				return false;
+			}
+		});
+		$('#beizhu').focus(function(){
+			if ($(this).val() == '喜欢靠窗位？需要宝宝椅？...请写下您的订餐需求，我们会尽全力沟通')
+			{
+				$(this).val('');	
+			}
+		});
+	});
+</script>
+	<form method="post" action="<{:U('seat/save_order', array('shop_id' => $data['shop_id']))}>">
+    <input type="hidden" name="date" value="<{$date}>">
+    <input type="hidden" name="time" value="<{$time}>">
+    <input type="hidden" name="people" value="<{$people}>">
+    <input type="hidden" name="seat_type" value="<{$seat_type}>">
+    <input type="hidden" name="food_id" value="<{$food_id}>">
+    <input type="hidden" name="food_num" value="<{$food_num}>">
+    <input type="hidden" name="room_id" value="<{$room_id}>">
+	<div id="seat">
+		<p id="here"><a href="<{:U('index/index')}>">首页</a> > <a href="<{:U('seat/index')}>">订座</a> > <{$data.shop_name}> > 预约订单填写</p>
+		<div class="seat-send-form">
+			<div class="title">
+				<{$data.shop_name}>
+			</div>
+			<div class="base">
+				<div>就餐时间：<{$show_date}> <{$time}></div>
+				<div>就餐人数：<{$show_people}><input name="people" type="hidden" value="<{$people}>"></div>
+				<div>餐位情况：<if condition="$seat_type eq 1">大厅<else />包厢 <{$room_name}></if>
+				</div>
+				<div>点菜情况：<if condition="$food eq 1">已点<else />未点</if>
+				</div>
+				<div><span>温馨提示：凡在本店预订座位者，本店收取20元预订金，结账时归还，还望谅解</span></div>
+			</div>
+			<div class="contact">
+				<div>手机号<input name="phone" id="phone" type="text" /></div>
+				<div><div class="fl" style="margin-right:10px;">联系人<input name="name" id="name" type="text" /></div><label style="margin-top: 7px; height:26px;"><input type="radio" name="sex" value="1" />先生</label><label style="margin-top: 7px; height:26px;"><input type="radio" name="sex" value="2" />女士</label></div>
+			</div>
+			<div class="beizhu">
+				<textarea name="beizhu" id="beizhu">喜欢靠窗位？需要宝宝椅？...请写下您的订餐需求，我们会尽全力沟通</textarea>
+			</div>
+			<div class="seat-send-form-btn">
+				<input type="submit" class="submit" value="提交" />
+			</div>
+		</div>
+	</div>
+    </form>
+<include file='public:footer'/>  

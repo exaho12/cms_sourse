@@ -1,0 +1,57 @@
+<php>$seo_title = $detail['title'];</php>
+<include  file='public:head_am'/>  
+
+
+
+      
+           
+
+    
+    
+    
+<div class="am-tabs-bd">    
+   <div class="am-list-news-bd am_news_list_all">
+   <ol class="am-breadcrumb">
+  <li><a href="<{:U('index/index')}>" class="am-icon-home">首页</a></li>
+  <li><a href="<{:U('news/index')}>">文章资讯</a></li>
+  <if condition="$cate">
+  <li><a href="<{:LinkTo('news/cate',array('cat'=>$cate['cate_id']))}>"><{$cate['cate_name']}></a></li>
+  </if>
+  <li class="am-active"><{$detail.title}></li>
+</ol>
+    <ul class="am-list">
+      <!--缩略图在标题左边-->
+      <foreach name="list" item="var">
+      <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left am_list_li">
+        <div class="am-u-sm-3 am-list-thumb am_list_thumb">
+          <a href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>" class="">
+            <img src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" class="am_news_list_img" alt="<{$var.title}>"
+            />
+          </a>
+        </div>
+        <div class=" am-u-sm-9 am-list-main am_list_main">
+          <h3 class="am-list-item-hd am_list_title">
+            <a href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>" class=""><{$var.title}></a>
+          </h3>
+          <div class="am_list_author"><a href="<if condition="$shops[$var['shop_id']]['shop_name'] neq null"><{:U('shop/detail',array('shop_id'=>$shops[$var['shop_id']]['shop_id']))}><else/>#</if>"><span class="am_list_author_ico" style="background-image: url(<if condition="$shops[$var['shop_id']]['shop_name'] neq null">__ROOT__/attachs/<{$shops[$var['shop_id']]['photo']|default='default.jpg'}><else/>__ROOT__/attachs/<{$var['photo']|default='default.jpg'}></if>);"></span><span class="name">
+          <if condition="$shops[$var['shop_id']]['shop_name'] neq null"><{$shops[$var['shop_id']]['shop_name']}><else/><{$var.source}></if>
+          
+          
+          </span></a><span class="am_news_time">&nbsp;•&nbsp;<time class="timeago" title="<{$var.create_time|date='Y-m-d',###}>" datetime="<{$var.create_time|date='Y-m-d',###}>"> <{$var.create_time|date='Y-m-d',###}> 围观：<{$var.views}>次&nbsp;&nbsp;<a class="am-btn am-btn-danger am-btn-xs toutiao">头条</a></time></span></div>
+          <div class="am-list-item-text am_list_item_text "><{:bao_msubstr($var['details'],0,120)}></div>
+        </div>
+      </li>
+   </foreach>
+    </ul>
+    
+    <{$page}>
+</ul>
+
+  </div> 
+   
+  
+</div>
+
+
+
+<include  file='public:foot_am'/>  

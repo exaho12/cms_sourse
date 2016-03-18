@@ -1,0 +1,134 @@
+<include file='life:header_life'/> <include file='life:top'/>  
+
+<div class="container">
+	<div class="blank-10"></div> 
+	
+	<ul class="bread bg">
+		<li><a href="<{:U('index/index')}>" title="<{$CONFIG.site.sitename}>"><{$CONFIG.site.sitename}></a></li>
+		<li><a href="<{:U('life/index')}>">生活信息</a></li>
+        <li><a href="<{:U('life/index',array('channel'=>$channel,'cat'=>0))}>"><{$chl[$channel]}></a></li>
+        <li><a href="<{:U('life/index',array('channel'=>$channel,'cat'=>$cate[cate_id]))}>"><{$cate.cate_name}></a></li>
+        
+		<li><{$detail.title}></li>
+        <li><a style="color:#F00;" href="<{:U('life/fabu')}>">我已要发布信息</a></li>
+	</ul>
+
+	<div class="v-box">
+		<div class="line">
+			<div class="x9">
+				<div class="box-l">
+					<div class="detail-block">
+						<div class="block-hd">
+							<h1><{$detail.title}></h1>
+							<p>
+								<span class="mr-10"><i class="icon-clock-o"></i> <em><{$detail.create_time|date='Y-m-d H:i:s',###}></em></span>
+								<span class="mr-10"><i class="icon-eye"></i> <em><{$detail.views}></em></span>
+								<span class="mr-10"><a mini="act" href="<{:U('life/love',array('life_id'=>$detail['life_id']))}>">收藏</a></span>
+								<span class="mr-10"><a mini="act" href="<{:U('life/report',array('life_id'=>$detail['life_id']))}>">举报</a></span>
+							</p>
+							<div class="detail-tag">
+								<if condition="!empty($user['mobile'])"><span class="mob">手机认证</span></if>
+								<if condition="!empty($user['email'])"><span class="mail">邮箱认证</span></if>
+								<eq name="detail.is_shop" value="1"><span class="shop">商家发布</span></eq>  
+							</div>
+						</div>
+						<div class="block-bd">
+							<div class="v-l">
+								<php>$pn = count($pics);</php>
+								<div class="banner">
+									<div class="carousel">
+										<if condition="!empty($detail['photo'])">
+										<div class="item"><img src="__ROOT__/attachs/<{$detail.photo}>" alt="<{$detail.title}>" /></div>
+										<else />
+										<eq name="pn" value="0">
+										<div class="item"><img src="__ROOT__/attachs/default.jpg" alt="<{$detail.title}>" /></div>
+										</eq>
+										</if>
+										<foreach  name="pics" item="item">
+										<div class="item"><img src="__ROOT__/attachs/<{$item.photo}>" alt="<{$detail.title}>" /></div>
+										</foreach>
+									</div>
+								</div>
+							</div>
+							<div class="v-r">
+								<ul class="v-info">
+									<if condition="!empty($cate['text1'])"><li><span><{$cate.text1}>:</span><em><{$detail.text1}></em></li></if>
+									<if condition="!empty($cate['text2'])"><li><span><{$cate.text2}>:</span><em><{$detail.text2}></em></li></if>
+									<if condition="!empty($cate['text3'])"><li><span><{$cate.text2}>:</span><em><{$detail.text3}></em></li></if>
+									<if condition="!empty($cate['num1'])"><li><span><{$cate.num1}>:</span><em><{$detail.num1}><{$cate.unit1}></em></li></if>
+									<if condition="!empty($cate['num2'])"><li><span><{$cate.num2}>:</span><em><{$detail.num2}><{$cate.unit2}></em></li></if>
+									<if condition="!empty($cate['select1'])"><li><span><{$cate['select1']}>:</span><em><{$attrs['select1'][$detail['select1']]['attr_name']}></em></li></if>
+									<if condition="!empty($cate['select2'])"><li><span><{$cate['select2']}>:</span><em><{$attrs['select2'][$detail['select2']]['attr_name']}></em></li></if>
+									<if condition="!empty($cate['select3'])"><li><span><{$cate['select3']}>:</span><em><{$attrs['select3'][$detail['select3']]['attr_name']}></em></li></if>
+									<if condition="!empty($cate['select4'])"><li><span><{$cate['select4']}>:</span><em><{$attrs['select4'][$detail['select4']]['attr_name']}></em></li></if>
+									<if condition="!empty($cate['select5'])"><li><span><{$cate['select5']}>:</span><em><{$attrs['select5'][$detail['select5']]['attr_name']}></em></li></if>
+									<if condition="!empty($detail['area_id'])"><li><span>地区:</span><em><{$areas[$detail['area_id']]['area_name']}><{$bizs[$detail['business_id']]['business_name']}></em></li></if>
+									<if condition="!empty($detail['addr'])"><li><span>地址:</span><em><{$detail['addr']}></em></li></if>
+									<if condition="!empty($detail['contact'])"><li><span>联系人:</span><em><{$detail['contact']}></em></li></if>
+								</ul>
+								<div class="v-tel">
+									<span><i class="icon-mobile"></i></span>
+									<em><{$detail['mobile']}></em>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="blank-10"></div>
+			
+					
+					<div class="text-block">
+						<div class="block-hd">
+							<h3>详细介绍</h3>
+						</div>
+						<div class="block-bd">
+							<if condition="!empty($ex['details'])"><{$ex.details}><else />该内容暂时没有详细介绍，您可以联系信息发布人咨询了解。</if>
+							<p class="tell">联系我时，请说是在<{$CONFIG['site']['sitename']}>上看到的，谢谢！</p>
+
+							<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+							<div id="allmap"  class="allmap"></div>
+							<script type="text/javascript">
+								// 百度地图API功能
+								var map = new BMap.Map("allmap");
+								map.centerAndZoom(new BMap.Point( <{$detail.lng}> , <{$detail.lat}> ), 15);
+								var point = new BMap.Point( <{$detail.lng}> , <{$detail.lat}> );
+								map.centerAndZoom(point, 15);
+								var marker = new BMap.Marker(point); // 创建标注
+								map.clearOverlays();
+								map.addOverlay(marker); // 将标注添加到地图中
+								marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+								map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
+							</script>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="x3">
+				<div class="box-r">
+					<div class="side-block">
+						<div class="block-hd">
+							<h3>热门信息</h3>
+						</div>
+						<div class="block-bd">
+							<ul>
+								<callfunc mdl="Life" func="randTop">
+								<li>
+									<a class="pic" href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" /></a>
+									<div class="des">
+										<a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{:msubstr($item['title'],0,20)}></a>
+										<p><{:msubstr($item['addr'],0,20)}></p>
+									</div>
+								</li>
+								</callfunc>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<include  file='public:footer'/>   

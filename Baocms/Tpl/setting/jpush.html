@@ -1,0 +1,34 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">推送</li>
+        <li class="li2">APP推送管理</li>
+        <li class="li2 li3">群发推送</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是极光平台相关的,IOS平台需要上传推送证书才能使用</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('setting/jpush')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td  class="lfTdBt" >appkey:</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[appkey]" value="<{$CONFIG.jpush.appkey}>" class="scAddTextName " />
+                    </td>
+                </tr>
+                <tr>
+                    <td  class="lfTdBt" >Master Secret:</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[secret]" value="<{$CONFIG.jpush.secret}>" class="scAddTextName " />
+                    </td>
+                </tr>   
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

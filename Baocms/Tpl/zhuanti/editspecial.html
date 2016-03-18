@@ -1,0 +1,35 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <a href="<{:U('zhuanti/special')}>"><li class="li2">专题管理</li></a>
+        <li class="li2 li3" onclick="javascript:window.location.reload()">编辑专题</li>
+    </ul>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('zhuanti/editspecial',array('map_id'=>$_GET['map_id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" width="160" >专题名称：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[title]" class="scAddTextName " value="<{$special.title}>" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >是否启用：</td>
+                    <td class="rgTdBt">
+                        <select name="data[status]" class="seleFl jq_type">
+                            <option value="1" <eq name="special['status']" value="1">selected='selected'</eq>>启用</option>
+                            <option value="0" <eq name="special['status']" value="0">selected='selected'</eq>>不启用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="data[map_id]" value="<{$special.map_id}>" />
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

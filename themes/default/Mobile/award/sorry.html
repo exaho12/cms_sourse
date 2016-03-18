@@ -1,0 +1,77 @@
+<include  file='public:header_news'/>    
+<body>
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('index/index')}>"><i class="icon-goback"></i></a>
+            <div class="title" style="font-size:0.15rem;"><{$award.title}></div>
+            <a class="share" href="javascript:void(0);" id="share"><i class="icon-menu" id="ico_1"></i></a>
+        </div>
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js">
+        </script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "<{$detail.title}>",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+            });
+        </script>
+    </header>
+
+
+
+
+
+    <section class="shaking_zhong">
+        <div class="tips_top">
+            <div class="tu_left">
+                <img src="__TMPL__statics/img/ku.gif" />
+            </div>
+            <div class="con_box">很遗憾，和大奖擦身而过</div>
+        </div>
+        <div class="tips_bottom">
+
+            <div>将此活动页面分享给5位好友，可继续再参加一次！</div>
+            <a href="<{:U('award/index',array('award_id'=>$award['award_id']))}>">
+                <div class="fh_btn">返回活动</div>
+            </a>
+            <a id="share2" href="javascript:void(0);">
+                <div class="fh_btn">邀请好友帮助</div>
+            </a>
+        </div>
+
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share2",
+                "content": "很遗憾，和大奖擦身而过,兄弟姐妹快过来帮忙吧！都中大奖！",
+                "theme": "web",
+                "animate": true,
+                "url": 'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+            });
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "很遗憾，和大奖擦身而过,兄弟姐妹快过来帮忙吧！都中大奖！",
+                "theme": "web",
+                "animate": true,
+                "url": 'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+            });
+
+        </script>
+
+    </section>
+
+</div>

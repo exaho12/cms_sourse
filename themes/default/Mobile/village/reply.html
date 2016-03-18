@@ -1,0 +1,47 @@
+<include file='public:header'/>   
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('village/tie',array('post_id'=>$tie[post_id]))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			回复帖子
+		</div>
+	</header>
+
+	<form class="post-form" action="<{:U('village/reply',array('post_id'=>$tie[post_id]))}>" method="post"  target="x-frame">
+	
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<span>回复：<{$tie.title}></span>
+			</div>
+                    <input type="hidden" value="<{$tie[village_id]}>" name="data[village_id]"/>
+			<div class="x3 text-right">
+				(文明上网，登陆发言)<button class="button bg-green margin-small-right" type="submit">发表</button>
+				<div class="margin-small-bottom"></div>
+			</div>
+		</div>
+		<div class="line border-bottom">
+		
+		      <script type="text/plain" id="data_details" name="data[details]" style="width:800px;height:360px;"></script>
+        
+      
+		</div>
+		  <link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+        <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+        <script>
+                    um = UM.getEditor('data_details', {
+                        imageUrl: "<{:U('app/upload/editor')}>",
+                        imagePath: '__ROOT__/attachs/editor/',
+                        lang: 'zh-cn',
+                        langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                        focus: false
+                    });
+        </script>
+		
+	</form>
+<include file='public:footer'/>  

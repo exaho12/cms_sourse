@@ -1,0 +1,29 @@
+<include  file='public:header'/>
+<div class="local">
+    当前位置：一卡通 > 充值积分 > 赠送会员积分
+</div>
+
+<div class="addlist">
+    <form method="post" class="password"  action="<{:U('integral/add',array('uid'=>$uid))}>"  target="baocms_frm">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td colspan="2" style="padding-left: 5px; font-size: 16px; font-weight: bold;" > 您当前共有：<{$MEMBER.integral}>积分；充值请点击<a href="<{:U('integral/index')}>">这里</a></td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td align="right" width="180"><span style=" color: #F9510D; float: left; margin-left: 70px;">*</span>赠送多少积分：</td>
+                <td><input type="text" name="num" class="cjinput" />(会员帐号：<{$detail.account}>,昵称：<{$detail.nickname}>)</td>
+            </tr>          
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" class="cjbtn_new" value="立刻赠送" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

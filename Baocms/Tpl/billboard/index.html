@@ -1,0 +1,71 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">功能</li>
+        <li class="li2">上榜榜单</li>
+        <li class="li2 li3">榜单列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>榜单统一由后台添加</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('billboard/create','','添加榜单')}>
+            </div>
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('billboard/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text" name="keyword" value="<{$keyword}>" class="inptText" /><input type="submit" value="   搜索"  class="inptButton" />
+                    </div>  
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="list_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>上榜标题</td>
+                        <td>所属分类</td>
+                        <td>图片</td>
+                        <td>排序</td>
+                        <td>上榜时间</td>
+                        <td>榜单IP</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_list_id" type="checkbox" name="list_id[]" value="<{$var.list_id}>" /></td>
+                            <td><{$var.list_id}></td>
+                            <td><{$var.title}></td>
+                            <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                            <td><img src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" class="w80" /></td>
+                            <td><{$var.orderby}></td>
+                            <td><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                            <td><{$var.create_ip}></td>
+                            <td>
+                                <{:BA('billshop/index',array("list_id"=>$var["list_id"]),'查看上榜商家','','remberBtn')}>
+                                <{:BA('billshop/create',array("list_id"=>$var["list_id"]),'添加上榜商家','','remberBtn')}>
+                                <{:BA('billboard/edit',array("list_id"=>$var["list_id"]),'编辑','','remberBtn')}>
+                                <{:BA('billboard/delete',array("list_id"=>$var["list_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('billboard/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+

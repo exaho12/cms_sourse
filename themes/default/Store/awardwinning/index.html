@@ -1,0 +1,56 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('award/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			中奖名单
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">+</a>
+		</div>
+	</header>
+
+
+
+
+
+
+<div class="xiaoqu-list">
+
+
+		<ul id="xiaoqu-list">
+        <foreach name="list" item="var">
+               <li class="line">
+	<a class="item fix hightitem">	
+		
+		</a><div class="x12"><a class="item fix hightitem">	
+			</a><h5><a class="item fix hightitem">商品：<{$goods[$var['goods_id']]['award_name']}>-<{$goods[$var['goods_id']]['goods_name']}></a>
+            <a class="button button-big bg-yellow float-right">姓名：<{$var.name}></a></h5>	
+            
+            <p class="addr">手机：<{$var.mobile}></p>
+            <p class="addr">中奖时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+            <p class="addr">中奖IP：<{$var.create_ip}></p>
+            
+		</div>
+	
+		</li>
+</foreach>
+
+</ul>  
+	</div>
+
+
+
+
+
+
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+<include file="public:footer"/>

@@ -1,0 +1,54 @@
+<include file="public:header"/>
+
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">附近活动</div>
+		<i class="icon-menu"  id="ico_8"></i>
+	</header>
+	<!-- 筛选TAB -->
+	<div id="life" class="page-center-box">
+		<div id="scroll">
+			<!-- 列表 -->
+<!--			<div class="serch-bar-mask" style="display:none;">
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">不限</a></li>
+                        <li><a href="#">限男生</a></li>
+                        <li><a href="#">限女生</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">全部时间</a></li>
+                        <li><a href="#">今天</a></li>
+                        <li><a href="#">昨天</a></li>
+                        <li><a href="#">一周内</a></li>
+                        <li><a href="#">一月内</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-list">
+                    <ul>
+                        <li class="on"><a href="#">对象</a></li>
+                        <li><a href="#">今天</a></li>
+                        <li><a href="#">昨天</a></li>
+                        <li><a href="#">一周内</a></li>
+                        <li><a href="#">一月内</a></li>
+                    </ul>
+                </div>
+                <div class="serch-bar-mask-bg"></div>
+            </div>-->
+			<div class="list-have-pic">
+				<!-- 循环 -->
+				<div class="mydate">	
+				</div>
+				<!-- 循环 -->
+			</div>
+<script>
+        $(document).ready(function () {
+            loaddata('<{$nextpage}>', $(".mydate"), true);
+        });
+    </script>
+		</div>
+	</div>
+<include file="public:footer"/>
+

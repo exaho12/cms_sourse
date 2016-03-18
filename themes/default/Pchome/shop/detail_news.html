@@ -1,0 +1,28 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>商家新闻</h3>
+			</div>
+			<div class="box-bd">
+				<div class="shop-news-list">
+					<ul class="list-media">
+						<calldata mdl="Shopnews" where="shop_id = {$detail['shop_id']}" limit="0,20"  cache="21600" order="news_id desc">
+						<li>
+							<div class="media media-x">
+								<a class="float-left" href="<{:U('seller/detail',array('news_id'=>$item['news_id']))}>">
+									<img src="/attachs/<{$item['photo']|default='default.jpg'}>" class="radius" alt="<{$item[title]}>">
+								</a>
+								<div class="media-body">
+									<a href="<{:U('seller/detail',array('news_id'=>$item['news_id']))}>" target="_blank"><h2><{$item[title]}></h2></a>
+									<p><{:niuMsubstr($item[details],0,180,false)}></p>
+								</div>
+							</div>
+						</li>
+						</calldata>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

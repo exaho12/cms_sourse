@@ -1,0 +1,200 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>
+<div class="nav">
+    <div class="navList">
+        <!--<div class="navListBg">&nbsp;</div>-->
+        <ul>
+            <li class="navListAll zy_navListAll"><span class="navListAllt">全部抢购分类<em></em></span>
+                <div class="shadowy navAll">
+                    <include file="public:cate"/>
+                </div>
+            </li>
+            <li class="navLi"><a class="navA <if condition='$ctl eq tuan and $act eq index'>on</if> " href="<{:U('tuan/index')}>">首页</a></li>
+            <li class="navLi"><a class="navA <if condition='$ctl eq tuan and $act eq nearby'>on</if>" href="<{:U('tuan/nearby')}>">身边抢购</a></li>
+            <li class="navLi"><a class="navA " href="<{:U('tuan/index',array('new'=>1))}>">今日新单</a></li>
+            <li class="navLi"><a class="navA" href="<{:U('tuan/index',array('hot'=>1))}>">热门疯抢</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--抢购专题页开始-->
+<style>
+.topUp{ display:none;}
+</style>
+<script>
+$(document).ready(function(){
+    $(window).scroll(function(){
+        var top = $(document).scrollTop();          //定义变量，获取滚动条的高度
+        var menu = $(".qg_special_cate_box");                      //定义变量，抓取#menu
+        var items = $(".qg_special_bt");    //定义变量，查找.item
+
+        var curId = "";                             //定义变量，当前所在的楼层item #id 
+
+        items.each(function(){
+            var m = $(this);                        //定义变量，获取当前类
+            var itemsTop = m.offset().top;        //定义变量，获取当前类的top偏移量
+            if(top > itemsTop-100){
+                curId = "#" + m.attr("id");
+            }else{
+                return false;
+            }
+        });
+
+        //给相应的楼层设置cur,取消其他楼层的cur
+        var curLink = menu.find(".on");
+        if( curId && curLink.attr("href") != curId ){
+            curLink.removeClass("on");
+            menu.find( "[href=" + curId + "]" ).addClass("on");
+        }
+        // console.log(top);
+	});
+
+	$(window).scroll(function () {
+		if ($(window).scrollTop() >600) {
+			$(".qg_special_cate_box").show();
+			$(".qg_special_cate_box").css("top","90px");
+			$(".qg_special_cate_box").css("bottom","auto");
+		}
+		else{
+			$(".qg_special_cate_box").hide();
+		}
+	});
+});
+function gps(o){
+    if(o===0){
+        $('body,html').animate({scrollTop:0},500); 
+    }else{
+        var floor = $(o).attr('floor'),obj = $("#floor"+floor),top=obj.offset().top;
+        $('body,html').animate({scrollTop:top},500); 
+    }
+    
+}
+
+</script>
+<div class="qg_special_cate_box" style="display:none;">
+    <div class="qg_special_cate_bt">抢购分类</div>
+    <ul>
+        <volist name="data" id="dt">
+        <li><a href='javascript:void' floor='<{$key}>' onclick="gps(this)"><{$floors_list[$key]}></a></li>
+        </volist>
+        <li class="qg_special_top" onclick="gps(0)">返回顶部</li>
+    </ul>
+</div>
+
+<div class="qg_special_content" style="background-color:<{$config['color_bg']}>;">
+    <div class="qg_special_banner" style="background:url(/attachs/<{$config['pc_banner']}>) no-repeat center top;">  </div>
+    <div class="qg_special_nr_box">
+        <div class="qg_special_floor qg_special_floor1">
+            <php>$orderNum=0;</php>
+            <volist name="data" id="dt">
+            <php>$orderNum++;</php>
+            <div class="qg_special_bt" id="floor<{$key}>" style="background-color:<{$config['color_title']}>;">
+                <b>F<{$orderNum}></b><{$floors_list[$key]}></div>
+            <div class="qg_special_nr">
+                <ul>
+                   <volist name="dt" id="item">
+                    <a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+                    <li class="qg_special_nr_list">
+                    	<div class="sy_sjcpLi">
+                            <img src="__ROOT__/attachs/<{$item.photo}>"  width="306" height="185" />
+                            <p class="sy_hottjbt"><{$item.title}></p>
+                            <p class="sy_hottjp"><{$item.intro}></p>
+                            <hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+                            <p class="sy_hottjJg sy_sjcpJg"><span class="left">¥<{:round($item['tuan_price']/100,2)}><del>¥<{:round($item['price']/100,2)}></del></span>
+                            <span class="right"><span>已售<{$item.sold_num}></span></span></p>
+                            <div class="sy_sjcpBq">
+                                <span class="sy_sjcpBq1">免预约</span>
+                                <span class="sy_sjcpBq2">多套餐</span>
+                                <span class="sy_sjcpBq3">代金券</span>
+                            </div>
+                            <!-- <div class="sy_sjcpLiDw">
+                                <div class="sy_sjcpDwBox">
+                                    <div class="sy_sjcpDwNr">
+                                        <p>此商家已有<span>20</span>个粉丝</p>
+                                        <div class="sy_sjcpwx"><img src="../sjimages/login_wx_03.jpg" width="135" height="139" /></div>
+                                        <div class="sy_sjcpCz">
+                                            <a class="radius3 sy_sjcpCzA" href="">商家<em>&nbsp;</em></a>
+                                            <a class="radius3 sy_sjcpCzA" href="">抢购<em>&nbsp;</em></a>
+                                            <a class="radius3 sy_sjcpCzA" href="">门店<em>&nbsp;</em></a>
+                                            <a class="radius3 sy_sjcpCzA" href=""><em>&nbsp;</em></a>
+                                        </div>
+                                    </div>
+                                    <div class="sy_sjcpDwBg">&nbsp;</div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </li>
+                    </a>
+                    </volist>
+                    <div class="clear"></div>
+                </ul>
+            </div>
+             </volist>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function scroll(o){
+    
+}    
+</script>
+
+
+<div class="footerOut">
+    <if condition="$ctl eq index">
+        <div class="foot_yqlj">
+            友情链接：
+            <calldata mdl="Links" where="" limit="0,10" cache="21600" order="orderby asc">
+                <a target="_blank" href="<{$item.link_url}>"><{$item.link_name}></a>
+            </calldata>
+        </div>
+    </if>
+    <div class="footer">
+        <div class="footNav">
+            <div class="left">
+                <div class="footNavLi">
+                    <ul>
+                    	<li class="footerLi foot_contact">
+                            <h3><i class="ico_1"></i>联系我们</h3>
+                			<div class="nr">
+                            	<p>客服电话：<span class="fontcl1"><{$CONFIG.site.tel}></span></p>
+                                <p class="graycl">免费长途</p>
+                                <p>在线客服：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=800026911&amp;site=www.baocms.cn&amp;menu=yes"><img src="__TMPL__statics/images/foot_btn.png"/></a></p>
+                                <p>工作时间：周一至周日9:00-22:00</p>
+                                <p class="graycl">法定节假日除外</p>
+                            </div>
+                        </li>
+                        <li class="footerLi">
+                            <h3><i class="ico_2"></i>公司信息</h3>
+                            <ul class="list">
+                                <li><a target="_blank" title="关于我们" href="<{:U('article/system',array('content_id'=>1))}>">关于我们</a></li>
+                                <li><a target="_blank" title="联系我们" href="<{:U('article/system',array('content_id'=>3))}>">联系我们</a></li>
+                                <li><a target="_blank" title="人才招聘" href="<{:U('article/system',array('content_id'=>2))}>">人才招聘</a></li>
+                                <li><a target="_blank" title="免责声明" href="<{:U('article/system',array('content_id'=>6))}>">免责声明</a></li>
+                            </ul>
+                        </li>
+                        <li class="footerLi">
+                            <h3><i class="ico_3"></i>商户合作</h3>
+                            <ul class="list">
+                                <li><a href="<{:U('shop/apply')}>">商家入驻</a></li>
+                                <li><a target="_blank" title="广告合作" href="<{:U('article/system',array('content_id'=>5))}>">广告合作</a></li>
+                                <li><a href="<{:U('shangjia/index/index')}>">商家后台</a></li>
+                            </ul>
+                        </li>
+                        <li class="footerLi">
+                            <h3><i class="ico_4"></i>用户帮助</h3>
+                            <ul class="list">
+                                <li><a target="_blank" title="服务协议" href="<{:U('article/system',array('content_id'=>7))}>">服务协议</a></li>
+                                <li><a target="_blank" title="退款承诺" href="<{:U('article/refund')}>">退款承诺</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+              
+            </div>
+            <div class="right"><p>扫一扫关注BAOCMS</p><img src="__PUBLIC__/img/wx.png" width="149" height="149" /></div>
+        </div>
+    </div>
+	<div class="footerCopy">copyright 2013-2113 <{$Think.SERVER.HTTP_HOST}> All Rights Reserved <{$CONFIG.site.sitename}>版权所有 - <{$CONFIG.site.icp}> <{$CONFIG.site.tongji}></div>
+
+</div>

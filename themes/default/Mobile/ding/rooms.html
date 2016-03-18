@@ -1,0 +1,58 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('ding/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		包厢详情
+	</div>
+</header>
+
+<form method="post" action="<{:U('ding/menu',array('shop_id'=>$shop_id,'yuyue_id'=>$yuyue_id))}>">
+	<div class="padding">
+		<ul class="line">
+			<volist name='room_detail' id='item'>
+				<volist name='item' id='v'>
+					 <li class="x4">
+						<a class="room-item" href="javascript:;" rel="<{$v.room_id}>" data="<{$v['is_yuyue']}>">
+						<img src="__ROOT__/attachs/<{$v.photo}>" width="100%" height="100%" />
+						<p><{$v.name}></p>
+						<if condition="$v['is_yuyue'] eq 1">
+						<span class="status man">约满</span>
+						<else />
+						<span class="status xian">空闲</span>
+						</if>
+						</a>
+					</li>
+				</volist>
+			</volist>
+		</ul>
+	</div>
+	
+	<nav class="cart-bar">
+		<div class="result">
+			<input type="submit" class="button bg-dot" value="点菜去" />
+		</div>
+	</nav>
+	
+	<input id="roomid" type="hidden"  name="roomid" value="">
+	<input type="hidden"  name="is_room" value="1">
+    </form>
+</body>
+
+<script>
+	$(".room-item").click(function(){
+		var roomid = $(this).attr("rel");
+		var status = $(this).attr("data");
+		if( status == ''){
+			$(".room-item .xian").each(function(){
+				$(this).html("空闲");
+				$(this).removeClass("xuan");
+			});
+			$(this).find(".xian").html("已选");
+			$(this).find(".xian").addClass("xuan");
+			$("#roomid").val(roomid);
+		}
+	});
+</script>
+</html>

@@ -1,0 +1,35 @@
+<volist name="list" id="var">
+	<li class="line padding border-bottom">
+		<div class="line detail">
+			<div class="x3"><a href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$billshops[$var['shop_id']]['photo']|default='default.jpg'}>" width="90%"></a></div>
+			<div class="x9">
+				<h5><{$billshops[$var['shop_id']]['shop_name']}></h5>
+				<p><{$billshops[$var['shop_id']]['addr']}></p>
+				<div class="line text-right">
+					<span class="margin-right">票数：<{$var.votenum}></span>
+					<if condition="$var['work'] eq 1">
+					<a class="button button-little bg-gray" href="<{:U('billboard/vote',array('bill_id'=>$var['bill_id']))}>">投一票</a>
+					<else/>
+					<a class="button button-little bg-gray" href="javascript:void(0);">已投票</a>
+					</if>
+				</div>
+			</div>
+		</div>
+		
+		<div class="reason">
+			<span>上榜理由：</span><{$var.reason}>
+		</div>
+		
+		<div class="comment">
+			<if condition="$var['dianping']['user_id'] neq null">
+				<p><span><{$users[$var['dianping']['user_id']]['nickname']}>：</span>
+					<{$var['dianping']['contents']}>
+				</p>
+				<div class="text-right"><{$var['dianping']['create_time']|date="Y-m-d",###}></div>
+				<else/>
+				<p>暂无点评</p>
+			</if>
+		</div>
+	</li> 
+	<div class="blank-10 bg"></div>
+</volist>

@@ -1,0 +1,155 @@
+<include  file='public:header_news'/>    
+<link rel="stylesheet" href="/static/default/wap/css/community.css">
+<body>
+  	<script src="/static/default/wap/other/roll.js"></script>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			投票详情
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+	</header>
+    
+    
+    <div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3"><img src="/static/default/wap/image/share/share-weibo.png" /><p>新浪微博</p></li>
+				<li class="-mob-share-tencentweibo x3"><img src="/static/default/wap/image/share/share-twb.png" /><p>腾讯微博</p></li>
+				<li class="-mob-share-qzone x3"><img src="/static/default/wap/image/share/share-qzone.png" /><p>QQ空间</p></li>				
+				<li class="-mob-share-qq x3"><img src="/static/default/wap/image/share/share-py.png" /><p>QQ好友</p></li>
+				<li class="-mob-share-weixin x3"><img src="/static/default/wap/image/share/share-weixin.png" /><p>微信</p></li>
+				<li class="-mob-share-renren x3"><img src="/static/default/wap/image/share/share-renren.png" /><p>人人网</p></li>
+				<li class="-mob-share-kaixin x3"><img src="/static/default/wap/image/share/share-kaixin.png" /><p>开心网</p></li>
+				<li id="mui-card-close" class="mui-card-close x3"><img src="/static/default/wap/image/share/share-close.png" /><p>关闭</p></li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+
+	
+	<div id="roll" class="xiaoqu-roll">	
+		<div class="bd">
+			<ul>		
+				<li><img src="__ROOT__/attachs/<{$detail.banner}>" /></li>	
+			</ul>
+		</div>
+	</div>	
+    
+    
+    <div class="blank-10 bg"></div>
+    <div class="cite-title padding border-bottom">
+		<h5><i class="icon-bullhorn"></i><{$detail.title}></h5>
+	</div>
+    <div class="blank-20 bg"></div>
+    
+    
+    
+    <style>
+	.float-bg{width:100%;height:100%;position:fixed;left:0;top:43px;filter:alpha(opacity=80);opacity:.8;background:#000;text-align:center}
+.float-bg .cancel{position:absolute;right:20px;top:20px;width:24px;height:24px;color:#fff;cursor:pointer}
+.float-bg .close_btn{position:absolute;top:20px;right:10px;color:#fff;cursor:pointer}
+.float-bg .close_btn img{width:2.5rem;margin-bottom:1.1rem}
+.float-box{width:320px;position:relative;margin:70px auto}
+.float-bg h2{font-size:20px;font-family:微软雅黑;color:#FFF}
+.float-bg .weixin{margin-top:30px;margin-bottom:30px}
+.float-bg h4{font-size:14px;font-family:微软雅黑;color:#FFF;margin-top:10px}
+.s_box-two{text-align:center;height:.9rem;line-height:.8rem}
+.header_color .title{font-size:.2rem}
+.container .jiang-gua canvas{border-radius:.05rem;border:6px solid #0f8acd;width:2.88rem}
+#shark-body{background-color:#4cbbe7}
+
+	</style>
+    
+    
+    
+    
+    
+    
+    
+    
+
+      
+        <div class="container">
+
+            <form action="<{:U('vote/vote',array('vote_id'=>$detail['vote_id']))}>" method="post">
+                <volist name='options' id='item' key="index">
+                    <div class="blank-10"></div>
+                    <div <if condition="$index eq 1"> style="margin-top:0px;"</if> class="bline w320"></div>
+                    <p>
+                    <if condition="$detail['is_select'] eq 1">
+                        <label><input type="checkbox" name="data[<{$item.option_id}>]" value="<{$item.title}>" /><{$item.title}></label>
+                        <else/>
+                        <label><input type="radio" name="data" value="<{$item.option_id}>" /><{$item.title}></label>
+                    </if>
+                    </p>
+                </volist>
+                <div class="bline w320"></div>
+
+                <if condition="$works eq 0">
+                    <div class="btn">
+                        <input type="submit" value="确认投票" class="button button-block button-big bg-dot" ></input>
+                    </div>
+                    <else/>
+                    <div class="btn">
+                        <input type="button" value="确认投票" id="novote" class="button button-block button-big bg-dot" ></input>
+                    </div>
+                </if>
+            </form>
+            <script>
+                $(document).ready(function () {
+                    $("#novote").click(function () {
+                        alert('您已经投过票了');
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <hr />
+    <footer>
+        <center>
+            <div class="tips">温馨提示：此活动的最终解释权归<{$CONFIG.site.sitename}>，如有疑问请致电客服热线<{$CONFIG.site.tel}></div>
+        </center>
+    </footer>
+
+    <div class="float-bg">
+        <div id="cancel" class="close_btn"><img src="__TMPL__statics/img/close.png"/></div>
+        <div class="float-box">
+            <h2>请关注我们官方微博参与投票</h2>
+            <if condition="$shopdetails['wei_pic'] eq null">
+                <div class="weixin"><img src="__TMPL__statics/img/weixin.jpg"/></div>
+                <else/>
+                <div class="weixin"><img src="__ROOT__/attachs/<{$shopdetails.wei_pic'}>"/></div>
+            </if>
+            <h4>长按二维码保存图片到手机，之后<br />
+                用微信“扫一扫”选择右上角，<br />
+                “从相册读取二维码”，关注我们<br />
+                发送ＸＸＸ参与活动</h4>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#cancel").click(function () {
+                $(this).parent().css('display', 'none');
+            });
+        });
+    </script>
+</body>
+</html>

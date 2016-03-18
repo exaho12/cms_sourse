@@ -1,0 +1,256 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">分类信息</li>
+        <li class="li2">信息列表</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('life/create')}>" method="post">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">标题：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput w300" />
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="lfTdBt">分类：</td>
+                    <td class="rgTdBt">
+                        <select name="data[cate_id]" id="jq_cate" class="manageSelect">
+                            <foreach name="channelmeans" item="item" key="key">
+                                <option value=""><{$item}></option>
+                                <foreach name="cates" item="it" key="k">
+                                    <eq name="it.channel_id" value="$key">
+                                    <option value="<{$it.cate_id}>">&nbsp;&nbsp;-<{$it.cate_name}></option>
+                                    </eq>
+                                </foreach>
+                            </foreach>
+                        </select>
+
+                    </td>
+                </tr>    
+                <tr>
+                    <td class="lfTdBt"></td>
+                    <td  class="rgTdBt" id="jq_setting">
+
+                    </td>
+                </tr>
+                <script>
+                    var ajaxurl = '<{:U("lifecate/ajax",array("cate_id"=>"0000"))}>';
+                    $(document).ready(function () {
+                        $("#jq_cate").change(function () {
+                            if ($(this).val() > 0) {
+                                var link = ajaxurl.replace('0000', $(this).val());
+                                $.get(link, function (data) {
+                                    $("#jq_setting").html(data);
+                                }, 'html');
+
+                            } else {
+                                alert("请选择分类");
+                            }
+                        });
+                    });
+                </script>
+                <tr>
+                    <td class="lfTdBt">所在区域：</td>
+                    <td class="rgTdBt">
+                        <select name="data[area_id]" id="area_id" class="manageSelect">
+                            <option value="0">请选择...</option>
+                            <foreach name="areas" item="var">
+                                <option value="<{$var.area_id}>"><{$var.area_name}></option>
+                            </foreach>   
+                        </select>
+
+                    </td>
+                </tr>
+                <script>
+                    $(document).ready(function (e) {
+                        $("#area_id").change(function () {
+                            var url = '<{:U("business/child",array("area_id"=>"0000"))}>';
+                            if ($(this).val() > 0) {
+                                var url2 = url.replace('0000', $(this).val());
+                                $.get(url2, function (data) {
+                                    $("#business_id").html(data);
+                                }, 'html');
+                            }
+
+                        });
+                    });
+                </script>
+                <tr>
+                    <td class="lfTdBt">所在商圈：</td>
+                    <td  class="rgTdBt">
+                        <select name="data[business_id]" id="business_id" class="manageSelect">
+                            <option value="0">请选择...</option>
+                            <foreach name="business" item="var">
+                                <option value="<{$var.business_id}>"><{$var.business_name}></option>
+                            </foreach>   
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">所在坐标：</td>
+                    <td  class="rgTdBt">
+                        <div class="lt">
+                            经度<input type="text" name="data[lng]" id="data_lng" value="<{$detail.lng|default=''}>" class="manageInput w150" />
+                            纬度 <input type="text" name="data[lat]" id="data_lat" value="<{$detail.lat|default=''}>" class="manageInput w150" />
+                        </div>
+                        <a mini="select"  w="600" h="600" href="<{:U('public/maps')}>" class="seleSj">百度地图</a>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">用户：</td>
+                    <td  class="rgTdBt"> <div class="lt">
+                            <input type="hidden" id="user_id" name="data[user_id]" value="<{$detail.user_id|default=''}>" class="manageInput" />
+                            <input type="text" name="nickname" id="nickname"  value="" class="manageInput w150" />
+                        </div>
+                        <a mini="select"  w="800" h="600" href="<{:U('user/select')}>" class="seleSj">选择用户</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否是商家：</td>
+                    <td  class="rgTdBt">
+                        <input type="checkbox" name="data[is_shop]" value="1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">火急日期：</td>
+                    <td  class="rgTdBt">
+                        <input type="text" name="data[urgent_date]" value="<{$detail.urgent_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">置顶日期：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[top_date]" value="<{$detail.top_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                缩略图：
+                </td>
+                <td  class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                        <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.life.thumb}>
+                    </div>
+                    <script>
+                        $("#photo_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"lifeservice"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传缩略图',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_photo").val(data);
+                                $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+
+                    </script>
+                </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">
+
+                        更多详情图：
+                    </td>
+                    <td  class="rgTdBt">
+                        <div>
+                            <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+                        </div>
+                        <div class="jq_uploads_img">
+                            <foreach  name="photos" item="item">
+                                <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                    <img width="200" height="100" src="__ROOT__/attachs/<{$item}>">  
+                                    <input type="hidden" name="photos[]" value="<{$item}>" />  
+                                    <a href="#">取消</a>  
+                                </span>
+                            </foreach>
+                        </div>
+                        <script>
+                            $("#logo_file").uploadify({
+                                'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                'uploader': '<{:U("app/upload/uploadify",array("model"=>"lifeservice"))}>',
+                                'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                'buttonText': '上传图片',
+                                'fileTypeExts': '*.gif;*.jpg;*.png',
+                                'queueSizeLimit': 10,
+                                'onUploadSuccess': function (file, data, response) {
+                                    var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos[]" value="' + data + '" />    <a href="#">取消</a>  </span>';
+                                    $(".jq_uploads_img").append(str);
+                                }
+                            });
+
+                            $(document).on("click", ".jq_uploads_img a", function () {
+                                $(this).parent().remove();
+                            });
+
+                        </script>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="lfTdBt">联系人：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[contact]" value="<{$detail.contact|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">电话：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">QQ：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[qq]" value="<{$detail.qq|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">联系地址：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="manageInput w200" />
+
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">浏览量：</td>
+                    <td  class="rgTdBt"><input type="text" name="data[views]" value="<{$detail.views|default=''}>" class="manageInput" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">详情：</td>
+                    <td  class="rgTdBt">
+                        <script type="text/plain" id="data_details" name="details" style="width:800px;height:360px;"><{$ex.details}></script>
+                    </td>
+                </tr>
+                <link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+                <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+                <script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                            um = UM.getEditor('data_details', {
+                                imageUrl: "<{:U('app/upload/editor')}>",
+                                imagePath: '__ROOT__/attachs/editor/',
+                                lang: 'zh-cn',
+                                langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                                focus: false
+                            });
+                </script>
+                <tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

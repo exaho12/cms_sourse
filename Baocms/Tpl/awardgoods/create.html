@@ -1,0 +1,32 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('awardgoods/create',array('award_id'=>$award_id))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">奖项规格：</td>
+                            <td class="rgTdBt"><input type="text" name="data[award_name]" value="<{$detail.award_name|default=''}>" class="scAddTextName w150" />
+                                <code>例如一等奖</code>
+                            </td>
+                        </tr><tr>
+                            <td class="lfTdBt">奖品名称：</td>
+                            <td class="rgTdBt"><input type="text" name="data[goods_name]" value="<{$detail.goods_name|default=''}>" class="scAddTextName w150" />
+                            </td>
+                        </tr><tr>
+                            <td class="lfTdBt">概率：</td>
+                            <td class="rgTdBt"><input type="text" name="data[prob]" value="<{$detail.prob|default=''}>" class="scAddTextName w150" />
+                                <code>一万分之几中奖！数字越小概率越低！另外如果等于一万则代表100%中奖</code>
+                            </td>
+                        </tr><tr>
+                            <td class="lfTdBt">数量：</td>
+                            <td class="rgTdBt"><input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="scAddTextName w150" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>    

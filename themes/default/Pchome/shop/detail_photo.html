@@ -1,0 +1,29 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>商家相册</h3>
+			</div>
+			<div class="box-bd">
+				<div class="shop-photo-list">
+					<ul class="line-middle">
+						<calldata mdl="Shoppic" where="shop_id = {$detail['shop_id']}" limit="0,30"  cache="21600" order="pic_id desc">
+						<li class="xl12 xs6 xm4 xb3 dialogs" data-toggle="click" data-target="#pic-box-<{$item['pic_id']}>" data-mask="1" data-width="50%">
+							<div class="media padding-bottom clearfix">
+								<a href="javascript:;"><img src="/attachs/<{$item['photo']}>" class="radius img-responsive" alt="<{$item['title']}>"></a>
+								<div class="media-body">
+									<strong><{$item['title']}></strong>
+								</div>
+							</div>
+							<div id="pic-box-<{$item['pic_id']}>"  class="hidden">
+								<img src="/attachs/<{$item['photo']}>" class="pic-box-photo" />
+								<button class="button dialog-close"><i class="icon icon-times"></i></button>
+							</div>
+						</li>
+					</calldata>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,122 @@
+<include  file='public:header_community'/>  <script src="/static/default/pc/js/qrcode.js"></script>
+	<div class="blank-10"></div>
+	<div class="container">
+		<div class="xiaoqu-head">
+			<div class="line">
+				<div class="x3">
+					<div class="head-logo">
+						<img src="__ROOT__/attachs/<{$detail[pic]}>" alt="<{$detail.shop_name}>" />
+					</div>
+				</div>
+				<div class="x7">
+					<div class="head-desc">
+						<h1><{$detail[name]}></h1>
+						<p class="star"><i class="icon icon-bank"></i> 物业公司：<{$detail[property]}></p>
+						<p class="addr"><i class="icon icon-map-marker"></i> 小区地址：<{$detail.addr}><if condition="!empty($ex['near'])">(<{$ex.near}>)</if></p>
+						<p class="avrg"><i class="icon icon-clock-o"></i> 入驻时间: <{$detail.create_time|date='Y-m-d',###}></p>
+						<div class="cont">
+							<span><strong class="txt radius-circle bg-yellow"><i class="icon icon-phone"></i></strong> <em><{$detail[tel]}></em></span>
+							<span><strong class="txt radius-circle bg-green"><i class="icon icon-users"></i></strong> <em><{$counts[user]}> 人加入</em></span>
+							<span><strong class="txt radius-circle bg-blue"><i class="icon icon-comments"></i></strong> <em><{$counts[post]}> 帖子</em></span>
+						</div>
+					</div>
+				</div>
+				<div class="x2">
+					<div class="head-info">
+						<a rel="http://<{$_SERVER['SERVER_NAME']}>/mobile<{$host}><{:U('xiaoqu/detail',array('community_id'=>$detail['community_id']))}>" class="qrcode"></a>
+						<p>手机扫描二维码访问</p>
+
+						<if condition="$counts.isin eq 0">
+						<a  mini="act" class="button bg-sub" href="<{:U('xiaoqu/join',array('community_id'=>$detail['community_id']))}>">住在该小区</a>
+						<else />
+						<a  mini="act" class="button bg-sub" href="<{:U('xiaoqu/out',array('community_id'=>$detail['community_id']))}>">撤退该小区</a>
+						</if>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+	$(function(){
+		$(".qrcode").each(function(){
+			$(this).empty();
+			$(this).qrcode($(this).attr("rel")); 
+		});
+	});
+	</script>
+
+	<div class="blank-20"></div>
+	
+	<div class="layout navbar xiaoqu-naver fixed" data-style="fixed-top" data-offset-fixed="20">
+		<div class="container">
+			<div class="navbar-body nav-navicon">
+				<ul class="nav nav-inline nav-menu">
+					<li <eq name="act" value="">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id']))}>">小区主页</a>
+					</li>
+					<li <eq name="act" value="newslist">class="active"</eq>>
+						<a href="<{:U('xiaoqu/newslist',array('community_id'=>$detail['community_id']))}>">物业通知</a>
+					</li>
+					<li <eq name="act" value="tel">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'tel'))}>">便民电话</a>
+					</li>
+					<li <eq name="act" value="photo">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'food'))}>">附近美食</a>
+					</li>
+					<li <eq name="act" value="market">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'market'))}>">附近超市</a>
+					</li>
+					<li <eq name="act" value="photo">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'shop'))}>">附近商家</a>
+					</li>
+					<li <eq name="act" value="photo">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'life'))}>">附近信息</a>
+					</li>
+					<li <eq name="act" value="map">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'map'))}>">小区地图</a>
+					</li>
+					<li <eq name="act" value="coupon">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'coupon'))}>">附近优惠</a>
+					</li>
+					<li <eq name="act" value="tieba">class="active"</eq>>
+						<a href="<{:U('xiaoqu/tieba',array('community_id'=>$detail['community_id']))}>">小区贴吧</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="layout xiaoqu-midd <if condition='empty($act)'>xiaoqu-index<else />xiaoqu-channel</if>">
+		<div class="container">
+			<div class="blank-10"></div>
+			<div class="line">
+				<div class="x12">
+					<div class="midd-box">
+						<div class="box-hd box-ld">
+							<h3>小区通知</h3>
+						</div>
+						<div class="box-bd">
+							<div class="xiaoqu-news-read">
+								<h1><{$news[title]}></h1>
+								<div class="blank-10"></div>
+								<hr />
+								<div class="blank-10"></div>
+								<{$news[details]}>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+<include  file='public:footer'/>

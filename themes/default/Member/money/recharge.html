@@ -1,0 +1,27 @@
+<include file="public:header"/>
+<div class="content_right">
+	<div class="tgdd">
+		<div class="tgdd_t password_t">
+			<ul>
+				<li><a href="<{:U('money/money')}>" >余额充值</a></li>
+				<li class="on"><a href="<{:U('money/recharge')}>" >代金券充值</a></li>
+				<li><a href="<{:U('money/gold')}>" >金块充值</a></li>
+			</ul>
+		</div>
+		<form method="post"  action="<{:U('money/recharge')}>" target="baocms_frm">
+			<div class="password_nr">
+				<div class="password_input">
+					<div class="left">充值卡密</div>
+					<div class="lef">
+						<input type="text" name="card_key" class="cjinput"  />
+					</div>
+				</div>
+				<div class="password_subm">
+					<input class="submit" type="submit" value="立刻充值" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+<include file="public:footer"/> 

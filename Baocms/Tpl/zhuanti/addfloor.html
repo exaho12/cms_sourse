@@ -1,0 +1,33 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <a href="<{:U('zhuanti/index')}>"><li class="li2">专题管理</li></a>
+        <a href="<{:U('zhuanti/floor')}>"><li class="li2">楼层管理</li></a>
+        <li class="li2 li3" onclick="javascript:window.location.reload()">添加楼层</li>
+    </ul>
+</div>
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('zhuanti/addfloor')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" width="160" >楼层名称：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[title]" class="scAddTextName " />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >排序：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[sort]" class="scAddTextName " />
+                        <code>排序值越小越靠前</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

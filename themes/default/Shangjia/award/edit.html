@@ -1,0 +1,56 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+<link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">抽奖管理</a> > <a>编辑抽奖</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">抽奖必须启用后才能使用！</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('award/edit',array('award_id'=>$detail['award_id']))}>"  target="baocms_frm">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">活动</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                    <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">类型</p></td>
+                <td>
+                    <div class="tuanfabu_nr">  <select name="data[type]" class="manageSelect">
+                        <foreach name="types" item="item" key="key">
+                            <option value="<{$key}>"  <eq name="detail.type" value="$key">selected="selected"</eq>  ><{$item}></option>
+                        </foreach>
+                    </select>
+</div>
+                </td>
+            </tr><tr>
+                <td width="120"><p class="tuanfabu_t">说明</p></td>
+                <td>  <div class="tuanfabu_nr"><textarea  name="data[explain]" cols="50" rows="10" ><{$detail.explain|default=''}></textarea>
+</div>
+                </td>
+            </tr><tr>
+                <td width="120"><p class="tuanfabu_t">结束时间</p></td>
+                <td>  <div class="tuanfabu_nr"><input type="text" name="data[expire_date]" value="<{$detail.expire_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+</div>
+                </td>
+            </tr>
+
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,30 @@
+<include file="public:header"/>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <th>标题名称</th>
+                    <th>作者</th>
+                    <th>时间</th>
+                    <th>回复</th>
+                    <th>点击</th>
+                </tr>
+                <volist name="list" id="var">
+                    <tr class="tgdd_nrC">
+                        <td class="tgdd_nrCtd  bullionLog_td" style="width:300px"><{$var.title}></td>
+                        <td class="tgdd_nrCtd  bullionLog_td"><{$users[$var['user_id']]['nickname']}></td>
+                        <td class="tgdd_nrCtd  bullionLog_td"><{$var.create_time|date='Y-m-d H:i',###}></td>
+                        <td class="tgdd_nrCtd  bullionLog_td"><{$var.reply_num}></td>
+                        <td class="tgdd_nrCtd  bullionLog_td"><{$var.views}></td>
+
+                    </tr>
+                </volist>
+            </table>
+            <div class="x"><{$page}></div>
+        </div>
+    </div> 
+</div>
+</div>
+<include file="public:footer"/>
+

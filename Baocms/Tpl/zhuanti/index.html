@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">专题管理</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <a href="<{:U('zhuanti/special')}>">专题管理</a>
+                <a href="<{:U('tuan/index')}>">添加专题商品</a>
+                <a href="<{:U('zhuanti/config')}>">专题配置</a>
+                <a href="<{:U('zhuanti/floor')}>">楼层管理</a>
+            </div>
+        </div>
+
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                 <tr bgcolor="#ffaa7b" height="48px;" style="color:#FFF; font-size:16px; line-height:48px;">
+                    <td>专题ID</td>
+                    <td>楼层</td>
+                    <td>缩列图</td>
+                    <td>商品名称</td>
+                    <td>到期时间</td>
+                    <td>排序</td>
+                    <td>操作</td>
+                </tr>
+                <volist name="data" id="dt">
+                <volist name="dt" id="val">
+                    <tr height="48px;" style="color:#555; font-size:16px; line-height:48px;">
+                    <td><{$val.map_id}></td>
+                    <td><{$val.floor_id}></td>
+                    <td><img src='/attachs/<{$val.photo}>' width='70' height='70'/></td>
+                    <td><{$val.title}></td>
+                    <td><{$val.deadline|date='Y年m月d日 H:i:s',###}></td>
+                    <td><{$val.sort}></td>
+                    <td>
+                        <{:BA('zhuanti/editgoods',array('zhuan_id'=>$val['zhuan_id']),'编辑','','remberBtn')}>
+                        <{:BA('zhuanti/delgoods',array('zhuan_id'=>$val['zhuan_id']),'移除','act','remberBtn')}>
+                    </td>
+                    </tr>
+                </volist>
+                </volist>
+            </table>
+            <{$page}>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

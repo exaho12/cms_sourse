@@ -1,0 +1,128 @@
+<include  file='public:header'/>    
+	<header class="top-fixed bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('coupon/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			优惠详情
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+	</header>  
+	<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3">
+					<img src="/static/default/wap/image/share/share-weibo.png" />
+					<p>新浪微博</p>
+				</li>
+				<li class="-mob-share-tencentweibo x3">
+					<img src="/static/default/wap/image/share/share-twb.png" />
+					<p>腾讯微博</p>
+				</li>
+				<li class="-mob-share-qzone x3">
+					<img src="/static/default/wap/image/share/share-qzone.png" />
+					<p>QQ空间</p>
+				</li>
+				
+				<li class="-mob-share-qq x3">
+					<img src="/static/default/wap/image/share/share-py.png" />
+					<p>QQ好友</p>
+				</li>
+				<li class="-mob-share-weixin x3">
+					<img src="/static/default/wap/image/share/share-weixin.png" />
+					<p>微信</p>
+				</li>
+				<li class="-mob-share-renren x3">
+					<img src="/static/default/wap/image/share/share-renren.png" />
+					<p>人人网</p>
+				</li>
+				<li class="-mob-share-kaixin x3">
+					<img src="/static/default/wap/image/share/share-kaixin.png" />
+					<p>开心网</p>
+				</li>
+				<li id="mui-card-close" class="mui-card-close x3">
+					<img src="/static/default/wap/image/share/share-close.png" />
+					<p>关闭</p>
+				</li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+	
+	<div class="hd-detail">
+		<div class="detail-pic">
+			<img src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>"/>
+			<p><{$detail.title}></p>
+		</div>
+		
+
+		<div class="detail-ctrl">
+			<span><em><{$detail.downloads}></em>人已成功领取</span>
+            <php>$mobile = substr_replace($res['mobile'],'****',3,4);</php>
+            <!--如果有绑定手机号-->
+            <if condition="!empty($res['mobile'])">
+              <a class="btn-sign float-right" id="bind_mobile" href="javascript:void(0);">绑定手机下载</a>	
+           
+            <else/>
+            <a class="btn-sign float-right"  href="<{:U('coupon/download',array('coupon_id'=>$detail['coupon_id']))}>">立刻领取</a>	
+            </if>
+				
+            
+		</div>
+		<div class="blank-10 bg"></div>
+		<div class="detail-info">
+			<h1>相关资料</h1>
+			<p>有效期限：<{$detail.expire_date}></p>
+			<p>优惠人气：<{$detail.views}></p>
+			<p>使用方式：出示优惠券号码</p>
+		</div>
+		<div class="blank-10 bg"></div>
+		<div class="detail-info">
+			<h1>优惠简介</h1>
+			<p><{$detail.intro}></p>
+		</div>
+		<div class="blank-10 bg"></div>
+		<div class="detail-info">
+			<h1>商家信息</h1>
+			<p>提供商家：<a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a></p>
+			<if condition="$ex['near'] neq null">
+			<p>提供店铺：<{$ex.near}></p>
+			</if>
+			<p>联系电话：<a href="tel:<{$shop.tel}>"><{$shop.tel}></a></p>
+			<p>商家地址：<{$shop.addr}></p>
+			<p>位置导航：<a href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>">到这里去</a></p>
+		</div>
+		<div class="blank-10 bg"></div>
+		<div class="detail-con">
+			<div class="con-hd">使用指南</div>
+			<div class="con-bd">
+				<img src="/static/default/wap/image/coupon/method.png" />
+			</div>
+		</div>		
+	</div>
+
+
+<script>
+
+	$('#bind_mobile').click(function(){
+		check_user_mobile('<{:U("mobile/tuan/tuan_sendsms")}>','<{:U("mobile/tuan/tuan_mobile")}>');
+	})
+</script>
+
+
+
+
+<include  file='public:footer'/>

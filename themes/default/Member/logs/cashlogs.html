@@ -1,0 +1,46 @@
+<include file="public:header"/>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_t">
+            <ul>
+                <li><a href="<{:U('logs/integral')}>">积分日志</a></li>
+                <li><a href="<{:U('logs/goldlogs')}>">金块日志</a></li>
+                <li><a href="<{:U('logs/moneylogs')}>">余额日志</a></li>
+                <li class="on"><a href="<{:U('logs/cashlogs')}>">提现日志</a></li>
+                <li><a href="<{:U('logs/rechargecard')}>">代金券日志</a></li>
+            </ul>
+            <a style="display: inline-block; float: right; margin-right: 10px;" class="myInfor_sx" href="<{:U('cash/index')}>">申请提现</a>
+        </div>
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <td>ID</td>
+                    <td>提现金额</td>
+                    <td>提现日期</td>
+                    <td>状态</td>
+                </tr>
+                <volist name="list" id="var" key="index">
+                    <tr class="tgdd_nrt">
+                        <td><{$var.cash_id}></td>
+                        <td style="text-align:center;" width="220"><div class="tgdd_tw bullionLog_ye">
+                            <div class="lef"><a class="myChange_sp" href="javascript:void(0);"><{:round($var['money']/100,2)}>元</a></div>
+                        </div></td>
+                        <td><{$var['addtime']|date='Y-m-d H:i:s', ###}></td>
+                        <td>
+                    <if condition="$var.status eq 0">
+                        未审核
+                        <elseif condition="$var.status eq 1" />
+                        <font color="green">通过</font>
+                        <else />
+                        <font color="red">拒绝</font>
+                    </if>
+                    </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="x"><{$page}></div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>用户中心</title>
+        <link href="__TMPL__statics/css/pub.css" rel="stylesheet" type="text/css" />
+        <link href="__TMPL__statics/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="__TMPL__statics/css/index.css" rel="stylesheet" type="text/css" />
+        <link href="__TMPL__statics/css/style.css" rel="stylesheet" type="text/css" />
+        <script src="__PUBLIC__/js/jquery.js"></script>
+        <script src="__TMPL__statics/js/js.js" type="text/javascript"></script>
+        <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+        <script> var BAO_PUBLIC = '__PUBLIC__';
+            var BAO_ROOT = '__ROOT__';</script>
+        <link href="__PUBLIC__/css/public.css" rel="stylesheet" type="text/css" />
+        <script src="__PUBLIC__/js/web.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <div class="header_nr">
+                <div class="left">
+                    <{$CONFIG['site']['cityname']}>
+                    <eq name='bao_city' value='1'>
+                    <a href="<{:U('city/index')}>" class="cityChange">[切换城市]</a>
+                    </eq>
+
+                </div>
+                <div class="right">
+                    <ul>
+                        <li class="header_li header_user">
+
+
+                            <span><{$MEMBER.nickname}></span> | <a href="<{:U('passport/logout')}>">［退出］</a>
+
+
+                        </li>
+
+
+                        <li class="header_li header_nrli">
+                            <a class="header_lia" href="#"><span>我是商家</span><i></i></a>
+                            <div class="hd_liindex">
+                                <ul>
+                                    <li><a href="<{:U('shangjia/login/index')}>">商家登陆</a></li>
+                                    <li><a href="<{:U('shangjia/index/index')}>">微信营销</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="top">
+            <div class="left"><a href="<{:U('index/index')}>">
+                    <if condition="!empty($CONFIG['site']['logo'])">
+                        <img src="__ROOT__/attachs/<{$CONFIG.site.logo}>" width="214" height="75" />
+                        <else/>
+                    <img width="214" height="75" src="__PUBLIC__/img/logo.png" /></a><
+                </if> 
+
+                </a></div>
+            <div class="center">个人中心</div>
+            <div class="right">
+                <div class="tel"><{$CONFIG.site.tel}></div>
+            </div>
+        </div>

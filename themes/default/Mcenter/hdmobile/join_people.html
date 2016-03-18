@@ -1,0 +1,29 @@
+<include file="public:header"/>
+<style>
+.list-media-x li {padding: 10px;}
+.list-media-x {
+    margin-top: 0rem;
+}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('hdmobile/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		约会情况
+	</div>
+	<div class="top-signed">
+
+	</div>
+</header>
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+<script>
+	$(document).ready(function () {
+		loaddata('<{$nextpage}>', $("#list-media ul"), true);
+	});
+</script>  
+<include  file='public:footer'/>

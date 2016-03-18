@@ -1,0 +1,68 @@
+<include file="public:header"/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">投票插件</li>
+        <li class="li2 li3">设置选项</li>
+    </ul>
+</div>
+
+
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span></p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin: 10px 20px; padding-bottom: 10px; border-bottom: 1px solid #dbdbdb;">
+            <div class="left">
+                <a class="jq_add" rel="1" href="javascript:void(0);">新增一个</a>
+            </div>
+        </div>
+        <div class="tableBox">
+            <form  target="baocms_frm" action="<{:U('vote/setting',array('vote_id'=>$detail['vote_id']))}>" method="post">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;">
+                    <tr>
+                        <td width="140" align="right">投票选项:</td>
+                        <td>
+                            <table width="400" style="margin-left: 10px;" class="jq_table1">
+                                <tr>
+                                    <th width="200">标题</th>
+                                    <th width="100">排序</th>
+                                    <th width="100">操作</th>
+                                </tr>
+                                <volist name="options" id="item" key="index">
+                                    <tr>
+                                        <td><input class="scAddTextName w150" type="text" value="<{$item.title}>" name="data[<{$index}>][title]"/></td>
+                                        <td><input class="scAddTextName w150" type="text" value="<{$item.orderby}>" name="data[<{$index}>][orderby]"/></td>
+                                        <td><a href="javascript:void(0);" class='jq_delete'>删除</a></td>
+                                    </tr>  
+                                </volist>
+
+                            </table>
+
+                        </td>
+                    <script>
+                        var num_1 = 0;
+                        $(document).ready(function () {
+                            $(document).on('click', '.jq_delete', function () {
+                                $(this).parent().parent().remove();
+                            });
+
+                            $(".jq_add").click(function () {
+                                var rel = $(this).attr('rel');
+                                num_1++;
+                                var str = '<tr><td align="center"><input class="scAddTextName w150" type="text" name="data[' + num_1 + '][title]"/></td><td align="center"><input type="text" class="scAddTextName w150" name="data[' + num_1 + '][orderby]"/></td><td align="center"><a class="jq_delete" href="javascript:void(0);">删除</a></td></tr> ';
+                                $(".jq_table" + rel).append(str);
+                            });
+                        });
+                    </script>
+                    </tr>
+                </table>
+                 <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </form>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>  
+
+
+
+     

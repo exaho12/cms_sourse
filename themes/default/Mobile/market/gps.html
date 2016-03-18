@@ -1,0 +1,21 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('market/detail',array('market_id'=>$market['market_id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			地图导航
+		</div>
+	</header>
+	<script src="http://api.map.baidu.com/components?ak=7b92b3afff29988b6d4dbf9a00698ed8&v=1.0"></script>
+	<style type="text/css">
+		body,html,#allmap{width:100%;height:100%;overflow:hidden;}
+		body{padding:50px 0 0 0;}
+		#golist {display: none;}
+		@media (max-device-width: 800px){#golist{display: block!important;}}
+	</style>
+	<lbs-map width="100px" style="height:100%" center="<{$market.lng}>,<{$market.lat}>">
+    <lbs-poi name="<{$market.addr}>" location="<{$market.lng}>,<{$market.lat}>" addr="<{$market.addr}>" ></lbs-poi>
+    </lbs-map>
+</body>
+</html>

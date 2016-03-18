@@ -1,0 +1,46 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('distribution/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的上级
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+<div class="index-top">
+	<div class="top-a">
+		<div class="user">
+			<if condition="$MEMBER['fuid1']">
+				<span class="avatar">
+				  <?php if(strstr($fuser['face'],"http")){ ?>
+					<img src="<{$fuser.face}>" />
+					<?php }else{ ?>
+					<img src="__ROOT__/attachs/<{$fuser.face|default='default.jpg'}>" />
+					<?php }?>
+				</span>
+				<div class="info" style="max-width: 110px;padding-left:5px;text-align: left;margin:0px auto;white-space: nowrap;">
+					<p>帐号：<{$fuser.account}></p>
+					<p>昵称：<{$fuser.nickname}></p>
+					<p>VIP：<{$fuser['rank_id']}></p>
+					<p>Email：<{$fuser.email}></p>
+				</div>
+			<else/>
+				<span class="avatar">
+					<if condition="!empty($CONFIG['site']['logo'])">
+					<img src="__ROOT__/attachs/<{$CONFIG.site.logo}>" />
+					<else/>
+					<img src="__PUBLIC__/img/logo_03.png" />
+					</if>
+				</span>
+				<div class="info">
+					<p>平台方</p>
+				</div>
+			</if>
+		</div>
+	</div>
+</div>
+
+<include  file='public:footer'/>

@@ -1,0 +1,499 @@
+<include file="public:header"/>
+
+<script src="/static/default/wap/other/cookie.js"></script>
+
+<script src="/static/default/wap/js/elecart.js"></script>
+
+<script src="/static/default/wap/js/dialog.js"></script>
+
+    <link href="/static/default/wap/css/main.css" rel="stylesheet">
+
+	<header class="top-fixed bg-yellow bg-inverse">
+
+		<div class="top-back">
+
+			<a class="top-addr" href="<{:U('ele/index')}>"><i class="icon-angle-left"></i></a>
+
+		</div>
+
+		<div class="top-title">
+
+			<{$detail.shop_name}>
+
+		</div>
+
+	</header>
+
+
+
+	<div class="notice-shop">
+		<marquee  scrollamount="4" direction="left" >餐厅公告：<{$detail.intro}></marquee >
+	</div>
+
+
+
+    
+
+     <!-- 筛选TAB -->
+
+<div class="line tab-bar">
+
+	<div class="button-toolbar">
+
+		<div class="button-group">
+
+			<a class="block button bg-dot active" href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>">菜单</a>
+
+			<a class="block button" href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a>
+
+			<a class="block button" href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a>
+
+		</div>
+
+	</div>
+
+</div>   
+
+    
+
+    
+
+    
+
+    
+
+	<div class="line2 mart-shop">
+
+		<div class="x3">
+
+		<ul id="shop-cate" class="shop-cate">
+
+                <li><a <if condition="$cat eq 0">class="active"</if> href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>">全部分类</a></li>
+
+                <foreach name="cates" item="item">
+
+                <li><a <if condition="$item['cate_id'] eq $cat">class="active"</if> href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id'],'cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+
+               </foreach>
+
+			</ul>
+
+		</div>
+
+		<div class="x9">
+
+
+
+			<ul class="item-list" id="item-list">
+
+            
+
+            <foreach name="list" item="var">
+
+            <li class="line" >
+
+                <a>
+
+                    <div class="x4" class="ac" onclick="liclick(this);" href="javascript:;">
+
+                        <img  url="__ROOT__/attachs/<{$var.photo}>" src="__ROOT__/attachs/<{$var.photo}>">
+
+                    </div>
+
+                    <div class="x8">
+
+                        <h5><{$var.product_name}></h5>
+
+                        <p class="price"><span class="unit_price">&yen;<{:round($var['price']/100,2)}></span></p>
+
+                        <h1 style="display:none" class="salenum"><{$var.desc}></h1>
+
+                        
+
+                        <div class="num-input">
+
+                        <div class="btn jq_jian" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="dec(this);">-</div>
+
+                        <div class="input"><input type="text" class="ordernum" readonly="readonly" value="<{$var.cart_num}>" /></div>
+
+                        <div class="btn active jq_addcart" val="<{:round($var['price']/100,2)}>" did="<{$var.product_id}>" onclick="addcart(this);" >+</div>
+
+                        </div>
+
+                      
+
+                    </div>
+
+                </a>                                           
+
+            </li>
+
+            </foreach>           
+
+            </ul>
+
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+   <!--弹出 start-->
+
+
+
+   <div id="menuDetail" class="menu_detail">
+
+    <img style="display: none;">
+
+    <div class="nopic"></div>
+
+    <a id="detailBtn" class="comm_btn" onclick="addcart(this);" href="javascript:void(0);">来一份</a>
+
+        <dl><dt>价格：</dt><dd class="highlight"><span class="price"></span></dd></dl>
+
+        <p class="sale_desc">月售<span class="sale_num">6</span>份</p>
+
+        <dl><dt>介绍：</dt><dd class="info"></dd></dl>
+
+    </div>
+
+   <!--end-->
+
+
+
+	<script>
+
+
+
+		//JS处理左右宽度
+
+		var height = $(document).height();
+
+		var xheight = $("#item-list").height();
+
+		if(xheight>height){
+
+			$("#shop-cate").css("height",xheight);
+
+		}else{
+
+			$("#shop-cate").css("height",height);
+
+		}
+
+		$(window).scroll(function() {
+
+			var height = $("#shop-cate").height();
+
+			var xheight = $("#item-list").height();
+
+			if(xheight>height){
+
+				$("#shop-cate").css("height",xheight);
+
+			}
+
+		});
+
+var _wraper = $('#menuDetail');
+
+var dialogTarget;
+
+function liclick(l){
+
+		var _this = $(l),
+
+			F = function(str){return _this.parent().find(str);},
+
+			title = F('h5').text(),
+
+			imgUrl = F('img').attr('url'),
+
+			val = _this.parent().find('.jq_jian').attr('val'),
+
+			did = _this.parent().find('.jq_jian').attr('did'),
+
+			price = F('.unit_price').text(),
+
+			sales = F('.sales strong').attr('class'),
+
+			saleNum = F('.sale_num').text(),
+
+			info = F('h1').text(),
+
+			saleDesc = F('.salenum').html(),
+
+
+
+			unit=F('.theunit').text(),
+
+			_detailImg = _wraper.find('img');
+
+			
+
+					
+
+				_wraper.find('.price').text(price).end()
+
+			.find('.sales strong').attr('class', sales).end()
+
+			//.find('.sale_desc').html(saleNum).end()
+
+			.find('.info').text(info);
+
+		_wraper.parents('.dialog').find('.dialog_tt').text(title);
+
+			$('#detailBtn').removeClass('disabled').text('来一份');
+
+			$('#detailBtn').attr('val',val);
+
+			$('#detailBtn').attr('did',did);
+
+		if(imgUrl){
+
+			_detailImg.attr('src', imgUrl).show().next().hide();
+
+		}else{
+
+			_detailImg.hide().next().show();
+
+		}
+
+		dialogTarget = _this;
+
+		_wraper.dialog({title: title, closeBtn: true});
+
+}
+
+		//添加到购物车
+
+		function addcart(o){
+
+			var data = {}, shop_id = "<{$_GET['shop_id']}>";
+
+			data['product_id'] = $(o).attr('did');
+
+			data['price']      = $(o).attr('val');
+
+			window.ele.addcart(shop_id,data);
+
+			$("#num").text(window.ele.count());
+
+
+
+		}
+
+		//初始化购物城数据
+
+		~function(){
+
+			var count = window.ele.count();
+
+			$("#num").text(count);
+
+		}();
+
+		$(function(){
+
+});
+
+</script>
+
+
+
+
+
+
+
+				
+
+
+
+	<footer class="footer-cart eleFooter-cart">
+
+    <div class="cart">
+
+        <a id="cart_1" href="javascript:void(0);"><div class="cart-num" id="num"></div></a>
+
+    </div>
+
+    <div class="price">￥<span id="total_price"></span><p>(<{:round($detail['since_money']/100,2)}>元起送,<if condition="empty($detail['logistics'])">免费配送<else/>配送费:￥<{:round($detail['logistics']/100,2)}></if>)</p></div>
+
+    <div id="cart_2" class="disable"><a href="javascript:void(0);" style="color:#FFFFFF;">确认下单</a></div>
+
+</footer>
+
+    
+
+    
+
+    <!--JS 购物车-->
+
+<script type="text/javascript">
+
+
+
+
+
+    $(document).ready(function () {
+
+        var price = window.ele.totalprice("<{$detail['shop_id']}>");
+
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+
+        if(price > since_money){
+
+            $('#cart_1').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').find('a').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').removeClass('disable');
+
+            $('#cart_2').addClass('btn');
+
+        }else{
+
+            $('#cart_1').attr('href', "javascript:void(0);");
+
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+
+            $('#cart_2').addClass('disable');
+
+            $('#cart_2').removeClass('btn');
+
+        }
+
+        
+
+    })
+
+
+
+
+
+
+
+    function addcart(o) {
+
+        var data = {}, shop_id = "<{$detail['shop_id']}>";
+
+        data['product_id'] = $(o).attr('did');
+
+        data['price'] = $(o).attr('val');
+
+        var v = $(o).parent().find(".ordernum").val();
+
+        if(v < 99){
+
+            v++;
+
+            $(o).parent().find(".ordernum").val(v);
+
+        }
+
+        window.ele.addcart(shop_id, data);
+
+        $("#num").text(window.ele.count("<{$detail['shop_id']}>"));
+
+        $("#total_price").html(window.ele.totalprice("<{$detail['shop_id']}>"));
+
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+
+        if (window.ele.totalprice("<{$detail['shop_id']}>") < since_money) {
+
+            $('#cart_2').addClass('disable');
+
+        } else {
+
+            $('#cart_1').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').find('a').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').removeClass('disable');
+
+            $('#cart_2').addClass('btn');
+
+        }
+
+    }
+
+    function dec(e) {
+
+        var product_id = $(e).attr('did'), shop_id = "<{$detail['shop_id']}>";
+
+        window.ele.dec(shop_id, product_id);
+
+        var v = $(e).parent().find(".ordernum").val();
+
+        if(v > 0){
+
+            v--;
+
+            $(e).parent().find(".ordernum").val(v);
+
+        }
+
+        $("#num").text(window.ele.count("<{$detail['shop_id']}>"));
+
+        $("#total_price").html(window.ele.totalprice("<{$detail['shop_id']}>"));
+
+        var since_money = "<{:round($detail['since_money']/100,2)}>";
+
+        if (window.ele.totalprice("<{$detail['shop_id']}>") < since_money) {
+
+            $('#cart_1').attr('href', "javascript:void(0);");
+
+            $('#cart_2').find('a').attr('href', "javascript:void(0);");
+
+            $('#cart_2').addClass('disable');
+
+            $('#cart_2').removeClass('btn');
+
+        } else {
+
+            $('#cart_1').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').find('a').attr('href', "<{:U('ele/cart')}>");
+
+            $('#cart_2').removeClass('disable');
+
+            $('#cart_2').addClass('btn');
+
+        }
+
+    }
+
+
+
+//初始化购物城数据
+
+    ~function () {
+
+        var count = window.ele.count("<{$detail['shop_id']}>");
+
+        var totalprice = window.ele.totalprice("<{$detail['shop_id']}>");
+
+        $("#num").text(count);
+
+        $("#total_price").html(totalprice);
+
+    }();
+
+</script>
+
+
+
+
+
+
+
+</body>
+
+
+
+</html>			

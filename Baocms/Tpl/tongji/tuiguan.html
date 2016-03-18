@@ -1,0 +1,153 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+<script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+<div class="mainBt">
+    <ul>
+        <li class="li1">营销分析</li>
+        <li class="li2">数据统计</li>
+        <li class="li2 li3">推广效果分析</li>
+    </ul>
+</div>
+<div class="main-jsgl">
+    <div class="jsglNr">
+        <div class="title">推广效果分析(按时间段统计)</div>
+        <div class="selectNr">
+            <div class="left">
+                <form method="post" action="<{:U('tongji/tuiguan')}>">
+                    <div class="seleK">
+                        <label>
+                            <span>开始时间</span><input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="text w200 inputData" style="background-position: 187px -75px;" /></label>
+                        <label><span>结束时间</span><input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="text w200 inputData" style="background-position: 187px -75px;" /></label>
+
+                        <input type="submit" value="   搜索"  class="inptButton" />
+                    </div>
+                </form>
+            </div>
+        </div>
+   <div class="tableBox">
+    <div id="container">
+    </div>
+    <script>
+          $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column',
+            margin: [ 50, 50, 100, 80]
+        },
+        title: {
+                    text: '推广（<{$bg_date}> - <{$end_date}>）成交额分析'
+        },
+        xAxis: {
+            categories: [
+                <{$tmoney.keyword}>
+            ],
+            labels: {
+                rotation: -45,
+                align: 'right',
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '元'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '成交<b>{point.y:.2f} 元</b>',
+        },
+        series: [{
+            name: 'Population',
+            data: [
+                  <{$tmoney.num}>
+                ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                x: 4,
+                y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif',
+                    textShadow: '0 0 3px black'
+                }
+            }
+        }]
+    });
+});  
+        
+        $(function () {
+    $('#container2').highcharts({
+        chart: {
+            type: 'column',
+            margin: [ 50, 50, 100, 80]
+        },
+        title: {
+                    text: '推广（<{$bg_date}> - <{$end_date}>）成交单分析'
+        },
+        xAxis: {
+            categories: [
+                <{$tuiguan.keyword}>
+            ],
+            labels: {
+                rotation: -45,
+                align: 'right',
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '单'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '成交<b>{point.y} 单</b>',
+        },
+        series: [{
+            name: 'Population',
+            data: [
+                  <{$tuiguan.num}>
+                ],
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                x: 4,
+                y: 10,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif',
+                    textShadow: '0 0 3px black'
+                }
+            }
+        }]
+    });
+});
+				
+    </script>
+</div>
+
+ <div class="tableBox">   
+      <div class="cl"></div>
+    <div id="container2">
+
+    </div>
+</div>
+
+<include  file='public:footer'/>       

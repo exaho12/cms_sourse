@@ -1,0 +1,90 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			营销管理
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">+</a>
+		</div>
+	</header>
+	
+    
+ <div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('award/index')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="抽奖标题"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>   
+    
+    
+    
+ <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button <if condition="$ctl eq award">bg-dot active</if>" href="<{:U('award/index')}>">抽奖</a>
+			<a class="block button <if condition="$ctl eq vote">bg-dot active</if>" href="<{:U('vote/index')}>">投票功能</a>
+
+		</div>
+	</div>
+</div> 
+
+
+<div class="list-media-x" id="list-media">
+	<ul>
+    
+   <foreach name="list" item="var">  
+    <li class="line padding">
+        <div class="x12">
+            <p><a href="javascript:void(0);">抽奖标题：<{$var.title}></a> </p>
+            <p class="text-small">抽奖链接：<{$var.url}></p>
+            <p class="text-small">创建时间：</p>         
+				<span class="text-dot margin-right">结束时间：<{$var.expire_date}></span>
+				<span class="text-dot">状态：<eq name="var.is_online" value="0">未启用<else/>已启用</eq></span>
+			</p>
+            
+            
+			<p class="text-right padding-top">
+            
+            <eq name="var.is_online" value="0">
+            <a href="<{:U('awardgoods/index',array('award_id'=>$var['award_id']))}>" class="button button-small bg-green">剩余奖品</a>
+            <a href="<{:U('award/audit',array('award_id'=>$var['award_id']))}>" class="button button-small bg-dot">启用抽奖</a>
+            </eq>
+            
+            <eq name="var.is_online" value="1">
+            <a href="<{:U('awardgoods/index',array('award_id'=>$var['award_id']))}>" class="button button-small bg-green">剩余奖品</a>
+            <a href="<{:U('awardwinning/index',array('award_id'=>$var['award_id']))}>" class="button button-small bg-dot">中奖名单</a>
+            </eq>
+            
+            
+            </p>
+            
+            
+        </div>
+    </li>
+   </foreach>   
+    
+  </ul>
+</div> 
+
+
+
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+<include file="public:footer"/>

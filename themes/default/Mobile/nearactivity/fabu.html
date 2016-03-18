@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>我的约会</title>
+<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="css/css_1.css"/>
+<link rel="stylesheet" type="text/css" href="css/css_2.css"/>
+<link rel="stylesheet" type="text/css" href="css/wap.css"/>
+<link rel="stylesheet" type="text/css" href="css/css_wxj.css"/>
+<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/baocms.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function(){
+            $(".mydate-yuan").each(function(){
+                $(this).click(function(){
+                    $(".mydate-yuan").removeClass("on");
+                    $(".mydate-yuan").children("img").removeClass("tp-img");
+                    $(this).addClass("on");
+                    $(this).children("img").addClass("tp-img");
+                });
+            });
+        });
+</script>
+</head>
+
+<body id="life_add">
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">发布约会</div>
+        <i class="icon-menu" style="margin-right:0.05rem;"><a href="#">完成</a></i>
+	</header>
+	<div class="page-center-box">
+		<div class="scroll">
+            <div class="mydate-style">
+                <ul>
+                    <li><span class="mydate-yuan on"><img src="img/tp30.png" class="tp-img"></span></li>
+                    <li><span class="mydate-yuan"><img src="img/tp31.png"></span></li>
+                    <li><span class="mydate-yuan"><img src="img/tp32.png"></span></li>
+                    <li><span class="mydate-yuan"><img src="img/tp34.png"></span></li>
+                </ul>
+                <ul>
+                    <li>约吃饭</li>
+                    <li>约看电影</li>
+                    <li>约K歌</li>
+                    <li>约游玩</li>
+                </ul>
+            </div>
+        	<div class="Upload-img-box">
+            	<div class="Upload-btn"><input type="file">上传图片</div>
+                <div class="Upload-img">
+                	<div class="list-img"><img src=""></div>
+                    <div class="list-img"><img src=""></div>
+                    <div class="list-img"><img src=""></div>
+                </div>
+            </div>
+			<div id="login-input">
+                <input type="text" placeholder="约会主题" />
+                <div class="mydate-time">
+                    <span class="left">时间</span>
+                    <a href="" class="right">07月25日周六18:00 ></a>
+                </div>
+                <input type="text" placeholder="地点" />
+            </div>
+            <div id="login-input">
+                <div class="regist-code life-infor-pull">
+                	<div class="mydate-time">
+                        <ul>
+                            <li class="integral">对象<div class="seat-check"><label class="on"><input checked name="seat-bx" type="radio"></label>不限<label><input name="seat-bx" type="radio"></label>限男生<label><input name="seat-bx" type="radio"></label>限女生</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="wap-form">
+				<ul>
+                    <script>
+						$(function(){
+							$(".seat-check input").click(function(){
+								$(this).parents(".seat-check").find("label").removeClass("on");
+								$(this).parent("label").addClass("on");
+							});
+						});
+                    </script>
+                    <li class="integral"><textarea name="" placeholder="约会描述.."></textarea></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<footer class="footer-cart">
+		<input type="submit" name="" value="免费发布" class="btn-long date-sub">
+	</footer>
+    
+   
+</body>
+</html>

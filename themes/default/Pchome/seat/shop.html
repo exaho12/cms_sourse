@@ -1,0 +1,196 @@
+<include file='public:seat_header'/>  
+<script>
+	$(function(){
+		//幻灯片
+		$('#needui_slide').needui_slide({
+			//宽度
+			width  : 390,
+			//高度
+			height : 360,
+			//幻灯片数据
+			data : [
+				<volist name="pic" id="pic" key="k">
+				<if condition="$k lt 4">
+				{pic:'__ROOT__/attachs/<{$pic.photo}>'},
+				</if>
+				</volist>
+			],
+			//触发幻灯片切换事件
+			action : 'mouseover',
+			//自动切换
+			auto   : true,
+			//自动切换时间间隔,1-5秒
+			time   : 5
+		});
+		$.reset_input(10);
+		$('#anchor').anchor();
+		//日期选择
+		$('#needui_datepicker').needui_datepicker('<{$today}>', 'content');
+		//提交
+		$('#submit_form').click(function(){
+			$('#form').submit();	
+		});
+	});
+</script>
+<div id="seat">
+		<p id="here"><a href="<{:U('index/index')}>">首页</a> > <a href="<{:U('seat/index')}>">订座</a> > <{$data.shop_name}></p>
+		<div class="seat-content-top">
+			<div class="seat-content-top-left" id="needui_slide"></div>
+			<div class="seat-content-top-center">
+				<div class="title"><{$data.shop_name}><em>[<{$data.branch_num}>家分店]</em></div>
+				<div>综合评分：<div class="point"><div style="width: <php>echo $data['score'] * 1.8;</php>px;"></div></div>
+				</div>
+				<div><{$data.d1_name}>：<span><{$data['d1'] / 10}></span> <{$data.d2_name}>：<span><{$data['d2'] / 10}></span> <{$data.d3_name}>：<span><{$data['d3'] / 10}></span> 人均消费：<span><{$data['price'] / 100}> 元</span></div>
+				<div>地址：<{$data['addr']}></div>
+				<div>营业时间：<{$data['business_time']}> / 电话：<{$data['tel']}></div>
+				<div class="msg">温馨提示：凡在本店预订座位者，本店收取20元预订金，结账时归还，还望谅解</div>
+				<form id="form" action="<{:U('seat/order', array('shop_id' => $data['shop_id']))}>" method="post">
+                <div class="button">
+                    <if condition="$data.hall eq 0">
+					<label><input type="radio" name="seat_type" value="1" checked="checked" />大厅 (有空位)</label>
+                    <else />
+                    <label><input type="radio" name="seat_type" value="1" checked="checked" />大厅 (无空位)</label>
+                    </if>
+                    <if condition="$data.status eq 1">
+					<label><input type="radio" name="seat_type" value="2" />包厢 (有空位)</label>
+                    <elseif condition="$data.status eq 2"/>
+                    <label><input type="radio" name="seat_type" value="2" />包厢 (紧张)</label>
+                    <else />
+                    <label class="radio-disabled"><input type="radio" name="seat_type" value="2" disabled="disabled" />包厢 (已订完)</label>
+                    </if>
+				</div>
+				<div class="seat-content-top-center-bar">
+					<div class="box">
+						<div class="date" id="needui_datepicker"><i></i><label><{$month_day}> 周<{$weekday}></label><input type="hidden" name="date" value="<{$today}>"></div>
+						<div class="people baocms_select" option="<{$people_num}>" value="<{$people_val}>"><label>1-3 人</label><input type="hidden" value="1-3 人" name="people"></div>
+						<div class="time baocms_select" option="<{$seat_time}>" value="<{$seat_time}>"><label>18:00</label><input type="hidden" value="18:00" name="time"></div>
+					</div>
+					<div class="btn" id="submit_form">立即预约</div>
+					<!-- 分享按钮 -->
+					<div class="fx">
+						<i class="b1"></i>
+						<i class="b2"></i>
+						<i class="b3"></i>
+					</div>
+					<!-- 分享按钮 -->
+				</div>
+                </form>
+			</div>
+			<div class="seat-content-top-right">
+				<div class="qrcode">
+					<img src="<{$data['wei_pic']}>" width="145" height="145">
+					<p>扫描商家微信</br>轻松享购优惠</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="seat-content-center">
+			<!-- 盒子左侧 -->
+			<div class="seat-content-center-left">
+				<div class="title">商家优惠</div>
+				<!-- 商家优惠 -->
+				<div class="seat-content-center-left-hui">
+					<ul>
+						<li><i class="ding"></i>本店支持在线订座，满480元送果汁一杯，六月特惠，一定要用手机买单哦！</li>
+						<li><i class="quan"></i>仅售30元，价值50元的代金券，节假日通用</li>
+					</ul>
+				</div>
+				<!-- 虚拟导航 -->
+				<div class="seat-content-center-left-banner" id="anchor">
+					<ul>
+						<li class="active" anchor="position_site">商家位置</li>
+						<li anchor="position_introduce">商家介绍</li>
+						<li anchor="position_food">推荐菜品</li>
+						<li anchor="position_place">店铺环境</li>
+						<li anchor="position_guest">用户评价</li>
+					</ul>
+				</div>
+				<!-- 商家位置 -->
+				<div class="title" id="position_site">商家位置</div>
+				<div class="seat-content-center-left-site">
+					<div class="left">
+						
+					</div>
+					<div class="right">
+						<div class="menu">
+							<ul>
+								<li class="active">绿地蓝海店</li>
+								<li>逍遥津店</li>
+								<li>火车站店</li>
+								<li>北城店</li>
+								<li>新亚汽车站店</li>
+							</ul>
+						</div>
+						<div class="content">
+							<p><em>东来顺 (绿地蓝海店)</em></p>
+							<p>评价：<em>280人</em></p>
+							<p>地址：安徽省合肥市瑶海区火车站附近安徽省合肥市瑶海区火车站附近</p>
+							<p><em>查看地图</em></p>
+							<p>联系电话：400-4987-632</p>
+						</div>
+					</div>
+				</div>
+				<!-- 商家介绍 -->
+				<div class="title" id="position_introduce">商家介绍</div>
+				<div class="seat-content-center-left-introduce">
+				<{$data.details}> 
+				</div>
+				<!-- 推荐菜品 -->
+				<div class="title" id="position_food">推荐菜品</div>
+				<div class="seat-content-center-left-food">
+                	<volist name="ele" id="ele" key="k">
+					<div>
+						<img src="__ROOT__/attachs/<{$ele.photo}>" width="100%" height="100%">
+						<p><{$ele.product_name}></p>
+					</div>
+					</volist>
+					<div class="clear"></div>
+				</div>
+				<!-- 店铺环境 -->
+				<div class="title" id="position_place">店铺环境</div>
+				<div class="seat-content-center-left-place">
+					<ul>
+                    	<volist name="pic" id="pic" key="k">
+						<li><img src="__ROOT__/attachs/<{$pic.photo}>" width="100%" height="100%"></li>
+                        </volist>
+						<li class="clear"></li>
+					</ul>
+				</div>
+				<!-- 用户评价 -->
+				<div class="title" id="position_guest">用户评价</div>
+				<div class="seat-content-center-left-guest">
+					
+				</div>
+			</div>
+			<!-- 盒子右侧 -->
+			<div class="seat-content-center-right">
+				<!-- 二维码 -->
+				<div class="seat-content-center-right-qrcode">
+					<img src="<{$data['wei_pic']}>" />
+				</div>
+				<!-- 广告 -->
+				<div class="seat-content-center-right-ads">
+					
+				</div>
+				<!-- 热门 -->
+				<div class="seat-content-center-right-hot">
+					<div class="title">人气排行榜</div>
+					<div class="box">
+						<ul>
+                        	<volist name="shop" id="shop">
+							<li>
+								<div class="pic"><a href="<{:U('seat/shop',array('shop_id'=>$shop['shop_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$shop.logo}>" width="100%" height="100%"></a></div>
+								<div class="con_1">
+									<div class="shop_name"><a href="<{:U('seat/shop',array('shop_id'=>$shop['shop_id']))}>" target="_blank"><{$shop.shop_name}></a></div>
+									<div class="star" style="width: <php>echo $shop['score'] * 1.3</php>px;"></div>
+								</div>
+							</li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+<include file='public:footer'/>  

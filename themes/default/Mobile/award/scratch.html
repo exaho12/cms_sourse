@@ -1,0 +1,425 @@
+<include  file='public:header_news'/>   
+<body class="scratch-bj">
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('index/index')}>"><i class="icon-goback"></i></a>
+            <div class="title">刮刮乐</div>
+            <a class="share" href="javascript:void(0);" id="share"><i class="icon-menu" id="ico_1"></i></a>
+        </div>
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js">
+        </script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "<{$detail.title}>",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+            });
+        </script>
+    </header>
+    <div class="loading-div"></div>
+    <section class="ggl">
+        <div class="container">
+                <div class="s_box s_box-two">
+                    <img src="/themes/default/Mobile/statics/img/ggl.png">
+                </div>
+            <h1>刮奖区</h1>
+            <div class="s_box jiang-gua" style="height: 127px; width: 300px; margin: 0 auto;">
+                <canvas>
+
+                </canvas>
+            </div>
+
+
+            <script>
+                (function (bodyStyle) {
+                    bodyStyle.mozUserSelect = 'none';
+                    bodyStyle.webkitUserSelect = 'none';
+
+                    var img = new Image();
+                    var canvas = document.querySelector('canvas');
+                    canvas.style.backgroundColor = 'transparent';
+                    canvas.style.position = 'absolute';
+
+                    img.addEventListener('load', function (e) {
+                        var ctx;
+                        var w = img.width,
+                                h = img.height;
+                        var offsetX = canvas.offsetLeft,
+                                offsetY = canvas.offsetTop;
+                        var mousedown = false;
+                        var lock = false;
+                        function layer(ctx) {
+                            ctx.fillStyle = 'gray';
+                            ctx.fillRect(0, 0, w, h);
+                        }
+
+                        function eventDown(e) {
+                            e.preventDefault();
+                            mousedown = true;
+
+                        }
+
+                        function eventUp(e) {
+                            e.preventDefault();
+                            mousedown = false;
+                            var data = ctx.getImageData(0, 0, w, h).data;
+                            for (var i = 0, j = 0; i < data.length; i += 4) {
+                                if (data[i] && data[i + 1] && data[i + 2] && data[i + 3]) {
+                                    j++;
+                                }
+                            }
+                            if (j <= w * h * 0.7) {
+                                if (lock == false) {
+                                    lock = true;
+                                    $.get("<{:U('award/iswinning')}>", function (data) {
+                                        if (data == 1) {
+                                            alert("恭喜您中奖了！");
+                                            location.href = '<{:U("award/winning")}>';
+                                        } else {
+                                            location.href = '<{:U("award/sorry",array("award_id"=>$award["award_id"]))}>';
+                                        }
+                                    }, 'html');
+                                }
+                            }
+                        }
+
+                        function eventMove(e) {
+                            e.preventDefault();
+                            if (mousedown) {
+                                if (e.changedTouches) {
+                                    e = e.changedTouches[e.changedTouches.length - 1];
+                                }
+                                var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0,
+                                        y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
+                                with (ctx) {
+                                    beginPath()
+                                    arc(x, y, 5, 0, Math.PI * 2);
+                                    fill();
+                                }
+                            }
+                        }
+
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.style.backgroundImage = 'url(' + img.src + ')';
+                        ctx = canvas.getContext('2d');
+                        ctx.fillStyle = 'transparent';
+                        ctx.fillRect(0, 0, w, h);
+                        layer(ctx);
+
+                        ctx.globalCompositeOperation = 'destination-out';
+
+                        canvas.addEventListener('touchstart', eventDown);
+                        canvas.addEventListener('touchend', eventUp);
+                        canvas.addEventListener('touchmove', eventMove);
+                        canvas.addEventListener('mousedown', eventDown);
+                        canvas.addEventListener('mouseup', eventUp);
+                        canvas.addEventListener('mousemove', eventMove);
+                    });
+                    img.src = "<{:U('award/scratch2',array('award_id'=>$award['award_id']))}>";
+
+                })(document.body.style);
+            </script>
+
+
+            <h1>奖品区</h1>
+            <div class="s_box">
+                <div class="award">
+                    <foreach name="goods" item="item">
+                        <p><{$item.award_name}>&nbsp;&nbsp;<{$item.num}>名&nbsp;&nbsp;&nbsp;<{$item.goods_name}></p>
+                    </foreach>
+                </div>
+            </div>
+            <h1>说明</h1>
+            <div class="s_box">
+                <div class="rules">
+                    <{$award.explain}>
+                </div>
+            </div>
+            <h1>规则区</h1>
+            <div class="s_box">
+                <div class="rules">
+                    <p>一、每个手机只限参与一次</p>
+                    <p>二、将此活动页面分享给5位好友，可继续再刮一次</p>
+                </div>
+            </div>
+            <div class="s_box s_box-two">
+                <a id="share2" href="javascript:void(0);"><img src="__TMPL__statics/img/guaguale06.png  " width="112" height="28"/></a> 
+            </div>
+            <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+            <script type="text/javascript">
+                baidu.socShare.init({
+                    "afterRender": function () {
+                    },
+                    "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                    "dom_id": "share2",
+                    "content": "<{$award.title}>",
+                    "theme": "web",
+                    "animate": true,
+                    "url": 'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                    "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+                });
+                baidu.socShare.init({
+                    "afterRender": function () {
+                    },
+                    "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                    "dom_id": "share",
+                    "content": "<{$award.title}>",
+                    "theme": "web",
+                    "animate": true,
+                    "url": 'http://<{$Think.SERVER.HTTP_HOST}><{:U("mobile/award/index",array("award_id"=>$award["award_id"]))}>',
+                    "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+                });
+
+            </script>
+            <if condition="!empty($award['shop'])">
+                <div class="tips">温馨提示：次活动的最终解释权归<{$award['shop']['shop_name']}>，如有疑问请致电客服热线:<{$award['shop']['tel']}></div>
+                <else/>    
+                <div class="tips">温馨提示：次活动的最终解释权归BAOCMS，如有疑问请致电客服热线0551-63641901</div>
+            </if>
+
+        </div>
+        <if condition="$award['share']['is_used'] eq 1">
+            <div class="float-bg">
+                <div id="cancel" class="close_btn"><img src="__TMPL__statics/img/close.png"></div>
+                <script>
+                    $(document).ready(function () {
+                        $("#cancel").click(function () {
+                            $(this).parent().css('display', 'none');
+                        });
+                    });
+                </script>
+                <div class="float-box">
+
+                    <h2>很抱歉您已经参加了该活动</h2>
+
+                    <div class="weixin"><img src="__ROOT__/attachs/<{$award['code']}>"/></div>
+
+                    <h4>
+                        您可以将该二维码分享给好友！<br/>
+                        如果有5个好友访问了该链接<br />
+                        您将重新获得一次机会！<br />
+                        或者直接 <a id="share3" href="javascript:void(0);" style="color: red;">点击分享→</a>
+                    </h4>
+                    <script>
+                        baidu.socShare.init({
+                            "afterRender": function () {
+                            },
+                            "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                            "dom_id": "share3",
+                            "content": "<{$award.title}>",
+                            "theme": "web",
+                            "animate": true,
+                            "url": encodeURIComponent(location.href),
+                            "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.code}>'
+                        });
+                    </script>
+                </div>
+
+            </div>
+        </if>
+
+    </section>
+    <!-- <section class="ggl">
+        <div class="container">
+                <div class="s_box s_box-two">
+                    <img src="/themes/default/Mobile/statics/img/guaguale01.png">
+                </div>
+            <h1>刮奖区</h1>
+            <div class="s_box" style="height: 127px; width: 300px; margin: 0 auto;">
+                <canvas>
+
+                </canvas>
+            </div>
+
+
+            <script>
+                (function (bodyStyle) {
+                    bodyStyle.mozUserSelect = 'none';
+                    bodyStyle.webkitUserSelect = 'none';
+
+                    var img = new Image();
+                    var canvas = document.querySelector('canvas');
+                    canvas.style.backgroundColor = 'transparent';
+                    canvas.style.position = 'absolute';
+
+                    img.addEventListener('load', function (e) {
+                        var ctx;
+                        var w = img.width,
+                                h = img.height;
+                        var offsetX = canvas.offsetLeft,
+                                offsetY = canvas.offsetTop;
+                        var mousedown = false;
+                        var lock = false;
+                        function layer(ctx) {
+                            ctx.fillStyle = 'gray';
+                            ctx.fillRect(0, 0, w, h);
+                        }
+
+                        function eventDown(e) {
+                            e.preventDefault();
+                            mousedown = true;
+
+                        }
+
+                        function eventUp(e) {
+                            e.preventDefault();
+                            mousedown = false;
+                            var data = ctx.getImageData(0, 0, w, h).data;
+                            for (var i = 0, j = 0; i < data.length; i += 4) {
+                                if (data[i] && data[i + 1] && data[i + 2] && data[i + 3]) {
+                                    j++;
+                                }
+                            }
+                            if (j <= w * h * 0.7) {
+                                if (lock == false) {
+                                    lock = true;
+                                    $.get("/mobile/award/iswinning.html", function (data) {
+                                        if (data == 1) {
+                                            alert("恭喜您中奖了！");
+                                            location.href = '/mobile/award/winning.html';
+                                        } else {
+                                            location.href = '/mobile/award/sorry/award_id/2.html';
+                                        }
+                                    }, 'html');
+                                }
+                            }
+                        }
+
+                        function eventMove(e) {
+                            e.preventDefault();
+                            if (mousedown) {
+                                if (e.changedTouches) {
+                                    e = e.changedTouches[e.changedTouches.length - 1];
+                                }
+                                var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0,
+                                        y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
+                                with (ctx) {
+                                    beginPath()
+                                    arc(x, y, 5, 0, Math.PI * 2);
+                                    fill();
+                                }
+                            }
+                        }
+
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.style.backgroundImage = 'url(' + img.src + ')';
+                        ctx = canvas.getContext('2d');
+                        ctx.fillStyle = 'transparent';
+                        ctx.fillRect(0, 0, w, h);
+                        layer(ctx);
+
+                        ctx.globalCompositeOperation = 'destination-out';
+
+                        canvas.addEventListener('touchstart', eventDown);
+                        canvas.addEventListener('touchend', eventUp);
+                        canvas.addEventListener('touchmove', eventMove);
+                        canvas.addEventListener('mousedown', eventDown);
+                        canvas.addEventListener('mouseup', eventUp);
+                        canvas.addEventListener('mousemove', eventMove);
+                    });
+                    img.src = "/mobile/award/scratch2/award_id/2.html";
+
+                })(document.body.style);
+            </script>
+
+
+            <h1>奖品区</h1>
+            <div class="s_box">
+                <div class="award">
+                    <p>一等奖&nbsp;&nbsp;&nbsp;100名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500抵扣券</p><p>二等奖&nbsp;&nbsp;&nbsp;100名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100元抵扣券</p>                </div>
+            </div>
+            <h1>说明</h1>
+            <div class="s_box">
+                <div class="rules">
+                    一等奖是*****                </div>
+            </div>
+            <h1>规则区</h1>
+            <div class="s_box">
+                <div class="rules">
+                    <p>一、每个手机只限参与一次</p>
+                    <p>二、将此活动页面分享给5位好友，可继续再刮一次</p>
+                </div>
+            </div>
+            <div class="s_box">
+                <a id="share2" href="javascript:void(0);"><img src="/themes/default/Mobile/statics/img/guaguale06.png  " width="112" height="28"/></a> 
+            </div>
+            <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+            <script type="text/javascript">
+                baidu.socShare.init({
+                    "afterRender": function () {
+                    },
+                    "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                    "dom_id": "share2",
+                    "content": "合肥伊人婚庆公司一周年，优惠不断",
+                    "theme": "web",
+                    "animate": true,
+                    "url": 'http://hf.baocms.cn/mobile/award/index/award_id/2.html',
+                    "pic_url": 'http://hf.baocms.cn/attachs/weixin/ec2/b83/8e1/ec2b838e14ddc1a474638dfb45313c16.png'
+                });
+                baidu.socShare.init({
+                    "afterRender": function () {
+                    },
+                    "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                    "dom_id": "share",
+                    "content": "合肥伊人婚庆公司一周年，优惠不断",
+                    "theme": "web",
+                    "animate": true,
+                    "url": 'http://hf.baocms.cn/mobile/award/index/award_id/2.html',
+                    "pic_url": 'http://hf.baocms.cn/attachs/weixin/ec2/b83/8e1/ec2b838e14ddc1a474638dfb45313c16.png'
+                });
+
+            </script>
+                
+                <div class="tips">温馨提示：次活动的最终解释权归BAOCMS，如有疑问请致电客服热线0551-63641901</div>
+        </div>
+        <div class="float-bg">
+                <div id="cancel" class="close_btn"><img src="/themes/default/Mobile/statics/img/close.png"></div>
+                <script>
+                    $(document).ready(function () {
+                        $("#cancel").click(function () {
+                            $(this).parent().css('display', 'none');
+                        });
+                    });
+                </script>
+                <div class="float-box">
+
+                    <h2>很抱歉您已经参加了该活动</h2>
+
+                    <div class="weixin"><img src="/attachs/weixin/ec2/b83/8e1/ec2b838e14ddc1a474638dfb45313c16.png"/></div>
+
+                    <h4>
+                        您可以将该二维码分享给好友！<br/>
+                        如果有5个好友访问了该链接<br />
+                        您将重新获得一次机会！<br />
+                        或者直接 <a id="share3" href="javascript:void(0);" style="color: red;">点击分享→</a>
+                    </h4>
+                    <script>
+                        baidu.socShare.init({
+                            "afterRender": function () {
+                            },
+                            "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                            "dom_id": "share3",
+                            "content": "合肥伊人婚庆公司一周年，优惠不断",
+                            "theme": "web",
+                            "animate": true,
+                            "url": encodeURIComponent(location.href),
+                            "pic_url": 'http://hf.baocms.cn/attachs/weixin/ec2/b83/8e1/ec2b838e14ddc1a474638dfb45313c16.png'
+                        });
+                    </script>
+                </div>
+
+            </div>
+    </section> -->
+
+</div>
+
+</body>
+</html>

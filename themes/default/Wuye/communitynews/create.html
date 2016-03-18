@@ -1,0 +1,56 @@
+<include file="public:header"/>
+
+<link rel="stylesheet" href="/static/default/wap/css/tieba.css">
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			添加物业通知
+		</div>
+		
+	</header>
+
+	<form class="post-form" action="<{:U('communitynews/create')}>" method="post" >
+
+		
+        
+        
+        
+        <div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" placeholder="请添加标题" />
+			</div>
+			<div class="x3 text-right">
+				
+			</div>
+		</div>
+              
+        
+		
+		<div class="line border-bottom">			
+                <textarea class="form-content" name="data[intro]" placeholder="请输入简介"/></textarea>			
+		</div>
+		
+        
+        
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[details]"  placeholder="请输入通知内容"/></textarea>
+		</div>
+		
+        
+        
+        
+		<div class="blank-10 clearfix"></div>
+		
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<button class="button bg-green margin-small-right" type="submit">确认添加</button>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+				
+	</form>
+<include file='public:footer'/>  

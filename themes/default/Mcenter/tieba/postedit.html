@@ -1,0 +1,64 @@
+<include file="public:header"/>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<link rel="stylesheet" href="/static/default/wap/css/tieba.css">
+<script src="/static/default/wap/other/webuploader.js"></script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('tieba/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			编辑帖子
+		</div>
+		<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i> </a>
+	</div>
+	</header>
+
+	<form class="post-form" action="<{:U('tieba/postedit',array('post_id'=>$detail['post_id']))}>" method="post" target="x-frame" >
+
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<select name="cat">
+				
+					<foreach name="cates" item="var">
+					<if condition="$var[parent_id] neq 0">
+					<option value="<{$var.cate_id}>" <eq name="var.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var.cate_name}></option>
+					</if>
+					</foreach>
+				</select>
+	
+                            
+                            
+			</div>
+		</div>
+		
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" value="<{$detail.title|default=''}>" />
+			</div>
+			<div class="x3 text-right">
+				
+			</div>
+		</div>
+		
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[details]" ><{$detail.details}></textarea>
+		</div>
+		
+		<div class="blank-10 clearfix"></div>
+		
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<button class="button bg-green margin-small-right" type="submit">确认修改</button>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+		
+		
+	</form>
+	
+	
+	
+	
+<include file='public:footer'/>  

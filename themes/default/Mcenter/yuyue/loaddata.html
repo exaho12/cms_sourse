@@ -1,0 +1,26 @@
+<foreach name="list" item="item">
+    <!-- 循环 -->
+    <li class="line padding">
+        <div class="x2">
+			<a href="<{:U('mobile/shop/detail',array('shop_id'=>$item['shop_id']))}>">
+				<img style="width:90%;" src="__ROOT__/attachs/<{$shops[$item['shop_id']]['photo']}>" />
+			</a>
+        </div>
+
+        <div class="x10">
+			<h5><a href="<{:U('mobile/shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$shops[$item['shop_id']]['shop_name']}></a></h5>
+            <p class="line margin-little-bottom">
+				<span class="float-left">电子券：<{$item.code}></span>
+				<span class="float-right"><a href="javascript:void(0);" rel="<{$item.yuyue_id}>" class="jquery-delete button">删除</a></span>
+			</p>
+            <p class="line margin-little-bottom">
+                <eq name="item.used" value="0">
+                <span class="text-green">未使用</span>
+				<else/>
+				<span class="text-gray">已使用 (<{$item.used_time|date='Y-m-d H:i',###}>)</span>
+				</eq>
+            </p>
+		</div>
+	</li>
+    <!-- 循环 -->
+</foreach>

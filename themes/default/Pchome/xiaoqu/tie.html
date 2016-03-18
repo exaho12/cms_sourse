@@ -1,0 +1,270 @@
+<include  file='public:header_community'/>  <script src="/static/default/pc/js/qrcode.js"></script>
+	<div class="blank-10"></div>
+	<div class="container">
+		<div class="xiaoqu-head">
+			<div class="line">
+				<div class="x3">
+					<div class="head-logo">
+						<img src="__ROOT__/attachs/<{$detail[pic]}>" alt="<{$detail.name}>" />
+					</div>
+				</div>
+				<div class="x7">
+					<div class="head-desc">
+						<h1><{$detail[name]}></h1>
+						<p class="star"><i class="icon icon-bank"></i> 物业公司：<{$detail[property]}></p>
+						<p class="addr"><i class="icon icon-map-marker"></i> 小区地址：<{$detail.addr}><if condition="!empty($ex['near'])">(<{$ex.near}>)</if></p>
+						<p class="avrg"><i class="icon icon-clock-o"></i> 入驻时间: <{$detail.create_time|date='Y-m-d',###}></p>
+						<div class="cont">
+							<span><strong class="txt radius-circle bg-yellow"><i class="icon icon-phone"></i></strong> <em><{$detail[tel]}></em></span>
+							<span><strong class="txt radius-circle bg-green"><i class="icon icon-users"></i></strong> <em><{$counts[user]}> 人加入</em></span>
+							<span><strong class="txt radius-circle bg-blue"><i class="icon icon-comments"></i></strong> <em><{$counts[post]}> 帖子</em></span>
+						</div>
+					</div>
+				</div>
+				<div class="x2">
+					<div class="head-info">
+						<a rel="http://<{$_SERVER['SERVER_NAME']}>/mobile<{$host}><{:U('xiaoqu/detail',array('community_id'=>$detail['community_id']))}>" class="qrcode"></a>
+						<p>手机扫描二维码访问</p>
+
+						<if condition="$counts.isin eq 0">
+						<a  mini="act" class="button bg-sub" href="<{:U('xiaoqu/join',array('community_id'=>$detail['community_id']))}>">住在该小区</a>
+						<else />
+						<a  mini="act" class="button bg-sub" href="<{:U('xiaoqu/out',array('community_id'=>$detail['community_id']))}>">撤退该小区</a>
+						</if>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+	$(function(){
+		$(".qrcode").each(function(){
+			$(this).empty();
+			$(this).qrcode($(this).attr("rel")); 
+		});
+	});
+	</script>
+
+	<div class="blank-20"></div>
+	
+	<div class="layout navbar xiaoqu-naver fixed" data-style="fixed-top" data-offset-fixed="20">
+		<div class="container">
+			<div class="navbar-body nav-navicon">
+				<ul class="nav nav-inline nav-menu">
+					<li <eq name="act" value="">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id']))}>">小区主页</a>
+					</li>
+					<li <eq name="act" value="newslist">class="active"</eq>>
+						<a href="<{:U('xiaoqu/newslist',array('community_id'=>$detail['community_id']))}>">物业通知</a>
+					</li>
+					<li <eq name="act" value="tel">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'tel'))}>">便民电话</a>
+					</li>
+					<li <eq name="act" value="food">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'food'))}>">附近美食</a>
+					</li>
+					<li <eq name="act" value="market">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'market'))}>">附近超市</a>
+					</li>
+					<li <eq name="act" value="shop">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'shop'))}>">附近商家</a>
+					</li>
+					<li <eq name="act" value="life">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'life'))}>">附近信息</a>
+					</li>
+					<li <eq name="act" value="map">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'map'))}>">小区地图</a>
+					</li>
+					<li <eq name="act" value="coupon">class="active"</eq>>
+						<a href="<{:U('xiaoqu/detail',array('community_id'=>$detail['community_id'],'act'=>'coupon'))}>">附近优惠</a>
+					</li>
+					<li <eq name="act" value="tieba">class="active"</eq>>
+						<a href="<{:U('xiaoqu/tieba',array('community_id'=>$detail['community_id']))}>">小区贴吧</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="layout xiaoqu-midd <if condition='empty($act)'>xiaoqu-index<else />xiaoqu-channel</if>">
+		<div class="container">
+			<div class="blank-10"></div>
+			<div class="tie-read">
+				<div class="read-top">
+						<h1><{$tie.title}></h1>
+						<div class="p">
+							<div class="float-left">
+								<a class="lz" href="javascript:showauthor();">只看楼主</a>
+								<a class="hf" href="#reply">回复</a>
+							</div>
+							<div class="float-right status">
+								浏览：<{$tie.view_num}>　回复：<{$tie.reply_num}>
+							</div>
+						</div>
+						<a class="zan" mini="act" href="<{:U('xiaoqu/zan',array('post_id'=>$tie['post_id']))}>">(<{$tie.zan_num}>)<span></span></a>
+				</div>
+				<div class="read-reply">
+					<ul id="show-list">
+						<li rel="<{$author['user_id']}>">
+							<div class="reply-l">
+								<span class="face">
+                             
+									<img src="/attachs/<{$author['face']|default='default.jpg'}>" />
+								</span>
+								<span class="nick">
+									<{$author['nickname']}> <em class="level-bg level-<{$author.rank_id}>"></em>
+								</span>
+								<p>注册日期：<{$author.reg_time|date='Y-m-d',###}></p>
+								<p>最后登录：<{$author.last_time|date='Y-m-d',###}></p>
+								<span class="louzhu"></span>
+							</div>
+							<div class="reply-r">
+								<div class="detail">
+									<{$tie[details]}>
+								</div>
+								<if condition="!empty($tie['gallery'])">
+								<php>$gallery = explode(',',$tie['gallery']);</php>
+								<ul class="gallery">
+									<foreach name="gallery" item="var">
+									<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+									</foreach>
+								</ul>
+								</if>
+								<p class="desc"><{$tie.create_time|date='Y-m-d',###}></p>
+							</div>
+						</li>
+						<foreach name="list"  item="item" key="index">
+						<li rel="<{$item['user_id']}>">
+							<div class="reply-l">
+								<span class="face">
+									<img src="/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+								</span>
+								<span class="nick">
+									<{$users[$item['user_id']]['nickname']}> <em class="level-bg level-<{$users[$item['user_id']]['rank_id']}>"></em>
+								</span>
+								<p>注册日期：<{$users[$item['user_id']][reg_time]|date='Y-m-d',###}></p>
+								<p>最后登录：<{$users[$item['user_id']][last_time]|date='Y-m-d',###}></p>
+							</div>
+							<div class="reply-r">
+								<div class="detail">
+									<{$item[details]}>
+								</div>
+									<if condition="!empty($item['gallery'])">
+									<php>$gallery = explode(',',$item['gallery']);</php>
+									<ul class="gallery">
+										<foreach name="gallery" item="var">
+										<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+										</foreach>
+									</ul>
+									</if>
+								<div class="desc"><{$tie.create_time|date='Y-m-d',###}></div>
+							</div>
+						</li>
+						</foreach>
+					</ul>
+				</div>
+				
+				<div class="blank-20"></div>
+				<div class="text-center">
+					<div class="pagination">
+						<{$page}>
+					</div>
+				</div>
+				<div class="blank-20"></div>
+			</div>
+
+
+			<div class="xiaoqu-post-form">
+				<form target="x-frame" action="<{:U('xiaoqu/reply')}>" method="post"  id="reply">
+					<div class="line">
+						<div class="x5">
+							<input name="data[post_id]" value="<{$tie[post_id]}>" type="hidden">
+							<p>
+								<label>回复内容</label>
+								<script type="text/plain" id="data_details" name="data[details]" class="post-editor"><{$detail.details}></script>
+								<link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+								<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.simple.js"></script>
+								<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+								<script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+								<script>
+									um = UM.getEditor('data_details', {
+										imageUrl: "<{:U('public/editor')}>",
+										imagePath: '__ROOT__/attachs/editor/',
+										lang: 'zh-cn',
+										langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+										focus: false
+									});
+								</script>
+							</p>
+							<p>
+								<input value="发表回复" class="button" type="submit">
+							</p>
+						</div>
+						
+						<div class="x7">
+							<div class="post-photo">
+								<strong>上传图片</strong> <span>(只有登录成功才能发表帖子、上传图片哦！)</span>											
+								<div class="blank-10"></div>
+								<script src="/static/default/pc/js/upload.js"></script>
+								<a class="button input-file" href="javascript:void(0);"> + 添加图片 <input name="niu_file" id="niu_file" type="file" /> </a>
+								<ul class="post-pic-list" id="jq_photo_list">
+									<li class="loading" style="display:none;"><span class="icon-spinner rotate"></span></li>
+								</ul>
+								<if condition="!empty($MEMBER)">
+								<script>
+									function ajaxupload(){
+										$(".loading").show();
+										$.ajaxFileUpload({
+											
+											url: '<{:U("app/upload/uploadify",array("model"=>"tieba"))}>',
+											type: 'post',
+											fileElementId: 'niu_file',
+											dataType: 'text',
+											secureuri: false, //一般设置为false
+											success: function (data, status) {
+												$(".loading").hide();
+												var str = '<li><img src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photo[]" value="' + data + '" /><a href="javascript:void(0);">[删除]</a></li>';
+												$("#jq_photo_list").append(str);
+												$("#niu_file").unbind('change');
+												$("#niu_file").change(function () {
+												ajaxupload();
+												});
+											}
+										});
+									}
+									$(document).ready(function () {
+										$("#niu_file").change(function () {
+											 ajaxupload();
+										});
+										$(document).on("click", "#jq_photo_list  a", function () {
+											$(this).parent().remove();
+										});
+									});
+									
+									function showauthor(){
+											
+										var author = "<{$author['user_id']}>";
+										$("#show-list li").each(function(){
+												var uid = $(this).attr("rel");
+												if(uid != author){
+													$(this).hide();
+												}
+										  });	
+									
+									}
+									
+									
+								</script>
+								</if>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<include  file='public:footer'/>

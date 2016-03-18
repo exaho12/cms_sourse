@@ -1,0 +1,35 @@
+<include  file='public:header'/>    
+<body>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">订座提交</div>
+		<i class="icon-menu"></i>
+	</header>
+	<div id="seat" class="page-center-box">
+		<div class="scroll">
+			<div class="wap-form">
+				<ul>
+					<li>人数<span class="wap-form-val">4</span></li>
+					<li class="integral">时间<span class="wap-form-val">07月25日 今天 18:00</span></li>
+                    <script>
+						$(function(){
+							$(".seat-check input").click(function(){
+								$(this).parents(".seat-check").find("label").removeClass("on");
+								$(this).parent("label").addClass("on");
+							});
+						});
+                    </script>
+					<li class="integral">包厢/大厅<div class="seat-check"><label class="on"><input checked name="seat-bx" type="radio"></label>包厢<label><input name="seat-bx" type="radio"></label>大厅</div></li>
+					<li class="integral">点菜情况<div class="seat-check"><label class="on"><input checked name="seat-dc" type="radio"></label>已点<label><input name="seat-dc" type="radio"></label>未点</div></li>
+					<li class="integral">缴纳定金</li>
+					<li class="integral"><input type="text" placeholder="请输入您的姓名" /><div class="seat-check"><label class="on"><input checked name="sex" type="radio"></label>男<label><input name="sex" type="radio"></label>女</div></li>
+					<li class="integral"><textarea name="" placeholder="如果您有其他问题，请写下来吧，我们会及时和您沟通.."></textarea></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<footer class="footer-cart">
+		<a href="#" class="btn-long">提交订座</a>
+	</footer>
+</body>
+</html>

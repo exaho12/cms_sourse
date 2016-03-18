@@ -1,0 +1,89 @@
+  
+
+    	<h3>点包厢</h3>
+        <div class="seat-h-content seat-h-content2">
+        	<script>
+				$(function(){
+					$(".seat-h-tab-room li").each(function(e){
+						$(this).click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+							//$('.seat-h-room label').removeClass("on");
+							$(this).parents(".seat-h-content").find(".seat-h-tab-list").find(".seat-h-room").each(function(i){
+								if(e==i){
+									$(this).parents(".seat-h-content").find(".seat-h-tab-list").find(".seat-h-room").hide();
+									$(this).show();
+								}
+								else{
+									$(this).hide();
+								}
+							});
+						});
+					});
+				});
+            </script>
+            
+        	<ul class="seat-h-tab seat-h-tab-room">
+            
+            	<volist name='room' id='item'>
+                   <li <if condition='$key eq $tt'> class="on" </if>><{$item}></li>
+                </volist>
+               
+            </ul>
+            <div class="seat-h-tab-list">
+            	<volist name='room_detail' id='item' >
+                    <div class="seat-h-room" <if condition='$key neq $tt'> style="display:none;" </if>>
+                        <ul>
+                            <volist name='item' id='v'>
+                                <li>
+                                    <div class="seat-h-room-li">
+                                        <div class="img">
+                                            <div class="spxq_bq"><span class="spxq_bq1">荐<em></em></span></div>
+                                            <img src="__ROOT__/attachs/<{$v.photo}>" width="255" height="170" />
+                                        </div>
+                                        <div class="nr">
+                                            <div class="left rap"><{$v.name}></div>
+                                            <div class="right">
+                                            <if condition="$v['is_yuyue'] eq 1">
+                                            约满
+                                            <else/>
+                                            <label class="seat-check2" val="<{$v.room_id}>"><input type="checkbox"   /></label>
+                                            </if>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            
+                            </volist>
+                        </ul>
+                    </div>
+                </volist>
+                <input type="hidden" id='room' name="roomid" value="">
+            </div>
+        </div>
+        
+        <script>
+			$(document).ready(function () {
+				$('.seat-h-reco_flexslider').flexslider({
+					directionNav: true,
+					pauseOnAction: false,
+					controlNav: false,
+					slideshow: false,
+				});	
+				
+				$(".seat-check2").on("click",function(){
+					$(".seat-check2").removeClass("on");
+					if($(this).hasClass("on")){
+						$(this).removeClass("on");
+					}
+					else{
+						var v = $(this).attr('val');
+						$('#room').val(v);
+						$(this).addClass("on");
+					}
+				});
+
+			});
+		</script>
+   

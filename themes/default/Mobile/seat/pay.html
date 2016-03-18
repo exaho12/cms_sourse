@@ -1,0 +1,32 @@
+<include  file='public:header'/>    
+<body>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">定金支付</div>
+		<i class="icon-menu" id="ico_1"></i>
+	</header>
+	
+	<div id="seat" class="page-center-box">
+		<div id="scroll" class="pay">
+			<div class="pay-order">定金：包厢（30%）+菜品（30%） ￥50</div>
+            <div class="wap-form">
+            	<script>
+					$(function(){
+						$(".seat-check input").click(function(){
+							$(".seat-check").find("label").removeClass("on");
+							$(this).parent("label").addClass("on");
+						});
+					});
+				</script>
+				<ul>
+					<li>使用第三方平台支付<span class="wap-form-val">￥50</span></li>
+                    <li class="pay-li i-1">支付宝<p>推荐已安装支付宝客户端的用户使用</p><div class="seat-check"><label><input name="payWay" type="radio"></label></div></li>
+                    <li class="pay-li i-2">余额支付<p>推荐已安装支付宝客户端的用户使用</p><div class="seat-check"><label><input name="payWay" type="radio"></label></div></li>
+                    <li class="integral pay-li i-3">微信支付<p>推荐已安装支付宝客户端的用户使用</p><div class="seat-check"><label><input name="payWay" type="radio"></label></div></li>
+				</ul>
+			</div>
+            <div class="pay-add-btn"><a href="#">确认支付</a></div>
+		</div>
+	</div>
+</body>
+</html>

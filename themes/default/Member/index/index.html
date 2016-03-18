@@ -1,0 +1,76 @@
+<include file="public:header"/>
+<div class="content_right">
+    <div class="tgdd">
+        <div class="tgdd_t">
+            <ul>
+                <li <if condition="$status eq 1 or empty($status)">class="on"</if> ><a href="<{:U('index/index',array('status'=>1))}>">全部</a></li>
+            <li <if condition="$status eq 2">class="on"</if> ><a href="<{:U('index/index',array('status'=>2))}>">未使用</a></li>
+            <li <if condition="$status eq 3">class="on"</if> ><a href="<{:U('index/index',array('status'=>3))}>">已使用</a></li>
+            </ul>
+        </div>
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <th>团购</th>
+                    <th>团购券</th>
+                    <th>价值</th>
+                    <th>团购价</th>
+                    <th>过期时间</th>
+                    <th>订单状态</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="list" id="var">
+                    <tr class="tgdd_nrBh">
+                        <td colspan="7" style="text-align:left; text-indent:20px;">对应订单：<span class="tgdd_bh"><{$var.order_id}></span></td>
+                    </tr>
+                    <tr class="tgdd_nrC">
+                        <td style="text-align:left;" width="335px">
+                            <div class="tgdd_tw">
+                                <div class="left"><a target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$tuans[$var['tuan_id']]['photo']}>" width="81" height="60" /></a></div>
+                                <div class="lef"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><{$tuans[$var['tuan_id']]['title']}></a><p>有效期至：<{$var.fail_date}></p><p>购买时间：<{$var.create_time|date='Y-m-d',###}></p></div>
+                            </div>
+                        </td>
+                        <td class="tgdd_nrCtd"><{$var.code}></td>
+                        <td class="tgdd_nrCtd" id="price-color">￥<{:round($tuans[$var['tuan_id']]['price']/100,2)}></td>
+                         <td class="tgdd_nrCtd" id="price-color">￥<{:round($tuans[$var['tuan_id']]['tuan_price']/100,2)}></td>
+                        <td class="tgdd_nrCtd" <if condition="$var['fail_date'] lt $today"> style="color:red"</if> ><{$var.fail_date}></td>
+                    <td class="tgdd_nrCtd"> 
+                        <eq name="var.status" value="0">
+                            <eq name="var.is_used" value="1">
+                                已使用 
+                            <else/> 
+                                未使用 
+                            </eq>
+                        <else/>
+                             未使用 
+                        </eq>
+                    </td>
+                    <td class="tgdd_nrCtd">
+                        <if condition="$var['status'] eq 0">
+                            <eq name="var.is_used" value="1">
+                                <a mini='confirm' class="myInfor_sx"  href="<{:U('index/delete',array('code_id'=>$var['code_id']))}>">删除</a>
+                            <else/>
+                                <neq name="var.price" value="0">
+                                    <a mini='confirm' class="myInfor_sx"  href="<{:U('index/coderefund',array('code_id'=>$var['code_id']))}>">申请退款</a>
+                                <else/>
+                                    到店付
+                                </neq>
+                            </eq>    
+                        <elseif condition="$var['status'] eq 1"/>
+                            正在退款中
+                        <else/>
+                            已完成退款 <a mini='confirm' class="myInfor_sx"  href="<{:U('index/delete',array('code_id'=>$var['code_id']))}>">删除</a>
+                        </if>
+                    </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="x">
+                <{$page}>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

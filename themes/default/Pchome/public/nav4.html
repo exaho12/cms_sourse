@@ -1,0 +1,23 @@
+<div class="nav">
+
+        <div class="navList">
+
+            <ul>
+
+               
+
+<php>
+
+
+<volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+            </ul>
+
+        </div>
+
+    </div>

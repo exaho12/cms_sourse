@@ -1,0 +1,58 @@
+<include  file='public:header'/>  
+<include  file='public:top'/> 
+<include  file='public:nav2'/>  
+<div class="content"> 
+
+<div class="jfsy_banner">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.jfsy_flexslider').flexslider({
+                    directionNav: true,
+                    pauseOnAction: false,
+                });
+
+            });//首页轮播js
+        </script>
+        <div class="jfsy_flexslider">
+            <ul class="slides">
+                <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND end_date EGT '{$today}' AND  city_id IN ({$city_ids})  AND closed=0 AND site_id=23" limit="0,3" cache="21600" order="orderby asc">
+                    <li class="sy_hotgzLi flex-active-slide" style="width: 100%; float: left; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;"><a href="<{$item.link_url}>" title="<{$item.title}>" target="_blank"><img width="1200" height="287" src="__ROOT__/attachs/<{$item.photo}>" draggable="false"></a></li>
+                </calldata>
+            </ul>
+            <ol class="flex-control-nav flex-control-paging"></ol>
+        </div>
+    </div>
+    
+    
+ <!--循环开始--> 
+<foreach name="list" item="item">
+<div class="hdxq_tgList">
+            <div class="left hdxq_tgList_l">
+                <div class="hdxq_tjj">
+                    <div class="hdsy_LiT"><{:bao_msubstr($item['title'],0,24,false)}></div>
+                    <p class="hdsy_LiP"><{:bao_msubstr($item['details'],0,124,false)}></p>
+                </div>
+                <div class="hdxq_ljct"><{$item.exchange_num}>人已兑换<a href="<{:U('jifen/detail',array('goods_id'=>$item['goods_id']))}>" class="hdxq_ctAn" target="_blank">立即兑换</a></div>
+                <div class="hdxq_LiTime">需要积分:<span class="jfsy_spjf"><{$item.integral}></span><span class="jfsy_spjfjz">价值:￥<{:round($item['price'],2)}></div>
+            </div>
+           <div class="right hdxq_tgList_r"><img width="639" height="293" src="__ROOT__/attachs/<{$item.face_pic}>"></div>
+      </div>
+ </foreach>
+ <!--循环结束-->     
+      
+      
+  
+    </div>
+    <div class="jfsy_jffz">
+        <div class="jfsy_jffzT">兑换积分方法</div>
+        <ul>
+            <li>1.用户通过关注商家会送取一定的积分。</li>
+            <li>2.用户在消费的过程中也会得到相应的积分。</li>
+            <li>3.用户获得积分可以在消费的过程中抵用现金。</li>
+        </ul>
+    </div>
+</div>
+
+
+
+<include file="public:footer"/>

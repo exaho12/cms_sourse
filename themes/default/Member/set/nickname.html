@@ -1,0 +1,26 @@
+<include file="public:header"/>
+<div class="content_right">  
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+            <li><a href="<{:U('set/base')}>">基本设置</a></li>
+            <li class="on"><a href="<{:U('set/nickname')}>">昵称设置</a></li>
+            <li><a href="<{:U('set/face')}>">修改头像</a></li>
+            <li><a href="<{:U('set/password')}>">修改密码</a></li>
+            <li><a href="<{:U('set/mobile')}>">手机认证</a></li>
+            <li><a href="<{:U('set/email')}>">邮箱认证</a></li>
+        </ul>
+    </div>
+    <form method="post"  action="<{:U('set/nickname')}>"  target="baocms_frm">
+        <div class="password_nr">
+            <div class="password_input">
+                <div class="left">设置昵称</div>
+                <div class="lef int_box"><input class="oldPassw" name="nickname" type="text" value="<{$MEMBER.nickname}>" /></div>
+            </div>
+            <div class="password_subm"><input class="submit" type="submit" value="确认保存" /></div>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

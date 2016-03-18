@@ -1,0 +1,15 @@
+<foreach name="list" item="var">
+<a class="item media media-x" href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>">
+	<span class="float-left">
+		<img class="radius" src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" />	
+	</span>
+	<div class="media-body">
+		<strong><{$var.title}></strong>
+		<p class="desc"><{:bao_Msubstr($var['details'],0,100)}></p>
+		<p class="info">
+			<i class="icon-commenting-o"></i> <em><{$var.views}></em>
+			<i class="icon-clock-o"></i> <em><{$var.create_time|date='Y-m-d',###}></em>
+		</p>
+	</div>
+</a>
+</foreach>

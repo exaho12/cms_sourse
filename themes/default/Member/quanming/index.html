@@ -1,0 +1,33 @@
+<include file="public:header"/>
+<div class="content_right">  
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li class="on"><a href="<{:U('quanming/index')}>">推广成功</a></li>
+            <li><a href="<{:U('quanming/tongji')}>">统计报表</a></li>
+            <li><a href="<{:U('quanming/info')}>">推广会员</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>ID</td>
+                <td>金额</td>
+                <td>几级会员</td>
+                <td>时间</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.tid}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{:round($var['commission']/100,2)}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.rank}>级会员</td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="x"><{$page}></div>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

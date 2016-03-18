@@ -1,0 +1,116 @@
+<include file="public:header"/>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('market/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			同城大卖场
+		</div>
+		
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"></a>
+		</div>
+	</header>
+    <script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+    
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x4"><span>楼层</span><i></i></li>
+			<li class="x4"><span>类型</span><i></i></li>
+			<li class="x4"><span>排序</span><i></i></li>
+		</ul>
+	</div>
+    <div class="serch-bar-mask" style="display:none;">
+        
+        <div class="serch-bar-mask-list">
+            <ul>
+            
+                <li><a href="<{:U('market/marketshop',array('market_id'=>$market_id))}>" class="<if condition='empty($floor_id)'> on </if>">全部楼层</a></li>
+                <foreach name="floors" item="var">
+                
+                    <li><a <if condition="$var.area_id eq $area_id"> style="color:red;" </if>  href="<{:LinkTo('market/marketshop',array('floor_id'=>$var['floor_id'],'cate_id'=>$cate_id,'market_id'=>$market_id))}>"><{$var.floor_name}>
+                                    </a></li>    
+                </foreach>
+            </ul>
+        </div>
+        <div class="serch-bar-mask-list">
+            <ul>                        
+                <li><a href="<{:U('market/marketshop',array('market_id'=>$market_id))}>" class="<if condition='empty($cate_id)'> on </if>">全部类型</a></li>
+                 <volist name="types" id="var" key='index'>
+                  
+                    <li><a  <if condition="$cate_id eq $index">style="color:red;"</if>  href="<{:LinkTo('market/marketshop',array('cate_id'=>$index,'floor_id'=>$floor_id,'market_id'=>$market_id))}>"><{$var}></a></li>
+                </foreach>
+            </ul>
+        </div>
+        <div class="serch-bar-mask-list">
+            <ul>
+                 <li ><a  <if condition="$order eq 1"> 
+                                        style="color:red;"
+                                    </if> href="<{:LinkTo('market/marketshop',array('cate_id'=>$cate_id,'floor_id'=>$floor_id,'market_id'=>$market_id,'order'=>1))}>">按评分数</a></li>
+                            <li><a  <if condition="$order eq 2"> 
+                                        style="color:red;"
+                                    </if> href="<{:LinkTo('market/marketshop',array('cate_id'=>$cate_id,'floor_id'=>$floor_id,'market_id'=>$market_id,'order'=>2))}>">按浏览量</a></li>
+                            <li><a  <if condition="$order eq 3"> 
+                                        style="color:red;"
+                                    </if> href="<{:LinkTo('market/marketshop',array('cate_id'=>$cate_id,'floor_id'=>$floor_id,'market_id'=>$market_id,'order'=>3))}>">按粉丝量</a></li>
+                            <li><a  <if condition="$order eq 4 or empty($order)"> 
+                                        style="color:red;"
+                                    </if> href="<{:LinkTo('market/marketshop',array('cate_id'=>$cate_id,'floor_id'=>$floor_id,'market_id'=>$market_id,'order'=>4))}>">默认排序</a></li>
+            </ul>
+        </div>
+        <div class="serch-bar-mask-bg"></div>
+    </div>
+
+	<div class="blank-40"></div>
+	<div class="container">
+		<div id="shop-list" class="shop-list"></div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

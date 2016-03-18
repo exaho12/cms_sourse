@@ -1,0 +1,52 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">抽奖管理</a> > <a>新增抽奖</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">抽奖必须启用后才能使用！</div>
+        </div>
+    </div> 
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('awardgoods/create',array('award_id'=>$award_id))}>"  target="baocms_frm">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t">奖项规格</p></td>
+                <td>
+                    <div class="tuanfabu_nr">
+                    <input type="text" name="data[award_name]" value="<{$detail.award_name|default=''}>" class="manageInput" />
+                    <code>例如一等奖</code>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="tuanfabu_t">奖品名称</p></td>
+                <td>
+                    <div class="tuanfabu_nr"> 
+                       <input type="text" name="data[goods_name]" value="<{$detail.goods_name|default=''}>" class="manageInput" />
+
+</div>
+                </td>
+            </tr><tr>
+                <td width="120"><p class="tuanfabu_t">概率</p></td>
+                <td>  <div class="tuanfabu_nr"><input type="text" name="data[prob]" value="<{$detail.prob|default=''}>" class="manageInput" /><code>一万分之几中奖！数字越小概率越低！另外如果等于一万则代表100%中奖</code>
+</div>
+                </td>
+            </tr><tr>
+                <td width="120"><p class="tuanfabu_t">数量</p></td>
+                <td>  <div class="tuanfabu_nr"><input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="manageInput" />
+</div>
+                </td>
+            </tr>
+
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

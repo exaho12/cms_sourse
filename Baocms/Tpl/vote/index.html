@@ -1,0 +1,76 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">投票插件</li>
+        <li class="li2 li3">投票列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>前台商户需要购买投票插件才能发布投票</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: none; margin-top: 0px;">
+            <div class="left">
+                <{:BA('vote/create','','添加内容')}>
+            </div>
+            <div class="right">          
+                <form method="post" action="<{:U('vote/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="vote_id" /></td>
+                        <td>投票ID</td>
+                        <td>投票标题</td>
+                        <td>是否多选</td>
+                        <td>参加投票人数</td>
+                        <td>商家</td>
+                        <td>结束时间</td>
+                        <td>状态</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_vote_id" type="checkbox" name="vote_id[]" value="<{$var.vote_id}>" /></td>
+                            <td><{$var.vote_id}></td>
+                            <td><{$var.title}></td>
+                            <td><eq name="var['is_select']" value='1'>多选<else/>单选</eq></td>
+                        <td><{$var.num}></td>
+                        <td><{$shops[$var['shop_id']]['shop_name']}></td>
+                        <td><{$var.end_date}></td>
+                        <td><eq name="var.is_work" value="0">未启用<else/>已启用</eq></td>
+                        <td>
+                            <{:BA('vote/edit',array("vote_id"=>$var["vote_id"]),'编辑','','remberBtn')}>
+                            <{:BA('vote/delete',array("vote_id"=>$var["vote_id"]),'删除','act','remberBtn')}>
+                            <eq name="var.is_work" value="0"> <{:BA('vote/work',array("vote_id"=>$var["vote_id"]),'启用投票','act','remberBtn')}> </eq>
+                            <{:BA('vote/setting',array("vote_id"=>$var["vote_id"]),'设置选项','','remberBtn')}>
+                            <{:BA('vote/result',array("vote_id"=>$var["vote_id"]),'查看结果','load','remberBtn','800','400')}>
+                        </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('vote/delete','','批量删除','list','a2')}>
+                    <{:BA('vote/work','','批量启用','list','remberBtn')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<include  file='public:footer'/>  
+

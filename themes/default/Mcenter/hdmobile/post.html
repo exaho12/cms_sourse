@@ -1,0 +1,120 @@
+<include file="public:header"/>
+
+
+<script src="/static/default/wap/other/upload.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('hdmobile/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		我的约会
+	</div>
+</header>
+
+
+<form method="post"  action="<{:U('member/hdfabu')}>" >
+	<div class="line padding border-bottom">
+		<div class="x4">
+			<div class="form-group">
+				<div class="field">
+					<a class="button input-file" href="javascript:void(0);">+ 浏览文件<input size="100" type="file" id="fileToUpload" name="fileToUpload" data-role="none" /></a>
+				</div>
+			</div>
+			<p class="text-small text-gray">上传活动缩略图</p>
+		</div>
+		<div class="x8">
+			<div id="photo"></div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			function ajaxupload() {
+				$(".loader").show();
+				$.ajaxFileUpload({
+					url: '<{:U("app/upload/upload",array("model"=>"huodong"))}>',
+					type: 'post',
+					fileElementId: 'fileToUpload',
+					dataType: 'text',
+					secureuri: false, //一般设置为false
+					success: function (data, status) {
+						$(".loader").hide();
+						var str = '<div class="box"><img  src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="data[photo]" value="' + data + '" /></div>';
+						$("#photo").append(str);
+						$("#fileToUpload").unbind('change');
+						$("#fileToUpload").change(function () {
+							ajaxupload();
+						});
+					}
+				});
+			}
+			$("#fileToUpload").change(function () {
+				ajaxupload();
+			});
+			$(document).on("click", "#photo img", function () {
+				$(this).parent().remove();
+			});
+		});
+	</script>
+	<div class="blank-10 bg"></div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			活动标题
+		</div>
+		<div class="x9">
+			 <input data-role="none" class="text-input" type="text" name="data[title]" value=""  >
+		</div>
+	</div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			活动时间
+		</div>
+		<div class="x9">
+			  <input type="text" name="data[time]" value=""  class="text-input datepicker" />
+		</div>
+	</div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			活动位置
+		</div>
+		<div class="x9">
+			  <input data-role="none" class="text-input" name="data[addr]" type="text"  />
+		</div>
+	</div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			活动类型
+		</div>
+		<div class="x9">
+			<select name="data[cate_id]"  class="text-select" >
+				<option value="0">请选择...</option>
+				<foreach name="getHuoCate" item="var" key='index'>
+					<option value="<{$index}>"><{$var}></option>
+				</foreach>   
+			</select>
+		</div>
+	</div>
+	<div class="line padding border-bottom">
+		<div class="x3">
+			性别要求
+		</div>
+		<div class="x9">
+                <select name="data[sex]"  class="text-select" >
+                    <option value="0">请选择...</option>
+                    <foreach name="getPeopleCate" item="var" key="index">
+                        <option value="<{$index}>"><{$var}></option>
+                    </foreach> 
+                </select>
+		</div>
+	</div>
+
+	<div class="line padding border-bottom">
+		<textarea name="data[intro]" placeholder="请输入对活动的详细介绍" class="text-area" rows="5"></textarea>
+    </div>
+	
+
+    <div class="blank-30"></div>
+    <div class="container"><button type="submit" class="button button-block button-big bg-dot">免费发布</button></div>
+	<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

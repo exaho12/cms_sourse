@@ -1,0 +1,318 @@
+<include  file='public:header'/>  
+ <link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('life/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		编辑<{$cate.cate_name}>
+	</div>
+</header>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('life/edit',array('life_id'=>$detail['life_id']))}>">
+<div class="blank-10"></div>
+<div class="container">
+	<div id="uploader" class="uploader">
+		<div id="filepicker">选择图片</div>
+		<div id="filelist" class="uploader-list"></div>
+	</div>
+	<div class="blank-10"></div>
+</div>
+
+<div class="blank-10 bg border-top"></div>
+<div class="row">
+	<div class="line">
+		<span class="x3">标题</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[title]" value="<{$detail.title|default=''}>" />
+		</span>
+	</div>
+</div>
+
+<if condition="!empty($cate['text1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text1}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text1]" value="<{$detail.text1|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['text2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text2}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text2]" value="<{$detail.text2|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['text3'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.text3}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[text3]" value="<{$detail.text3|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['num1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.num1}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[num1]" value="<{$detail.num1|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['num2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.num2}></span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[num2]" value="<{$detail.num2|default=''}>" />
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select1'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select1}></span>
+		<span class="x9">
+			<select name="data[select1]" class="text-select">
+				<foreach name="attrs.select1" item="item">
+				<option value="<{$item.attr_id}>" <eq name="detail.select1" value="$item.attr_id">selected="selected"</eq> ><{$item.attr_name}></option>
+				</foreach>
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select2'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select2}></span>
+		<span class="x9">
+			<select name="data[select2]" class="text-select">
+				<foreach name="attrs.select2" item="item">
+				<option value="<{$item.attr_id}>" <eq name="detail.select2" value="$item.attr_id">selected="selected"</eq> ><{$item.attr_name}></option>
+				</foreach>
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select3'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select3}></span>
+		<span class="x9">
+			<select name="data[select3]" class="text-select">
+				<foreach name="attrs.select3" item="item">
+				<option value="<{$item.attr_id}>" <eq name="detail.select3" value="$item.attr_id">selected="selected"</eq> ><{$item.attr_name}></option>
+				</foreach>
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select4'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select4}></span>
+		<span class="x9">
+			<select name="data[select4]" class="text-select">
+				<foreach name="attrs.select4" item="item">
+				<option value="<{$item.attr_id}>" <eq name="detail.select4" value="$item.attr_id">selected="selected"</eq> ><{$item.attr_name}></option>
+				</foreach>
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<if condition="!empty($cate['select5'])"> 
+<div class="row">
+	<div class="line">
+		<span class="x3"><{$cate.select5}></span>
+		<span class="x9">
+			<select name="data[select4]" class="text-select">
+				<foreach name="attrs.select5" item="item">
+				<option value="<{$item.attr_id}>" <eq name="detail.select5" value="$item.attr_id">selected="selected"</eq> ><{$item.attr_name}></option>
+				</foreach>
+			</select>
+		</span>
+	</div>
+</div>
+</if>
+<script>
+	$(document).ready(function (e) {
+		$("#area_id").change(function () {
+			var url = '<{:U("life/business",array("area_id"=>"0000"))}>';
+			if ($(this).val() > 0) {
+				var url2 = url.replace('0000', $(this).val());
+				$.get(url2, function (data) {
+					$("#business_id").html(data);
+				}, 'html');
+			}
+
+		});
+	});
+</script>
+<div class="row">
+	<div class="line">
+		<span class="x3">地域</span>
+		<span class="x4">
+			<select name="data[area_id]" id="area_id" class="text-select">
+				<option value="0" selected="selected">选择地区</option>
+				<foreach name="areas" item="var">
+                <php>if($var['city_id'] == $city_id){</php>
+				<option value="<{$var.area_id}>" <eq name="var.area_id" value="$detail.area_id">selected="selected"</eq>><{$var.area_name}></option>
+				<php>}</php>
+                </foreach>
+			</select>
+		</span>
+		<span class="x5">
+			<select name="data[business_id]" id="business_id" class="text-select">
+				<option value="0" selected="selected">← 选择地区</option>
+			</select>
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">联系人</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[contact]" value="<{$detail.contact|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">电话</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mobile]" value="<{$detail.mobile|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">QQ号码</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[qq]" value="<{$detail.qq|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">QQ号码</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[addr]" value="<{$detail.addr|default=''}>" />
+		</span>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">位置标注</span>
+	</div>
+</div>
+<div class="line">		
+	<input type="hidden" id="data_lng"  name="data[lng]" value="<{$lng|default=''}>"  />
+	<input type="hidden" id="data_lat"  name="data[lat]" value="<{$lat|default=''}>"  />
+	<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=7b92b3afff29988b6d4dbf9a00698ed8&v=1.0"></script>
+	<div id="allmap" style="width:100%;height:300px;"></div>
+	<script type="text/javascript">
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point("<{$lng}>", "<{$lat}>"), 16);
+		var marker = new BMap.Marker(new BMap.Point("<{$lng}>", "<{$lat}>"));  // 创建标注
+		map.clearOverlays();
+		map.addOverlay(marker);              // 将标注添加到地图中
+
+		function showInfo(e) {
+			var point = new BMap.Point(e.point.lng, e.point.lat);
+			var marker = new BMap.Marker(point);
+			map.clearOverlays();
+			map.addOverlay(marker); 
+		}
+		map.addControl(new BMap.ZoomControl()); //添加地图缩放控件
+		map.addEventListener("click", showInfo);
+	</script>
+</div>
+<div class="padding">
+	<div class="line">
+		<span class="x3">详细说明</span>
+	</div>
+</div>
+<div class="line">
+	<div class="container">
+		<textarea rows="5" name="details" class="text-area" placeholder="请输入内容"></textarea>
+	</div>
+</div>
+
+	<div class="container">
+		<div class="blank-30"></div>
+		<button  type="submit" class="button button-block button-big bg-dot">发布信息</button>
+		<div class="blank-30"></div>
+	</div>
+		
+</form>
+	<script>
+		jQuery(function() {
+			var $ = jQuery,
+				$list = $('#filelist'),
+				ratio = window.devicePixelRatio || 1,
+				thumbnailWidth = 100 * ratio,
+				thumbnailHeight = 100 * ratio,
+				uploader;
+			var uploader = WebUploader.create({
+				auto: true,
+				swf: '/static/default/wap/other/Uploader.swf',
+				server: '<{:U("public/upload",array("model"=>"life"))}>',
+				pick: '#filepicker',
+				accept: {
+					title: 'Images',
+					extensions: 'gif,jpg,jpeg,bmp,png',
+					mimeTypes: 'image/*'
+				}
+			});
+
+			uploader.on( 'fileQueued', function( file ) {
+				var $li = $('<div id="' + file.id + '" class="file-item thumbnail"><img></div>'),
+					$img = $li.find('img');
+					$list.append( $li );
+				uploader.makeThumb( file, function( error, src ) {
+					if ( error ) {
+						$img.replaceWith('<span>不能预览</span>');
+						return;
+					}
+					$img.attr( 'src', src );
+				}, thumbnailWidth, thumbnailHeight );
+			});
+			
+			uploader.on( 'uploadSuccess', function( file,response ) {
+				$( '#'+file.id ).addClass('upload-state-done');
+				var pic = response['_raw'];
+				var str = '<input type="hidden" name="photo[]" value="' + pic + '" />';
+				$("#uploader").append(str);
+			});
+
+			uploader.on( 'uploadError', function( file ) {
+				var $li = $( '#'+file.id ),
+					$error = $li.find('div.error');
+				if ( !$error.length ) {
+					$error = $('<div class="error"></div>').appendTo( $li );
+				}
+
+				$error.text('上传失败');
+			});
+		});	
+
+	</script>
+
+<include  file='public:footer'/>

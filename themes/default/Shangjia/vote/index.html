@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">投票功能</a> > <a>投票列表</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('vote/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">投票标题：<input type="text" class="radius3 tuan_topser"  name="keyword" value="<{$keyword}>"/><input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/></div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" href="<{:U('vote/create')}>">发布投票+</a></div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('weixin/index')}>">投票功能</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="100">投票标题</td>
+            <td width="120">投票banner</td>
+            <td width="100">二维码</td>
+            <td width="100">投票结果</td>
+            <td width="160">投票链接</td>
+            <td width="70">投票人数</td>
+            <td width="70">结束时间</td>
+            <td width="70">状态</td>
+            <td width='200'>操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <php>$url = __HOST__.U('mobile/vote/index',array('vote_id'=>$var['vote_id']));</php>
+            <tr>
+                <td><{$var.title}></td>
+                <td style="height: 100px;"><img src="__ROOT__/attachs/<{$var.banner|default='default.jpg'}>"  style="width: 80px; margin: 0px auto;" /></td>
+                <td style="height: 80px;"><img src="__ROOT__/attachs/<{$var.file|default='default.jpg'}>"  style="width: 80px; margin: 0px auto;" /></td>
+                <td style="height: 80px;"><img src="__ROOT__/attachs/<{$var.rfile|default='default.jpg'}>"  style="width: 80px; margin: 0px auto;" /></td>
+                <td><{$url}></td>
+                <td><{$var.num}></td>
+                <td><{$var.end_date}></td>
+                <td><eq name="var.is_work" value="0">未启用<else/>已启用</eq></td>
+                <td>
+                    <eq name="var.is_work" value="0"><a href="<{:U('vote/edit',array('vote_id'=>$var['vote_id']))}>">编辑</a></eq>
+                    <eq name="var.is_work" value="0"><a mini='confirm' href="<{:U('vote/work',array('vote_id'=>$var['vote_id']))}>">启用投票</a></eq>
+                    <eq name="var.is_work" value="0"><a href="<{:U('vote/setting',array('vote_id'=>$var['vote_id']))}>">设置选项</a></eq>
+                    <a mini='load' h='600' w='825' href="<{:U('vote/result',array('vote_id'=>$var['vote_id']))}>">查看结果</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

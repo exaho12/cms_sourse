@@ -1,0 +1,46 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('userrank/create')}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">等级名称：</td>
+                            <td class="rgTdBt"><input type="text" name="data[rank_name]" value="<{$detail.rank_name|default=''}>" class="scAddTextName w150" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">等级图标：</td>
+                            <td class="rgTdBt"><input type="text" name="data[icon]" value="<{$detail.icon|default=''}>" class="scAddTextName w150" />
+                                <code>根据前台的显示具体填写（可是样式）</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">等级图标2：</td>
+                            <td class="rgTdBt"><input type="text" name="data[icon1]" value="<{$detail.icon1|default=''}>" class="scAddTextName w150" />
+                                <code>可以为空主要防止不同样式</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">推广返利（返积分）：</td>
+                            <td class="rgTdBt"><input type="text" name="data[rebate]" value="<{$detail.rebate|default=''}>" class="scAddTextName w150" />
+                                <code>暂不支持小数,例如3表示返利3%</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">需要声望：</td>
+                            <td class="rgTdBt"><input type="text" name="data[prestige]" value="<{$detail.prestige|default=''}>" class="scAddTextName w150" />
+                                <code>当用户声望满足的时候自动升级</code>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,88 @@
+<include  file='member:head'/>   
+<div class="user_infor">
+    <div class="left">
+        <div class="user_tx"><a target="_blank" href="<{:U('blog/index',array('user_id'=>$MEMBER['user_id']))}>"><img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" width="134" height="134" /></a></div>
+        <a target="main_frm" href="<{:U('member/face')}>" class="set_infor">修改个人资料</a>
+
+    </div>
+    <div class="lef">
+        <ul>
+            <li>您好：<span class="user_name"><{$MEMBER.nickname}></span></li>
+            <li>账户余额：<span class="user_jf"><{:round($MEMBER['money']/100,2)}></span><a class="user_cz" href="<{:U('member/money')}>">去充值</a></li>
+            <li>积分：<span class="user_jf"><{$MEMBER.integral}></span></li>
+            <li>会员等级：<span class="user_dj"><{$ranks[$MEMBER['rank_id']]['rank_name']}></span></li>
+            <li>注册时间：<span class="user_time"><{$MEMBER.reg_time|date='Y-m-d',###}></span></li>
+        </ul>
+    </div>
+    <div class="le lef">
+        <ul>
+            <li class="user_inforli">账户状态：
+                <div class="user_state">
+                    <ul>
+                        <li>邮箱：<if condition="!empty($MEMBER['email'])"><span class="cert">已认证</span><else/><span class="cert cert_w">未认证</span><a class="cert_go" href="<{:U('member/email')}>">去认证</a></if></li>
+                        <li>手机：<if condition="!empty($MEMBER['mobile'])"><span class="cert">已认证</span><else/><span class="cert cert_w">未认证</span><a class="cert_go" href="<{:U('member/mobile')}>">去认证</a></if></li>
+                        <!-- <li>微信：<span class="cert cert_w">未绑定</span><a class="cert_go" href="">去绑定</a></li> -->      
+                    </ul>
+                </div>
+            </li>
+            <li>金块余额：<span class="user_jf"><{$MEMBER.gold}></span><a class="user_cz" href="<{:U('member/gold')}>">去充值</a></li>
+            <!--
+            <li class="user_inforli">交易提示：
+                <div class="prom">
+                    <ul>
+                        <li><a href="">买家消息</a>（<span>6</span>）</li>
+                        <li><a href="">买家消息</a>（<span>6</span>）</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="user_inforli">消息提示：
+                <div class="prom">
+                    <ul>
+                        <li><a href="">系统消息</a>（<span>6</span>）</li>
+                    </ul>
+                </div>
+            </li> -->
+        </ul>
+    </div>
+</div>
+<!--<div class="platf_tb">
+  <div class="left">您的信息尚未同步到微信及QQ平台！<p>信息同步后，您可以在微信、QQ上管理信息，利用您的微信或QQ社交关系进行推广等。</p></div>
+  <div class="right"><a href="">马上同步</a></div>
+</div>-->
+<div class="fast_ent">
+    <ul>
+        <li>快速进入：</li>
+        <li class="ent_lj"><a target="_blank" href="<{:U('tuan/main')}>">团购</a></li>
+        <li class="ent_lj"><a target="_blank" href="<{:U('mall/main')}>">购物</a></li>
+        <li class="ent_lj"><a target="_blank" href="<{:U('huodong/index')}>">活动</a></li>
+        <li class="ent_lj"><a target="_blank" href="<{:U('coupon/index')}>">优惠</a></li>
+        <li class="ent_lj"><a target="_blank" href="<{:U('jifen/main')}>">一卡通</a></li>
+    </ul>
+</div>
+<div class="infor_rel">
+    <div class="infor_relt">
+        <ul class="infor_reltUl">
+            <li class="on">我发布的信息</li>
+        </ul>
+    </div>
+    <div class="infor_relNr">
+        <ul>
+            <calldata mdl="Life" where="audit=1 AND user_id='{$uid}' " limit="0,5" cache="21600" order="life_id desc">
+                <li>
+                    <div class="left">
+                        <div class="infor_relNrt"><a target="_blank" href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>"><{$item.title}></a></div>
+                        <p>(<{$lifecate[$item['cate_id']]['cate_name']}><if condition="!empty($item['text1'])">-<{$item.text1}></if>)<span><{$item.create_time|date='Y-m-d H:i:s',###}>信息编号：<{$item.life_id}></span></p>
+                    </div>
+                    <div class="right"><a mini="act" class="myInfor_sx" href="<{:U('member/lifeurgent',array('life_id'=>$item['life_id'],'day'=>30))}>">加急30天</a>|<a mini="act" class="myInfor_sx" href="<{:U('member/lifeflush',array('life_id'=>$item['life_id']))}>">免费刷新</a> </div>
+                </li>
+            </calldata>
+        </ul>
+    </div>
+
+</div>
+<!-- <div class="nearDat">
+  <div class="nearDat_t">结交你附近的朋友</div>
+  <div class="nearDat_r">此处显示  class "nearDat_r" 的内容</div>
+</div>-->
+</body>
+</html>

@@ -1,0 +1,97 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">当前位置</li>
+        <li class="li2">黄页</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+        <form target="baocms_frm" action="<{:U('pois/create')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" > 
+                <tr>
+                    <td class="lfTdBt">名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="manageInput" />
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">电话：</td>
+                  <td class="rgTdBt"><input type="text" name="data[telephone]" value="<{$detail.telephone|default=''}>" class="manageInput" />
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">地址：</td>
+                  <td class="rgTdBt"><input type="text" name="data[address]" value="<{$detail.address|default=''}>" class="manageInput" />
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt">标记：</td>
+					<td class="rgTdBt"><input type="text" name="data[tag]" value="<{$detail.tag|default=''}>" class="manageInput" />
+					<code>多个关键字用;逗号分隔</code>
+                    </td>
+                </tr>
+				
+				
+				<tr>
+                    <td class="lfTdBt">分类：</td>
+					<td class="rgTdBt">
+				  
+						<select name="data[type]" class="input manageInput"  data-validate="required:必选">
+							<option value="">选择分类</option>
+							<option value="life" <eq name="detail.type" value="life">selected="selected"</eq>>生活服务</option>
+							<option value="enterprise" <eq name="detail.type" value="enterprise">selected="selected"</eq>>企业单位</option>
+							<option value="hospital" <eq name="detail.type" value="hospital">selected="selected"</eq>>药店医院</option>
+							<option value="cater" <eq name="detail.type" value="cater">selected="selected"</eq>>餐饮小吃</option>
+							<option value="hotel" <eq name="detail.type" value="hotel">selected="selected"</eq>>宾馆酒店</option>
+							<option value="shopping" <eq name="detail.type" value="shopping">selected="selected"</eq>>购物超市</option>
+							<option value="beauty" <eq name="detail.type" value="beauty">selected="selected"</eq>>美容美发</option>
+							<option value="house" <eq name="detail.type" value="house">selected="selected"</eq>>小区社区</option>
+							<option value="education" <eq name="detail.type" value="education">selected="selected"</eq>>教育培训</option>
+						</select>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">地图坐标：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            经度<input type="text" name="data[lng]" id="data_lng" value="<{$detail.lng|default=''}>" class="scAddTextName w120 input" />
+                            纬度 <input type="text" name="data[lat]" id="data_lat" value="<{$detail.lat|default=''}>" class="scAddTextName w120 input" />
+                        </div>
+                        <a style="margin-left: 10px;" mini="select"  w="600" h="600" href="<{:U('public/maps')}>" class="seleSj">百度地图</a>
+                </tr>
+
+				<tr>
+                    <td class="lfTdBt">店铺编号：</td>
+					<td class="rgTdBt">
+						<input type="text" class="manageInput" id="lng" name="data[shop_id]" size="20"  value="<{$detail.shop_id}>"  />
+                    </td>
+                </tr>
+
+				<tr>
+                    <td class="lfTdBt">是否锁定：</td>
+					<td class="rgTdBt">
+						<input type="radio" name="data[is_lock]"  value="1" <if condition="$detail[is_lock] eq 1">checked="checked"</if> />锁定，采集跳过更新
+						<input type="radio" name="data[is_lock]"  value="0" <if condition="$detail[is_lock] eq 0">checked="checked"</if> />不锁定，采集动态更新
+                    </td>
+                </tr>
+
+				<tr>
+                    <td class="lfTdBt">黄页状态：</td>
+					<td class="rgTdBt">
+						<input type="radio" name="data[status]"  value="1" <if condition="$detail[status] eq 1">checked="checked"</if> />审核绑定商家
+						<input type="radio" name="data[status]"  value="0" <if condition="$detail[status] eq 0">checked="checked"</if> />审核未绑商家
+						<input type="radio" name="data[status]"  value="-1" <if condition="$detail[status] eq -1">checked="checked"</if> />等待审核
+						<input type="radio" name="data[status]"  value="-9" <if condition="$detail[status] eq -9">checked="checked"</if> />关闭状态
+                    </td>
+                </tr>	
+
+			</table>
+		</div>
+	</div>
+    <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+</form>
+</div>
+</div>
+<include  file='public:footer'/>       

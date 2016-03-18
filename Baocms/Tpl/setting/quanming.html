@@ -1,0 +1,122 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">全民经纪人</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>
+    全民经济人是一个六级分销的产品，也就是说含本人及推荐到本人的上级5个人都能享受您推荐的人的消费提成，同理您推荐的以下6级人消费的您都能获得提成！
+</p>
+<form  target="baocms_frm" action="<{:U('setting/quanming')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               <tr>
+                    <td class="lfTdBt" style="width: 200px;">活动内容描述：</td>
+                    <td class="rgTdBt">
+                        <textarea cols="50" rows="5" name="data[content]"><{$CONFIG.quanming.content}></textarea>
+                        <code>
+                           介绍全民推广员干什么的，回车键可以换行！ 如果开启了推广保证金的话，就要引导用户去个人中心冻结！
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">活动规则描述：</td>
+                    <td class="rgTdBt">
+                        <textarea cols="50" rows="5" name="data[intro]"><{$CONFIG.quanming.intro}></textarea>
+                        <code>
+                           介绍全民分层规则干什么的，回车键可以换行！ 如果开启了推广保证金的话，就要引导用户去个人中心冻结！
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否开启：</td>
+                    <td class="rgTdBt">
+                        <label>
+                            <input type="radio" name="data[is_tuan]" <eq name="CONFIG.quanming.is_tuan" value="1">checked="checked"</eq> value="1"  /> 开启团购
+                        </label>
+                        <label>
+                        <input type="radio" name="data[is_tuan]"  <eq name="CONFIG.quanming.is_tuan" value="0">checked="checked"</eq>  value="0"  /> 关闭团购
+                        </label>
+                        
+                        <br/><br/>
+                        <label>
+                            <input type="radio" name="data[is_mall]" <eq name="CONFIG.quanming.is_mall" value="1">checked="checked"</eq> value="1"  /> 开启购物
+                        </label>
+                        <label>
+                        <input type="radio" name="data[is_mall]"  <eq name="CONFIG.quanming.is_mall" value="0">checked="checked"</eq>  value="0"  /> 关闭购物
+                        </label>
+                        <br/><br/>
+                          <label>
+                           <input type="radio" name="data[is_ele]" <eq name="CONFIG.quanming.is_ele" value="1">checked="checked"</eq> value="1"  /> 开启外卖
+                        </label>
+                        <label>
+                        <input type="radio" name="data[is_ele]"  <eq name="CONFIG.quanming.is_ele" value="0">checked="checked"</eq>  value="0"  /> 关闭外卖
+                        </label>
+                        <br/><br/>
+                        <label>
+                           <input type="radio" name="data[is_money]" <eq name="CONFIG.quanming.is_money" value="1">checked="checked"</eq> value="1"  /> 开启推广保证金
+                        </label>
+                        <label>
+                          <input type="radio" name="data[is_money]"  <eq name="CONFIG.quanming.is_money" value="0">checked="checked"</eq>  value="0"  /> 关闭推广保证金
+                        </label>
+                        <br/><br/>
+                        <code>开启才后该项目就会产生推广员分层</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt">保证金金额：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[money]" value="<{$CONFIG.quanming.money}>" class="scAddTextName w150" />
+                        <code>单位元，就是成为推广员需要缴纳的保证金，如果推广员没有缴纳保证金，将得不到下线会员保证金的提成额度</code>
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="lfTdBt">保证金冻结天数：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[money_day]" value="<{$CONFIG.quanming.money_day}>" class="scAddTextName w150" />
+                        <code>单位天，保证金冻结的时间过了就会自动转成余额，可以进行消费或者提现</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">保证金返现比例：</td>
+                    <td class="rgTdBt">
+                        一级<input type="text" style="width: 60px;" name="data[money1]" value="<{$CONFIG.quanming.money1}>" class="scAddTextName" />元
+                        二级<input type="text" style="width: 60px;" name="data[money2]" value="<{$CONFIG.quanming.money2}>" class="scAddTextName" />元
+                        三级<input type="text" style="width: 60px;" name="data[money3]" value="<{$CONFIG.quanming.money3}>" class="scAddTextName" />元
+                        四级<input type="text" style="width: 60px;" name="data[money4]" value="<{$CONFIG.quanming.money4}>" class="scAddTextName" />元
+                        五级<input type="text" style="width: 60px;" name="data[money5]" value="<{$CONFIG.quanming.money5}>" class="scAddTextName" />元
+                        六级<input type="text" style="width: 60px;" name="data[money6]" value="<{$CONFIG.quanming.money6}>" class="scAddTextName" />元
+                        <code>直接推荐我的人为第六级，所以第六级应该比率最大！需要几级就从第六级开始填写 0代表不开启当前级别，此处的费用是平台自行承担的！为平台选择的策略</code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">购物消费提成：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[rate]" value="<{$CONFIG.quanming.rate}>" class="scAddTextName w150" />
+                        <code>%；此处填写的是按照总的结算价格的百分比提成的！提成后会从商家的结算价格中扣除</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">六级对应比例：</td>
+                    <td class="rgTdBt">
+                        一级<input type="text" style="width: 60px;" name="data[rate1]" value="<{$CONFIG.quanming.rate1}>" class="scAddTextName" />%
+                        二级<input type="text" style="width: 60px;" name="data[rate2]" value="<{$CONFIG.quanming.rate2}>" class="scAddTextName" />%
+                        三级<input type="text" style="width: 60px;" name="data[rate3]" value="<{$CONFIG.quanming.rate3}>" class="scAddTextName" />%
+                        四级<input type="text" style="width: 60px;" name="data[rate4]" value="<{$CONFIG.quanming.rate4}>" class="scAddTextName" />%
+                        五级<input type="text" style="width: 60px;" name="data[rate5]" value="<{$CONFIG.quanming.rate5}>" class="scAddTextName" />%
+                        六级<input type="text" style="width: 60px;" name="data[rate6]" value="<{$CONFIG.quanming.rate6}>" class="scAddTextName" />%
+                        <code>直接推荐我的人为第六级，所以第六级应该比率最大！需要几级就从第六级开始填写 0代表不开启当前级别</code>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

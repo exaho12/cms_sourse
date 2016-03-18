@@ -1,0 +1,80 @@
+<include  file='public:header_huodong'/>  <body>
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('huodong/index')}>"><img  src="__TMPL__statics/img/back_icon.png"></a>
+            活动详情
+            <a class="share" href="javascript:void(0);" id="share"><img  src="__TMPL__statics/img/share.png"></a>
+        </div>
+        <div class="bdcolor">
+            <div class="bdcolor_bg"></div>
+            <div class="bdsharebuttonbox" data-tag="share_1">
+                <a class="bds_weixin" data-cmd="weixin">微信</a>
+                <a class="bds_qzone" data-cmd="qzone" href="#">QQ空间</a>
+                <a class="bds_sqq" data-cmd="sqq">腾讯QQ</a>
+                <a class="bds_tqq" data-cmd="tqq">腾讯微博</a>
+                <a class="bds_tsina" data-cmd="tsina">新浪微博</a>
+                <div class="bd-share-popup-footer"><a class="bd-share-popup-close" onClick="$('.bdcolor').hide();" href="javascript:void(0);">取消</a></div>
+            </div>
+
+        </div>
+        <script>
+            $(document).ready(function () {
+                $(".share").click(function () {
+                    $(".bdcolor").show();
+                });
+            });
+            window._bd_share_config = {
+                common: {
+                    bdText: '<{$detail.title}>',
+                    bdDesc: '<{$detail.title}>',
+                    bdUrl: encodeURIComponent(location.href),
+                    bdPic: 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+                },
+                share: [{
+                        "bdSize": 32,
+                    }],
+            }
+            with (document)
+                0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+        </script>
+    </header>
+    <section class="cam_detail">
+        <div class="container">
+            <img style="max-height: 250px;" src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>"/>
+            <div class="wenan">
+                <h1><{$detail.title}></h1>
+                <p>商家：<{$shop.shop_name}></p>
+                <p>地址：<{$detail.addr}></p>
+                <p>简介：<{$detail.intro}></p>
+                <p>时间：<{$detail.time}></p>
+            </div>
+            <div class="baoming">
+                <eq name="detail['sign']" value="0"><a href="<{:U('huodong/sign',array('activity_id'=>$detail['activity_id']))}>"><div class="baoming_btn">报名参加</div></a>
+                <else/>
+                <a href="javascript:void(0);"><div class="baoming_btn btn_lt02">已报名</div></a>
+                </eq>
+                <div class="numble">
+                    <div class="btn_lt">已报人数</div><div class="btn_rt"><{$detail.sign_num}></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <div class="yoyobox">
+
+        <div class="head_line">
+            <span class="icon_iio"></span>活动详情
+        </div>
+        <div class="inner s_art">
+            <div class="wenan">
+                <{$detail.details}>
+            </div>
+        </div>
+        <div class="h48"></div>
+        <div class="cam_bottom_container"></div>
+        <div class="cam_baoming_btn"><eq name="detail['sign']" value="0"><a href="<{:U('huodong/sign',array('activity_id'=>$detail['activity_id']))}>">立即报名</a><else/><a href="javascript:void(0);">立即报名</a></eq></div>
+    </div>
+</body>
+</include>

@@ -1,0 +1,25 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('tuisongemail/create')}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                         <tr>
+                            <td class="lfTdBt">推送标题：</td>
+                            <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="lfTdBt">推送内容：</td>
+                            <td class="rgTdBt">
+                            <textarea name="data[content]" rows="5" cols="40"><{$detail.content|default=''}></textarea> <code>内容请勿太多</code>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>

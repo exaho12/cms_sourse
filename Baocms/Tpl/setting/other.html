@@ -1,0 +1,81 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+
+    <ul>
+
+        <li class="li1">设置</li>
+
+        <li class="li2">基本设置</li>
+
+        <li class="li2 li3">其他设置</li>
+
+    </ul>
+
+</div>
+
+<p class="attention"><span>注意：</span>其他设置在这里</p>
+
+<form  target="baocms_frm" action="<{:U('setting/other')}>" method="post">
+
+    <div class="mainScAdd">
+
+        <div class="tableBox">
+
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+
+
+                <tr>
+
+                    <td class="lfTdBt">美洽帐号UID：</td>
+
+                    <td class="rgTdBt">
+
+                        <input type="text" name="data[mechat]" value="<{$CONFIG.other.mechat}>" class="scAddTextName w150" />
+						<code>使用本模块需注册美洽账号并获取帐号ID信息!http://meiqia.com/，针对新模板的，niu模板无效</code>
+                    </td>
+
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">是否开启手机版美洽客服：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[mechataudit]" <eq name="CONFIG.other.mechataudit" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[mechataudit]"  <eq name="CONFIG.other.mechataudit" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启之后手机版就显示在线客服，针对新模板的，niu模板无效</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">是否开启手机底部炫酷导航：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[footeraudit]" <eq name="CONFIG.other.footeraudit" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[footeraudit]"  <eq name="CONFIG.other.footeraudit" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启之后手机版就显点击弹出那个导航菜单，针对新模板的，niu模板无效</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">是否开启手机底部导航：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[footer]" <eq name="CONFIG.other.footer" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[footer]"  <eq name="CONFIG.other.footer" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>这个是针对niucms的底部导航模板的</code>
+                    </td>
+                </tr>
+                
+                
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </div>
+
+</form>
+
+<include  file='public:footer'/>       
+

@@ -1,0 +1,127 @@
+<include file='public:seat_header'/>  
+<script>
+	$(function(){
+		$.reset_input();
+	});
+</script>
+<div id="seat">
+		<!-- 搜索 -->
+		<div class="seat-index-search">
+			<div class="seat-index-search-box">
+				<div class="shade"></div>
+				<div class="form">
+					<div class="top">
+						<div class="day">
+							<ul>
+								<li class="today">2015-07-07 今天</li>
+								<li class="time baocms_select" option="<{$seat_time}>" value="<{$seat_time}>">18:00</li>
+							</ul>
+						</div>
+						<div class="city">
+							合肥<i></i>
+						</div>
+						<div class="keyword">
+							<ul>
+								<li class="people baocms_select" option="<{$people_num}>" value="<{$people_num}>">1-3 人</li>
+								<li class="input"><input type="text" value="商户名/商圈/菜系" /></li>
+							</ul>							
+						</div>
+						<div class="btn">搜索</div>
+						<div class="clear"></div>
+					</div>
+					<div class="tag">
+						您还可以选择以下就餐类型：
+                        <php>
+                        	foreach ($type as $key => $val){
+                        </php>
+						<span><php>echo $val;</php></span>
+                        <php>}</php>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat-index-center">
+			<!-- 盒子左侧 -->
+			<div class="seat-index-center-left">
+				<div class="title"><div class="active">热门餐厅推荐</div><span>更多 >></span></div>
+				<!-- 热门餐厅 -->
+				<div class="hot">
+					<ul>
+                    	<volist name="hot" id="vo">
+						<li>
+							<div class="pic"><a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$vo.logo}>"></a></div>
+							<div class="con_1">
+								<p class="name"><a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><{$vo.shop_name}></a></p>
+								<p><{$vo.addr}></p>
+								<p>人均：<span><{$vo['price'] / 100}> 元</span></p>
+								<p><{$vo.d1_name}>：<span><{$vo['d1'] / 10}></span> <{$vo.d2_name}>：<span><{$vo['d2'] / 10}></span> <{$vo.d3_name}>：<span><{$vo['d3'] / 10}></span></p>
+                                <if condition="$vo.hall eq 0">
+								<div class="btn">大厅(有空位)</div>
+                                <else />
+                                <div class="btn c2">大厅(无空位)</div>
+                                </if>
+                                <if condition="$vo.status eq 1">
+								<div class="btn">包厢(有空位)</div>
+                                <elseif condition="$vo.status eq 2"/>
+                                <div class="btn c1">包厢(紧张)</div>
+                                <else />
+                                <div class="btn c2">包厢(已订完)</div>
+                                </if>
+							</div>
+						</li>
+                        </volist>
+					</ul>
+				</div>
+				<!-- 选项卡 -->
+				<div class="cate">
+					<div class="title">
+                        <div class="active">最新餐厅</div>
+					</div>
+					<div class="cate_food">
+                    	<volist name="new" id="vo" key="k">
+						<div<php>if ($k == 2 || $k == 5){echo ' class="blr"';}</php>>
+							<ul>
+								<li>
+									<a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$vo.logo}>"></a>
+								</li>
+								<li class="name"><a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><{$vo.shop_name}></a></li>
+								<li class="bb"><span><{$vo.d1_name}>：<{$vo['d1'] / 10}></span><span><{$vo.d2_name}>：<{$vo['d1'] / 10}></span><span><{$vo.d3_name}>：<{$vo['d1'] / 10}></span></li>
+								<li><div class="cx">人均：<{$vo['price'] / 100}> 元</div><div class="btn">立即订购</div></li>
+							</ul>
+						</div>
+                        </volist>
+					</div>
+				</div>
+			</div>
+			<!-- 盒子右侧 -->
+			<div class="seat-content-center-right">
+				<!-- 二维码 -->
+				<div class="seat-content-center-right-qrcode">
+					<img src="__TMPL__statics/images/seat/qrcode.png" />
+				</div>
+				<!-- 广告 -->
+				<div class="seat-content-center-right-ads">
+					
+				</div>
+				<!-- 热门 -->
+				<div class="seat-content-center-right-hot">
+					<div class="title">人气排行榜</div>
+					<div class="box">
+						<ul>
+                        	<volist name="yuyue" id="vo">
+							<li>
+								<div class="pic"><a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$vo.logo}>"></a></div>
+								<div class="con_1">
+									<div class="shop_name"><a href="<{:U('seat/shop',array('shop_id'=>$vo['shop_id']))}>" target="_blank"><{$vo.shop_name}></a></div>
+									<div class="star" style="width: <php>echo $vo['score'] * 1.3</php>px;"></div>
+								</div>
+							</li>
+                            </volist>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+<include file='public:footer'/>  

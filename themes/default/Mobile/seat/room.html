@@ -1,0 +1,80 @@
+<include  file='public:header'/>    
+
+<body>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">订座预约 - 点包厢</div>
+		<i class="icon-menu" id="ico_1"></i>
+	</header>
+	<!-- 筛选TAB -->
+	<div id="tab-bar">
+		<ul>
+			<li class="active"><a href="#">1-3人</a></li>
+			<li><a href="#">3-5人</a></li>
+			<li><a href="#">5-10人</a></li>
+			<li><a href="#">10人+</a></li>
+		</ul>
+	</div>
+	<div id="seat" class="page-center-box">
+		<div id="scroll">
+			<div class="list-pic">
+				<!-- 循环 -->
+				<div class="box">
+					<i></i>
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /><div class="seat-p">消费满480送红酒一瓶红酒一瓶</div></div>
+					<p>黄山厅</p>
+                    <script>
+						$(function(){
+							$("#seat-input").click(function(){
+								$(this).parent("label").toggleClass("on");
+							});
+						});
+                    </script>
+                    <label><input id="seat-input" type="checkbox"></label>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<div class="box">
+					<div><img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%" /></div>
+					<p>黄山厅</p>
+				</div>
+				<!-- 循环 -->
+			</div>
+		</div>
+	</div>
+	<footer class="footer-cart">
+		<div class="btn">直接提交</div>
+		<div class="btn">去点菜</div>
+	</footer>
+</body>
+</html>

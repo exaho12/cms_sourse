@@ -1,0 +1,15 @@
+
+        <foreach name="cates" item="var2">
+            <eq name="var2.parent_id" value="$cate_id">
+                <li>
+                    <a href="<{:U('mart/index',array('cat'=>$var2['cate_id']))}>">
+                    <if condition="$var2.photo eq null">
+                    <else/>
+                    <img src="__ROOT__/attachs/<{$var2.photo}>">
+                    </if>
+                    
+                    <p><{$var2.cate_name}></p>
+                    </a>
+                </li>	
+            </eq>
+        </foreach>

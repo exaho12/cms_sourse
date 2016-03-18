@@ -1,0 +1,74 @@
+<include file='public:header'/>  
+<link rel="stylesheet" href="/static/default/wap/css/tieba.css">
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			提现
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">+</a>
+		</div>
+	</header>
+	
+    
+ <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button <if condition="$act eq index">bg-dot active</if>" href="<{:U('money/index')}>">余额日志</a>
+			<a class="block button <if condition="$act eq shopmoney">bg-dot active</if>" href="<{:U('money/shopmoney')}>">商家资金</a>
+			<a class="block button <if condition="$act eq tixianlog">bg-dot active</if>" href="<{:U('money/tixianlog')}>">提现日志</a>
+            <a class="block button <if condition="$act eq tixian">bg-dot active</if>" href="<{:U('money/tixian')}>">提现</a>
+		</div>
+	</div>
+</div>   
+    
+    
+<style>
+.button {
+    border-radius:0px;
+}
+</style>  
+ <div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active">亲，您当前共有：<{:round($money/100,2)}></a>
+		</div>
+	</div>
+</div>   
+
+
+	<form class="post-form" action="<{:U('money/tixian')}>" method="post" >
+        
+		
+	
+        <div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="money" placeholder="提现金额" />
+			</div>
+			<div class="x3 text-right">
+				
+			</div>
+		</div>
+        
+        
+      
+		<div class="blank-10 clearfix"></div>
+		
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<button class="button bg-green margin-small-right" type="submit">确认提现</button>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+				
+	</form>
+        
+
+
+
+
+		
+<include file="public:footer"/>

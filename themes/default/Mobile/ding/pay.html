@@ -1,0 +1,63 @@
+<include file='public:header'/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('ding/cart',array('shop_id'=>$shop['shop_id'],'yuyue_id'=>$yuyue['ding_id']))}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		订座提交
+	</div>
+</header>
+<div class="padding line border-bottom">
+	<span class="x3">就餐人数: </span>
+	<span class="x9"><span class="text-dot"> <{$room[$yuyue[number]]}></span></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">就餐时间: </span>
+	<span class="x9"><span class="text-dot"> <{$yuyue.last_date}>&nbsp;&nbsp;&nbsp;<{$cfg[$yuyue[last_t]]}></span></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">环境定制: </span>
+	<span class="x9"><span class="text-dot"> <if condition="$yuyue[room_id] gt 0"><{$room_d[$yuyue[room_id]]['name']}><span class="text-blue margin-left text-small">(该包厢最低消费 <{:round($room_d[$yuyue[room_id]]['money']/100,2)}>元)</span><else/>大厅</if></span></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">点菜情况: </span>
+	<span class="x9"><span class="text-dot"><if condition="$yuyue[menu]">已点<else/>未点</if></span></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">点菜金额: </span>
+	<span class="x9"><span class="text-dot"> <{:round($order['total_price']/100,2)}>元</span></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">收取定金: </span>
+	<span class="x9"><span class="text-dot"> <{:round($order['need_price']/100,2)}>元</span><span class="text-blue margin-left text-small">(该费用结账退还或抵消费费用)</span></span>
+</div>
+<div class="blank-10 bg"></div>
+
+<form class="pay-form" method="post" action="<{:U('ding/pay2',array('order_id'=>$order_id))}>">
+<div class="padding line border-bottom">
+	<span class="x3">联系姓名:</span>
+	<span class="x9"><input class="text-input" type="text" name="name" placeholder="请输入您的姓名" /></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">手机号码:</span>
+	<span class="x9"><input class="text-input" type="text" name="mobile" placeholder="请输入您的手机号码" /></span>
+</div>
+<div class="padding line border-bottom">
+	<span class="x3">性别称谓:</span>
+	<span class="x9"><label><input checked name="sex" value="1" type="radio"></label>先生 <label><input name="sex" value="2" type="radio"></label>女士</span>
+</div>					 
+<div class="padding line border-bottom">
+	<textarea class="text-area" name='tip' placeholder="如果您有其他问题，请写下来吧，我们会及时和您沟通.."></textarea>
+</div>	
+
+	<nav class="cart-bar">
+		<div class="cart">
+			<span class="text-dot">预付定金<{:round($order['need_price']/100,2)}>元</span>
+		</div>
+		<div class="result">
+			<button class="button bg-dot" type="submit">进入支付</a>
+		</div>
+	</nav>  
+</form>
+<body>
+</html>

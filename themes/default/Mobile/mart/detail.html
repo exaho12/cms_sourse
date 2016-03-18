@@ -1,0 +1,206 @@
+<php>$seo_title = $detail['title'];</php>
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mall/index',array('cat'=>$detail['cate_id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			商品详情
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" class="share-btn" id="share-btn"><i class="icon-share-alt"></i></a>
+		</div>
+	</header>
+	
+	<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3">
+					<img src="/static/default/wap/image/share/share-weibo.png" />
+					<p>新浪微博</p>
+				</li>
+				<li class="-mob-share-tencentweibo x3">
+					<img src="/static/default/wap/image/share/share-twb.png" />
+					<p>腾讯微博</p>
+				</li>
+				<li class="-mob-share-qzone x3">
+					<img src="/static/default/wap/image/share/share-qzone.png" />
+					<p>QQ空间</p>
+				</li>
+				
+				<li class="-mob-share-qq x3">
+					<img src="/static/default/wap/image/share/share-py.png" />
+					<p>QQ好友</p>
+				</li>
+				<li class="-mob-share-weixin x3">
+					<img src="/static/default/wap/image/share/share-weixin.png" />
+					<p>微信</p>
+				</li>
+				<li class="-mob-share-renren x3">
+					<img src="/static/default/wap/image/share/share-renren.png" />
+					<p>人人网</p>
+				</li>
+				<li class="-mob-share-kaixin x3">
+					<img src="/static/default/wap/image/share/share-kaixin.png" />
+					<p>开心网</p>
+				</li>
+				<li id="mui-card-close" class="mui-card-close x3">
+					<img src="/static/default/wap/image/share/share-close.png" />
+					<p>关闭</p>
+				</li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$(".share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+	
+		<div class="item-detail">
+			<div class="detail-pic">
+				 <img src="__ROOT__/attachs/<{$detail.photo}>" />
+			</div>
+			<div class="detail-row bb">
+				<div class="item-tit">
+					 <{$detail.title}>
+				</div>
+				<div class="item-share">
+					<a class="share-btn" href="javascript:;">
+						<i class="icon-share-alt"></i>
+						<span>分享</span>
+					</a>
+				</div>
+			</div>
+			<div class="detail-row bb">
+				<div class="item-price">
+					<p class="price">&yen; <{:round($detail['mall_price']/100,2)}></p>
+					<p class="discout">已经在原价基础上打<{:round($detail['mall_price']/$detail['price']*10,1)}>折</p>
+					<p class="sprice">
+						原价：<del>&yen; <{:round($detail['price']/100,2)}></del>
+						<span class="sellnum">销量 <{$detail['sold_num']}></span>
+					</p>
+				</div>
+			</div>
+			<div class="detail-row bb">
+				<div class="item-tips">
+					<em><span class="text-green"><i class="icon-check-circle"></i></span> 24小时内配送</em>
+					<em><span class="text-green"><i class="icon-check-circle"></i></span> 正品保障</em>
+					<em><span class="text-green"><i class="icon-check-circle"></i></span> 认证商家</em>
+				</div>
+			</div>
+		</div>
+
+		<div class="blank-10 bg"></div>
+	
+		<div class="item-shop">
+			<div class="shop-row">
+				<div class="shop-pic">
+					 <a href="<{:U('mart/dian',array('shop_id'=>$detail['shop_id']))}>"><img src="__ROOT__/attachs/<{$shop.photo}>" /></a>
+				</div>
+				<div class="shop-name">
+					<h2><a href="<{:U('mart/dian',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a></h2>
+					<span class="ui-starbar"><span style="width:<{:round($shop['score']*2,2)}>%"></span></span>
+				</div>
+			</div>
+			<div class="shop-desc">
+				<p>地址: <{$shop.addr}> 【<a class="text-blue" href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"><i class="icon-location-arrow"></i> 到这去</a>】</p>
+				<p>电话: <a class="text-blue" href="tel:<{$shop.tel}>"><{$shop.tel}></a>
+			</div>
+		</div>
+		
+		<div class="blank-10 bg"></div>
+		
+		<div class="item-intro">
+			<h2>商品介绍</h2>
+			<div class="intro-bd"><{$detail.details}></div>
+		</div>
+		
+		<div class="blank-10 bg"></div>
+		
+		<div class="item-intro">
+			<h2>购买须知</h2>
+			<div class="intro-bd"><{$detail.instructions}></div>
+		</div>
+		
+		<div class="blank-10 bg"></div>
+		
+		
+		<div class="item-list item-intro" id="item-list">
+			<h2>看了又看</h2>
+			<ul>
+			<volist name="recom" id="item" key="index">
+			<li class="line">
+				<a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">
+				<div class="x3">
+					<img src="__ROOT__/attachs/<{$item.photo}>" />
+				</div>
+				<div class="x9">
+					<h5><{$item.title}></h5>
+					<p class="desc"><{:bao_Msubstr($item[instructions],0,60)}></p>
+					<p class="info">
+						<span>&yen;<{:round($item['price']/100,2)}></span><del>&yen;<{:round($item['mall_price']/100,2)}></del>
+						<em>已售<{$item.sold_num}></em>
+					</p>
+				</div>
+				</a>
+			</li>
+			</volist>
+			</ul>
+		</div>
+
+    <script>
+        var num = '<{$cartnum}>';
+        $(document).ready(function (e) {
+            $(document).on('click','#add-cart',function(e){
+                e.preventDefault();
+                $.get($(this).attr('href'),function(data){
+                    if(data == 0){
+                        num++;
+                        $("#num").html(num);
+                        
+                    }else{
+                        alert(data);
+                    }
+                    
+                },'html');
+                
+            });
+        });
+    </script>
+	
+
+	
+	<nav class="cart-bar">
+		<a class="cart" href="<{:U('mall/cart')}>">
+			<i class="icon-shopping-cart"></i>
+			<div id="num" class="num"><{$cartnum}></div>件商品
+		</a>
+        <style>
+		.right10{ margin-right:5px;}
+		.button { padding: 6px 12px !important;}
+		</style>
+		<div class="result">
+			<a id="add-cart" href="<{:U('mall/cartadd',array('goods_id'=>$detail['goods_id']))}>">
+				<button class="button bg-dot right10">
+				  加入购物车
+				</button>
+			</a>
+			
+			<a href="<{:U('mall/buy',array('goods_id'=>$detail['goods_id']))}>">
+				<button class="button bg-dot">
+				  立即购买
+				</button>
+			</a>
+		</div>
+	</nav>	
+	
+</body>
+</html>

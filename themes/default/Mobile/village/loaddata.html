@@ -1,0 +1,16 @@
+<foreach name="list" item="var">
+<li class="line">
+	<a href="<{:U('village/detail',array('village_id'=>$var['village_id']))}>" class="item fix hightitem">	
+		<div class="x3">
+                    <img src="__ROOT__/attachs/<{$var.pic}>">
+		</div>
+		<div class="x9">	
+			<h5>社区村名称：<{$var.name}></h5>	
+                        <p><span class="float-right"><i class="icon-map-marker"></i> <{$var.d}></span>	</p>
+			<p class="addr">	
+				地址：<{$var.addr}>
+			</p>
+		</div>
+	</a>
+</li>
+</foreach>

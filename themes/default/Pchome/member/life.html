@@ -1,0 +1,65 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li><a  href="<{:U('member/myactivity')}>">我参加的活动</a></li>
+            <li class="on" ><a href="<{:U('member/life')}>" >我的信息</a></li>
+            <li><a href="<{:U('member/dianping')}>">我的点评</a></li>
+            <li><a href="<{:U('member/favorites')}>" >我的关注</a></li>
+            <li><a href="<{:U('member/bbs')}>">我的分享</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>标题</td>
+                <td>分类</td>
+                <td>地区</td>
+                <td>商圈</td>
+                <td>创建时间</td> 
+                <td>状态</td>
+                <td>推广</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrt">
+                    <td><{$var.title}></td>
+                    <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                    <td><{$areas[$var['area_id']]['area_name']}></td>
+                    <td><{$business[$var['business_id']]['business_name']}></td>
+                    <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    <td><eq name="var.audit" value="0">等待审核<else/>正常&nbsp;<a class="tgdd_nrt" href="<{:U('member/edit',array('life_id'=>$var['life_id']))}>">编辑</a></eq></td>
+                <td>
+                    <eq name="var.audit" value="1">
+                <if condition="$var['top_date'] EGT $today">
+                    <p style="margin-top: 10px; color: red;"> 
+                        已置顶(<{$var.top_date}>到期)
+                    </p>
+                    <else />
+                    <p>
+                        <a class="myInfor_sx" mini="act" href="<{:U('member/lifetop',array('life_id'=>$var['life_id'],'day'=>7))}>">置顶7天</a> <a mini="act" class="myInfor_sx" href="<{:U('member/lifetop',array('life_id'=>$var['life_id'],'day'=>30))}>">置顶30天</a>
+                    </p>
+                </if>
+                <if condition="$var['urgent_date'] EGT $today">
+                    <p style="margin-top: 10px; color: green;"> 
+                        已加急(<{$var.urgent_date}>到期)
+                    </p>
+                    <else/>
+                    <p style="margin-top: 10px;">
+                        <a mini="act" class="myInfor_sx" href="<{:U('member/lifeurgent',array('life_id'=>$var['life_id'],'day'=>7))}>">加急7天</a> <a mini="act" class="myInfor_sx" href="<{:U('member/lifeurgent',array('life_id'=>$var['life_id'],'day'=>30))}>">加急30天</a>
+                    </p>
+                </if>
+                </eq>
+
+                <p style="margin-top: 10px;">
+                    <a mini="act" class="myInfor_sx" href="<{:U('member/lifeflush',array('life_id'=>$var['life_id']))}>">免费刷新</a> 
+                </p>
+                </td>
+                </tr>
+            </foreach>
+        </table>    
+        <{$page}>
+    </div>
+</div> 
+</div>
+</body>
+</html>

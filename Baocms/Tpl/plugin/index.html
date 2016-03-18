@@ -1,0 +1,76 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">插件配置</li>
+        <li class="li2 li3">插件列表</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>插件中心配置后，可以在前台购买；如果说这个插件是模版必带的插件的话，那么这个功能可以不单独购买，可以在购买使用的模版中直接使用！</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('plugin/create','','添加内容')}>
+            </div>
+            <div class="right">
+                <form class="" method="post"  action="<{:U('plugin/index')}>"> 
+
+                    <div class="seleHidden" id="seleHidden">
+                        <span>关键字</span>
+                        <input type="text"  class="inptText" name="keyword" value="<{$keyword}>"  />
+
+                        <input type="submit" value=" 搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50"><input type="checkbox" class="checkAll" rel="plugin_id" /></td>
+                        <td class="w50">ID</td>
+                        <td>插件名称</td>
+                        <td>插件图标</td>
+                        <td>插件说明</td>
+                        <td>月价格</td>
+                        <td>操作</td>
+
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_plugin_id" type="checkbox" name="plugin_id[]" value="<{$var.plugin_id}>" /> </td>
+                            <td><{$var.plugin_id}></td>
+                            <td><{$var.plugin_name}></td>
+                            <td><img src="__ROOT__/attachs/<{$var.icon}>" class="w80" /></td>
+                            <td><{$var.contents}></td>
+                            <td><{$var.month_price}></td>
+
+                            <td>
+                                <{:BA('plugin/edit',array("plugin_id"=>$var["plugin_id"]),'编辑','','remberBtn')}>
+                                <{:BA('plugin/delete',array("plugin_id"=>$var["plugin_id"]),'删除','act','remberBtn')}>
+
+                            </td>
+                        </tr>
+                    </foreach>
+                    <tr>
+                        <td colspan="20">
+
+                            <{:BA('plugin/delete','','批量删除','list',' piliangcaozuo')}>
+
+                        </td>
+                    </tr>
+                </table>
+                <{$page}>
+
+            </div>
+
+
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

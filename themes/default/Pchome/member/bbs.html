@@ -1,0 +1,44 @@
+<include  file='member:head'/>    
+
+<div class="tgdd">
+  <div class="tgdd_t">
+    <ul>
+       <li><a  href="<{:U('member/myactivity')}>" target="main_frm">我参加的活动</a></li>
+      <li ><a href="<{:U('member/life')}>" target="main_frm">我的信息</a></li>
+      <li><a href="<{:U('member/dianping')}>" target="main_frm">我的点评</a></li>
+      <li><a href="<{:U('member/favorites')}>" target="main_frm">我的关注</a></li>
+      <li class="on"><a href="<{:U('member/bbs')}>" target="main_frm">我的分享</a></li>
+
+    </ul>
+  </div>
+  <div class="tgdd_nr">
+    <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+      <tr class="tgdd_nrt">
+    
+        <td>标题名称</td>
+        <td>作者</td>
+        <td>时间</td>
+        <td>回复</td>
+        <td>点击</td>
+
+      </tr>
+
+        <volist name="list" id="var">
+      <tr class="tgdd_nrC">
+        <td class="tgdd_nrCtd  bullionLog_td" style="width:300px"><{$var.title}></td>
+        <td class="tgdd_nrCtd  bullionLog_td"><{$users[$var['user_id']]['nickname']}></td>
+        <td class="tgdd_nrCtd  bullionLog_td"><{$var.create_time|date='Y-m-d H:i',###}></td>
+        <td class="tgdd_nrCtd  bullionLog_td"><{$var.reply_num}></td>
+        <td class="tgdd_nrCtd  bullionLog_td"><{$var.views}></td>
+  
+      </tr>
+                 </volist>
+    </table>
+    <{$page}>
+      
+    </div>
+  </div> 
+</div>
+</body>
+</html>
+

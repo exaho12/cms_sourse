@@ -1,0 +1,8 @@
+<foreach name="tops" item="item">
+    <li>
+        <sup style="display: none;"><{:msubstr($item['title'],0,9,'utf-8',false)}></sup><p>推广</p>
+        <a title="<{$item.title}>" href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank">
+            <img width="93" height="93" src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" />
+        </a>
+    </li>          
+</foreach>

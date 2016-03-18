@@ -1,0 +1,78 @@
+/*主页顶部*/
+.index-top{position:relative;border-bottom:thin solid #eee;}
+.index-top .top-a{height:200px;background:#E86131;}
+.index-top .top-b{background:#fafafa;height:110px;}
+.index-top .top-a .user{text-align:center;padding-top:30px;}
+.index-top .top-a .user .avatar{width:90px;height:90px;border-radius:90px;}
+.index-top .top-a .user .avatar img{width:90px;height:90px;border-radius:90px;overflow:hidden;border:3px solid #F6B0A5;}
+.index-top .top-a .user .info  p{color:#fff;margin:0;height:20px;line-height:20px;font-size:12px;}
+.index-top .top-a .user .info {margin:10px 0;}
+.index-top .top-a .user .info span{margin:0 5px;}
+.index-top .top-g{width:80%;background:blue;height:160px;position:absolute;bottom:30px;left:10%;}
+.index-top .top-g .btn{height:80px;text-align:center;display:block;padding:10px;color:#fff;}
+.index-top .top-g .btn i{font-size:30px;}
+.index-top .top-g .btn-1{color:#E86131;background:#fff;}
+.index-top .top-g .btn-2{background:#FFD43B;}
+.index-top .top-g .btn-3{background:#00B2F1;}
+.index-top .top-g .btn-4{background:#04C9FF;}
+.index-top .top-g .btn-5{background:#FFBA3F;}
+.index-top .top-g .btn-6{background:#62EB00;}
+.index-top .top-s {position:absolute;top:10px;right:20px;font-size:20px;color:#fff;}
+
+/*列表菜单*/
+.panel-list ul{padding:0;list-style:none;}
+.panel-list li{overflow:hidden;border-bottom:thin solid #eee;}
+.panel-list li i{float:right;color:#999;}
+.panel-list li span{float:left;width:30px;text-align:center;color:#999;font-size:16px;}
+.panel-list li a{display:block;padding:0 10px;height:50px;line-height:50px;width:100%;}
+.panel-list li em{float:right}
+
+
+.panel-sub ul{padding:0;list-style:none;}
+.panel-sub li{overflow:hidden;border-bottom:thin solid #eee;}
+.panel-sub li i{float:right;color:#999;}
+.panel-sub li span{float:left;width:30px;text-align:center;color:#999;font-size:16px;}
+.panel-sub li div{display:block;padding:0 10px;height:50px;line-height:50px;width:100%;}
+.panel-sub li em{float:right}
+
+
+
+/*切换TAB*/
+.tab-bar{text-align:center;padding:10px 0;background:#fafafa;border-bottom:thin solid #eee;}
+.tab-bar a{background:#fff;padding:8px 20px;}
+.tab-bar a:focus{border:none;border: 1px solid #EEE;}
+.tab-bar a.active{background:#E9553B;}
+
+/*带图列表*/
+.list-media-x ul{padding:0;list-style:none;}
+.list-media-x li{border-bottom:thin solid #eee;}
+.list-media-x p{margin:0;}
+
+/*批量传图*/
+#picker{display:inline-block;line-height:1.428571429;vertical-align:middle;margin:0 12px 0 0;}
+#picker .webuploader-pick{padding:6px 12px;display: block;}
+.uploader .thumbnail{width:25%;max-height:100px;}
+.uploader .thumbnail img{width:95%;height:100px;background:url("../image/tieba/loading.png") center no-repeat;}
+.uploader-list{width:100%;overflow:hidden;background:#fff;}
+.file-item{float:left;position:relative;background:#fff;margin-top:10px;}
+.upload-state-done:after{content:"\f00c";font-family:FontAwesome;font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:grayscale;font-size:16px;position: absolute;bottom: 0;right:10%;color:#4cae4c;z-index:99;}
+
+/*团购卡片*/
+.tuan-card{height:140px;padding:10px;}
+.tuan-card .card-r{margin:10px 0;width:100%;border-left:thin dashed #eee;height:100px;text-align:center;padding:10px 0;}
+.tuan-card .card-r a{display:block;width:100%;}
+.tuan-card .card-r img{width:60px;height:60px;}
+.tuan-card .card-r p{font-size:12px;color:#999;}
+.tuan-card .card-l{margin:10px 0;width:100%;height:100px;}
+.tuan-card .card-l .price{text-align:center;width:100%;display:block;color:#FF9999;}
+.tuan-card .card-l .price small{font-size:20px;color:#999;}
+.tuan-card .card-l .price em{font-size:45px;font-family:SimSun;font-weight:bolder;}
+.tuan-card .card-l .name{text-align:center;width:100%;display:block;color:#FF9999;}
+.tuan-card .card-l .name em{font-size:20px;}
+.tuan-card .card-l p{font-size:12px;color:#999;text-align:center;margin:0;}
+
+
+/*表单样式*/
+.text-input {border:none;width:100%;}
+.text-select{border:none;width:100%;background:#fff!important;}
+.text-area{width:100%;border:none;resize:none;padding:10px;}

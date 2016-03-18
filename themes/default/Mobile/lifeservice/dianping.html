@@ -1,0 +1,31 @@
+<include  file='public:header'/>  
+<script src="/static/default/wap/js/dialog.js"></script>
+<link href="/static/default/wap/css/dianping.css" rel="stylesheet">
+<style>
+.container { margin-top: 0rem;}
+</style>
+
+	
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('lifeservice/detail',array('id'=>$detail['id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			家政点评
+		</div>
+        <div class="top-ping">
+       <!-- <a href="<{:U('mcenter/tuan/index/')}>" class="top-addr icon-pencil"> 评论</a>-->
+		</div>
+	</header>
+  
+	
+ <div id="coupon-list" class="coupon-list2"></div>
+    <script>
+        $(document).ready(function () {
+            loaddata('<{:U("lifeservice/dianpingloading",array("id"=>$detail["id"],"p"=>"0000"))}>', $("#coupon-list"), true);
+        });
+    </script>
+	
+
+
+<include  file='public:footer'/>   

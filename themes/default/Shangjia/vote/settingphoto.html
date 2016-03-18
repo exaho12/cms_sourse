@@ -1,0 +1,87 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">插件</a> > <a href="">投票功能</a> > <a>设置选项</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+    <span>注意：</span> 投票需要在设置选项后才能启用
+ </div>
+    </div> 
+    <div class="tabnr_change show">
+    <form  target="baocms_frm" action="<{:U('vote/setting',array('vote_id'=>$detail['vote_id']))}>" method="post">
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+            <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+            <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+
+            <div>
+                <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+            </div>
+            <script>
+                var num = "<{:count($options)}>";
+                    $("#logo_file").uploadify({
+                        'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                        'uploader': '<{:U("app/upload/uploadify",array("model"=>"votepic"))}>',
+                        'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                        'buttonText': '上传图片',
+                        'fileTypeExts': '*.gif;*.jpg;*.png',
+                        'queueSizeLimit': 10,
+                        'onUploadSuccess': function (file, data, response) {
+                            num++;
+                            var str = '<tr><td><img src="__ROOT__/attachs/' + data + '" /><input type="hidden"  name="data[' + num + '][photo]" value="' + data + '"/></td>';
+                            str += ' <td><input type="text" name="data[' + num + '][title]" /></td>';
+                            str += ' <td><input type="text" name="data[' + num + '][orderby]" /></td>';
+                            str += ' <td><a class="jq_delete" href="javascript:void(0);">删除</a></td></tr>';
+                            $(".jq_table").append(str);
+
+                        }
+                    });
+
+                    $(document).on("click", ".jq_delete", function () {
+                        $(this).parent().parent().remove();
+                    });
+
+            </script>
+            </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class='jq_table rembertable' cellpadding="0" cellspacing="0" width="600">
+                        <tr>
+                            <th width='200' >图片</th>
+                            <th width='200'>标题</th>
+                            <th width="100">排序</th>
+                            <th width='100'>操作</th>
+                        </tr>
+                        <php>$i=0;</php>
+                        <foreach name="options" item="item">
+                            <php>$i++;</php>
+                            <tr>
+                                <td><input type='hidden' name="data[<{$i}>][photo]" value='<{$item.photo}>' /><img src="__ROOT__/attachs/<{$item.photo}>" /></td>
+                                <td><input type="text" name="data[<{$i}>][title]" value='<{$item.title}>' /></td>
+                                <td><input type="text" name="data[<{$i}>][orderby]" value='<{$item.orderby}>' /></td>
+                                <td><a class="jq_delete" href="javascript:void(0);">删除</a></td>                                
+                            </tr>
+                        </foreach>
+
+
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <input  type="submit" class="radius3 sjgl_an tuan_topbt" value="确认保存"  />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

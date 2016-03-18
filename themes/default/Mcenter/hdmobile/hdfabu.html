@@ -1,0 +1,136 @@
+<include  file='public:header'/>    
+<body>
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('mcenter/index')}>"><img  src="__TMPL__statics/img/back_icon.png"></a>
+            约会发布
+        </div>
+    </header>
+
+    <iframe id="baocms_frm" name="baocms_frm" style="display:none;"></iframe>
+    <section class="life_fabu">
+
+        <div class="fabu_lists">
+            <form method="post" target="" action="<{:U('member/hdfabu')}>"  >
+                <div class="load">    
+                    <div class="camera">
+                        <input type="file" id="fileToUpload" name="fileToUpload" data-role="none">
+                    </div>
+                    <div class="loading" style="display: none;"><img src="__TMPL__statics/img/loading.gif"/></div>
+                </div>
+                <div class="photo_bg">
+                    <div class="photo">
+
+                    </div>
+                </div>
+                <script type="text/javascript" src="__TMPL__statics/js/ajaxfileupload.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        function ajaxupload() {
+                            $(".loading").show();
+                            $.ajaxFileUpload({
+                                url: '<{:U("app/upload/upload",array("model"=>"huodong"))}>',
+                                type: 'post',
+                                fileElementId: 'fileToUpload',
+                                dataType: 'text',
+                                secureuri: false, //一般设置为false
+                                success: function (data, status) {
+                                    $(".loading").hide();
+                                    var str = '<div class="box"><img  src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="data[photo]" value="' + data + '" /></div>';
+                                    $(".photo").append(str);
+                                    $("#fileToUpload").unbind('change');
+                                    $("#fileToUpload").change(function () {
+                                        ajaxupload();
+                                    });
+                                }
+                            });
+                        }
+                        $("#fileToUpload").change(function () {
+                            ajaxupload();
+                        });
+                        $(document).on("click", ".photo img", function () {
+                            $(this).parent().remove();
+                        });
+                    });
+                </script>
+
+
+                <label class="bt" for="title">标题</label>
+                <input data-role="none" type="text" name="data[title]" value=""  >
+                <label class="bt" for="time">活动时间</label>
+                <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+                <input type="text" name="data[time]" value="" onFocus="WdatePicker({startDate: '%y-%M-%d H', dateFmt: 'yyyy-MM-dd H', alwaysUseStartDate: true});"  class="inputData" />
+
+                <label class="bt" for="title">活动位置</label>
+                <input data-role="none" name="data[addr]" type="text"  >
+
+
+                <script>
+                    $(document).ready(function () {
+                        $(".selectOption").click(function () {
+                            $(this).parent().find(".option").toggle();
+                        });
+
+
+                        $("#option1 li").click(function () {
+                            $(this).parents(".select").find(".selectOption").html($(this).html());
+                            $("#cate_id").val($(this).attr('rel'));
+                            $(this).parents("#option1").hide();
+                        });
+                        $("#option2 li").click(function () {
+                            $(this).parents(".select").find(".selectOption").html($(this).html());
+                            $("#sex").val($(this).attr('rel'));
+                            $(this).parents("#option2").hide();
+                        });
+                    });
+                </script> 
+
+                <label class="bt" for="title">活动类型</label>
+                <!--<select name="data[cate_id]" id="cate__id" >
+                    <option value="0">请选择...</option>
+                    <foreach name="getHuoCate" item="var" key='index'>
+                        <option value="<{$index}>"><{$var}></option>
+                    </foreach>   
+                </select>-->
+                <div  class="select fabu_sele" style="float:none;">
+                    <span  class="selectOption" style="display:block; height:34px;">请选择...</span>
+                    <input type="hidden" id="cate_id" name="data[cate_id]" value=""/>
+                    <div class="option" id="option1" style="top:34px;">
+                        <ul>
+                            <foreach name="getHuoCate" item="var">
+                                <li style="line-height:34px;" rel="<{$index}>" class="optionLi"><{$var}></li>
+                            </foreach>   
+                        </ul>
+                    </div>
+                </div>
+                <label class="bt" for="title">对象</label>
+                <!--<select name="data[sex]" id="sex" >
+                    <option value="0">请选择...</option>
+                    <foreach name="getPeopleCate" item="var" key="index">
+                        <option value="<{$index}>"><{$var}></option>
+                    </foreach> 
+
+                </select>-->
+                <div  class="select fabu_sele" style="float:none;">
+                    <span  class="selectOption" style="display:block; height:34px;">请选择...</span>
+                    <input type="hidden" id="sex" name="data[sex]" value=""/>
+                    <div class="option" id="option2" style="top:34px;">
+                        <ul>
+                            <foreach name="getPeopleCate" item="var">
+                                <li style="line-height:34px;" rel="<{$index}>" class="optionLi"><{$var}></li>
+                            </foreach>   
+                        </ul>
+                    </div>
+                </div>
+                <label class="bt" for="title">简介</label>
+
+                <textarea name="data[intro]" placeholder="请输入内容" style="width: 100%;" rows="5"></textarea>
+
+
+                <input class="btn" type="submit" value="免费发布" name="" />
+
+
+            </form>
+        </div>
+
+    </section>

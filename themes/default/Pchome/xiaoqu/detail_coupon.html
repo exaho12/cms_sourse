@@ -1,0 +1,28 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box xiaoqu-tuan-list">
+			<div class="box-hd box-ld">
+				<h3>附近优惠</h3>
+			</div>
+			<div class="box-bd">
+				<ul class="line">
+					<volist name="coupon" id="item" key="index">
+					<li class="x3">
+						<div class="tuan-item">
+							<a class="item-pic" href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>" target="_blank">
+								<img src="/attachs/<{$item.photo}>" alt="<{$item.title}>" />
+							</a>
+							<h2><a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>" target="_blank"><{$item.title}></a></h2>
+							<p><{$item.intro}></p>
+							<div class="item-des">
+								<span>智惠时限<em><{$item.expire_date}></em></span>
+								<i>受惠<em><{$item.downloads}></em>人</i>
+							</div>
+						</div>
+					</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

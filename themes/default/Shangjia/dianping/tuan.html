@@ -1,0 +1,84 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="javascript:void(0);">评价管理</a> > <a href="javascript:void(0);">抢购点评</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">如果收到恶意评价，可以联系网站客服：<{$CONFIG.site.tel}></div>
+        </div>
+    </div>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('dianping/index')}>">商家点评</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('dianping/tuan')}>">抢购点评</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('dianping/mall')}>">商城点评</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('dianping/waimai')}>">外卖点评</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('dianping/ding')}>">订座点评</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>编号</td>
+            <td>用户</td>
+            <td>评分</td>
+            <td>平均花费</td>
+            <td>评价时间</td>
+            <td>评价IP</td>
+            <td>生效日期</td>
+            <td style=" border-right: solid 1px #e1e6eb;" >操作</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr  style="background-color: #F9F9F9;">
+                <td style="width: 100px;"><{$var.order_id}></td>
+                <td><{$users[$var['user_id']]['nickname']}>(ID:<{$var.user_id}>)</td>
+                <td><{$var.score}></td>
+                <td><{$var.cost}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+                <td><{$var.show_date}></td>
+                <td style=" border-right: solid 1px #e1e6eb;" >
+            <if condition="empty($var['reply'])">
+                <a mini="load" h="400" w="500" href="<{:U('dianping/tuanreply',array('order_id'=>$var['order_id']))}>">回复</a>
+            </if>
+            </td>   
+            </tr>
+            <tr>
+                <td>
+                    <h1>评价</h1>
+                </td>
+                <td colspan="8" class="html_contents" style="text-align: left;">
+                    <{$var.contents}>
+                </td>
+            </tr>
+            <if condition="!empty($var['reply'])">
+                <tr>
+                    <td>
+                        <h1   style=" color:#F00; font-weight:bold;">商家回复：</h1>
+                    </td>
+                    <td colspan="8"  style="text-align: left; color:#F00; font-weight:bold;" class="html_contents">
+                        <{$var.reply}>
+                    </td>
+                </tr>
+            </if>
+            <if condition="!empty($var['pichave'])">
+                <tr>
+                    <td>
+                        <h1>图片</h1>
+                    </td>
+                    <td colspan="8"  style="text-align: left;" class="html_contents">
+                        <foreach name="pics" item="item">
+                            <if condition="$var['order_id'] eq $item['order_id']">
+                                <img src="__ROOT__/attachs/<{$item['pic']}>" width="120" height="80"/>
+                            </if>
+                        </foreach>
+                    </td>
+                </tr>
+            </if>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

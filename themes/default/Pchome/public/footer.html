@@ -1,0 +1,133 @@
+
+<if condition="$ctl eq index">
+        <div class="foot_yqlj">
+            友情链接：
+            <calldata mdl="Links" where="" limit="0,10" cache="21600" order="orderby asc">
+                <a target="_blank" href="<{$item.link_url}>"><{$item.link_name}></a>
+            </calldata>
+        </div>
+    </if>
+
+<div class="footer-content">
+<div id="footer" class="footer">
+<div class="footer-inner clearfix flexible">
+<div class="footer-size">
+<h3>公司信息</h3>
+<ul>
+ <li><a target="_blank" title="关于我们" href="<{:U('article/system',array('content_id'=>1))}>">关于我们</a></li>
+<li><a target="_blank" title="联系我们" href="<{:U('article/system',array('content_id'=>3))}>">联系我们</a></li>
+<li><a target="_blank" title="人才招聘" href="<{:U('article/system',array('content_id'=>2))}>">人才招聘</a></li>
+<li><a target="_blank" title="免责声明" href="<{:U('article/system',array('content_id'=>6))}>">免责声明</a></li>
+</ul>
+</div>
+<div class="footer-size-2">
+<h3>商户合作</h3>
+<ul>
+<li><a href="<{:U('shop/apply')}>">商家入驻</a></li>
+<li><a target="_blank" title="广告合作" href="<{:U('article/system',array('content_id'=>5))}>">广告合作</a></li>
+<li><a href="<{:U('news/index')}>">商家新闻</a></li>
+</ul>
+</div>
+<div class="footer-size-2">
+<h3>用户帮助</h3>
+<ul>
+<li><a target="_blank" title="服务协议" href="<{:U('article/system',array('content_id'=>7))}>">服务协议</a></li>
+<li><a target="_blank" title="退款承诺" href="<{:U('news/index')}>">退款承诺</a></li>
+</ul>
+</div>
+<div class="footer-size-2">
+<h3>关于我们</h3>
+<ul>
+ <li><a target="_blank" title="关于我们" href="<{:U('community/index')}>">智慧小区</a></li>
+<li><a target="_blank" title="联系我们" href="<{:U('news/index')}>">旅游信息</a></li>
+<li><a target="_blank" title="人才招聘" href="<{:U('pchome/life/main')}>">分类信息</a></li>
+</ul>
+</div>
+<div class="footer-size-3">
+<h3><{$CONFIG.site.tel}></h3>
+<ul>
+<li>周一至周日&nbsp;9:00-22:00</li>
+<li>客服电话&nbsp;免长途费</li>
+</ul>
+<a href="##" class="mobile-btn">手机专享优惠</a>
+</div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="copyright-info">
+<div class="site-info">
+<span class="copyright">
+©</span>2015&nbsp;<{$Think.SERVER.HTTP_HOST}>&nbsp;<{$CONFIG.site.sitename}>版权所有 - <{$CONFIG.site.icp}> 
+<{$CONFIG.site.tongji}>
+</div>
+
+</div>
+</div>
+
+<div class="topUp">
+    <ul>
+        <li class="topBack"><div class="topBackOn">回到<br />顶部</div></li>
+        <li class="topUpWx"><div class="topUpWxk"><img src="__PUBLIC__/img/wx.png" width="149" height="149" /><p>扫描二维码关注微信</p></div></li>
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 100) {
+                $(".topUp").show();
+                $(".indexpop").show();
+            } else {
+                $(".topUp").hide();
+                $(".indexpop").hide();
+            }
+            var ctl = "<{$ctl}>";
+            if(ctl == 'coupon'){
+                if ($(window).scrollTop() > 665) {
+                    $(".spxq_xqT2").show();
+                } else {
+                    $(".spxq_xqT2").hide();
+                }
+            }else{
+                if ($(window).scrollTop() > '<{$height_num}>') {
+                    $(".spxq_xqT2").show();
+                } else {
+                    $(".spxq_xqT2").hide();
+                }
+            }
+        });
+
+        $(".topBack").click(function () {
+           $("html,body").animate({scrollTop: 0}, 200);
+        });
+		$(window).scroll(function(){
+			var top = $(document).scrollTop();          //定义变量，获取滚动条的高度
+			var menu = $(".topUp");                      //定义变量，抓取topUp
+			var items = $(".footerOut");    //定义变量，查找footerOut 
+			items.each(function(){
+				var m=$(this);
+				var itemsTop = m.offset().top;      //定义变量，获取当前类的top偏移量
+				if(itemsTop-360 <= top-360){
+					menu.css('bottom','360px');
+					menu.css('top','auto');
+				}else{
+					menu.css('bottom','0px');
+					menu.css('top','auto');
+				}
+			});
+		});		
+    });
+</script>
+	
+
+
+
+	
+
+	
+
+	<script src="/static/default/pc/js/mod/<{$ctl}>.js"></script>
+
+	</body>
+
+</html>

@@ -1,0 +1,162 @@
+
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			同城微店
+		</div>
+        <div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+        
+	</header>
+    
+    
+    <style>
+	.serch-bar-mask-list li.on {
+    background: #06c1ae !important;
+}
+	.serch-bar-mask-list li.on a {
+     color:#fff
+}
+.serch-bar-mask-list li.hui{ background-color:#f5f5f5}
+	</style>
+<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3">
+					<img src="/static/default/wap/image/share/share-weibo.png" />
+					<p>新浪微博</p>
+				</li>
+				<li class="-mob-share-tencentweibo x3">
+					<img src="/static/default/wap/image/share/share-twb.png" />
+					<p>腾讯微博</p>
+				</li>
+				<li class="-mob-share-qzone x3">
+					<img src="/static/default/wap/image/share/share-qzone.png" />
+					<p>QQ空间</p>
+				</li>
+				
+				<li class="-mob-share-qq x3">
+					<img src="/static/default/wap/image/share/share-py.png" />
+					<p>QQ好友</p>
+				</li>
+				<li class="-mob-share-weixin x3">
+					<img src="/static/default/wap/image/share/share-weixin.png" />
+					<p>微信</p>
+				</li>
+				<li class="-mob-share-renren x3">
+					<img src="/static/default/wap/image/share/share-renren.png" />
+					<p>人人网</p>
+				</li>
+				<li class="-mob-share-kaixin x3">
+					<img src="/static/default/wap/image/share/share-kaixin.png" />
+					<p>开心网</p>
+				</li>
+				<li id="mui-card-close" class="mui-card-close x3">
+					<img src="/static/default/wap/image/share/share-close.png" />
+					<p>关闭</p>
+				</li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+    
+    
+ 	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x6"><span>选择分类</span><i></i></li>
+			<li class="x6"><span>推荐排序</span><i></i></li>
+		</ul>
+	</div>
+    
+    <div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+
+				<li class="<if condition='empty($cat)'>on</if> "><a href="<{:U('mobile/mart/index')}>" >全部</a></li>
+			 
+				<foreach name="cates" item="item">
+					<eq name="item.parent_id" value="0"> 
+						<li class="hui <if condition="$item.cate_id eq $cat">on</if> "><a title="<{$item.cate_name}>" href="<{:LinkTo('mart/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>                    </eq>
+                        
+                        <foreach name="cates" item="var2">
+                                <eq name="var2.parent_id" value="$item.cate_id">
+                               <li class="<if condition="$var2.cate_id eq $cat">on</if> "><a  style="margin-left:20px;" title="<{$var2.cate_name}>" href="<{:LinkTo('mart/index',$linkArr,array('cat'=>$var2['cate_id']))}>"><{$var2.cate_name}></a></li>
+                              
+                                </eq>
+                            </foreach>
+					
+				</foreach>
+				
+			</ul>
+		</div>
+		
+		<div class="serch-bar-mask-list">
+			<ul>
+          
+            
+<li <if condition="$order eq 1">class="on"</if>><a href="<{:LinkTo('mart/index',array('cat'=>$cat,'order'=>1))}>">距离优先</a></li>
+<li <if condition="$order eq 2">class="on"</if>><a href="<{:LinkTo('mart/index',array('cat'=>$cat,'order'=>2))}>">其他排序</a></li>
+
+
+			</ul>
+		</div>
+	</div>
+    
+    <script>
+		$("#search-bar li").each(function(e){
+			$(this).click(function(){
+				if($(this).hasClass("on")){
+					$(this).parent().find("li").removeClass("on");
+					$(this).removeClass("on");
+					$(".serch-bar-mask").hide();
+				}
+				else{
+					$(this).parent().find("li").removeClass("on");
+					$(this).addClass("on");
+					$(".serch-bar-mask").show();
+				}
+				$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+					
+					if(e==i){
+						$(this).parent().find(".serch-bar-mask-list").hide();
+						$(this).show();
+					}
+					else{
+						$(this).hide();
+					}
+					$(this).find("li").click(function(){
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+					});
+				});
+			});
+		});
+	</script>  
+<div class="blank-40"></div>	
+    <ul class="shop-list" id="shop-list"></ul>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+	<!--<div class="mall-cart">
+		<a href="<{:U('mart/cart')}>">
+		<div class="round radius-circle bg-green"><div class="badge-corner"><i class="icon-shopping-cart"></i><span class="badge bg-red"><{$cartnum}></span></div></div>
+		</a>
+	</div>-->
+<include file="public:footer"/>

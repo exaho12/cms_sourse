@@ -1,0 +1,36 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li><a href="<{:U('member/ordercode')}>">我的抢购券</a></li>
+            <li  class="on"><a href="<{:U('member/coupon')}>">优惠卷下载</a></li>
+            <li><a href="<{:U('member/exchange')}>">我的兑换</a></li>
+            <li><a href="<{:U('member/yuyue')}>">我的预约</a></li>
+        </ul>
+    </div>
+    <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+      <tr class="tgdd_nrt">
+        <td>优惠券</td>
+        <td>商铺名</td>
+        <td>优惠券代码</td>
+        <td>状态</td>
+        <td>&nbsp;</td>
+      </tr>
+      <volist name="list" id="var">
+      <tr class="tgdd_nrC" style="margin-top:10px;">
+        <td style="text-align:left;" width="220"><div class="tgdd_tw">
+          <div class="left"><a  target="_blank"  href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$coupons[$var['coupon_id']]['photo']}>" width="81" height="50" /></a><span class="Thevoucher_time">有效期至:<{$coupons[$var['coupon_id']]['expire_date']}></span></div>
+        </div></td>
+        <td class="tgdd_nrCtd"><a  target="_blank"  href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>" class="Thevoucher_spm"><{$shops[$var['shop_id']]['shop_name']}></a></td>
+        <td class="tgdd_nrCtd"><{$var.code}></td>
+        <td class="tgdd_nrCtd"><eq name="var.is_used" value="0">未使用<else/>已使用</eq><a class="orderDet" href=""></a></td>
+        <td>&nbsp;</td>
+      </tr>
+      </volist>
+    </div>
+  </div> 
+</div>
+</table>
+<{$page}>
+</body>
+</html>

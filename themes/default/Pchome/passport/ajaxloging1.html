@@ -1,0 +1,59 @@
+<div class="ajax-login">
+<div class="dialog show radius">
+	<div class="dialog-head">
+		<span class="dialog-close close rotate-hover"></span>
+		<strong>用户登陆</strong>
+	</div>
+	<div class="dialog-body">
+		<div class="line">
+			<div class="x8">
+				 <form id="login-form" class="form-auto mr-10"  action="<{:U('passport/login3')}>" method="post" target="x-frame">
+					<div class="form-group">
+						<div class="field field-icon">
+							<input type="text" class="input" id="account" name="account" size="40" data-validate="required:必填信息" placeholder="手机/邮箱/账号" />
+							<span class="icon icon-user"></span>
+						</div>
+					</div>
+					<div class="form-group field-icon">
+						<div class="field">
+							<input type="password" class="input" id="password" name="password" size="40" data-validate="required:必填信息" placeholder="请输入密码" />
+							<span class="icon icon-key"></span>
+						</div>
+					</div>
+					<div class="form-group field-icon">
+						<div class="field">
+							<input type="text" class="input" id="yzm" name="yzm" size="10" data-validate="required:必填信息" placeholder="输入验证码" />
+							<span class="icon icon-hand-o-right"></span>
+							<a rel="niu_img_code" class="yzm_code" href="javascript:void(0);"><img id="niu_img_code" src="__ROOT__/index.php?g=app&m=verify&a=index&mt=<{:time()}>" /></a>
+							(点击图片更换)
+						</div>
+					</div>
+					<div class="form-group field-icon">
+						<p class="text-right"><a href="<{:U('passport/forget')}>" target="_blank">忘记密码</a></p>
+					</div>
+					<div class="form-button">
+						<button class="button bg-yellow" type="submit">提交登录</button>
+					</div>
+				</form>
+			</div>
+			<div class="x4">
+				<div class="ml-10 mr-10">
+					<a class="button button-block text-center bg-dot" href="<{:U('passport/register')}>">注册帐号</a>
+					<div class="blank-10"></div>
+					<p>合作帐号登录：</p>
+
+					<a class="button button-block text-center bg-sub" href="<{:U('passport/qqlogin')}>"><span class="icon-qq"></span> QQ帐号登录</a>
+					<div class="blank-10"></div>
+			
+					
+					<a class="button button-block text-center bg-main" href="<{:U('passport/wxlogin')}>"><span class="icon-weixin"></span> 微信帐号登录</a>
+					<div class="blank-10"></div>
+				
+					
+					<a class="button button-block text-center bg-dot" href="<{:U('passport/wblogin')}>"><span class="icon-weibo"></span> 新浪微博登录</a>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

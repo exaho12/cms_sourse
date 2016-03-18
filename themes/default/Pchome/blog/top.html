@@ -1,0 +1,58 @@
+<div class="top">
+    <div class="top_left">
+        <if condition="!empty($MEMBER)">
+            欢迎<b style="color: red;"><{$MEMBER.nickname}></b>来到<{$CONFIG.site.sitename}>&nbsp;&nbsp;
+            <a href="<{:U('member/index')}>" >个人中心</a>
+            <a href="<{:U('passport/logout')}>" >退出登录</a>
+            <else/>
+            欢迎来到<{$CONFIG.site.sitename}>，请 
+            <a href="<{:U('passport/login')}>" target="_blank">[登录]</a>
+            或 
+            <a href="<{:U('passport/register')}>" target="_blank">[注册]</a>
+        </if>
+
+    </div>
+    <div class="top_right">
+
+        <div id="topNav-inner-new" >
+            <ul class="topNav-right">
+                <li class="user-orders"><a  href="<{:U('index/index')}>">网站首页</a></li>
+                <li class="line">|</li>
+                <li class="dropdown"> <a href="<{:U('member/index')}>" class="dropdown-tog"> <span>我的本地生活</span> <i class="tri tri-dropdown"></i> </a>
+                    <ul class="dropdown-menu dropdown-menu-text dropdown-menu-account account-menu">
+                        <li><a href="<{:U('member/order')}>" class="dropdown-menu-item first">我的订单</a></li>
+                        <li><a href="<{:U('member/dianping')}>" class="dropdown-menu-item">我的评价</a></li>
+                        <li><a href="<{:U('member/integral')}>" class="dropdown-menu-item">我的积分</a></li>
+                        <li><a href="<{:U('member/coupon')}>" class="dropdown-menu-item">优惠券</a></li>
+                        <li><a href="<{:U('member/money')}>" class="dropdown-menu-item">预存款</a></li>
+                    </ul>
+                </li>
+                <li class="line">|</li>
+                <li class="dropdown dropdown-cart"> <a href="<{:U('mall/cart')}>" class="dropdown-tog"> <i class="icon icon-cart"><img src="__TMPL__statics/images/gw.png" width="13" height="12" /></i> <span>购物车<em class="badge"><strong class="cart-count">0</strong>件</em></span> <i class="tri tri-dropdown"></i> <i class="vertical-bar"></i> </a>
+                    <div class="dropdown-menu dropdown-menu-deal dropdown-menu-cart" style="padding:10px 0;">
+                        <p class="dropdown-menu-empty">暂时没有商品</p>
+                    </div>
+                </li>
+                
+                <script>
+                    $(document).ready(function(){
+                        $.get("<{:U('mall/ajaxcartlist',array('t'=>$nowtime))}>",function(data){
+                            $(".dropdown-menu-cart").html(data);
+                        },'html');    
+                    });
+                </script>
+
+                <li class="line">|</li>
+                <li class="dropdown dropdown-account"> <a href="<{:U('shangjia/index/index')}>" class="dropdown-tog"> <span>我是商家</span> <i class="tri tri-dropdown"></i> </a>
+                    <ul class="dropdown-menu dropdown-menu-text dropdown-menu-account account-s">
+                        <li><a  class="dropdown-menu-item1 first" href="<{:U('shangjia/login/index')}>">商家登录</a></li>
+                        <li><a href="<{:U('shop/apply')}>" class="dropdown-menu-item1">申请合作</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+        <!--导航结束-->
+    </div>
+</div>

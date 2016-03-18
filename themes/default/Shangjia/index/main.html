@@ -1,0 +1,262 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+<script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+<style>
+.sy_c1Li {width: 1000px;}
+</style>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家中心首页</a>
+		</li>
+    </ul>
+</div>
+<div class="sy_content">
+
+<div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+        <div class="left tuan_topser_l">欢迎使用<strong class="green"><{$CONFIG.site.title}>商户中心</strong> , 为您的营销插上翅膀!	
+        <if condition="empty($MEMBER['email'])">
+		<i class="icon-remove red"></i> 您还没有通过邮箱认证，<a  target="_blank" href="<{:U('member/set/email')}>">立刻认证</a>
+		</if>
+		<if condition="empty($MEMBER['mobile'])">
+		<i class="icon-remove red"></i> 您还没有通过手机认证，<a  target="_blank" href="<{:U('member/set/mobile')}>">立刻认证</a>
+		</if>
+            
+            
+            </div>
+        </div>
+    </div> 
+    
+    
+    <div class="sy_c1">
+        <ul>
+            <li class="left sy_c1Li">
+                <table class="tuan_table" width="100%" border="1" cellspacing="0" cellpadding="0">
+        <tbody><tr style="background-color:#eee;">
+            <td>项目</td>
+            <td>总数据</td>
+            <td>今日数据</td>
+            <td width="70">操作</td>
+        </tr>
+        <tr>
+            </tr>
+            
+             <tr>
+                <td>抢购</td>
+                <td><{$counts['tuan']}>条抢购，<{$counts['tuan_audit']}>条待审核,总<{$counts['tuan_order']}>订单</td>
+                <td>今日<{$counts['totay_tuan_order']}>单 ，<{$counts['tuan_order_code_is_used']}>单未验证 <{$counts['tuan_order_code_status']}>单退款中</td>
+                <td><a target="main_frm" href="<{:U('tuan/index')}>">详情</a></td>
+            </tr>
+            <tr>
+                <td>优惠劵</td>
+                <td><{$counts['coupon']}>条优惠劵，<{$counts['coupon_audit']}>条待审核</td>
+                <td>今日<{$counts['totay_coupon_download']}>人下载，总下载：<{$counts['coupon_download']}>次，<{$counts['coupon_is_used']}>人未验证。</td>
+                <td><a target="main_frm" href="<{:U('coupon/index')}>">详情</a></td>
+            </tr>
+            <if condition="!empty($wd)"><!--如果商户开通商城-->
+            <tr>
+                <td>商城</td>
+                <td><{$counts['goods']}>个商品，<{$counts['goods_audit']}>个待审核，总<{$counts['goods_order']}>个商城订单</td>
+                <td>今日<{$counts['totay_goods_order']}>人下单，正在配送<{$counts['goods_order_two']}>单，已完成<{$counts['goods_order_three']}>单</td>
+                 <td><a target="main_frm" href="<{:U('order/index')}>">详情</a></td>
+            </tr>
+            <else/></if>
+            
+             <if condition="!empty($waimai)"><!--如果商户开通外卖-->
+             <tr>
+                <td>外卖</td>
+                <td><{$counts['ele']}>条外卖，<{$counts['ele_audit']}>菜品未审核</td>
+                <td>今日<{$counts['totay_ele_order']}>人点餐，<{$counts['ele_order']}>总外卖订单<br/>
+                	<{$counts['totay_ele_order']}>单等待处理，<{$counts['totay_ele_order']}>单配送中，<{$counts['totay_ele_order']}>单配送完成。</td>
+                <td><a target="main_frm" href="<{:U('order/index')}>">详情</a></td>
+            </tr>
+            <else/></if>
+            
+            <if condition="$ding['is_ding'] eq 1"><!--如果后台开通订座-->
+             <tr>
+                <td>订座</td>
+                <td>总<{$counts['ding_room']}>个包厢，总<{$counts['totay_ding_order']}>个人预约订座。</td>
+                <td>今日<{$counts['ele_order_one']}>人订座，<{$counts['ele_order_two']}>已付款，<{$counts['ele_order_eight']}>人未付款。</td>
+                <td><a target="main_frm" href="<{:U('eleorder/index')}>">详情</a></td>
+            </tr>
+            <else/></if>
+            
+            <if condition="$ding['is_biz'] neq 0"><!--如果后台开通黄页-->
+             <tr>
+                <td>黄页</td>
+                <td>共<{$counts['biz']}>条黄页信息，<{$counts['biz_audit']}>条未审核</td>
+                <td></td>
+                <td><a target="main_frm" href="<{:U('pois/index')}>">详情</a></td>
+            </tr>
+            <else/></if>
+            
+             <tr>
+                <td>粉丝</td>
+                <td>总<{$counts['favorites']}>粉丝</td>
+                <td>今日新增粉丝<{$counts['totay_favorites']}>条</td>
+                <td><a target="main_frm" href="<{:U('order/index')}>">详情</a></td>
+            </tr>
+             <tr>
+                <td>评价</td>
+                <td>商城<{$counts['goods_dianping']}>条评价，外卖<{$counts['ele_dianping']}>条评价<br/>
+                    抢购<{$counts['tuan_dianping']}>条评价，订座<{$counts['ding_dianping']}>条评价</td>
+                <td>今日商城<{$counts['totay_goods_dianping']}>条评价，今日外卖<{$counts['totay_ele_dianping']}>条评价<br/>
+                	今日抢购<{$counts['totay_tuan_dianping']}>条评价，今日订座<{$counts['totay_ding_dianping']}>条评价</td>
+                <td><a target="main_frm" href="<{:U('dianping/index')}>">详情</a></td>
+            </tr>
+             <tr>
+                <td>分类信息</td>
+                <td>总<{$counts['life']}>条分类信息，<{$counts['life_audit']}>条待审核</td>
+                <td>今日<{$counts['goods']}>条</td>
+                <td><a target="main_frm" href="<{:U('life/index')}>">详情</a></td>
+            </tr>
+            <tr>
+                <td>招聘</td>
+                <td>总<{$counts['work']}>条，待审核招聘<{$counts['work_audit']}>条。</td>
+                <td></td>
+                <td><a target="main_frm" href="<{:U('work/index')}>">详情</a></td>
+            </tr>
+            
+            <tr>
+                <td>商家预约</td>
+                <td>共<{$counts['shopyuyue']}>人预约</td>
+                <td>已确认<{$counts['shopyuyue_one']}>人预约，还有<{$counts['shopyuyue_eight']}>人未确认。</td>
+                <td><a target="main_frm" href="<{:U('yuyue/index')}>">详情</a></td>
+            </tr>
+            
+            </tbody>
+          </table>
+            </li>
+            <li class="left sy_c1Li">
+                <div class="sy_c1Linr">
+                    <div class="sy_c1Linr_t">商家资金时间段（<{$bg_date}> - <{$end_date}>）内走势 ---- <{$SHOP['shop_name']}></div>
+                    <div class="sy_c1List">
+                        <script>
+                            $(function () {
+                            $('#container3').highcharts({
+                                chart: {
+                            type: 'line',
+                            margin: [50, 0, 60, 80] //距离上下左右的距离值
+                            },
+                            title: {
+                            text: '',
+                                    x: - 20 //center
+                            },
+                                    subtitle: {
+                                    text: "",
+                                            x: - 20
+                                    },
+                                    xAxis: {
+                                    categories: [<{$money.d}>]
+                                    },
+                                    yAxis: {
+                                    min: 0,  
+                                    title: {
+                                    text: '单位元'
+                                    },
+                                            plotLines: [{
+                                            value: 0,
+                                                    width: 1,
+                                                    color: '#808080'
+                                            }]
+                                    },
+                                    series: [{
+                                    name: '收入金额',
+                                            data: [<{$money.price}>]
+                                    }]
+                            });
+                            });</script>
+                                                <div id="container3" style="height: 215px;">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="sy_c1">
+        <ul>
+            <li class="left sy_c1Li">
+                <div class="sy_c1Linr">
+                    <div class="sy_c1Linr_t">统计分析</div>
+                    <div class="sy_c2tjnr">
+                        <script>
+                            $(function () {
+                            $('#container').highcharts({
+                            title: {
+                            text: '抢购金额时间段（<{$bg_date}> - <{$end_date}>）内趋势',
+                                    x: - 20 //center
+                            },
+                                    subtitle: {
+                                    text: "<{$SHOP['shop_name']}>",
+                                            x: - 20
+                                    },
+                                    xAxis: {
+                                    categories: [<{$money.d}>]
+                                    },
+                                    yAxis: {
+                                    title: {
+                                    text: '单位元'
+                                    },
+                                            plotLines: [{
+                                            value: 0,
+                                                    width: 1,
+                                                    color: '#808080'
+                                            }]
+                                    },
+                                    series: [{
+                                    name: '购买金额',
+                                            data: [<{$money.price}>]
+                                    }]
+                            });
+                            });</script>
+                        <div id="container">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="left sy_c1Li">
+                <div class="sy_c1Linr">
+                    <div class="sy_c1Linr_t">销售额分析</div>
+                    <div class="sy_c2tjnr">
+                        <script>
+                            $(function () {
+                            $('#container2').highcharts({
+                            title: {
+                            text: '销售金额时间段（<{$bg_date}> - <{$end_date}>）内趋势',
+                                    x: - 20 //center
+                            },
+                                    subtitle: {
+                                    text: "<{$SHOP['shop_name']}>",
+                                            x: - 20
+                                    },
+                                    xAxis: {
+                                    categories: [<{$ordermoney.d}>]
+                                    },
+                                    yAxis: {
+                                    title: {
+                                    text: '单位元'
+                                    },
+                                            plotLines: [{
+                                            value: 0,
+                                                    width: 1,
+                                                    color: '#808080'
+                                            }]
+                                    },
+                                    series: [{
+                                    name: '购买金额',
+                                            data: [<{$ordermoney.price}>]
+                                    }]
+                            });
+                            });</script>
+                        <div id="container2">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<include file='public:footer'/>

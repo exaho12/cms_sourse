@@ -1,0 +1,53 @@
+
+<php>$seo_title = $detail['title'];</php>
+<include  file='public:header'/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$cate[cate_name]}>
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn"><i class="icon-bars"></i></a>
+		</div>
+	</header>
+	
+    <div class="serch-bar-mask" id="cate_menu" style="display:none;top:50px;">
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="<if condition='empty($cat)'>on</if> "><a href="<{:U('news/index')}>" >全部新闻</a></li>
+				<foreach name="cates" item="item">
+				<eq name="item.parent_id" value="0">
+				<li>
+					<a  href="<{:U('news/cate',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>
+				</li>  
+				</eq>
+				</foreach>
+			</ul>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#cate-btn").click(function () {
+				$("#cate_menu").toggle();
+			});
+			
+			$("#cate_menu ul li a").click(function () {
+				$("#cate_menu").toggle();
+			});
+
+		});
+	</script>
+
+	<div class="news-list">
+		<ul id="news-list">
+		</ul>
+	</div>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#news-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

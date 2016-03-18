@@ -1,0 +1,66 @@
+<div class="con_left">
+    <!--基本资料-->
+    <div class="con_left_fir">
+        <div class="con_left_fir_top">
+            <a target="_blank" href="<{:U('blog/index',array('user_id'=>$MEMBER['user_id']))}>"><img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" width="137" height="137" /></a>
+            <p><{$MEMBER.nickname}></p>
+        </div> 
+        <dl>
+            <dd><div class="ico"></div>账户余额： <{:round($MEMBER['money']/100,2)}></dd>
+            <dd><div class="ico01"></div>积分： <{$MEMBER.integral}></dd>
+            <dd><div class="ico02"></div>会员等级：<{$ranks[$MEMBER['rank_id']]['rank_name']}></dd>
+            <dd><div class="ico03"></div>注册时间：<{$MEMBER.reg_time|date='Y-m-d',###}></dd>
+        </dl>
+    </div>
+    <!--第二行-->
+    <div class="con_left_two">
+        <!--我的账户-->
+        <div class="zl_nav"><h1></h1>我的账户</div>
+        <div class="zl_font">
+            <ul>
+                <li><a href="<{:U('member/password')}>" <eq name="act" value="password"> class="active" </eq> >修改密码</a></li>
+                <li class="bjs"><a href="<{:U('member/mobile')}>"  <eq name="act" value="mobile"> class="active" </eq> >手机认证</a></li>
+                <li><a href="<{:U('member/email')}>" <eq name="act" value="email"> class="active" </eq> >邮件认证</a></li>
+                <li class="bjs"><a href="<{:U('member/face')}>"  <eq name="act" value="face"> class="active" </eq> >头像管理</a></li>
+                <li><a href="<{:U('member/myaddress')}>" <eq name="act" value="myaddress"> class="active" </eq> >收货地址</a></li>
+                <li class="bjs"><a href="<{:U('member/integral')}>"  <eq name="act" value="integral"> class="active" </eq> >积分日志</a></li>
+                <li><a href="<{:U('member/moneylogs')}>" <eq name="act" value="moneylogs"> class="active" </eq> >余额日志</a></li>
+                <li class="bjs"><a href="<{:U('member/gold')}>"  <eq name="act" value="gold"> class="active" </eq> >金块充值</a></li>
+                <li><a href="<{:U('member/goldlogs')}>" <eq name="act" value="goldlogs"> class="active" </eq> >金块日志</a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <!--消费管理-->
+        <div class="zh_nav"><h1></h1>消费管理</div>
+        <div class="zl_font">
+            <ul>
+                <li><a href="<{:U('member/ordercode')}>" <eq name="act" value="ordercode"> class="active" </eq> >我的抢购券</a></li>
+                <li class="bjs"><a href="<{:U('member/order')}>"  <eq name="act" value="order"> class="active" </eq> >抢购订单</a></li>
+                <li><a href="<{:U('member/eleorder')}>"  <eq name="act" value="eleorder"> class="active" </eq> >订餐订单</a></li>
+                <li class="bjs"><a href="<{:U('member/yuyue')}>" <eq name="act" value="yuyue"> class="active" </eq> >我的预约</a></li>
+                <li><a href="<{:U('member/coupon')}>"  <eq name="act" value="coupon"> class="active" </eq> >优惠券下载</a></li>
+              
+                <li class="bjs"><a href="<{:U('member/goods')}>" <eq name="act" value="goods"> class="active" </eq> >商城购物</a></li>
+                  <li><a href="<{:U('member/exchange')}>"  <eq name="act" value="exchange"> class="active" </eq> >我的兑换</a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <!--特色功能-->
+        <div class="ts_nav"><h1></h1>其他</div>
+        <div class="zl_font">
+            <ul>
+
+                <li><a href="<{:U('member/money')}>" <eq name="act" value="money"> class="active" </eq> >余额充值</a></li>
+                <li class="bjs"><a href="<{:U('member/rechargecard')}>" <eq name="act" value="rechargecard"> class="active" </eq> >代金券充值</a></li>
+                <li><a href="<{:U('member/favorites')}>"  <eq name="act" value="favorites"> class="active" </eq> >我的收藏</a></li>
+                <li class="bjs"><a href="<{:U('member/dianping')}>"  <eq name="act" value="dianping"> class="active" </eq> >我的点评</a></li>
+                <li><a href="<{:U('member/bbs')}>"  <eq name="act" value="bbs"> class="active" </eq> >我的分享</a></li>
+                <li class="bjs"><a href="<{:U('member/myactivity')}>" <eq name="act" value="myactivity"> class="active" </eq> >我参加的活动</a></li>
+                <li><a href="<{:U('member/life')}>"  <eq name="act" value="life"> class="active" </eq> >我的信息</a></li>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <!--特色功能结束-->
+    </div>
+</div>

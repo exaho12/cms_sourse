@@ -1,0 +1,16 @@
+<volist name="list" id="item" key="index">
+	<a class="item" href="<{:U('shop/detail',array('shop_id'=>$item['shop']['shop_id']))}>">	
+		<img class="pic" src="__ROOT__/attachs/<{$item.shop.photo}>" />	
+		<div class="des">	
+			<h5><{:msubstr($item['shop']['shop_name'],0,6,'utf-8',false)}>
+				<span class="distance"><{$item.shop.d}></span>	
+			</h5>	
+			<div class="info">	
+				<span class="ui-starbar"><span style="width:<{:round($item['shop']['score']*2,2)}>%"></span></span>
+			</div>	
+			<span class="addr">	
+				<{:msubstr($item['shop']['addr'],0,26,'utf-8',false)}>
+			</span>
+		</div>	
+	</a>
+</volist>

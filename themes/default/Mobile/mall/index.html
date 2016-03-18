@@ -1,0 +1,115 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mall/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			在线商城
+		</div>
+		<div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('mall/index')}>">
+				<input name="keyword" placeholder="输入商品的关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+	</header>
+    <script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+	</script>
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x4"><span>分类</span><i></i></li>
+			<li class="x4"><span>区域</span><i></i></li>
+			<li class="x4"><span>排序</span><i></i></li>
+		</ul>
+	</div>
+    <div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+			<li <if condition="empty($cat)">class="on"</if> ><a href="<{:U('mall/index',array('cat'=>$item['cate_id'],'area'=>$area,'order'=>$order))}>">全部</a></li>
+			<foreach name='goodscates' item='item'>
+				<eq name="item.parent_id" value="0"> 
+				<li <if condition="$item['cate_id'] eq $cat">class="on"</if>><a href="<{:U('mall/index',array('cat'=>$item['cate_id'],'area'=>$area,'order'=>$order))}>"><{$item.cate_name}></a></li>
+				</eq>
+			</foreach>
+			
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li <if condition="empty($area)">class="on"</if> ><a href="<{:U('mall/index',array('cat'=>$cat,'area'=>0,'order'=>$order))}>">全部</a></li>
+				<volist name="areas" id="item">
+                
+				<li <if condition="$item['area_id'] eq $area">class="on"</if> ><a href="<{:U('mall/index',array('cat'=>$cat,'area'=>$item['area_id'],'order'=>$order))}>"><{$item.area_name}></a></li>
+				</volist>
+			</ul>
+		</div>
+		
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li><a href="<{:U('mall/index',array('cat'=>$cat,'area'=>$area,'business'=>$var['business_id'],'order'=>'1'))}>">按照时间</a></li>
+				<li><a href="<{:U('mall/index',array('cat'=>$cat,'area'=>$area,'business'=>$var['business_id'],'order'=>'2'))}>">按照销量</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="blank-40"></div>
+	<div class="item-list" id="item-list">
+		<ul></ul>
+	</div>
+
+	<div class="mall-cart">
+		<a href="<{:U('mall/cart')}>">
+		<div class="round radius-circle"><div class="badge-corner"><i class="icon-shopping-cart"></i><span class="badge bg-red"><{$cartnum}></span></div></div>
+		</a>
+	</div>
+	
+    <script>
+        $(document).ready(function () {
+            loaddata('<{$nextpage}>', $("#item-list ul"), true);
+        });
+    </script>
+	
+<include  file='public:footer'/>    

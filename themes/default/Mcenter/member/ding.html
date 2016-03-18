@@ -1,0 +1,90 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mcenter/index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			完成支付
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				订单编号：
+				<em class="text-gray"><{$arr.order_no}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				结算价格：<em><{$arr.last_date}> &nbsp;<{$arr.last_t}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+
+<volist name='arr.menu' id='item'>
+<div class="line padding border-bottom">
+	<div class="x3">
+		<img src="__ROOT__/attachs/<{$menu[$item[0]][photo]}>" width="90%" />
+	</div>
+	<div class="x9">
+		<p class="margin-small"><{$menu[$item[0]][menu_name]}></p>
+		<p class="margin-small">
+			<{$item[1]}><span class="margin-left">x</span><span class="margin-left">￥<{:round($menu[$item[0]][ding_price]/100,2)}></span><span class="margin-left text-dot">=￥<{:round($menu[$item[0]][ding_price]*$item[1]/100,2)}></span>
+		</p>
+	</div>
+</div>
+</volist>
+<div class="blank-10 bg"></div>
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				支付定金：
+				<em class="text-gray"> <{:round($arr['need_price']/100,2)}> 元 &nbsp;&nbsp; (<if condition="$arr[status] eq 1"> 未消费 <elseif condition="$arr[status] eq 2"/> 已消费 <elseif condition="$arr[status] eq -1"/> 已退款 <else/>已支付</if>) </em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				付款方式：<em><{$paytype[$order['use_integral']]['name']}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				结算价格：<em>￥<{:round($order['need_price']/100,2)}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				地址：<em><{$arr.room_id}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				联系人: <em><{$arr.name}> &nbsp;（<if condition="$sex eq 2">女士<else/>先生</if>）</em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				联系电话: <em><{$arr.mobile}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div class="blank-20"></div>
+<div class="line text-center">
+	<a class="button bg-dot" href="<{:U('mcenter/ding/detail',array('order_id'=>$arr['order_id']))}>">查看详情</a>
+	<a class="button bg-main" href="<{:U('mobile/ding/index')}>">继续逛逛</a>
+</div>
+<div class="blank-20"></div>
+
+<include  file='public:footer'/>    

@@ -1,0 +1,45 @@
+<include file="public:header"/>
+<div class="content_right">  
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li ><a href="<{:U('quanming/index')}>">推广成功</a></li>
+            <li class="on"><a href="<{:U('quanming/tongji')}>">统计报表</a></li>
+            <li><a href="<{:U('quanming/info')}>">推广会员</a></li>
+        </ul>
+    </div>
+           <div class="tgdd_t">
+            <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+            <form action="<{:U('quanming/tongji')}>" method="post">
+                <div class="search_form"> 
+                    <span class="search_form_wz">开始时间</span><input class="search_form_time" type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  />
+                    <span class="search_form_wz">结束时间</span><input class="search_form_time" type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" />
+              
+                   <input type="submit" class="search_form_ssan" value="搜索" />
+                </div>
+            </form>
+        </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>年</td>
+                <td>月</td>
+                <td>日</td>
+                <td>单数</td>
+                <td>金额</td>
+            </tr>
+            <foreach name="datas" item="var">
+                <tr class="tgdd_nrC">
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.year}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.month}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.day}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.num}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{:round($var['money']/100,2)}></td>
+                </tr>
+            </foreach>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

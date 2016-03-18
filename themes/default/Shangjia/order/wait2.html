@@ -1,0 +1,106 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>货到付款</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('order/wait2')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+        <form  target="baocms_frm" method="post">
+
+    <div class="tuanfabu_tab">
+        <ul>
+            <if condition="$ding['is_pei'] neq 0">
+            <li class="tuanfabu_tabli"><a href="<{:U('goods/index')}>">商城商品</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/index')}>">卖出商品</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/wait')}>">付款订单</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('order/wait2')}>">货到付款</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/picks')}>">捡货单</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/delivery')}>">确认订单</a></li>
+            <else/>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/delivery')}>">确认订单</a></li>
+            </if>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td width="550">详情</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>总价</td>
+            <td>状态</td>
+        </tr>
+        <foreach name="list" item="order">
+        <tr style="background-color:#f7e9d7;">
+            <td colspan="5">
+            	<div class="mallorder_tBox">
+                    <span class="mallorder_t"><input class="child_order_id" <if condition="isset($picks[$order['order_id']])"> checked="checked"</if>  name="order_id[]"  type="checkbox" value="<{$order.order_id}>" />订单ID：<span class="mallorder_jg"><{$order.order_id}></span></span>
+                    <span class="mallorder_t">交易时间：<span class="mallorder_jg"><{$order.create_time|date='Y-m-d H:i:s',###}></span></span>
+                    <span class="mallorder_t">买家：<span class="mallorder_jg"><{$users[$order['user_id']]['account']}></span></span>
+                    <span class="mallorder_t">总价值：<span class="mallorder_jg"><{:round($order['total_price']/100,2)}></span></span>
+                    <span class="mallorder_t">收货地址：<span class="mallorder_jg">
+                    <{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}>、
+                    <{$business[$addrs[$order['addr_id']]['business_id']]['business_name']}>、
+                    <{$addrs[$order['addr_id']]['addr']}>
+                    <{$addrs[$order['addr_id']]['name']}>
+                    <{$addrs[$order['addr_id']]['mobile']}>
+                    </span></span>
+                    <span class="mallorder_t">状态：<span class="mallorder_jg">
+                    <eq name="order.is_daofu" value="1">货到付款 ---</eq>
+                    <{$types[$order['status']]}>
+                    </span></span>
+             	</div>
+            </td>
+        </tr>
+        <foreach name="goods" item="good">
+        <eq name="good.order_id" value="$order.order_id">
+        <tr>
+            <td>
+            	<div class="mallorder_xq"><img width="80" src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']}>" /><p><{$products[$good['goods_id']]['title']}></p></div>
+            </td>
+            <td><span class="mallorder_jg">￥<{:round($good['price']/100,2)}></span></td>
+            <td>2</td>
+            <td><span class="mallorder_jg">￥<{:round($good['total_price']/100,2)}></span></td>
+            <td><span class="mallorder_jg">
+            <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
+			<{$goodtypes[$good['status']]}>
+            </if>
+            </span></td>
+        </tr>
+        </eq>
+        </foreach>
+        </foreach>
+    </table>
+    
+           <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; vertical-align:middle; background-color:#FFF; margin-top: 10px;"  >
+            <tr>
+                <td>
+                    <div class="lt" style="margin-left: 50px;">
+                        <input type="checkbox" class="checkAll" rel="order_id" />全选
+                        <a href="<{:U('order/pick',array('wait'=>1))}>" mini='list' class="radius3 sjgl_an tuan_topbt">加入捡货列表</a>
+                        <a href="<{:U('order/clean',array('wait'=>1))}>" mini='confirm' class="radius3 sjgl_an tuan_topbt">清空捡货队列</a>
+                        <a href="<{:U('order/create',array('wait'=>1))}>" mini='confirm' class="radius3 sjgl_an tuan_topbt">创建捡货单</a>
+                    </div>
+                    <div class="lt" style="margin-left: 50px;"> <div class="pages">
+                            <{$page}>
+                        </div></div>
+                </td>
+            </tr>
+        </table>
+        </form>
+</div>
+
+<include  file='public:footer'/>

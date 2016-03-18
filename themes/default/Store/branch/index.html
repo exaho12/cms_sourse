@@ -1,0 +1,117 @@
+<include file='public:header'/>    
+
+	<header class="top-fixed bg-yellow bg-inverse">
+
+		<div class="top-back">
+
+			<a class="top-addr" href="<{:U('store/index/index')}>"><i class="icon-angle-left"></i></a>
+
+		</div>
+
+		<div class="top-title">
+
+			分店地址
+
+		</div>
+
+		<div class="top-share">
+
+			<a href="<{:U('store/branch/create')}>" class="top-addr icon-plus"> 增加</a>
+
+		</div>
+
+	</header>
+
+	
+
+    
+
+	
+
+	
+
+	<div class="line xiaoqu-search">
+
+		<form method="post"  action="<{:U('branch/index')}>" id="form1" class="form1">
+
+			<div class="form-group">
+
+				<div class="field">
+
+					<div class="input-group">
+
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="分店名称/地址"  />
+
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+	
+
+	<div class="xiaoqu-list">
+
+		<ul id="xiaoqu-list">
+
+        
+
+<volist name="list" id="var">
+
+<li class="line">
+		<div class="x10">	
+			<h5>分店名称：<{$var.name}> </h5>	
+            <p class="addr">所属城市：<{$city[$var['city_id']]['name']}></p>
+			<p class="addr">分店地址：<{$area[$var['area_id']]['area_name']}><{$business[$var['business_id']]['business_name']}></p>
+            <p class="addr">申请时间：<{$var.create_time|date='Y-m-d H:i',###}></eq></p>
+            <p class="addr">审核状态：<eq name="var.audit" value="0">等待审核<else/>正常</eq></p>
+		</div>
+        <div class="x2">
+        <a class="button button-small bg-dot"  href="<{:U('mobile/shop/shop',array('shop_id'=>$var['shop_id'],'branch_id'=>$var['branch_id']))}>">详情</a>
+        <a class="button button-small margin-top bg-dot "  href="<{:U('branch/edit',array('branch_id'=>$var['branch_id']))}>">编辑</a>
+        <a class="button button-small margin-top bg-blue "  href="<{:U('branch/delete',array('branch_id'=>$var['branch_id']))}>">删除</a>
+        </div>
+</li>
+<div class="blank-10 bg"></div>
+</volist>
+
+
+
+
+
+</ul> 
+
+<div class="blank-20"></div>
+
+
+
+<div class="container login-open">
+
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+
+</div>
+
+        
+
+        
+
+
+
+</div>
+
+
+
+
+
+		
+
+<include file="public:footer"/>
+

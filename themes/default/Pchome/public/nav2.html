@@ -1,0 +1,30 @@
+<div class="nav">
+
+        <div class="navList">
+
+            <ul>
+
+                <li class="navListAll zy_navListAll"><i class="nav-bz left"></i><span class="navListAllt ">全部抢购分类<em></em></span>
+
+                    <div class="shadowy navAll">
+
+                        <include file="./themes/default/Pchome/public/cate.html"/>
+
+                    </div>
+
+                </li>
+
+
+
+<volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+            </ul>
+
+        </div>
+
+    </div>

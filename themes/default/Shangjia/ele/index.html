@@ -1,0 +1,45 @@
+<include file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">其他</a> > <a href="">外卖设置</a> > <a>外卖营业状态</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">打烊状态用户将不能在继续下单</div>
+        </div>
+    </div> 
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('ele/index')}>">外卖营业状态</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/index')}>">确认订单</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/wait')}>">配送订单</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('eleorder/over')}>">已完成订单</a></li>
+        </ul>
+    </div>
+    <div class="tabnr_change show">
+        <form  method="post" target="baocms_frm"  action="<{:U('ele/open')}>">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            	<tr>
+                <td><p class="tuanfabu_t">状态</td>
+                <td>
+                    <div class="tuanfabu_nr">
+                        <label>
+                            <input type="radio" <eq name="ele.is_open" value="0"> checked="checked" </eq>  name="is_open" id="is_open" value="0"/>打烊中
+                        </label>
+                         <label>
+                             <input type="radio" <eq name="ele.is_open" value="1"> checked="checked" </eq>    name="is_open" id="is_open" value="1"/>营业中
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" class="radius3 sjgl_an tuan_topbt" value="立刻更新"/></td>
+            </tr>
+        </table>
+        </form>
+    </div> 
+</div>
+<include file='public:footer'/>

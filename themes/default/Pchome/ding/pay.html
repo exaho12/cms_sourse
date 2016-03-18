@@ -1,0 +1,96 @@
+<include file="public:header" /> <include file="public:topOne" />
+<div class="between">
+	<div class="bet_bj">
+		<div class="all">
+			<div class="all_2">
+				<ul>
+					<li class="on">1.提交订单<em>&nbsp;</em></li>
+					<li>2.去支付<em>&nbsp;</em></li>
+					<li>3.完成<em>&nbsp;</em></li>
+				</ul>
+			</div>
+			<div class="all_3">
+				<ul class="ul_3">
+					<li><a href="javascript:void(0);"><img src="__PUBLIC__/img/tp_5.png">
+						<p>随时退</p>
+						</a></li>
+					<li><a href="javascript:void(0);"><img src="__PUBLIC__/img/tp_6.png">
+						<p>不满意免单</p>
+						</a></li>
+					<li><a href="javascript:void(0);"><img src="__PUBLIC__/img/tp_7.png">
+						<p>过期退</p>
+						</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="mode_dingdan">
+			<table class="dzDing" width="100%" cellpadding="0" cellspacing="0">
+				<tr bordercolor="#ccc">
+					<th>商店</th>
+					<th>就餐时间</th>
+					<th>就餐人数</th>
+					<th>餐位情况</th>
+					<th>点菜情况</th>
+					<th>点菜价格</th>
+				</tr>
+				<tr>
+					<td><b><{$shop.shop_name}></b></td>
+					<td><{$yuyue.last_date}><br />
+						<{$cfg[$yuyue[last_t]]}></td>
+					<td><{$room[$yuyue[number]]}></td>
+					<td>
+						<if condition="$yuyue[room_id] gt 0"> <span class="mr25"><{$room_d[$yuyue[room_id]]['name']}> 有餐位</span>
+							<p class="ts">注意：该包厢最低消费￥<{:round($room_d[$yuyue[room_id]]['money']/100,2)}></p>
+							<else/>
+							<span class="mr25">大厅 有餐位</span> </if>
+					</td>
+					<td  class="alignLt">
+						<if condition="$yuyue[menu]"> <span class="mr25">已点菜</span>
+							<else/>
+							<span class="mr25">未点</span> </if>
+						<p >注意：凡在本店订座者需预交收取<b class="fontcl2">￥<{:round($setting['money']/100,2)}></b>定金</p>
+						<p>如有疑问，请致电：<font class="pointcl">0551-3453543</font></p>
+					</td>
+					<td> <font class="pointcl"><{:round($order['total_price']/100,2)}>元</font></td>
+				</tr>
+			</table>
+			<div class="seat-order-content-box">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+					<form method="post" action="<{:U('ding/pay2',array('order_id'=>$order_id))}>">
+						<tr>
+							<th>手机号</th>
+							<td>
+								<input class="text" name="mobile" type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>联系人</th>
+							<td>
+								<input class="text" name="name" type="text" />
+								<span class="mr25">
+								<input type="radio" name="sex" value="1" checked="checked"  />
+								先生</span> <span class="mr25">
+								<input type="radio"  name="sex"  value="2"/>
+								女士</span> </td>
+						</tr>
+						<tr>
+							<th>备注</th>
+							<td>
+								<textarea name='tip' class="textarea" placeholder="想说点什么......." ></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="submit" class="btn" value="提交" />
+							</td>
+						</tr>
+					</form>
+				</table>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<include file="public:footer"/>

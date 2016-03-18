@@ -1,0 +1,98 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			团购点评
+		</div>
+		<div class="top-share">
+			<a href="#" id="cate-btn"></a>
+		</div>
+	</header>
+    
+  <style>
+.button {
+    border-radius:0px;
+}
+</style>  
+
+ <div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active">如果收到恶意评价，可以联系网站客服：<{$CONFIG.site.tel}></a>
+		</div>
+	</div>
+</div>   
+    
+     <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button" href="<{:U('dianping/index')}>">商家点评</a>
+			<a class="block button bg-dot active" href="<{:U('dianping/tuan')}>">抢购点评</a>
+			<a class="block button" href="<{:U('dianping/waimai')}>">外卖点评</a>
+            <a class="block button" href="<{:U('dianping/ding')}>">订座点评</a>
+		</div>
+	</div>
+</div>   
+
+
+
+
+
+
+
+
+
+
+
+<div class="list-media-x" id="list-media">
+	<ul>
+   
+  
+    
+   <foreach name="list" item="var">
+    <li class="line padding">
+        <div class="x12">
+            <p class="text-small">用户：<{$users[$var['user_id']]['nickname']}>(ID:<{$var.user_id}>)</p>
+            <p class="text-small">编号:<{$var.dianping_id}></p> 
+            <p class="text-small">评价:<{$var.contents}></p>
+            <p class="text-small">回复:<{$var.reply}></p>
+           
+<p>         
+<span class="text-dot margin-right">平均花费:<{$var.cost}></span>
+<span class="text-dot">评分：<{$var.score}></span>
+</p>
+
+<p class="text-small">评价时间：<{$var.create_time}>广场</p>
+<p class="text-small">评价IP：<{$var.create_ip}>(来自<{$var.create_ip_area}>)</p>
+<p class="text-small">生效日期：<{$var.show_date}></p>
+                                  
+<if condition="empty($var['reply'])">                             	                                        
+<p>
+<a href="<{:U('dianping/tuanreply',array('order_id'=>$var['order_id']))}>" class="button button-small bg-dot">回复</a> 
+</p>
+</if>
+        </div>
+    </li>
+   </foreach>   
+    
+  </ul>
+</div> 
+
+
+
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+<div class="blank-20"></div>
+</div>
+        
+
+
+		
+<include file="public:footer"/>

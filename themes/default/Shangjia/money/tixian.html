@@ -1,0 +1,68 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">结算</a> > <a href="">提现申请</a> > <a>提现</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    
+    <div class="tuanfabu_tab">
+        <ul>
+            
+         <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('money/tixian')}>">提现</a></li>
+        </ul>
+    </div> 
+    <div class="tabnr_change  show">
+		<form method="post" class="password"  action="<{:U('money/tixian')}>"  target="baocms_frm">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td colspan="2"><div class="tuanfabu_nr">
+               亲，您当前共有：<font color="red"><{:round($money/100,2)}></font>元！
+                </div></td>
+            </tr>
+            <tr>
+                <td><p class="tuanfabu_t">提现金额：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"   style="width:100px; background-color:#eee;" name="money" class="tuanfabu_int tuanfabu_intw2" /><code>最小提现金额1元！<code/>
+                </div></td>
+            </tr>
+            
+                 <tr>
+                <td><p class="tuanfabu_t">开户银行：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"    name="bank_name" value="<{$info.bank_name}>"  class="tuanfabu_int tuanfabu_intw2" /><code><code/>
+                </div></td>
+            </tr>
+                 <tr>
+                <td><p class="tuanfabu_t">开户账号：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"    name="bank_num" value="<{$info.bank_num}>" class="tuanfabu_int tuanfabu_intw2" /><code><code/>
+                </div></td>
+            </tr>
+                 <tr>
+                <td><p class="tuanfabu_t">具体支行：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"  name="bank_branch" value="<{$info.bank_branch}>" class="tuanfabu_int tuanfabu_intw2" /><code>没有可不填<code/>
+                </div></td>
+            </tr>
+                 <tr>
+                <td><p class="tuanfabu_t">开户名：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text"   name="bank_realname" value="<{$info.bank_realname}>" class="tuanfabu_int tuanfabu_intw2" /><code><code/>
+                </div></td>
+            </tr>
+               
+            
+            
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认提现" />
+        </div>
+        </form>
+    </div> 
+</div>
+    
+</div>
+
+<include  file='public:footer'/>

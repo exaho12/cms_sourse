@@ -1,0 +1,115 @@
+<include  file='public:header'/> 
+<body>
+    <header>
+        <a href="<{:U('index/index')}>"><i class="icon-goback"></i></a>
+        <div class="title">订餐</div>
+        <i class="icon-menu" id="ico_1"></i>
+    </header>
+    <div id="ele" class="page-center-box">
+        <div id="scroll">
+            <!-- 广告 -->
+            <div class="ads">
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $(".main_image").touchSlider({
+                            flexible: true,
+                            speed: 200,
+                            btn_prev: $("#btn_prev"),
+                            btn_next: $("#btn_next"),
+                            paging: $(".flicking_con a"),
+                            counter: function (e) {
+                                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+                            }
+                        });
+
+                        $(".main_image").bind("mousedown", function () {
+                            $dragBln = false;
+                        });
+
+                        $(".main_image").bind("dragstart", function () {
+                            $dragBln = true;
+                        });
+
+                        $(".main_image a").click(function () {
+                            if ($dragBln) {
+                                return false;
+                            }
+                        });
+
+                        timer = setInterval(function () {
+                            $("#btn_next").click();
+                        }, 5000);
+
+                        $(".ele_banner").hover(function () {
+                            clearInterval(timer);
+                        }, function () {
+                            timer = setInterval(function () {
+                                $("#btn_next").click();
+                            }, 5000);
+                        });
+
+                        $(".main_image").bind("touchstart", function () {
+                            clearInterval(timer);
+                        }).bind("touchend", function () {
+                            timer = setInterval(function () {
+                                $("#btn_next").click();
+                            }, 5000);
+                        });
+
+                    });
+                </script>
+                <div class="ele_banner">
+                    <div class="flicking_con">
+                        <calldata mdl="Ad" where=" closed=0 AND site_id=44  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="7200" order="orderby asc">
+                            <a href="javascript:void(0);"><{$index}></a>
+                        </calldata>
+                    </div>
+                    <div class="main_image">
+                        <ul>
+                            <calldata mdl="Ad" where=" closed=0 AND site_id=44  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="7200" order="orderby asc">
+                                <li><a href="<{$item.link_url}>" style="background-image: url('__ROOT__/attachs/<{$item.photo}>')"></a></li>
+                            </calldata>
+                        </ul>
+                    </div>
+                    <a href="javascript:void(0);" id="btn_prev"></a>
+                    <a href="javascript:void(0);" id="btn_next"></a>
+                </div>
+            </div>
+            <!-- 分类 -->
+            <div class="cate">
+                <volist name="elecate" id="item" key="index">
+                    <if condition="$index elt 5">
+                        <div>
+                            <a href="<{:LinkTo('ele/index',array('cate'=>$index))}>"><div class="icon i-<{$index}>"></div>
+                                <p><{$item}></p></a>
+                        </div>
+                    </if>
+                </volist>
+            </div>
+            <!-- 列表 -->
+            <div class="list-have-pic">
+                <div class="title">热门推荐</div>
+                <!-- 循环 -->
+                <foreach name="list" item="item">
+                    <div class="list-box">
+                        <div class="list-img">
+                            <a href="<{:U('ele/shop',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$item['shop_id']]['photo']}>" /></a>
+                        </div>
+                        <div class="list-content">
+                            <p><a href="<{:U('ele/shop',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a><span class="range"><{$item.d}></span></p>
+                            <p class="c_h">
+                                月售：<{$item.month_num}>单
+                                <eq name="item.is_fan" value="1"><em class="c_1">减</em></eq>
+                                <em class="c_2">配</em>
+                                <eq name="item.is_new" value="1"><em class="c_3">返</em></eq>
+                                <eq name="item.is_pay" value="1"><em class="c_4">付</em></eq>
+                            </p>
+                            <p class="c_h">地址：<{$shops[$item['shop_id']]['addr']}></p>
+                        </div>
+                    </div>
+                </foreach>
+                <!-- 循环 -->
+            </div>
+        </div>
+    </div>
+    <include file="public:footer"/>

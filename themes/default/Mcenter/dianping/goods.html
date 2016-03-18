@@ -1,0 +1,195 @@
+<include file="public:header"/>
+<script src="/static/default/wap/js/star.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
+<script src="/static/default/wap/other/webuploader.js"></script> 
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="javascript:history.back(-1);"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			购物确认
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+
+<form method="post" action="<{:U('dianping/goods',array('order_id'=>$order['order_id']))}>"  target="x-frame">
+	<div class="line padding">
+		<div class="x3">
+			<img src="__ROOT__/attachs/<{$detail['photo']}>" width="90%" />
+		</div>
+		<div class="x9">
+			<h5><{$detail.shop_name}></h5>
+			<p class="margin-small-bottom text-gray"><{$detail.addr}></p>
+			<p class="margin-small-bottom text-gray"><span> 平均消费：<span class="text-dot">￥<{$details.price}></span>/位</p>
+		</div>
+	</div>
+	<div class="blank-10 bg"></div>
+
+	<div class="line padding border-bottom">
+		<div class="x3">
+			总体评价：
+		</div>
+		<div class="x9">
+			<span id="jq_star"></span>
+		</div>
+	</div>
+
+	<div class="line padding border-bottom">
+		<div class="x3">
+			<{$cate['d1']}>评价：
+		</div>
+		<div class="x9">
+			<span id="jq_star1"></span>
+		</div>
+	</div>
+	
+	<div class="line padding border-bottom">
+		<div class="x3">
+			<{$cate['d2']}>评价：
+		</div>
+		<div class="x9">
+			<span id="jq_star2"></span>
+		</div>
+	</div>
+	
+	<div class="line padding border-bottom">
+		<div class="x3">
+			<{$cate['d3']}>评价：
+		</div>
+		<div class="x9">
+			<span id="jq_star3"></span>
+		</div>
+	</div>
+	
+	<script>
+		$(document).ready(function () {
+			$("#jq_star").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[score]'
+			});
+					
+			$("#jq_star1").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d1]'
+			});
+	
+			$("#jq_star2").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d2]'
+			});
+			$("#jq_star3").raty({
+				numberMax: 5,
+				path: '/static/default/wap/image/',
+				starOff: 'star-off.png',
+				starOn: 'star-on.png',
+				scoreName: 'data[d3]'
+			});
+		});
+	</script>
+	
+	<div class="line padding border-bottom">
+		<div class="x3">
+			平均消费：
+		</div>
+		<div class="x9">
+			<input type="text"  name="data[cost]" value="<{:round($order['total_price']/100,2)}>"  style="width:80px;" />（元）以平均消费为准
+		</div>
+	</div>
+	
+	
+	<div class="line padding border-bottom">
+		<div class="blank-10"></div>
+		<textarea cols="33" rows="5" name="data[contents]" placeholder="还记得这家店吗？写点评记录生活、分享体验" style="border:thin solid #eee;width:100%;resize:none;padding:10px;"></textarea>
+		<div class="blank-10"></div>
+	</div>
+	
+	
+	<div class="line padding ">
+		<div class="x3">
+			上传图片：
+		</div>
+	</div>
+			
+	<div class="blank-10"></div>
+	<div class="container">
+		<div id="uploader" class="uploader">
+			<div id="filepicker">选择图片</div>
+			<div id="filelist" class="uploader-list"></div>
+		</div>
+		<div class="blank-10"></div>
+	</div>
+			
+			
+	<script>
+		jQuery(function() {
+			var $ = jQuery,
+				$list = $('#filelist'),
+				ratio = window.devicePixelRatio || 1,
+				thumbnailWidth = 100 * ratio,
+				thumbnailHeight = 100 * ratio,
+				uploader;
+			var uploader = WebUploader.create({
+				auto: true,
+				swf: '/static/default/wap/other/Uploader.swf',
+				server: '<{:U("app/upload/upload",array("model"=>"dianping"))}>',
+				pick: '#filepicker',
+				accept: {
+					title: 'Images',
+					extensions: 'gif,jpg,jpeg,bmp,png',
+					mimeTypes: 'image/*'
+				}
+			});
+
+			uploader.on( 'fileQueued', function( file ) {
+				var $li = $('<div id="' + file.id + '" class="file-item thumbnail"><img></div>'),
+					$img = $li.find('img');
+					$list.append( $li );
+				uploader.makeThumb( file, function( error, src ) {
+					if ( error ) {
+						$img.replaceWith('<span>不能预览</span>');
+						return;
+					}
+					$img.attr( 'src', src );
+				}, thumbnailWidth, thumbnailHeight );
+			});
+			
+			uploader.on( 'uploadSuccess', function( file,response ) {
+				$( '#'+file.id ).addClass('upload-state-done');
+				var pic = response['_raw'];
+				var str = '<input type="hidden" name="photos[]" value="' + pic + '" />';
+				$("#uploader").append(str);
+			});
+
+			uploader.on( 'uploadError', function( file ) {
+				var $li = $( '#'+file.id ),
+					$error = $li.find('div.error');
+				if ( !$error.length ) {
+					$error = $('<div class="error"></div>').appendTo( $li );
+				}
+
+				$error.text('上传失败');
+			});
+		});	
+
+	</script>
+			
+	<div class="container">
+		<div class="blank-20"></div>
+		<button class="button button-big button-block bg-dot">提交确认</button>
+		<div class="blank-20"></div>
+	</div>
+</form>
+    
+<include  file='public:footer'/>

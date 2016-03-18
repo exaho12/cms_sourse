@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>找回账号-<{$seo_title}></title>
+        <meta name="keywords" content="<{$seo_keywords}>" />
+        <meta name="description" content="<{$seo_description}>" />
+
+        <link href="__PUBLIC__/css/public.css" rel="stylesheet" type="text/css" />
+        <script> var BAO_PUBLIC = '__PUBLIC__';
+            var BAO_ROOT = '__ROOT__';</script>
+        <script src="__PUBLIC__/js/jquery.js"></script>
+        <script src="__PUBLIC__/js/web.js"></script>
+        <script src="__PUBLIC__/js/layer/layer.js"></script>
+    </head>
+    <style type="text/css">
+        *{ margin:0px; padding:0px;}
+        body{ font-size:12px;}
+        ul{padding:0;margin:0;list-style:none;}
+        a{text-decoration:none; color:#000000;}
+        a:hover{color:#fb510e;text-decoration:none;}
+        .clear{font-size:0px;height:0px;line-height:0px;clear:both;}
+        img{ font-size:0px; border:none;}
+
+        .yzm_code img{margin-top:6px;margin-left:7px;}
+        .font{width:1045px;margin:0 auto;padding-left:155px;}
+        .font_top{width:1005px;height:60px;line-height:60px;background:url(__TMPL__statics/images/gt.png) left 15px no-repeat;padding-left:40px;}
+        .font_zw{width:892px;border:1px #D7D4D4 solid;}
+        .font_zw_nav{width:892px;height:62px;}
+        .font_zw_nav ul li{width:446px;height:62px;line-height:62px;text-align:center;float:left;font-size:24px;font-family:"微软雅黑";}
+        .font_zw_nav ul li a{background:#F2F2F2;color:#000;}
+        .font_zw_nav ul li a:hover,.font_zw_nav ul li a.actived{display:block;color:#fff;background:#2fbdaa;}
+        .font_zw_font{width:842px;height:460px;padding:15px 25px;line-height:40px;background:#fff url(__TMPL__statics/images/tbg.png) top right no-repeat;}
+        .ylign{width:300px;height:40px;line-height:40px;border:1px #d8d5d5 solid;float:left;}
+        .yzm{width:115px;height:40px;line-height:40px;border:1px #d8d5d5 solid;float:left;}
+        .font_zw_font table td{padding-bottom:10px;}
+        .font_zw_font table td a{color:#FF5502;text-decoration:none;}
+        .font_zw_font table td a:hover{color:#FF5502;text-decoration:underline;}
+        .an{/*background:url(__TMPL__statics/images/aniu.jpg) no-repeat;*/width:116px;height:50px;text-align:center;border:0px;font-size:16px;font-family:"微软雅黑";color:#fff;cursor:pointer;background-color:#2fbdaa;margin-top: 12px;}
+    </style>
+    <body>
+        <include file="public:header" /> 
+        <include file="public:topOne"/>
+        <iframe id="baocms_frm" name="baocms_frm" style="display:none;"></iframe>
+
+        <div class="font">
+            <div class="font_top">忘记密码不要紧张！这里可以找到密码！</div>
+            <div class="font_zw">
+
+                <div class="font_zw_nav">
+                    <ul>
+                        <li rel="cp2" ><a href="javascript:;"  class="actived" >通过邮箱找回密码</a></li>
+                        <li  rel="cp1"> <a href="javascript:;" >通过手机找回密码</a></li>
+
+                    </ul>
+                </div>
+                <script>
+                    $(document).ready(function(){
+                        $(".font_zw_nav li").mouseover(function(){
+                            var index = $(this).index();
+                            $(".font_zw_nav li").each(function(a){
+                                if(a == index){
+                                    $(this).find('a').addClass('actived');
+                                    $("#"+$(this).attr('rel')).show();
+                                }else{
+                                    $(this).find('a').removeClass('actived');
+                                    $("#"+$(this).attr('rel')).hide();
+                                }
+                            });
+                           $("#way").val(index+1);
+                        });
+                       
+                        $(".font_zw_nav li").eq(0).mouseover();
+                       
+                    });
+                </script>
+
+                <div class="font_zw_font">
+                    <form  action="<{:U('passport/newpwd')}>" method="post" target="baocms_frm">
+                        <table width="0" border="0">
+                            <tbody id="cp2">
+                                <tr>
+                                    <td colspan="2">
+                                        请输入您认证的电子邮箱，点击“<strong>获取新密码</strong>”按钮后系统会将新密码发送到您的电子邮箱
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">EMAIL：</td>
+                                    <td><input id="email" name="email" type="text" class="ylign"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody id="cp1">
+                                <tr>
+                                    <td colspan="2">
+                                        请输入您认证过的手机号码，点击“<strong>获取新密码</strong>”按钮后系统会将新密码发送到您的认证手机上。
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right">手机：</td>
+                                    <td><input id="mobile" maxlength="20" name="mobile"  type="text" class="ylign"/></td>
+                                </tr>
+
+                               
+                            </tbody>
+                            <tr>
+                                <td align="right"></td>
+                                <input type="hidden" name="way" id="way" value="1" />
+                                <td><input name="" type="submit" value="获取新密码" class="an"/></td>
+                            </tr>
+                        </table>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

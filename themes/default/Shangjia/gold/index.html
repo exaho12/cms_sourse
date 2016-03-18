@@ -1,0 +1,48 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">基础资料</a> > <a>金块充值</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">金块充值可以选择支付宝或财付通的方式</div>
+        </div>
+    </div> 
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('info/password')}>">修改密码</a></li>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('gold/index')}>">金块充值</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('gold/logs')}>">消费日志</a></li>
+        </ul>
+    </div>
+    <div class="tabnr_change  show">
+    	<form method="post"  action="<{:U('gold/pay')}>">
+    	<table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="tuanfabu_t"><em>·</em>金块：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="gold" class="tuanfabu_int tuanfabu_intw2" />充值必须大于0
+                </div></td>
+            </tr>
+            <tr>
+                <td><p class="tuanfabu_t"><em>·</em>支付方式：</p></td>
+                <td><div class="tuanfabu_nr">
+                <foreach name="payment" item="var">
+                <eq name="var.is_open" value="1">
+                <if condition="$var['code'] neq 'money'">
+                    <dd style="margin-top: 15px;"><label><em><input style="width: 20px;" value="<{$var.code}>" name="code" type="radio" /></em><img src="__PUBLIC__/images/<{$var.logo}>" /></label></dd>
+                </if>
+                </eq>
+            	</foreach>
+                </div></td>
+            </tr>
+        </table>
+        <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="立刻充值" />
+        </div>
+        </form>
+    </div> 
+</div>
+<include  file='public:footer'/>

@@ -1,0 +1,104 @@
+<include file='public:header_news'/> <script src="/static/default/pc/js/qrcode.js"></script>
+	<div class="blank-10"></div>
+	
+	<div class="container">
+		<div class="line biz-top">
+			<div class="x1">
+				<i class="icon-search"></i>
+				<h1>找服务</h1>
+			</div>
+			<div class="x8">
+				<div class="biz-search">
+					<form class="form-auto" method="post" action="<{:U('biz/index')}>">
+						<input class="input" name="keyword" value="<{$keyword}>" placeholder="请输入关键字,已搜录<{$counts}>条记录" />
+						<button class="button bg-sub" type="submit"><i class="icon-search"></i></button>
+					</form>
+				</div>
+			</div>
+			<div class="x3">
+				<div class="biz-tip">
+					<img src="/static/default/pc/image/biz/sou-tip.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="blank-10"></div>
+	
+	<div class="container">
+		<div class="line">
+			<div class="x9">
+				<ul class="biz-list">
+					<if condition="!empty($ding)">	
+					<php>$tel=explode(',',$ding['telephone']);</php>
+					<li>
+						<h2><a class="text-dot" href="<{:U('biz/detail',array('pois_id'=>$ding['pois_id']))}>"><{$ding['name']}></a></h2>
+						<p>
+							<i class="icon-map-marker"></i><span><{$ding.address}></span>
+						</p>
+						<p>
+							<if condition="!empty($tel[0])">
+							<i class="icon-mobile-phone"></i><foreach name="tel" item="var"><em><{$var}></em></foreach>
+							</if>
+							<code>(扫描右侧二维码手机访问)</code>
+						</p>
+						<span class="qrcode" rel="http://<{$_SERVER['SERVER_NAME']}>/mobile<{$host}><{:U('near/detail',array('id'=>$ding['pois_id']))}>"></span>
+						<if condition="!empty($ding[shop_id])"><a class="ishop" href="<{:U('shop/detail',array('shop_id'=>$ding['shop_id']))}>" target="_blank">查看商家</a></if>
+					</li>
+					</if>
+					
+					<foreach name="list" item="item">	
+					<php>$tel=explode(',',$item['telephone']);</php>
+					<li>
+						<h2><a href="<{:U('biz/detail',array('pois_id'=>$item['pois_id']))}>"><{$item['name']}></a></h2>
+						<p>
+							<i class="icon-map-marker"></i><span><{$item.address}></span>
+						</p>
+						<p>
+							<if condition="!empty($tel[0])">
+							<i class="icon-mobile-phone"></i><foreach name="tel" item="var"><em><{$var}></em></foreach>
+							</if>
+							<code>(扫描右侧二维码手机访问)</code>
+						</p>
+						<span class="qrcode" rel="http://<{$_SERVER['SERVER_NAME']}>/mobile<{$host}><{:U('near/detail',array('id'=>$item['pois_id']))}>"></span>
+						<if condition="!empty($item[shop_id])"><a class="ishop" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" target="_blank">查看商家</a></if>
+					</li>
+					</foreach>
+				</ul>
+				<div class="blank-10"></div>
+				<script>
+				$(function(){
+					$(".qrcode").each(function(){
+						$(this).empty();
+						$(this).qrcode($(this).attr("rel")); 
+					});
+				});
+				</script>
+				
+				
+				<div class="pagination">
+					<{$page}>
+				</div>
+				
+			</div>
+			<div class="x3">
+				<div class="side-list">
+					<div class="list-hd">
+						<h3>最新加入</h3>
+					</div>
+					<div class="list-bd">
+						<ul>
+							<calldata mdl="Biz"  limit="0,10"  cache="21600" order="pois_id desc">
+							<li>
+								<h3><a href="<{:U('biz/detail',array('pois_id'=>$item['pois_id']))}>" target="_blank"><{$item['name']}></a></h3>
+								<p><{$item['address']}></p>
+							</li>
+							</calldata>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<include file='public:footer'/>

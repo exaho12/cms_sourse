@@ -1,0 +1,90 @@
+
+<include  file='public:header'/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('tieba/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			发表帖子
+		</div>
+		<div class="top-share">
+			<a href="<{:U('tieba/main')}>" id="cate-btn"><i class="icon-bars"></i></a>
+		</div>
+	</header>
+	<form class="post-form" action="<{:U('tieba/post',array('cat'=>$cate[cate_id]))}>" method="post" target="x-frame" >
+		<input type="hidden" id="photo" name="data[photo]" />
+		<input type="hidden" name="data[safecode]" value="<{$safecode}>" />
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<select name="cat">
+					<option value="">选择分类</option>
+					<foreach name="sharecates" key="k" index="index" item="item">
+					<if condition="$item['parent_id'] neq 0">
+					<option value="<{$item['cate_id']}>"><{$item['cate_name']}></option>
+					</if>
+					</foreach>
+				</select>
+			</div>
+		</div>
+		<div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" value="" placeholder="请输入标题"  />
+			</div>
+			<div class="x3 text-right">
+				<button class="button bg-green margin-small-right" type="submit">发表</button>
+			</div>
+		</div>
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[contents]" placeholder="文明上网，登陆发言"></textarea>
+		</div>
+		<div class="blank-10 clearfix"></div>
+		<div class="container">
+			<div class="Upload-img-box">
+            	<div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" >上传图片</div>
+                <div class="Upload-img" id="jq_imgs">
+                </div>
+                
+                <script type="text/javascript" src="/themes/default/Mobile/statics/js/ajaxfileupload.js"></script>
+                <script>
+                    function ajaxupload() {
+                        $.ajaxFileUpload({
+                            url: '<{:U("app/upload/upload",array("model"=>"tieba"))}>',
+                            type: 'post',
+                            fileElementId: 'fileToUpload',
+                            dataType: 'text',
+                            secureuri: false, //一般设置为false
+                            success: function (data, status) {
+								var str = '<div class="list-img"><img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos[]" value="' + data + '" />  <a href="javascript:void(0);">取消</a></div>';
+                                $("#jq_imgs").append(str);
+                                $("#fileToUpload").unbind('change');
+                                $("#fileToUpload").change(function () {
+                                    ajaxupload();
+                                });
+                            }
+                        });
+                    }
+
+                    $(document).ready(function () {
+                        $("#fileToUpload").change(function () {
+                            ajaxupload();
+                        });
+                        $(document).on("click", "#jq_imgs a", function () {
+                            $(this).parent().remove();
+                        });
+                    });
+                </script>
+                
+                
+            </div>
+		</div>
+	</form>
+		<style>
+	.Upload-img-box{ padding:0.1rem 0.1rem 0px; font-size:0;}
+.Upload-btn{ height:34px; width:100px; border-radius:3px; color:#fff; font-size:0.14rem; line-height:34px; position:relative; text-align:center; padding-left:0.2rem; background:#2fbdaa url(/themes/default/Mobile/statics/img/upload.png) no-repeat 0.08rem center;}
+.Upload-btn input{ opacity:0; filter:alpha(opacity=0); width:100%; height:100%; position:absolute; left:0; top:0;}
+.Upload-img{ overflow:hidden; height:auto;}
+.Upload-img .list-img{ width:100px; height:100px; float:left; padding-right:0.1rem; padding-top:0.1rem; background:url(/themes/default/Mobile/statics/img/longding1.gif) no-repeat 0.25rem 0.35rem; background-size:0.5rem 0.5rem;}
+.Upload-img .list-img img{ width:100%; height:100%;}
+	</style>
+
+<include  file='public:footer'/> 

@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">抢购</a> > <a>订单管理</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('tuan/order')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            开始时间：<input type="text" class="radius3 tuan_topser"  name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            结束时间：<input type="text" class="radius3 tuan_topser"  name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"/>
+            订单编号：<input type="text" name="keyword" value="<{$keyword}>" class="radius3 tuan_topser" />
+            状态：<select name="st" class="manageSelect w80">
+                        <option value="999">请选择</option>
+                        <option <eq name="st" value="1">selected="selected"</eq>  value="1">已完成</option>
+                        <option <eq name="st" value="0">selected="selected"</eq>  value="0">等待付款</option>
+                    </select>
+            <input type="submit" style="margin-left:10px;" class="radius3 sjgl_an tuan_topbt" value="搜 索"/>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli"><a href="<{:U('tuan/index')}>">正在抢购</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('tuan/history')}>">往期抢购</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('tuan/order')}>">订单管理</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('tuan/used')}>">抢购券管理</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>ID</td>
+            <td>抢购图片</td>
+            <td>抢购产品</td>
+            <td>数量</td>
+            <td>订单金额</td>
+            <td>创建时间</td>
+            <td>创建IP</td>
+            <td>状态</td>
+        </tr>
+        <foreach name="list" item="var">
+            <tr>
+                <td><{$var.order_id}></td>
+                <td style="height: 80px;"><img width="120" src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>" style="margin: 0px auto;" /></td>
+                <td><{$tuan[$var['tuan_id']]['title']}></td>
+                <td><{$var.num}></td>
+                <td><{:round($var['total_price']/100,2)}></td>
+                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                <td><{$var.create_ip}></td>
+                <td><eq name="var.status" value="0">等待付款<else />已完成</eq></td>
+            </tr>
+        </foreach>
+    </table>
+    <div class="paging">
+        <{$page}>
+    </div>
+</div>
+
+<include  file='public:footer'/>

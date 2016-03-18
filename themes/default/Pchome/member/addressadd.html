@@ -1,0 +1,77 @@
+<include file="member:head"/>
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+            <li><a href="<{:U('member/nickname')}>">昵称设置</a></li>
+            <li><a href="<{:U('member/face')}>">修改头像</a></li>
+            <li><a href="<{:U('member/password')}>">修改密码</a></li>
+            <li class="on"><a href="<{:U('member/myaddress')}>">收货地址</a></li>
+        </ul>
+    </div>
+    <div class="address_mr">
+        <ul>
+            <li>默认地址：<{$areas[$default['area_id']]['area_name']}>区<{$business[$default['business_id']]['business_name']}>商圈<{$default.addr}><a class="address_del right" mini="act" href="<{:U('member/addressdel',array('addr_id'=>$default['addr_id']))}>">删除</a></li>
+        </ul>
+    </div>
+    <form  target="baocms_frm" action="<{:U('member/addressadd')}>" method="post">
+        <div class="addAddress_nr">
+            <p class="addAddress_t">添加地址：</p>
+            <ul>
+                <li>
+                    <div class="left"><span>所在地区：</span></div>
+                    <div class="lef">
+                        <select name="data[area_id]" id="area_id" class="">
+                            <option value="0">请选择...</option>
+                            <foreach name="areas" item="var">
+                                <eq name="var.city_id" value="$city_id">
+
+                                <option value="<{$var.area_id}>"><{$var.area_name}></option>
+                                </eq>
+                            </foreach>   
+                        </select>
+                        <script>
+                            $(document).ready(function (e) {
+                                $("#area_id").change(function () {
+                                    var url = '<{:U("member/child",array("area_id"=>"0000"))}>';
+                                    if ($(this).val() > 0) {
+                                        var url2 = url.replace('0000', $(this).val());
+                                        $.get(url2, function (data) {
+                                            $("#business_id").html(data);
+                                        }, 'html');
+                                    }
+
+                                });
+                            });
+                        </script>
+                        <select name="data[business_id]" id="business_id" class="">
+                            <option value="0">请选择...</option>
+                            <foreach name="business" item="var">
+                                <option value="<{$var.business_id}>"><{$var.business_name}></option>
+                            </foreach>   
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div class="left"><span>收货人姓名：</span></div>
+                    <div class="lef">
+                        <input type="text" name="data[name]" value="<{$detail.name|default=''}>" class="addAddress_jd addAddress_wz" />
+                </li>
+                <li>
+                    <div class="left"><span>电话号码：</span></div>
+                    <div class="lef">
+                        <input class="addAddress_jd addAddress_wz" type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" />
+                </li>
+                <li>
+                    <div class="left"><span>具体地址：</span></div>
+                    <div class="lef">
+                        <input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="addAddress_jd" />
+                        <input type="hidden" value="<{$backurl}>" name="backurl" id="backurl" />
+                </li>
+
+            </ul>
+            <div class="addAddress_bcqx"><input class="bc" type="submit" value="保存" /></div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

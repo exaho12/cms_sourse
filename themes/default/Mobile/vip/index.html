@@ -1,0 +1,166 @@
+<include  file='public:header'/>   
+<body>
+    <header>
+        <div class="header_search_city">
+            <a style="display:block; width:119px;  padding-left:30px; height:30px; margin:0 auto; padding-top:7px; background-image:url(__TMPL__statics/img/searchbg.png); background-repeat:no-repeat; background-position:center 7px; font-family:'微软雅黑'; font-size:13px; line-height:30px; color:#fff;" href="<{:U('index/search')}>">输入商户名/搜索词<!--<img style="margin:0 auto; padding-top:7px;" width="149px" height="30px" src="__TMPL__statics/img/index_search.png">--></a>
+            <a class="index qiehuan" <eq name="bao_city" value="1">href="<{:U('city/index')}>"<else/>href="<{:U('index/index')}>"</eq>><{:bao_msubstr($CONFIG['site']['cityname'],0,2,false)}></a>
+            <div class="sign"><a href="<{:U('sign/signed')}>">签到+<img src="__TMPL__statics/img/sign.png"/></a></div>
+        </div>
+    </header>
+
+    <section class="item_content">
+        <div class="nav_menu menu" id="down_menu">
+            <ul class="nav_menu_ul">
+                <li class="fst"><a href="javascript:void(0);">分类</a></li>
+                <li><a href="javascript:void(0);">地区</a></li>
+                <li><a href="javascript:void(0);">商圈</a></li>
+                <li><a href="javascript:void(0);">排序</a></li>
+            </ul>
+            <div class="down_menuList">
+                <div class="down_menuList_ul">
+                    <ul>
+                        <li class="down_menuList_li <if condition='empty($cat)'>on</if>"><a href="<{:U('vip/index')}>" >全部</a></li>
+                        <if condition="!empty($cat)">    
+                            <li class="down_menuList_li"><a style="color:red;" href="<{:LinkTo('vip/index',array('cat'=>$cat))}>"><{$shopcates[$cat]['cate_name']}></a></li>
+                        </if>   
+                        <foreach name="shopcates" item="var">
+                            <if condition="$var.parent_id eq $cat">   
+                                <li class="down_menuList_li"> <a   <if condition="$var.cate_id eq $cat">   style="color:red;"  </if>  title="<{$var.cate_name}>" href="<{:LinkTo('vip/index',array('cat'=>$var['cate_id']))}>"><{$var.cate_name}></a></li>
+                            </if>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="down_menuList_ul">
+                    <ul>
+                        <li class="down_menuList_li <if condition='empty($area_id)'>on</if>"><a href="<{:LinkTo('vip/index',array('cat'=>$cat))}>">全部区域</a></li>
+                        <foreach name="areas" item="var">
+                            <li class="down_menuList_li"><a   <if condition="$var.area_id eq $area_id"> style="color:red;" </if>   href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$var['area_id']))}>"><{$var.area_name}></a></li>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="down_menuList_ul">
+                    <ul>
+                        <li class="down_menuList_li <if condition='empty($business_id)'>on</if>"><a href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id))}>">全部商圈</a></li>
+                        <foreach name="biz" item="var">
+                            <eq name="var.area_id" value="$area_id">
+                            <li class="down_menuList_li"><a  <if condition="$var.business_id eq $business_id"> 
+                                        style="color:red;"
+                                    </if>  href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$var['business_id']))}>"><{$var.business_name}></a></li>
+                            </eq>
+                        </foreach>
+                    </ul>
+                </div>
+                <div class="down_menuList_ul">
+                    <ul>
+                        <li class="down_menuList_li"><a <if condition="$order eq 1"> 
+                                    style="color:red;"
+                                </if> href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>1))}>">距离优先</a></li>
+                        <li class="down_menuList_li"><a  <if condition="$order eq 2"> 
+                                    style="color:red;"
+                                </if> href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$business_id,'order'=>2))}>">推荐排序</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $(".nav_menu_ul>li").each(function (i) {
+                    $(this).click(function () {
+                        $(".down_menuList_ul").each(function (e) {
+                            if (i == e) {
+                                $(this).toggle();
+                            }
+                            else {
+                                $(this).hide();
+                            }
+                        });
+                    });
+                });
+            });
+
+        </script>
+        <section class="vip_list">
+            <ul></ul>
+        </section>
+
+        <script>
+            $(document).ready(function () {
+                loaddata('<{$nextpage}>', $(".vip_list ul"), true);
+            });
+        </script>
+
+        <!--<section class="item_content">
+        <div class="nav_menu menu special" id="down_menu">
+            <ul>
+                <li class="fst"><a href="javascript:void(0);">分类</a>
+                    <ul >
+                        <li class="fst"><a href="<{:U('vip/index',array('area'=>$area))}>" >全部</a></li>
+                        <foreach name="shopcates" item="var">
+                            <if condition="$var.parent_id eq 0">   
+                                <li> <a   <if condition="$var.cate_id eq $cat">   style="color:red;"  </if>  title="<{$var.cate_name}>" href="<{:LinkTo('vip/index',array('cat'=>$var['cate_id'],'business'=>$business))}>"><{$var.cate_name}></a></li>
+                            </if>
+                        </foreach>
+                    </ul>
+                </li>
+                <li><a href="javascript:void(0);">地区</a>
+                    <ul >
+                        <li class="fst"><a href="<{:LinkTo('vip/index',array('cat'=>$cat))}>">全部区域</a></li>
+                        <foreach name="areas" item="var">
+                            <li><a   <if condition="$var.area_id eq $area_id"> style="color:red;" </if>   href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$var['area_id']))}>"><{$var.area_name}></a></li>
+                        </foreach>    
+                    </ul>
+                </li>
+                <li><a href="javascript:void(0);">商圈</a>
+                <if condition="!empty($area_id)">
+                    <ul >
+                        <li class="fst"><a href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id))}>">全部商圈</a></li>
+                        <foreach name="biz" item="var">
+                            <eq name="var.area_id" value="$area_id">
+                            <li><a  <if condition="$var.business_id eq $business_id"> 
+                                        style="color:red;"
+                                    </if>  href="<{:LinkTo('vip/index',array('cat'=>$cat,'area'=>$area_id,'business'=>$var['business_id']))}>"><{$var.business_name}></a></li>
+                            </eq>
+                        </foreach>    
+                    </ul>
+                </if>
+                </li>
+            </ul>
+        </div>
+        </section>
+        <script>
+            $(document).ready(function () {
+    
+                $("#down_menu ul li a").click(function () {
+                    $(this).parent().find('ul').toggle();
+                    $(this).parent().siblings().find('ul').hide()
+                });
+            });
+    
+        </script>
+        <section class="coupon_list">
+            <foreach name="list" item="var">
+                <php>
+                    $class = "hyk_yes";
+                    $classdl = "bgr";
+                    $url = U('vip/join',array('shop_id'=>$var['shop_id']));
+                    if(isset($cardshopids[$var['shop_id']])){
+                    $class = 'hyk_no';
+                    $classdl = "bgh";
+                    $url = 'javascript:void(0);';
+                    }
+                </php>
+                <div class="lists">
+                    <div class="jPic"><a href="<{$url}>"><img src="__ROOT__/attachs/<{$details[$var['shop_id']]['card_photo']|default='default.jpg'}>" width="120" height="80"/></a></div>
+                    <div class="jBox">
+                        <p class="title"><{$var['shop_name']}></p>
+                        <p class="t1"><{$details[$var['shop_id']]['near']}>店</p>
+                        <p class="t2">会员专享优惠</p>
+                        <if condition="$cardshopids[$var['shop_id']] neq null"> <div class="jBuybtnss"><a href="<{$url}>">您已成为会员</a></div> <else/><div class="jBuybtns"><a <{$mini}> href="<{$url}>">免费成为会员</a></div></if>
+    
+                    </div>
+                </div>
+            </foreach>
+        </section>-->
+
+
+        <include  file='public:footer'/>      		

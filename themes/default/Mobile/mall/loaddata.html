@@ -1,0 +1,13 @@
+<volist name="list" id="item" key="index"> 
+	<li class="line">		
+    <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">		
+    <div class="x3">			<img src="__ROOT__/attachs/<{$item.photo}>" />		
+    </div>		
+    <div class="x9">			<h5><{$item.title}></h5>		
+    	<p class="desc"><{:bao_Msubstr($item[instructions],0,60)}></p>			
+        <p class="info"><span>&yen;<{:round($item['mall_price']/100,2)}></span><del>&yen;<{:round($item['price']/100,2)}></del>				<em>已售<{$item.sold_num}></em>		
+        	</p>	
+        	</div>		
+            </a>	
+            </li>
+</volist>

@@ -1,0 +1,78 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <div class="mytitle" style="color:#333;">我的商城订单</div>
+        <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+        <form action="<{:U('member/goods')}>" method="post">
+            <div class="search_form"> 
+                <span class="search_form_wz">开始时间</span><input class="search_form_time" type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});"  />
+                <span class="search_form_wz">结束时间</span><input class="search_form_time" type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" />
+                <span class="search_form_wz">订单编号</span>
+                <input type="text" name="keyword" value="<{$keyword}>" class="search_form_ssk" /><input type="submit" class="search_form_ssan" value="搜索" />
+            </div>
+        </form>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td colspan="3">商品</td>
+                <td>单价（元）</td>
+                <td>数量</td>
+                <td>总价</td>
+                <td>状态</td>
+				<td>操作</td>
+            </tr>
+            <foreach name="list" item="order">
+                <tr class="tgdd_nrBh">
+                    <td style="text-align: left; text-indent: 20px;">
+                        订单号：<{$order['order_id']}>
+					
+                        供应：<{$shops[$order['shop_id']]['shop_name']}>
+                    </td>
+                    <td colspan="5" style="text-align: left; text-indent: 20px;">
+                        收货地址：<{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}>、
+                        <{$business[$addrs[$order['addr_id']]['business_id']]['business_name']}>、
+                        <{$addrs[$order['addr_id']]['addr']}>
+                        <{$addrs[$order['addr_id']]['name']}>
+                        <{$addrs[$order['addr_id']]['mobile']}> 
+                    </td>
+                    <td width="80">
+                        <eq name="order.is_daofu" value="0">
+                        <eq name="order.status" value="0">
+                        <a class="myInfor_sx" href="<{:U('mall/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
+                <else />
+                <{$types[$order['status']]}>
+                </eq>
+                <else />
+                <eq name="order.status" value="0">
+                货到付款
+                <else />
+                <{$types[$order['status']]}>
+                </eq>
+                </eq>
+                </td>
+				<td width="80"><if condition="$order['status']==0"><a  class="tgdd_del" href="<{:U('Member/goodsdel',array('order_id'=>$order['order_id']))}>"><font color="red">删除</font></a></if></td>
+			    </tr>
+                <foreach name="shops" item="shop">
+                    <volist name="goods" id="good" key="index">
+				     
+                        <if condition="($good['shop_id'] eq $shop['shop_id']) AND ($good['order_id'] eq $order['order_id'])">    
+                            <tr class="tgdd_nrC">
+                                <td class="tgdd_nrCtd"><img style="margin: 0px auto;" src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']|default='default.jpg'}>" width="100" height="75"/></td>
+                                <td colspan="2" class="tgdd_nrCtd"><{$products[$good['goods_id']]['title']}></td>
+                                <td class="tgdd_nrCtd"><{:round($good['price']/100,2)}></td>
+                                <td class="tgdd_nrCtd"><{$good.num}></td>
+                                <td class="tgdd_nrCtd"><{:round($good['total_price']/100,2)}></td>
+								<td class="tgdd_nrCtd">&nbsp;</td>
+								<td class="tgdd_nrCtd">&nbsp;</td>
+								                            </tr>
+                        </if>
+                    </volist>
+                </foreach>
+            </foreach>
+        </table>
+        <{$page}>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<include file="public:header" /> 
+<!-- <include file="public:top"/> -->
+<div class="content_right">
+    <div class="tgdd">
+        <div class="tgdd_t">
+            <ul>
+                <li <if condition="$ctl eq 'order' and ($act eq 'index' or $act eq 'noindex')">class="on"</if> ><a href="<{:U('order/index')}>">抢购订单</a></li>
+                <li <if condition="$ctl eq 'ele'">class="on"</if> ><a href="<{:U('ele/index')}>">订餐订单</a></li>
+                <li <if condition="$ctl eq 'order' and $act eq 'goods'">class="on"</if> ><a href="<{:U('order/goods')}>">商城订单</a></li>
+            </ul>
+        </div>
+        <div class="tgdd_t">
+            <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+            <form action="<{:U('order/index')}>" method="post">
+                <div class="search_form"> 
+                    <span class="search_form_wz">开始时间</span><input class="search_form_time" type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  />
+                    <span class="search_form_wz">结束时间</span><input class="search_form_time" type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" />
+                    <span class="search_form_wz">状态</span>
+                    <select name="st" class="search_form_zt">
+                        <option value="999">请选择</option>
+                        <option <eq name="st" value="1">selected="selected"</eq>  value="1">已完成</option>
+                        <option <eq name="st" value="0">selected="selected"</eq>  value="0">等待付款</option>
+                        <option <eq name="st" value="-1">selected="selected"</eq>  value="-1">到店付</option>
+                    </select>
+                    <span class="search_form_wz">订单编号</span>
+                    <input type="text" name="keyword" value="<{$keyword}>" class="search_form_ssk" /><input type="submit" class="search_form_ssan" value="搜索" />
+                </div>
+            </form>
+        </div>
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <th>抢购订单</th>
+                    <th>数量</th>
+                    <th>总价</th>
+                    <th>使用积分</th>
+                    <th>RMB</th>
+                    <th>订单状态</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="list" id="var">
+                    <tr class="tgdd_nrBh">
+                        <td colspan="7" style="text-align:left;">订单编号：<span class="tgdd_bh"><{$var.order_id}></span></td>
+                    </tr>
+                    <tr class="tgdd_nrC">
+                        <td style="text-align:left;" width="335px"><div class="tgdd_tw">
+                                <div class="left"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>" width="81" height="60" /></a></div>
+                                <div class="lef"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><{$tuan[$var['tuan_id']]['title']}></a><p>有效期至：<{$tuan[$var['tuan_id']]['fail_date']}></p><p>商家：<a class="myInfor_sx" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$shops[$var['shop_id']]['shop_name']|default='本站'}></a></p></div>
+                            </div></td>
+                        <td class="tgdd_nrCtd"><{$var.num}></td>
+                        <td class="tgdd_nrCtd" id="price-color">&yen;<{:round($var['total_price']/100,2)}></td>
+                        <td class="tgdd_nrCtd"><{$var.use_integral}></td>
+                        <td class="tgdd_nrCtd" id="price-color">&yen;<{:round($var['need_pay']/100,2)}></td>
+                        <td class="tgdd_nrCtd">
+                            <eq name="var.status" value="0">                               
+                                <a class="myInfor_sx myInfor_sx_fk" target="_blank" href="<{:U('pchome/tuan/pay',array('order_id'=>$var['order_id']))}>">去付款</a>
+                            <else />
+                                <eq name="var.status" value="-1">       
+                                    到店付
+                                <else />
+                                	<php>
+                                    	$tc = D('TuanCode');
+                                        $rtc = $tc -> where('order_id ='.$var['order_id']) -> find();
+                                    </php>
+                                    <eq name="rtc.is_used" value="1">
+                                            <a class="myInfor_sx myInfor_sx_fk" href="javascript:void(0)">已完成</a>
+                                            <if condition="$dianping[$var['order_id']]['order_id'] eq null">
+                                                <a class="myInfor_sx" href="<{:U('dianping/tuandianping',array('order_id'=>$var['order_id']))}>">点评</a>     
+                                            <else/>
+                                                <a class="myInfor_sx myInfor_sx_fk" href="javascript:void(0)">已评价</a>
+                                            </if>
+                                        <else/>
+                                           已付款  未消费
+                                    </eq>
+                                </eq>
+                            </eq>
+                        </td>
+                        <td align="center"><a mini='confirm' class="tgdd_del red" href="<{:U('order/delete',array('order_id'=>$var['order_id']))}>">删除</a></td>
+                    </tr>
+                </volist>
+            </table> 
+            <div class="x"><{$page}></div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

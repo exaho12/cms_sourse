@@ -1,0 +1,28 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box shop-goods-list">
+			<div class="box-hd box-ld">
+				<h3>商品展示</h3>
+			</div>
+			<div class="box-bd">
+				<ul class="line">
+					<calldata mdl="Goods" where="shop_id = {$detail['shop_id']}" limit="0,30"  cache="21600" order="goods_id desc">
+					<li class="x3">
+						<div class="goods-item">
+							<a class="item-pic" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" target="_blank">
+								<img src="/attachs/<{$item.photo}>" alt="<{$item.title}>" />
+							</a>
+							<h2><a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" target="_blank"><{$item.title}></a></h2>
+							<div class="item-des">
+								<span><em>¥<{:round($item['mall_price']/100,2)}></em></span>
+								<del>¥ <{:round($item['price']/100,2)}></del>
+								<i>已售 <{$item['sold_num']}></i>
+							</div>
+						</div>
+					</li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

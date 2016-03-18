@@ -1,0 +1,114 @@
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="baocms_frm" action="<{:U('navigation/edit',array('nav_id'=>$detail['nav_id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">导航名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[nav_name]" value="<{$detail.nav_name|default=''}>" class="manageInput" />
+					<code>2-4字之间！</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">别名：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput w80" />
+					<code>这里是很多时候关联calss时候用，建议填写！前台用$ctl函数判断！</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">ioc图标：</td>
+                    <td class="rgTdBt"><input type="text" name="data[ioc]" value="<{$detail.ioc|default=''}>" class="manageInput w80" />
+       <code>这里是在手机上如果需传ioc图标时候启用，参考：<a style="color:#00F" target="_blank" href="http://fontawesome.dashgame.com/">http://fontawesome.dashgame.com/</a></code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">导航链接：</td>
+                    <td class="rgTdBt"><input type="text" name="data[url]" value="<{$detail.url|default=''}>" class="manageInput" />
+                     <code>请填写正确的url，必须带上http://</code>
+                    </td>
+                </tr>
+                <tr>
+                            <td class="lfTdBt">
+                        <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                        <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                        ioc小图标：
+                        </td>
+                        <td class="rgTdBt">
+                            <div style="width: 300px;height: 100px; float: left;">
+                                <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                                <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                            </div>
+                            <div style="width: 200px;height: 100px; float: left;">
+                                <img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
+                                建议尺寸：60*60像素！
+                            </div>
+                            <script>
+                                $("#photo_file").uploadify({
+                                    'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                    'uploader': '<{:U("app/upload/uploadify",array("model"=>"navigation"))}>',
+                                    'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                    'buttonText': '上传ioc小图标',
+                                    'fileTypeExts': '*.gif;*.jpg;*.png',
+                                    'queueSizeLimit': 1,
+                                    'onUploadSuccess': function (file, data, response) {
+                                        $("#data_photo").val(data);
+                                        $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                                    }
+                                });
+                            </script>
+                        </td>
+                        </tr>
+                <tr>
+              
+                    <td class="lfTdBt">所属导航分类</td>
+                    <td class="rgTdBt">
+
+                <!--<input type="radio" name="data[status]" value="1" <if condition="$detail[status] eq 1">checked="checked"</if> />手机底部导航
+                <input type="radio" name="data[status]" value="3" <if condition="$detail[status] eq 3">checked="checked"</if> />电脑顶部导航-->
+				<input type="radio" name="data[status]" value="2" <if condition="$detail[status] eq 2">checked="checked" </if> />手机首页导航
+                <input type="radio" name="data[status]" value="4" <if condition="$detail[status] eq 4">checked="checked" </if> />电脑主导航
+                <!--<input type="radio" name="data[status]" value="5" <if condition="$detail[status] eq 5">checked="checked"</if> />电脑底部导航
+                <input type="radio" name="data[status]" value="6" <if condition="$detail[status] eq 6">checked="checked"</if> />电脑会员中心导航-->
+                        <code>注意：编辑的时候不要修改类型！</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">排序：</td>
+                    <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default=''}>" class="manageInput" />
+                        <code>数字越小越高</code>
+                    </td>
+                </tr>
+              
+                <tr>
+                    <td class="lfTdBt">是否新窗口打开</td>
+                    <td class="rgTdBt">
+                <input type="radio" name="data[target]" value="0" <if condition="$detail[target] eq 0">checked="checked"</if> />当前窗口
+				<input type="radio" name="data[target]" value="1" <if condition="$detail[target] eq 1">checked="checked"</if> />新窗口
+                        <code>开启后再新窗口打开，默认当前窗口打开哦！</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">图标颜色：</td>
+                    <td class="rgTdBt"><input type="text" name="data[colour]" value="<{$detail.colour|default=''}>" class="manageInput" />
+                    <code>请填写颜色代码：<a style="color:#00F" target="_blank"  href="http://www.fengmiyuanma.com/10392.html">http://www.fengmiyuanma.com/10392.html</a></code>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td class="lfTdBt">是否显示</td>
+                    <td class="rgTdBt">
+                <input type="radio" name="data[closed]" value="0" <if condition="$detail[closed] eq 0">checked="checked"</if> />显示
+				<input type="radio" name="data[closed]" value="1" <if condition="$detail[closed] eq 1">checked="checked"</if> />隐藏
+                        <code>这里是可以开启关闭导航显示的，必须选哦！</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>

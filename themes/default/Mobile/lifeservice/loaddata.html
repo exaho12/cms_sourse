@@ -1,0 +1,16 @@
+<foreach name="list" item="item"> 
+        <li class="line">
+	<a href="<{:U('lifeservice/detail',array('id'=>$item['id']))}>" class="item fix hightitem">	
+		<div class="x3">
+                    <img src="__ROOT__/attachs/<{$item.photo}>">
+		</div>
+		<div class="x9">	
+			<h5>服务项目：<{$cates[$item['cate_id']]['cate_name']}><a href="<{:U('lifeservice/detail',array('id'=>$item['id']))}>" class="button button-big bg-yellow float-right">立即预约</a></h5>	
+            
+			<p class="addr">简介：<if condition="empty($item['title'])">暂无简介<else/><{:bao_msubstr($item['title'],0,16,true)}></if></p>
+            
+		</div>
+	</a>
+		</li>
+
+</foreach>

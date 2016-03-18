@@ -1,0 +1,49 @@
+<include file="public:header"/>
+<div class="content_right">  
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li ><a href="<{:U('quanming/index')}>">推广成功</a></li>
+            <li><a href="<{:U('quanming/tongji')}>">统计报表</a></li>
+            <li class="on"><a href="<{:U('quanming/info')}>">推广会员</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>ID</td>
+                <td>昵称</td>
+                <td>几级会员</td>
+                <td>时间</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.user_id}></td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.nickname}></td>
+                    <td class="tgdd_nrCtd bullionLog_td">
+                <php> if($var['invite6'] == $MEMBER['user_id']){
+                        echo '一级会员';
+                    }elseif($var['invite5'] == $MEMBER['user_id']){
+                        echo '二级会员';
+                    }elseif($var['invite4'] == $MEMBER['user_id']){
+                        echo '三级会员';
+                    }elseif($var['invite3'] == $MEMBER['user_id']){
+                        echo '四级会员';
+                    } 
+                elseif($var['invite2'] == $MEMBER['user_id']){
+                        echo '五级会员';
+                    } 
+                elseif($var['invite1'] == $MEMBER['user_id']){
+                        echo '六级会员';
+                    } </php>
+                    </td>
+                    <td class="tgdd_nrCtd bullionLog_td"><{$var.reg_time|date='Y-m-d H:i:s',###}></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class="x"><{$page}></div>
+    </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

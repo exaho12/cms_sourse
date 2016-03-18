@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">抽奖插件</li>
+        <li class="li2 li3">抽奖设置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>摇一摇的抽奖设置</p>
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <{:BA('awardgoods/create',array("award_id"=>$award_id),'添加内容','load','',800,450)}>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <form  target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+
+                        <td><input type="checkbox" class="checkAll" rel="goods_id" /></td>
+                        <td>商品ID</td>
+                        <td>奖项规格</td>
+                        <td>奖品名称</td>
+                        <td>中奖概率</td>
+                        <td>数量</td>
+                        <td>剩余</td>
+                        <td>操作</td>
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><input class="child_goods_id" type="checkbox" name="goods_id[]" value="<{$var.goods_id}>" /></td>
+                            <td><{$var.goods_id}></td>
+                            <td><{$var.award_name}></td>
+                            <td><{$var.goods_name}></td>
+                            <td>万分之<{$var.prob}></td>
+                            <td><{$var.num}></td>
+                            <td><{$var.surplus}></td>
+                            <td>
+                                <{:BA('awardgoods/edit',array("goods_id"=>$var["goods_id"]),'编辑','load','remberBtn',800,450)}>
+                                <{:BA('awardgoods/delete',array( "award_id"=>$award_id, "goods_id"=>$var["goods_id"]),'删除','act','remberBtn')}>
+                            </td>
+                        </tr>
+                    </foreach>
+                </table>
+                <{$page}>
+            </div>
+            <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+                <div class="left">
+                    <{:BA('awardgoods/delete','','批量删除','list',' a2')}>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>  
+

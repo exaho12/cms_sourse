@@ -1,0 +1,225 @@
+<php>$seo_title = $detail['title'].'团购';</php>
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('tuan/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			团购详情
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"><i class="icon-share"></i></a>
+		</div>
+	</header>  
+	<div id="share-box" class="share-box">
+		<div class="dialog-mask"></div>
+			<ul class="line">
+				<li class="-mob-share-weibo x3"><img src="/static/default/wap/image/share/share-weibo.png" /><p>新浪微博</p></li>
+				<li class="-mob-share-tencentweibo x3"><img src="/static/default/wap/image/share/share-twb.png" /><p>腾讯微博</p></li>
+				<li class="-mob-share-qzone x3"><img src="/static/default/wap/image/share/share-qzone.png" /><p>QQ空间</p></li>
+				<li class="-mob-share-qq x3"><img src="/static/default/wap/image/share/share-py.png" /><p>QQ好友</p></li>
+				<li class="-mob-share-weixin x3"><img src="/static/default/wap/image/share/share-weixin.png" /><p>微信</p></li>
+				<li class="-mob-share-renren x3"><img src="/static/default/wap/image/share/share-renren.png" /><p>人人网</p></li>
+				<li class="-mob-share-kaixin x3"><img src="/static/default/wap/image/share/share-kaixin.png" /><p>开心网</p></li>
+				<li id="mui-card-close" class="mui-card-close x3"><img src="/static/default/wap/image/share/share-close.png" /><p>关闭</p></li>
+			</ul>
+		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#share-box").hide();
+			$("#share-btn").click(function () {
+				$("#share-box").toggle();
+				$('html,body').animate({scrollTop:0}, 'slow');
+			});
+			$("#mui-card-close").click(function () {
+				$("#share-box").hide();
+			});
+		});
+	</script>
+	
+	<div class="tuan-detail">
+		<div class="line banner">	
+			<img src="__ROOT__/attachs/<{$detail.photo}>">	
+			<div class="title">
+				<h1><a href="<{:U('tuan/pic',array('tuan_id'=>$detail['tuan_id']))}>">点击查看图片相册</a></h1>
+			</div>	
+		</div>
+        
+        
+        <div class="line price">
+			<div class="x12">
+				<h3><{:bao_Msubstr($detail['title'],0,48,false)}></h3>
+                <h4 class="se"><{:bao_Msubstr($detail['intro'],0,88,false)}></h4>
+			</div> 
+		</div>
+        
+        
+		<div class="line info">
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">退</div></span>
+				<span class="text-green">支持随时退款</span>
+			</div>
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray"><i class="icon-user"></i></div></span>
+				<span class="text-gray">已售 <{$detail.sold_num}> 份</span>
+			</div>
+            
+            <!--小灰灰增加开始-->
+            <div class="x6">
+            <if condition="$detail['freebook'] eq 1">
+            <span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">预</div></span>
+			<span class="text-green">免预约</span>
+            <else />
+			<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">否</div></span>
+			<span class="text-green">需要预约哦~</span>
+                
+            </if>
+			</div>
+            <div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">距</div></span>
+				<span class="text-gray"><{$detail.d}></span>
+			</div>
+           <!--小灰灰增加结束-->
+
+			<div class="x12 margin-top">
+				<span class="txt-border txt-little radius-circle border-dot"><div class="txt radius-circle bg-dot"><i class="icon-database"></i></div></span>
+				<span class="text-dot">该抢购可以使用<{$detail.use_integral}>积分抵现！</span>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line status">
+			<div class="x6">
+				<span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span>
+			</div>
+			<div class="x6">
+				<span class="float-right margin-small-top"><a href="<{:U('tuan/dianping',array('tuan_id'=>$detail['tuan_id']))}>"><{$pingnum}>人评价了该抢购 </a><i class="icon-angle-right"></i></span>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line shop">
+			<div class="x9 border-right">
+				<h2> <a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a> <a  style="color:#F00; "href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"> （点击导航）</a></h2>
+				<p><{$shop.addr}></p>
+			</div>
+			<div class="x3">
+				<a class="tel" href="tel:<{$shop.tel}>"><i class="icon-phone text-main"></i></a>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line status">
+			<div class="x5">
+				<span><a >抢购须知 </a></span>
+			</div>
+			<div class="x7">
+				<span class="float-right"> <a href="<{:U('tuan/tuwen',array('tuan_id'=>$detail['tuan_id']))}>">更多图文详情 </a><i class="icon-angle-right"></i></span>
+			</div>
+		</div>
+        <hr />
+        <div class="container">
+        <{$tuandetails.instructions}>
+        </div>
+        <div class="line status2">
+			<div class="x12">
+				<span class="margin-small-top"> <a href="<{:U('tuan/tuwen',array('tuan_id'=>$detail['tuan_id']))}>">
+                点击查看<{:bao_Msubstr($detail['title'],0,10,false)}>图文详情 </a><i class="icon-angle-right"></i></span>
+			</div>
+		</div>
+        <hr />
+		
+
+
+  
+  <div class="blank-10 bg"></div>   
+  <hr />
+         <div class="line-title">
+		<h5>本店其他抢购</h5>
+	    </div>
+    
+        <div class="main-tuan">
+        <volist name="tuans" id="item" key="index">
+		<ul id="tuan-list">   
+        <li class="x12">
+		<a class="line" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>">
+			<div class="container">
+				<img class="x4" src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>">	
+				<div class="des x8">
+					<h5><{:bao_msubstr($item['title'],0,18)}></h5>
+					<p class="intro">
+						<{:bao_msubstr($item['intro'],0,28)}></p>
+					<p class="info">
+						<span>￥ <em><{:round($item['tuan_price']/100,2)}></em></span> <del>￥<{:round($item['price']/100,2)}></del>
+						<span class="text-little float-right badge bg-gray margin-small-top">已售：<{$item.sold_num}></span>
+					</p>
+				</div>
+			</div>
+		</a>
+	</li>
+    </volist>
+    </ul>
+	</div>
+   </div>
+</div>
+
+<div class="blank-10 bg"></div>
+
+
+<section class="buy-btn-wrap" id="j-buy-segment">
+    <div class="buy-segment">
+            <span class="old-current-price">
+            	<em class="price-value"><{$detail.tuan_price}></em>
+            </span>
+            <span class="original-price">
+            	<del><{$detail.price}></del>
+            </span>
+        <!--判断开始-->
+        
+                        
+                        
+                        
+        <if condition="$detail['bg_date'] gt $today">  
+        <div class="buy-wrapper">
+            <div class="privilege-btn">
+                <a href="javascript：void(0);" id="wap-buybtn-for-hmt" data-stat-param="href" class="buy-btn" data-role="buy-btn" mon="element=buyBtn" data-platform="0">
+                    <span class="tip2">活动价</span>
+                    <span class="privilege"><em class="price"><{$detail.tuan_price}></em></span>
+                    <span class="text">即将开始</span>
+                </a>
+            </div>
+        </div> 
+        <else/>
+        <if condition="$detail.num lt 1 ">
+        <div class="buy-wrapper">
+            <div class="privilege-btn">
+                <a href="#" id="wap-buybtn-for-hmt"  class="buy-btn" >
+                    <span class="tip2">活动价</span>
+                    <span class="privilege"><em class="price"><{$detail.tuan_price}></em></span>
+                    <span class="text">卖光了</span>
+                </a>
+            </div>
+        </div>
+        <else />
+        <div class="buy-wrapper">
+            <div class="privilege-btn">
+                <a href="<{:U('tuan/buy',array('tuan_id'=>$detail['tuan_id']))}>" id="wap-buybtn-for-hmt" data-stat-param="href" class="buy-btn" data-role="buy-btn" mon="element=buyBtn" data-platform="0">
+                    <span class="tip2">活动价</span>
+                    <span class="privilege"><em class="price"><{$detail.tuan_price}></em></span>
+                    <span class="text">立即抢购</span>
+                </a>
+            </div>
+        </div>
+         </if>
+     </if>           
+    </div>
+</section>
+
+
+
+	</body>
+</html>

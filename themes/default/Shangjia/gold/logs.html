@@ -1,0 +1,36 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">系统设置</a> > <a href="">基础资料</a> > <a>消费日志</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t tuanfabu_top">
+            <div class="left tuan_topser_l">消费日志</div>
+        </div>
+    </div>
+    <div class="tuanfabu_tab">
+        <ul>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('info/password')}>">修改密码</a></li>
+            <li class="tuanfabu_tabli tabli_change"><a href="<{:U('gold/index')}>">金块充值</a></li>
+            <li class="tuanfabu_tabli tabli_change on"><a href="<{:U('gold/logs')}>">消费日志</a></li>
+        </ul>
+    </div> 
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>金块</td>
+            <td>说明</td>
+            <td>时间</td>
+        </tr>
+        <foreach name="list" item="var">
+        <tr>
+        	<td><b style="color: red;"><{$var.gold}></b></td>
+            <td><{$var.intro}></td>
+            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+        </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+<include  file='public:footer'/>

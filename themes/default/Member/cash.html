@@ -1,0 +1,35 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t password_t">
+        <ul>
+            <li><a  href="<{:U('member/cashlog')}>">提现记录</a></li>
+            <li class="on"><a href="<{:U('member/cash')}>">申请提现</a></li>
+        </ul>
+    </div>
+    <form method="post"  action="<{:U('member/cash')}>" >
+    <div class="password_nr">
+        <div class="password_input">
+            <div class="left">账户余额：</div>
+            <div class="lef"><{$money}> 元</div>
+        </div>
+        <div class="password_input">
+            <div class="left">提现金额：</div>
+            <div class="lef"> 
+                    <input type="text" name="money" class="manageInput" />
+             </div>
+        </div>
+        <div class="password_subm">
+        <?php
+                    	if ($money == 0)
+                        {
+                    ?>
+                    <input type="submit" class="submit" value="余额不足" disabled="disabled" />
+                    <?php }else{?>
+                    <input type="submit" class="submit" value="确认申请" />
+                    <?php }?>
+        </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

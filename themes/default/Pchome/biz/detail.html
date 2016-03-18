@@ -1,0 +1,127 @@
+<include file='public:header_news'/> <script src="/static/default/pc/js/qrcode.js"></script>
+	<div class="blank-10"></div>
+	
+	<div class="container">
+		<div class="line biz-top">
+			<div class="x1">
+				<i class="icon-search"></i>
+				<h1>找服务</h1>
+			</div>
+			<div class="x8">
+				<div class="biz-search">
+					<form class="form-auto" method="post" action="<{:U('biz/index')}>">
+						<input class="input" name="keyword" value="" placeholder="请输入关键字,已搜录<{$counts}>条记录" />
+						<button class="button bg-sub" type="submit"><i class="icon-search"></i></button>
+					</form>
+				</div>
+			</div>
+			<div class="x3">
+				<div class="biz-tip">
+					<img src="/static/default/pc/image/biz/near-tip.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="blank-10"></div>
+	
+	<div class="container">
+		<div class="line">
+			<div class="x9">
+				<div class="biz-detail">
+					<div class="detail-box">
+						<php>$tel=explode(',',$detail['telephone']);</php>
+						<h1><{$detail.name}></h1>
+						<p>
+							<i class="icon-map-marker"></i><span><{$detail.address}></span>
+						</p>
+						<p>
+							<if condition="!empty($tel[0])">
+							<i class="icon-mobile-phone"></i><foreach name="tel" item="var"><em><{$var}></em></foreach>
+							</if>
+							<code>(扫描右侧二维码手机访问)</code>
+						</p>
+						<span class="qrcode" rel="http://<{$_SERVER['SERVER_NAME']}>/mobile<{$host}><{:U('near/detail',array('id'=>$detail['pois_id']))}>"></span>
+						<if condition="!empty($item[shop_id])"><a class="ishop" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>" target="_blank">查看商家</a></if>
+					</div>
+					
+					
+					<div class="blank-10"></div>
+					
+					<div class="detail-map">
+						<h3>地图导航</h3>
+						<div id="bd-map" class="map"></div>
+						<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=te1e01OcptQgwrg4SyBdPx6h"></script>
+						<script type="text/javascript">
+							// 二维码功能
+							$(function(){
+								$(".qrcode").each(function(){
+									$(this).empty();
+									$(this).qrcode($(this).attr("rel")); 
+								});
+								
+								$("#near-cate a").click(function(){
+									$("#near-cate a").each(function(){
+										$(this).removeClass("active");
+									});
+									$(this).addClass("active");
+									var key = $(this).attr("rel");
+									var url = "__ROOT__/biz/load/keyword/"+key+"/lat/<{$detail[lat]}>/lng/<{$detail[lng]}>.html";
+									$.get(url, function(result){
+										$(".list-bd ul").html(result);
+									});
+								});
+								
+								
+							});
+						
+							// 百度地图API功能
+							var sContent =
+							"<h4><{$detail[name]}></h4><p><{$detail[address]}></p>";
+							var map = new BMap.Map("bd-map");
+							var point = new BMap.Point(<{$detail['lng']}>,<{$detail['lat']}>);
+							var marker = new BMap.Marker(point);
+							var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+							map.centerAndZoom(point,18);
+							map.addOverlay(marker);
+							marker.addEventListener("click", function(){          
+							   this.openInfoWindow(infoWindow);
+							   //图片加载完毕重绘infowindow
+							   document.getElementById('imgDemo').onload = function (){
+								   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+							   }
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class="x3">
+				<div class="near-list">
+					<div class="list-hd">
+						<ul id="near-cate">
+							<li><a rel="美食" href="javascript:();">美食</a></li>
+							<li><a rel="银行" href="javascript:();">银行</a></li>
+							<li><a rel="娱乐" href="javascript:();">娱乐</a></li>
+							<li><a rel="洗浴" href="javascript:();">洗浴</a></li>
+							<li><a rel="小吃" href="javascript:();">小吃</a></li>
+							<li><a rel="药店" href="javascript:();">药店</a></li>
+							<li><a rel="医院" href="javascript:();">医院</a></li>
+							<li><a rel="超市" href="javascript:();">超市</a></li>
+						</ul>
+					</div>
+					<div class="list-bd">
+						<ul>
+							<foreach name="list" item="item">
+							<li>
+								<h3><a href="<{:U('biz/detail',array('pois_id'=>$item['pois_id']))}>" target="_blank"><{$item['name']}></a></h3>
+								<p><{$item['address']}></p>
+							</li>
+							</foreach>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<include file='public:footer'/>

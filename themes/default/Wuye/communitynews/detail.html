@@ -1,0 +1,59 @@
+<include file="public:header"/>
+
+<link rel="stylesheet" href="/static/default/wap/css/tieba.css">
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			通知详情
+		</div>
+		
+	</header>
+
+	<form class="post-form" action="<{:U('communitynews/edit',array('news_id'=>$detail['news_id']))}>" method="post" >
+
+		
+        
+        
+        
+        <div class="line border-bottom">
+			<div class="x9 form-title">
+				<input type="text" name="data[title]" value="<{$detail.title}>" />
+			</div>
+			<div class="x3 text-right">
+				
+			</div>
+		</div>
+              
+        
+		
+		<div class="line border-bottom">			
+                <textarea class="form-content" name="data[intro]" ><{$detail.intro}></textarea>			
+		</div>
+		
+        
+        
+		<div class="line border-bottom">
+			<textarea class="form-content" name="data[details]" ><{$detail.details}></textarea>
+		</div>
+		
+        
+        
+        
+		<div class="blank-10 clearfix"></div>
+		
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<button class="button bg-green margin-small-right" type="submit">确认修改</button>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+				
+	</form>
+<include file='public:footer'/>  
+
+
+

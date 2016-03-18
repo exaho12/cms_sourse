@@ -1,0 +1,78 @@
+<include  file='member:header'/>    
+<!--中间-->
+<div class="topnav">
+    <ul>
+        <li><a rel="index_nav" href="<{:U('member/main')}>" target="main_frm" class="on">首页</a></li>
+        <foreach name="menus" key="key" item="item">
+            <li><a rel="index_nav_<{$key}>" href="javascript:void(0);"><{$item.name}></a></li>
+        </foreach>
+    </ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".topnav li a").click(function () {
+            $(".content_left li.index_nav").hide();
+            $(".topnav li a").removeClass("on");
+            $(this).addClass("on");
+           $(".content_left ." + $(this).attr('rel')).show();
+        });
+        $(".tgdd li a").click(function(){
+            
+        });
+    });
+</script>
+<div class="centent">
+    <div class="content_left">
+        <ul>
+            <foreach name="menus" item="item" key="key">
+                <li class="index_nav index_nav_<{$key}>">
+                    <h3><{$item.name}></h3>
+                    <div class="indexnav_box">
+                        <ul>
+                            <foreach name="item.items" key="k1" item="it1">
+                                <li class="indexnav">
+                                    <div class="indexnav_t"><{$it1.name}></div>
+                                    <div class="indexnav_li">
+                                        <ul>
+                                            <foreach name="it1.items" key="k2" item="it2">
+                                                <li><a href="<{$it2.url}>" target="main_frm"><{$it2.name}></a></li>
+                                            </foreach>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </foreach>
+                        </ul>
+                    </div>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+    <div class="content_right">
+        <div class="content_rightNr">
+            <iframe src="<{:U('member/main')}>" marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="100%" height=100% id="iframepage" name="main_frm" id="main_frm" onLoad="iFrameHeight()" ></iframe>     
+            <script type="text/javascript" language="javascript">
+
+                function iFrameHeight() {
+
+                    var ifm = document.getElementById("iframepage");
+
+                    var subWeb = document.frames ? document.frames["iframepage"].document :
+                            ifm.contentDocument;
+
+                    if (ifm != null && subWeb != null) {
+
+                        ifm.height = subWeb.body.scrollHeight;
+
+                    }
+
+                }
+
+            </script>
+        </div>
+
+    </div>
+</div>
+<!--右边结束-->
+<div class="clear"></div>
+</div>
+<include  file='member:footer'/>    

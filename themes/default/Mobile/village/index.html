@@ -1,0 +1,64 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			社区/村
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">切换</a>
+		</div>
+	</header>
+	
+    <div class="serch-bar-mask" id="cate_menu" style="display:none;top:50px;">
+		<div class="serch-bar-mask-list">
+			<ul>
+            <li><a <if condition="$area_id  eq null">class="on"</if> href="<{:LinkTo('village/index',array('change'=>1))}>">全部</a></li>
+            <volist name="areas" id="var" key="index">
+            <php>if($var['city_id'] == $city_id){</php>
+                <li <if condition="$index%3 eq 2">class="area_spe"</if> ><a <if condition="$var.area_id eq $area_id">class="on"</if>  href="<{:LinkTo('village/index',array('area'=>$var['area_id'],'change'=>1))}>"><{$var.area_name}></a></li>
+                <php>}</php>
+            </volist>
+            
+			</ul>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			$("#cate-btn").click(function () {
+				$("#cate_menu").toggle();
+			});
+			
+			$("#cate_menu ul li a").click(function () {
+				$("#cate_menu").toggle();
+			});
+
+		});
+	</script>
+	
+	<div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('village/index',array('change'=>1))}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="搜搜社区/村名字或是地址"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div class="xiaoqu-list">
+		<ul id="xiaoqu-list"></ul>  
+	</div>
+
+    <script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#xiaoqu-list"), true);
+		});
+    </script>
+		
+<include file="public:footer"/>

@@ -1,0 +1,102 @@
+<php>$seo_title = $detail['title'];</php>
+<include  file='public:header'/>
+   <header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<if condition="empty($cat)">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+			<else />
+			<a class="top-addr" href="<{:U('tieba/index')}>"><i class="icon-angle-left"></i></a>
+			</if>
+		</div>
+		<div class="top-title">
+			城市贴吧
+		</div>
+		<div class="top-share">
+			<a href="<{:U('tieba/main')}>" id="cate-btn"><i class="icon-bars"></i></a>
+		</div>
+	</header>
+	<if condition="empty($cat)">
+	<div class="bar-top">
+		<div class="photo"><img src="/static/default/wap/image/tieba/city.jpg" /></div>
+		<div class="line">
+			<div class="x4 text-center">
+				<div class="blank-60"></div>
+				<span class="tag-1 bg-yellow">帖子：<{$count.post}></span>
+			</div>
+			<div class="x4 text-center"><div class="logo"><img src="/static/default/wap/image/tieba/logo.png" /></div></div>
+			<div class="x4 text-center">
+				<div class="blank-60"></div>
+				<span class="tag-2 bg-white">评论：<{$count.reply}></span>
+			</div>
+		</div>
+		<div class="blank-50"></div>
+		<h4 class="text-center"><{$CONFIG['site']['cityname']}>吧</h4>
+		<p class="tips text-center"><{$CONFIG['site']['cityname']}>最大最活跃的社交平台</p>
+	</div>
+	
+	<div class="tie-ding">
+		<ul>
+			<foreach name="ding" item="item">
+			<li><em class="tag bg-dot">置顶</em><a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>"><{$item['title']}></a><span class="icon-angle-right"></span></li>
+			</foreach>
+		</ul>
+	</div>
+
+	</if>
+	<ul id="tie-list" class="tie-list"></ul>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#tie-list"), true);
+			//点击"赞"按钮
+			$("body").delegate(".ctrl-zan","click",function(){
+				var postid = $(this).attr("data");
+				var url = "/mobile/tieba/zan/post_id/" + postid + ".html";
+			    $.get(url,function(data){
+					if( data == '-1'){
+						layer.msg('你已经赞过该帖了！');
+					}else if( data == '-2'){
+						layer.msg('您还没有登录！');
+					}else{
+						$("#zan-" + postid).find("em").html(data);
+					}
+				},'html');
+				
+			});
+		});
+	</script>
+
+<nav class="foot-bar">
+	<div class="line">
+		<div class="x2">
+			<a class="left-icon" href="<{:U('tieba/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="x8">
+			<div class="line">
+				<span class="x6">
+					<a class="post-icon" href="<{:U('tieba/main')}>">
+						<i class="icon-reorder"></i>
+						分类
+					</a>
+				</span>
+				<span class="x6">
+					<if condition="empty($cat)">
+					<a class="post-icon" href="<{:U('tieba/post')}>">
+						<i class="icon-pencil-square"></i>
+						发帖
+					</a>
+					<else />
+					<a class="post-icon" href="<{:U('tieba/post',array('cat'=>$cat))}>">
+						<i class="icon-pencil-square"></i>
+						发帖
+					</a>
+					</if>
+				</span>
+			</div>
+		</div>
+		<div class="x2">
+			<a class="right-icon" href="<{:U('mcenter/index/index')}>"><i class="icon-ellipsis-v"></i></a>
+		</div>
+	</div>
+</nav>
+</body>
+</html>

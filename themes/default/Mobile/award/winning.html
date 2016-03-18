@@ -1,0 +1,72 @@
+<include  file='public:header_news'/>    
+<body>
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('index/index')}>"><img  src="__TMPL__statics/img/back_icon.png"></a>
+            <{$award.title}>
+            <a class="share" href="javascript:void(0);" id="share"><img  src="__TMPL__statics/img/share.png"></a>
+        </div>
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js">
+        </script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "<{$detail.title}>",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>'
+            });
+        </script>
+    </header>
+
+    <section class="shaking_zhong">
+        <div class="tips_top">
+            <div class="tu_left"><img src="__TMPL__statics/img/cup.png" /></div>
+            <div class="con_box">恭喜你！ 中了<{$detail.award_name}></div>
+        </div>
+        <div class="tips_bottom">
+            您的奖品是：<{$detail.goods_name}>！赶紧去兑换吧，顺便分享给
+            5个好友还能继续参加抽奖；别忘记分享快乐哟！
+        </div>
+        <form  method="post" action="<{:U('award/winning')}>">
+            <input class="t1" data-role="none" type="text" value="" placeholder="填写手机号进行领奖" name="mobile" />
+            <input class="t2" data-role="none" type="submit" value="领取" name="submitBtn" />
+        </form>
+        <a href="#" id="share2" ><div class="fx_btn"> 分享 </div></a>
+        <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+        <script type="text/javascript">
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share2",
+                "content": "我参加<{$award.title}>抽奖活动中奖啦！大家都来参加吧！",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.photo}>'
+            });
+            baidu.socShare.init({
+                "afterRender": function () {
+                },
+                "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                "dom_id": "share",
+                "content": "我参加<{$award.title}>抽奖活动中奖啦！大家都来参加吧！",
+                "theme": "web",
+                "animate": true,
+                "url": encodeURIComponent(location.href),
+                "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__ROOT__/attachs/<{$award.photo}>'
+            });
+
+        </script>
+    </section>
+
+</div>
+
+
+</body>
+</html>

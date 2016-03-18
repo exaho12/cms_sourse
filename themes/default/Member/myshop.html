@@ -1,0 +1,38 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <a style="display: inline-block; float: right; margin-right: 10px;" class="myInfor_sx" target="_blank" href="<{:U('shop/tui')}>">添加商户</a>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr>
+                <td colspan="2" style="text-align: left; font-size: 13px; padding-left: 5px;">
+                    <b>注意</b>： <{$CONFIG.site.daili}>
+                </td>
+            </tr>
+            <tr class="tgdd_nrt">
+                <td>商家</td>
+                <td>状态</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td style="text-align:center;" width="220"><div class="tgdd_tw bullionLog_ye">
+                        <a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$var.shop_name}></a>
+                    </td>
+                    <td class="tgdd_nrCtd bullionLog_td">
+                        <eq name="var.audit" value="1">
+                        <span style="color: green;"> 审核通过</span>
+                        <else/>
+                             等待审核
+                        </eq>
+                        
+                    </td>
+          
+                </tr>
+            </foreach>
+        </table>
+        <{$page}>
+    </div>
+</div>
+</body>
+</html>

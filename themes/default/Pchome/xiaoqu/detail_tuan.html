@@ -1,0 +1,28 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box xiaoqu-tuan-list">
+			<div class="box-hd box-ld">
+				<h3>附近团购</h3>
+			</div>
+			<div class="box-bd">
+				<ul class="line">
+					<volist name="tuan" id="item" key="index">
+					<li class="x3">
+						<div class="tuan-item">
+							<a class="item-pic" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" target="_blank">
+								<img src="/attachs/<{$item.photo}>" alt="<{$item.title}>" />
+							</a>
+							<h2><a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" target="_blank"><{$item.title}></a></h2>
+							<p><{$item.intro}></p>
+							<div class="item-des">
+								<span>抢购价：<em><{:round($item['tuan_price']/100,2)}></em></span>
+								<i>已售：<em><{$item.sold_num}></em>人</i>
+							</div>
+						</div>
+					</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

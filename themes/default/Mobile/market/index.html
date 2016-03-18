@@ -1,0 +1,94 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			附近卖场
+		</div>
+	</header>
+    <script>
+		$(function(){
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x4"><span>地区</span><i></i></li>
+			<li class="x4"><span>商圈</span><i></i></li>
+			<li class="x4"><span>排序</span><i></i></li>
+		</ul>
+	</div>
+	<div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="on"><a href="#">全部地区</a></li>
+				<foreach name="areas" item="var">
+                             <eq name="var.city_id" value="$city_id">
+					<li><a   <if condition="$var.area_id eq $area_id"> style="color:red;" </if>   href="<{:LinkTo('market/index',array('area'=>$var['area_id']))}>"><{$var.area_name}>
+					</a></li>
+                            </eq>
+				</foreach>
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="on"><a href="#">全部商圈</a></li>
+				<foreach name="biz" item="var">
+					<eq name="var.area_id" value="$area_id">
+					<li><a  <if condition="$var.business_id eq $business_id"> 
+								style="color:red;"
+							</if>  href="<{:LinkTo('market/index',array('area'=>$area_id,'business'=>$var['business_id']))}>"><{$var.business_name}></a></li>
+					</eq>
+				</foreach>
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+			   <li ><a <if condition="$order eq 1"> 
+							style="color:red;"
+						</if> href="<{:LinkTo('market/index',array('area'=>$area_id,'business'=>$business_id,'order'=>1))}>">距离优先</a></li>
+				<li><a <if condition="$order eq 2"> 
+							style="color:red;"
+						</if> href="<{:LinkTo('market/index',array('area'=>$area_id,'business'=>$business_id,'order'=>2))}>">推荐排序</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="blank-40"></div>
+	<div class="container">
+		<div class="market-list" id="market-list">
+	</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#market-list"), true);
+		});
+	</script>
+<include file="public:footer"/>

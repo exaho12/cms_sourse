@@ -1,0 +1,170 @@
+<php>$seo_title = $detail['title'];</php>
+<include  file='public:header'/>   <header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('life/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		查看信息
+	</div>
+	<div class="top-share">
+		<a href="javascript:void(0);" class="share-btn"><i class="icon-share"></i></a>
+	</div>
+</header> 
+<div id="share-box" class="share-box">
+	<div class="dialog-mask"></div>
+		<ul class="line">
+			<li class="-mob-share-weibo x3">
+				<img src="/static/default/wap/image/share/share-weibo.png" />
+				<p>新浪微博</p>
+			</li>
+			<li class="-mob-share-tencentweibo x3">
+				<img src="/static/default/wap/image/share/share-twb.png" />
+				<p>腾讯微博</p>
+			</li>
+			<li class="-mob-share-qzone x3">
+				<img src="/static/default/wap/image/share/share-qzone.png" />
+				<p>QQ空间</p>
+			</li>
+			
+			<li class="-mob-share-qq x3">
+				<img src="/static/default/wap/image/share/share-py.png" />
+				<p>QQ好友</p>
+			</li>
+			<li class="-mob-share-weixin x3">
+				<img src="/static/default/wap/image/share/share-weixin.png" />
+				<p>微信</p>
+			</li>
+			<li class="-mob-share-renren x3">
+				<img src="/static/default/wap/image/share/share-renren.png" />
+				<p>人人网</p>
+			</li>
+			<li class="-mob-share-kaixin x3">
+				<img src="/static/default/wap/image/share/share-kaixin.png" />
+				<p>开心网</p>
+			</li>
+			<li id="mui-card-close" class="mui-card-close x3">
+				<img src="/static/default/wap/image/share/share-close.png" />
+				<p>关闭</p>
+			</li>
+		</ul>
+	<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
+</div>
+<script>
+	$(document).ready(function () {
+		$("#share-box").hide();
+		$(".share-btn").click(function () {
+			$("#share-box").toggle();
+			$('html,body').animate({scrollTop:0}, 'slow');
+		});
+		$("#mui-card-close").click(function () {
+			$("#share-box").hide();
+		});
+	});
+</script>
+<if condition="!empty($detail[photo])">
+<div class="detail-pic">
+	<img src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>">
+</div>
+</if>
+<div class="detail-hd">
+	<h1><{$detail.title}></h1>
+	<p>
+		<span><{$detail.create_time|date='Y-m-d',###}></span>
+		<span><{$detail.views}>人浏览</span>
+	</p>
+</div>
+<div class="detail-bd">
+	<div class="num-col">
+		<if condition="!empty($cate['num1'])"><span><{$cate.num1}>:
+			<em><{$detail.num1|default='面议'}></em>
+			<if condition="!empty($detail['num1'])">
+				<{$cate.unit1}>
+			</if>
+			</span> 
+		</if>
+		<if condition="!empty($cate['num2'])"><span><{$cate.num2}>:
+			<em><{$detail.num2|default='面议'}></em>
+			<if condition="!empty($detail['num2'])">
+			   <{$cate.unit2}>
+			</if>
+			</span> 
+		</if>
+	</div>
+	<div class="txt-col">
+		<if condition="!empty($cate['text1'])">
+		<span><{$cate.text1}><em><{$detail.text1|default='暂无'}></em></span>
+		</if>
+		<if condition="!empty($cate['text2'])">
+		<span><{$cate.text2}><em><{$detail.text2|default='暂无'}></em></span>
+		</if>
+		<if condition="!empty($cate['text3'])">
+		<span><{$cate.text3}><em><{$detail.text3|default='暂无'}></em></span>
+		</if>
+		<span>所在区域<em><{$areas[$detail['area_id']]['area_name']}>/<{$business[$detail['business_id']]['business_name']}></em></span>
+		<span>所在地址<em><{$detail.addr}></em></span>
+	</div>
+	<div class="itr-col">
+		<h5>相关描述</h5>
+		<{$ex.details}>
+	</div>
+</div>
+<div class="detail-ft">
+	<div class="mob-col">
+		<p>
+			<span><{$detail.mobile}></span> (<{$detail.contact}>)
+			<eq name="detail.is_shop" value="1">
+			<span class="mui-badge mui-badge-primary">商家</span>
+			<else />
+			<span class="mui-badge mui-badge-success">个人</span>
+			</eq>
+		</p>
+	</div>
+	<div class="tel-col">
+		<a href="tel:<{$detail.mobile}>">
+			<button class="button bg-dot">
+				<span class="icon-phone"></span>
+				电话联系
+			</button>
+		</a>
+		<php>$isios = isIos();</php>
+		<if condition="$isios eq true">
+		<a href="sms:<{$detail.mobile}>&body=您好，我在<{$CONFIG.site.sitename}>看到您发的【<{$detail.title}>】信息，想咨询了解。">
+		<else />
+		<a href="sms:<{$detail.mobile}>?body=您好，我在<{$CONFIG.site.sitename}>看到您发的【<{$detail.title}>】信息，想咨询了解。">
+		</if>
+			<button class="button bg-blue">
+				<span class="icon-mobile"></span>
+				短信联系
+			</button>
+		</a>
+	</div>
+</div>
+<div class="blank-20 bg border-bottom"></div>
+<div class="detail-lst">
+	<ul class="life-list">
+		 <calldata mdl="Life" where="cate_id = {$detail['cate_id']} and audit =1 " order="top_date desc,last_time desc" limit="0,4" cache="600">
+		<li class="mod-2">
+			<div class="des flex">
+				<h4>
+					<a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>"><{$item['title']}></a>
+					<gt name="item.top_date" value="$today"><span>顶</span></gt>
+					<gt name="item.urgent_date" value="$today"><span>急</span></gt>
+				</h4>
+				<p><{$item.addr}> </p>
+				<p>联系人:<{$item.contact}> / <{:formatTime($item['create_time'])}></p>
+			</div>
+			<div class="tel flex">
+				<a href="tel:<{$item.mobile}>"><span class="icon icon-phone"></span></a>
+			</div>
+		</li>
+		</calldata>
+	</ul>
+	
+	<a class="more-btn" href="<{:U('life/lists',array('cat'=>$detail['cate_id']))}>">
+		<button class="button button-block bg-dot">
+			查看更多<{$cate.cate_name}>信息
+		</button>
+	</a>
+</div>
+	
+<include file="public:footer"/>

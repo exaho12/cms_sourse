@@ -1,0 +1,55 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('award/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			剩余奖品
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">+</a>
+		</div>
+	</header>
+
+
+
+
+
+
+<div class="xiaoqu-list">
+
+
+		<ul id="xiaoqu-list">
+        <foreach name="list" item="var">
+               <li class="line">
+	<a class="item fix hightitem">	
+		
+		</a><div class="x12"><a class="item fix hightitem">	
+			</a><h5><a class="item fix hightitem">奖项规格：<{$var.award_name}></a><a class="button button-big bg-yellow float-right">剩余：<{$var.surplus}></a></h5>	
+            
+			<p class="addr">奖品名称：<{$var.goods_name}></p>
+            <p class="addr">中奖概率：万分之<{$var.prob}></p>
+            <p class="addr">数量：<{$var.num}></p>
+            
+		</div>
+	
+		</li>
+</foreach>
+
+</ul>  
+	</div>
+
+
+
+
+
+
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+<include file="public:footer"/>

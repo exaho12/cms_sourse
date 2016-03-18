@@ -1,0 +1,61 @@
+<footer class="am_footer">
+    <div class="am_footer_con">
+        <div class="am_footer_link">
+            <span>关于我们</span>
+            <ul>
+                <li><a href="###">关于我们</a></li>
+                <li><a href="###">发展历程</a></li>
+                <li><a href="###">友情链接</a></li>
+            </ul>
+        </div>
+
+
+        <div class="am_footer_don">
+            <span><{$CONFIG.site.sitename}></span>
+            <dl>
+                <dt>
+                <if condition="!empty($CONFIG['site']['logo'])">
+                <img src="__ROOT__/attachs/<{$CONFIG.site.logo}>" alt="">
+                <else/>
+                <img src="__PUBLIC__/img/logo_03.png" alt="">
+                </if> 
+                
+                </dt>
+                <dd>一起Show我们的爱宠吧！我们是图片配文字、涂鸦、COSPLAY的移动手机社区，这里有猫狗鱼龟兔子仓鼠龙猫等各种萌图。
+                    <a href="###" class="footdon_pg ">
+                        <div class="foot_d_pg am-icon-apple "> App store</div>
+                    </a><a href="###" class="footdon_az animated">
+                        <div class="foot_d_az am-icon-android "> Android</div>
+                    </a></dd>
+
+            </dl>
+        </div>
+
+        <div class="am_footer_erweima">
+            <div class="am_footer_weixin"><img src="__PUBLIC__/img/wx.png" alt="">
+
+                <div class="am_footer_d_gzwx am-icon-weixin"> 关注微信</div>
+            </div>
+            <div class="am_footer_ddon"><img src="__PUBLIC__/img/wx.png" alt="">
+
+                <div class="am_footer_d_dxz am-icon-cloud-download"> 扫码下载</div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="am_info_line">Copyright(c)2015 <span>PetShow</span> All Rights Reserved icp：<{$CONFIG.site.icp}></div>
+</footer>
+<style>
+.admin-menu { bottom: 120px;z-index: 9;position: fixed;right:100px;}
+.am-gotop-fixed.am-active {opacity: .7;z-index: 1;right: 100px;bottom: 60px;width: 45px; min-height: 45px;}
+</style>
+<div data-am-widget="gotop" class="am-gotop am-gotop-fixed am-no-layout am-active">
+<a href="#top"><span class="am-gotop-title"></span><i class="am-gotop-icon am-icon-chevron-up"></i></a>
+</div>
+
+
+
+<script src="/static/default/pc/js/mod/<{$ctl}>.js"></script>
+</body>
+</html>

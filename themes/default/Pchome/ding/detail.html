@@ -1,0 +1,468 @@
+<include  file='public:header'/><include  file='public:top'/><include  file='public:nav3'/>
+<script src="__TMPL__statics/js/jquery.cookie.js?v=20150718"></script>
+
+<div class="content">
+	<div class="spxq_loca"><a href="<{:U('index/index')}>" target="_blank">首页</a> > <a href="<{:U('/ding')}>" target="_blank">订座</a> ><{$detail[shop].shop_name}></div>
+	<div class="seat-jj-box">
+		<div class="left seat-jj-box-l"> 
+			<script>
+				$(document).ready(function () {
+					$('.seat-jj_slider').flexslider({
+						slideshow: false,
+						controlNav: "thumbnails"
+					});
+				});
+            </script>
+			<div class="seat-jj_slider">
+				<ul class="slides">
+					<volist name='pic' id='item'>
+						<li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item}>"><img src="__ROOT__/attachs/<{$item}>" width="300" height="180" /></li>
+					</volist>
+					<div class="clear"></div>
+				</ul>
+                <if condition="empty($thumb)">
+                <ol class="flex-control-nav flex-control-thumbs">
+                    <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo}>"><img src="__ROOT__/attachs/<{$detail.shop.photo}>" width="108" height="68" /></li>
+                    <php>$i=0;</php>
+                    <foreach name="thumb" item="item">
+                        <php>$i++;if($i<=3){</php>
+                        <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item}>"><img src="__ROOT__/attachs/<{$item}>" width="108" height="68" /></li>
+                        <php>}</php>
+                    </foreach>
+                </ol>
+                </if>
+			</div>
+		</div>
+		<div class="left seat-jj-box-r">
+			<h2><{$detail.shop.shop_name}></h2>
+			<p> <span class="spxq_qgpstarBg"><span class="spxq_qgpstar spxq_qgpstar<{$detail[shop][score]}>"> </span></span><{$all_ping}>条评论 人均：<{:round($detail[details][price]/100,2)}>元   |  
+				
+				<{$detail['cat']['d1']}>：<{$detail[shop][d1]}>   |  <{$detail['cat']['d2']}>：<{$detail[shop][d2]}>   |   <{$detail['cat']['d3']}>：<{$detail[shop][d3]}></p>
+			<p>地址：<{$detail['shop']['addr']}></p>
+			<p>电话： <{$detail['shop']['tel']}></p>
+			<p>特色：
+				<if condition="$tuan['tuan_id'] gt 0"><span class="seat-jj-bq c1">团</span></if>
+				<if condition="$coupon[coupon_id] gt 0"><span class="seat-jj-bq c2">券</span></if>
+			</p>
+			<p>营业时间： <{$cfg[$detail['set']['start_time']]}> —— <{$cfg[$detail['set']['end_time']]}> 饮料区全时段营业，饮料区不接受预订</p>
+			<p class="seat-jj-ts">
+				<if condition="$detail['set']['money'] gt 0">温馨提示：凡在本店预约订座者，本店均收取￥<{:round($detail['set']['money']/100,2)}>预约定金费用，结帐时归还，还望谅解。</if>
+			</p>
+		</div>
+	</div>
+	<div class="seat-h-box">
+	<h3>优惠促销</h3>
+	<div class="seat-h-content mb15">
+		<ul>
+			<if condition="$tuan['tuan_id'] gt 0">
+				<li class="seat-h-bqli"><span class="seat-jj-bq c1">团</span><a target="_blank" href="<{:U('tuan/detail',array('tuan_id'=>$tuan['tuan_id']))}>"><{$tuan.title}></a></li>
+			</if>
+			<if condition="$coupon[coupon_id] gt 0">
+				<li class="seat-h-bqli"><span class="seat-jj-bq c2">券</span><a target="_blank" href="<{:U('coupon/detail',array('coupon_id'=>$coupon['coupon_id']))}>"><{$coupon.title}></a></li>
+			</if>
+		</ul>
+	</div>
+	<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+	<form id="forms"  method="post">
+		<div  class="seat-h-content seat-h-content2">
+			<div class="left seat-h-order-l">
+				<div class="left date">
+					<input  class="date" id='date' type="text" value="<{$time}>" onchange='getResult();' name="date" value="<{$date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  />
+				</div>
+				<div class="left time" id='show_time'> 
+					<script>
+						$(function(){
+							$(".seat-h-order-l .time input").click(function(){
+								$(this).parent().find(".seat-h-time-pull").toggle();
+							});
+							$(".seat-h-time-pull li").click(function(){
+								$(this).parents(".time").find("input").val($(this).html());
+								$(".seat-h-time-pull").hide();
+								
+							});
+						});
+                    </script>
+					<input type="text" value="时间" name="time"  id='time'/>
+					<div class="seat-h-time-pull">
+						<ul>
+                        	<empty name="shop_time">
+                            	<li>暂未营业</li>
+                            <else/>
+							<volist name='shop_time' id='item'>
+								<li><{$item}></li>
+							</volist>
+                            </empty>
+						</ul>
+					</div>
+				</div>
+				<div class="left num"> 
+					<script>
+						$(function(){
+							$(".seat-h-order-l .num input").click(function(){
+								$(this).parent().find(".seat-h-time-pull").toggle();
+							});
+							$(".seat-h-time-pull li").click(function(){
+								$(this).parents(".num").find("input").val($(this).html());
+								$(".seat-h-time-pull").hide();
+								getResult();
+							});
+						});
+                    </script>
+					<input type="text" value="人数" name='reson' id='reson' />
+					<div class="seat-h-time-pull">
+						<ul>
+                        	<empty name="shop_time">
+                            	<li>暂未设置</li>
+                            <else/>
+							<volist name='room' id='item'>
+								<li><{$item}></li>
+							</volist>
+                            </empty>
+						</ul>
+					</div>
+				</div>
+				<div class="left room">
+					<if condition="$detail['set']['is_ting'] eq 0"> <span>
+						<div class="state"></div>
+						大厅(已约满)</span>
+						<else/>
+						<label id='ting'>
+						<div   class="state"></div>
+						<input type="radio" name="room" value="0" />
+						大厅(有空位)
+						</label>
+					</if>
+					<if condition="$detail['set']['is_bao'] eq 0"> <span>
+						<div class="state"></div>
+						包厢(已约满)</span>
+						<else/>
+						<label id='bao'>
+						<div  class="state"></div>
+						<input  type="radio" name="room" value="1" />
+						包厢(有空位)
+						</label>
+					</if>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="right seat-h-order-r">
+				<!--<input class="seat-h-btn" id='sub' type="button" value="立即预约" />-->
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="seat-h-box" id='seat-h-box'> </div>
+		<div class="seat-h-box" id='seat-h-box2' style="display:none;">
+			<h3>点菜单</h3>
+			<div class="seat-h-content seat-h-content2"> 
+				<script>
+				$(function(){
+					$(".seat-h-tab-oder li").each(function(e){
+						$(this).click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+							$(this).parents(".seat-h-content").find(".seat-h-tab-list").find(".seat-h-reco").each(function(i){
+								if(e==i){
+									$(this).parents(".seat-h-content").find(".seat-h-tab-list").find(".seat-h-reco").hide();
+									$(this).show();
+								}
+								else{
+									$(this).hide();
+								}
+							});
+						});
+					});
+				});
+            </script>
+				<ul class="seat-h-tab seat-h-tab-oder">
+					<volist name='cate' id='item'> <li 
+						<if condition="$i eq 1"> class="on" </if>
+						><{$item.cate_name}>
+						</li>
+					</volist>
+				</ul>
+				<div class="seat-h-reco"> 
+					<script>
+						$(document).ready(function () {
+							$('.seat-h-reco_flexslider').flexslider({
+								directionNav: true,
+								pauseOnAction: false,
+								controlNav: false,
+								slideshow: false,
+							});	
+						});
+                    </script>
+					<div class="seat-h-tab-list">
+						<volist name='menu' id='item'>
+						<div class="seat-h-reco" 
+						<if condition="$i gt 1"> style="display:none;" </if>
+						>
+						<div class="title"><{$count[$key]['cate_name']}><span>（<{$count[$key]['count']}>）</span></div>
+						<div class="seat-h-tab-list-box">
+							<ul>
+								<volist name='item' id='v'>
+									<li>
+										<div class="seat-h-tab-li">
+											<div class="left img">
+												<div class="spxq_bq "><span class="spxq_bq1">惠<em></em></span></div>
+												<div class="opimagAdd">
+												<img src="__ROOT__/attachs/<{$v.photo}>" width="200" height="134" />
+												<a class="jq_addcart opimagAdd_link" id="price_<{$v['menu_id']}>" rel="<{$v.menu_id}>" data="<{$v.menu_name}>" price="<{:round($v['ding_price']/100,2)}>" href="javascript:void(0);">来一份</a>
+												</div>
+												</div>
+											<div class="left nr"> <a class="jq_addcart" id="price_<{$v['menu_id']}>" rel="<{$v.menu_id}>" data="<{$v.menu_name}>" price="<{:round($v['ding_price']/100,2)}>" href="javascript:void(0);"><img src="__TMPL__statics/images/tp_26.png"></a>
+												<p class="rap"><{$v.menu_name}></p>
+												<p class="price">￥<{:round($v['ding_price']/100,2)}></p>
+												<del>￥<{:round($v['price']/100,2)}></del> </div>
+										</div>
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+					</volist>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script>
+	<if condition="($detail['set']['is_ting'] eq 0) && ($detail['set']['is_bao'] eq 0 )">
+		$('#sub').css("display","none"); 
+	<elseif condition="($detail['set']['is_ting'] eq 0) && ($detail['set']['is_bao'] eq 1 )"/>
+		$('#bao .state').show();
+		$('#seat-h-box').css("display","block"); 
+		$('#seat-h-box2').css("display","block");
+		getResult();
+	<elseif condition="($detail['set']['is_ting'] eq 1) && ($detail['set']['is_bao'] eq 0 )"/>
+		$('#ting .state').show();
+		$('#seat-h-box2').css("display","block");
+	<else/>
+		//$('#seat-h-box').css("display","block"); 
+		$('#seat-h-box2').css("display","block");
+		$('#ting .state').show();
+	</if>
+	
+	$('#bao input').click(function(){
+		$('#bao .state').show();
+		$('#seat-h-box').css("display","block");
+		$('#ting .state').hide();
+		getResult();
+	})
+	$('#ting input').click(function(){
+		$('#bao .state').hide();
+		$('#seat-h-box').css("display","none");
+		$('#ting .state').show();
+	})
+	
+	
+	
+	
+	function getResult(){
+		var date = $('#date').val();
+		var time = $('#time').val();
+		var reson = $('#reson').val();
+		var bao = $('#bao input').val();
+		if($("#bao .state").is(":hidden") === false && $("#bao input").val() == 1){
+			var link = "<{:U('ding/room',array('shop_id'=>$detail['shop']['shop_id'],'date'=>'1date','time'=>'1time','reson'=>'1reson'))}>";
+			$("#seat-h-box").load(link.replace("1date", date).replace("1time", time).replace("1reson", reson));
+		}
+	}
+	
+	
+	
+	
+	
+</script>
+		<div id="cart_waimai" class="cart">
+			<div class="title">电脑下单不享优惠了哦，优惠手机下单专享</div>
+			<div class="box">
+				<table width="100%">
+					<tr class="tit">
+						<td width="45%" class="food">菜名</td>
+						<td width="35%">份数</td>
+						<td width="20%">价格</td>
+					</tr>
+				</table>
+				<div class="center">
+					<table width="100%" id="food_list">
+						<if condition="!empty($eleproducts)">
+							<foreach name="eleproducts" item="item">
+								<tr id="jq_tr_<{$item.menu_id}>">
+									<td class="food"><{$item.menu_name}></td>
+									<td class="numinput">
+										<div class="cut" rel="<{$item.menu_id}>">-</div>
+										<div>
+											<input type="text" id="jq_num_<{$item.menu_id}>" name="num[<{$item.menu_id}>]" value="<{$item.cart_num}>">
+										</div>
+										<div class="add" rel="<{$item.menu_id}>">+</div>
+									</td>
+									<td><{:round($item['ding_price']/100,2)}>元</td>
+								</tr>
+							</foreach>
+						</if>
+					</table>
+				</div>
+				<div class="count">共 <span class="c" id="food_count"><{$cartnum|default='0'}></span> 份,总计<span>￥</span> <span id="food_money"><{:round($total_money/100,2)}></span>
+					</if>
+					<p>需支付定金<span class="c price">￥</span><span class="c price" id="food_money"><{:round($detail['set']['money']/100,2)}></span></p>
+				</div>
+			</div>
+			<div class="btn btns">
+				<input id='sub' type="button" value="立即订购"><input type="button" id="kong" style="background-color:#f3f3f3; color:#444;" value="清空">
+			</div>
+		</div>
+	</form>
+	<script>
+            //购物车parseInt
+            function getCart() {
+                var res = new Array();
+                var cart = $.cookie('<{$detail[shop][shop_id]}>ding');
+                if (cart) {
+                    local = cart.split('|');
+                    for (a in local) {
+                        res.push(local[a]);
+                    }
+                }
+                return res;
+            }
+
+            function setCart(product_id, num) {
+                var res = getCart();
+                var status = false;
+                var total = 0;
+                var money = parseFloat($("#food_money").html());
+                for (a in res) {
+                    local = String(res[a]);
+                    // alert(local);
+                    goo = local.split('_');
+                    total += parseInt(goo[1]);
+                    //alert(parseInt(goo[0]));
+                    if (parseInt(goo[0]) == product_id) {
+                        status = true;
+                        money += parseFloat($("#price_" + product_id).attr('price')) * parseInt(num);
+                        if ((parseInt(goo[1]) + parseInt(num)) < 0) {
+                            $("jq_tr_" + product_id).remove();
+                        } else {
+                            res.splice(a, 1, parseInt(goo[0]) + '_' + (parseInt(goo[1]) + num));
+                            $("#jq_num_" + product_id).val(parseInt(goo[1]) + parseInt(num));
+                        }
+                    }
+                }
+                if (status == false) {
+                    money += parseFloat($("#price_" + product_id).attr('price')) * parseInt(num);
+                    res.push(product_id + '_' + num);
+                }
+                total += num;
+                var since_money = "<{:round($detail['since_money']/100,2)}>";
+                $.cookie('<{$detail[shop][shop_id]}>ding', res.join("|"));
+                $("#food_count").html(total);
+                $("#food_money").html(money);
+            }
+			
+			$("#sub").click(function () {
+				var forms = $("#forms").serialize();
+				$.post("<{:U('ding/yuyue',array('shop_id'=>$detail['shop']['shop_id']))}>", forms, function (result) {
+					if (result.status == "login") {
+						ajaxLogin();
+					} else if (result.status == "success") {
+						$.cookie('eleproduct', null);
+						$.cookie('<{$detail[shop][shop_id]}>ding', null);
+						layer.msg(result.msg, function () {
+							setTimeout(function () {
+								window.location.href = result.url;
+							}, 1000)
+		
+						});
+		
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+
+            $(document).ready(function () {
+				getResult();
+                $(".jq_addcart").click(function () {
+                    var product_id = parseInt($(this).attr('rel'));
+                    var product_name = $(this).attr('data');
+                    var price = parseFloat($(this).attr('price'));
+                    //var num = parseInt($("#jq_num_" + $(this).attr('rel')).val());
+                    var str = "";
+                    str += '<tr id="jq_tr_' + product_id + '">';
+                    str += '<td class="food">' + product_name + '</td>';
+                    str += '<td class="numinput">';
+                    str += '<div class="cut" rel="' + product_id + '">-</div>';
+                    str += '<div><input type="text" id="jq_num_' + product_id + '" name="num[' + product_id + ']" value="1"></div>';
+                    str += '<div class="add" rel="' + product_id + '">+</div></td>';
+                    str += '<td>' + price + '元</td></tr>';
+                    if ($("#jq_tr_" + product_id).length <= 0) {
+                        $("#food_list").append(str);
+                    }
+                    setCart(product_id, 1);
+                });
+                /*$(".jq_addcart").click(function () {
+                 var product_id = parseInt($(this).attr('rel'));
+                 setCart(product_id, 1);
+                 });*/
+				$("#kong").click(function () {
+						$.cookie('<{$detail[shop][shop_id]}>ding', null);
+						$("#food_list").html('');
+						$("#food_count").html(0);
+						$("#food_money").html(0);
+				});
+                $("#food_list").on("click",".cut",function () {
+                    var obj = $("#jq_num_" + $(this).attr('rel'));
+                    var product_id = $(this).attr('rel');
+                    var num = parseInt(obj.val());
+					
+                    if (num > 1) {
+                        num--;
+                        obj.val(num);
+                        setCart(product_id, -1);
+                    }
+                });
+
+                $("#food_list").on("click", ".add",function () {
+                    var obj = $("#jq_num_" + $(this).attr('rel'));
+                    var product_id = $(this).attr('rel');
+                    var num = parseInt(obj.val());
+                    num++;
+                    obj.val(num);
+                    setCart(product_id, 1);
+                });
+               
+            });
+        </script> 
+</div>
+</div>
+<include file="public:footer"/>
+<div class="topUp">
+	<ul>
+		<li class="topBack">
+			<div class="topBackOn">回到<br />
+				顶部</div>
+		</li>
+		<li class="topUpWx">
+			<div class="topUpWxk"><img src="../sjimages/login_wx_03.jpg" />
+				<p>扫描二维码关注微信</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 100) {
+                $(".topUp").show();
+				$(".indexpop").show();
+				
+            } else {
+                $(".topUp").hide();
+				$(".indexpop").hide();
+            }
+        });
+        $(".topUp").click(function () {
+            $("html,body").animate({scrollTop: 0}, 200);
+        });
+    });
+</script>
+</body></html>

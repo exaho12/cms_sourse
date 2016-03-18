@@ -1,0 +1,25 @@
+<foreach name="shop_list" item="item">
+<li>
+	<a class="item line" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">
+		<div class="x3">
+			<img src="__ROOT__/attachs/<{$item['photo']}>">
+		</div>
+		<div class="x9">
+				<h5><{$item['shop_name']}><span class="float-right text-small">人均:￥<{:round($item['price']/100,2)}></span></h5>
+				<p class="des-star">
+					 <if condition="$set[$item['shop_id']]['is_ting'] eq 0">
+						<span class="tag text-small bg-gray">大厅(已满)</span>
+					 <else/>
+						<span class="tag text-small bg-green">大厅(有位)</span>
+					 </if>
+					 <if condition="$set[$item['shop_id']]['is_bao'] eq 0">
+						<span class="tag text-small bg-gray">包厢(已满)</span>
+					 <else/>
+						<span class="tag text-small bg-green">包厢(有位)</span>
+					 </if>
+				</p>
+				<p class="des-addr">地址:<{:bao_Msubstr($item[addr],0,15)}> (<{$item.d}>)</p>
+		</div>
+	</a>
+</li>
+</foreach>

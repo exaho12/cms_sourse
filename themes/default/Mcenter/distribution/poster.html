@@ -1,0 +1,28 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('distribution/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的海报
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="list-media-x" id="list-media">
+	<div id="divAvatar" style="position: absolute;width: 20%; margin-top: 2%;margin-left: 9%;">
+		<div>
+			<?php if(strstr($MEMBER['face'],"http")){ ?>
+			<img src="<{$MEMBER.face}>" style="width:100%;border-radius: 50%;" />
+			<?php }else{ ?>
+			<img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" style="width:100%;border-radius: 50%;" />
+			<?php }?>
+		</div>
+		<div style="text-align:center;font-size: 18px;"><{$MEMBER.nickname}></div>
+	</div>
+	<div id="divQrcode" style="margin-top: 33%;margin-left: 25%;width: 50%;position:absolute;"><img src="__ROOT__/attachs/<{$file}>" width="100%" /></div>
+	<img src="__PUBLIC__/images/poster.jpg" style="width:100%;" />
+</div>
+<include  file='public:footer'/>

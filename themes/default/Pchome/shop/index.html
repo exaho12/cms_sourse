@@ -1,0 +1,238 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<div class="content"> 
+    <div class="shangjiaC">
+        <div class="left shangjiaC_l">
+            <div class="goods_flBox">
+                <ul>
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a  class="<if condition='empty($cat)'>on</if> goods_flListA"  title="所有商家" href="<{:LinkTo('shop/index',$linkArr,array('cat'=>0,'cate_id'=>0))}>">全部</a>
+                            <php>$i = 1;</php>
+                            <foreach name="shopcates" item="item">
+                                <eq name="item.parent_id" value="0"> 
+                                <php>$i++;if($i < 12){</php>
+                                <a title="<{$item.cate_name}>"  href="<{:LinkTo('shop/index',$linkArr,array('cat'=>$item['cate_id']))}>"  <eq name="item.cate_id" value="$cat">class="goods_flListA on"<else/>class="goods_flListA"</eq> ><{$item.cate_name}></a>
+                                <php>}</php>
+                                </eq>
+                            </foreach>
+                        </div>
+                    <if condition="!empty($cat)">
+                        <div class="left goods_flList_r stycate">
+                            <foreach name="shopcates" item="item">
+                                <eq name="item.parent_id" value="$cat">
+                                <a title="<{$item.cate_name}>"  class="<eq name='item.cate_id' value='$cate_id'> on</eq> goods_flListA"  href="<{:LinkTo('shop/index',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"  ><{$item.cate_name}></a>
+                                </eq>
+                            </foreach>
+                        </div>    
+                    </if>
+                    </li>
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">地区：</div>
+                        <div class="left goods_flList_r">
+                            <a  class="<if condition='empty($area_id)'>on</if> goods_flListA"  title="全部地区" href="<{:LinkTo('shop/index',$linkArr,array('area'=>0,'business_id'=>0))}>">全部</a>  
+                            <foreach name="areas" item="item">
+                                <eq name="item.city_id" value="$city_id">
+
+                                <a title="<{$item.area_name}>"  href="<{:LinkTo('shop/index',$linkArr,array('area'=>$item['area_id']))}>"  <eq name="item.area_id" value="$area_id">class="goods_flListA on"<else/>class="goods_flListA"</eq> ><{$item.area_name}></a> 
+                                </eq>
+                            </foreach>
+                        </div>
+                    <if condition="!empty($area_id)">
+                        <div class="left goods_flList_r stycate">
+                            <foreach name="bizs" item="item">
+                                <eq name="item.area_id" value="$area_id">
+                                <a title="<{$item.business_name}>"  class="<eq name='item.business_id' value='$business_id'> on</eq> goods_flListA"  href="<{:LinkTo('shop/index',$linkArr,array('area'=>$area_id,'business'=>$item['business_id']))}>"  ><{$item.business_name}></a>
+                                </eq>
+                            </foreach>
+                        </div>    
+                    </if>
+                    </li>
+                </ul>
+            </div>
+            <div class="nearbuy_sxk">
+                <ul>
+                    <li class="nearbuy_sxkLi <eq name='order' value='d'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('shop/index',$linkArr,array('order'=>'d'))}>">默认</a></li>
+                    <li class="nearbuy_sxkLi <eq name='order' value='x'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('shop/index',$linkArr,array('order'=>'x'))}>">信誉排序<em class="em_up"></em></a></li>
+                    <li class="nearbuy_sxkLi <eq name='order' value='t'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('shop/index',$linkArr,array('order'=>'t'))}>">时间排序<em class="em_up"></em></a></li>
+                    <li class="nearbuy_sxkLi <eq name='order' value='h'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('shop/index',$linkArr,array('order'=>'h'))}>">人气排序<em class="em_up"></em></a></li>
+                </ul>
+            </div>
+            <div class="sjsy_sjList">
+                <ul>
+                    <foreach name="list" item="item">
+                        <li class="sjsy_sjLi">
+                            <div class="left sjsy_sjLi_l">
+                                <a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="175" height="122" /></a>
+                                <a class="sjsy_ljzx sjsy_ljzx2" rel="<{:U('shop/yuyue',array('shop_id'=>$item['shop_id']))}>" data="<{$item.shop_name}>"  href="javascript:void(0);">预约商家</a>
+                            </div>
+                            <div class="left sjsy_sjLi_c">
+                                <div class="shangjia_t"><span class="sj_name"><a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></span>人均：<span class="sjsy_xf">￥<{$details[$item['shop_id']]['price']}></span> 评分：<span class="sjsy_xf"><{:round($item['score']/10,1)}></span></div>
+                                <p class="sjsy_sjP">地址：<{$item.addr}></p>
+                                <php>
+                                    $tags = $item['tags'];
+                                    $tagsarray = array();
+                                    if(!empty($tags)){
+                                    $tagsarray = explode(',',$tags);
+                                    }
+                                </php>
+                                <p class="sjsy_sjP"><if condition="$item.tel neq null"><p>电话:<{$item.tel}><else/><p>手机:<{$item.mobile}></p></if><span class="sjsy_sjLiBq">标签：<if condition="$tagsarray eq null">
+                                        <a href="javascript:void(0);">暂无标签</a> 
+                                        <else/>
+                                        <volist name='tagsarray' id='var' key='index'>
+                                            <a style="border: 1px solid #2fbdaa; margin-right: 5px; padding: 3px;" href='<{:U("shop/index",array("keyword"=>$var))}>'><{$var}></a>
+                                        </volist>
+                                    </if></span></p>
+                                <div class="sjsy_hdnr">
+                                    <ul>
+                                        <if condition="empty($item['huodong'])"><li>近期暂无活动</li><else/><li><a target="_blank" href="<{:U('huodong/detail',array('activity_id'=>$item['huodong']['activity_id']))}>"><{$item['huodong']['title']}></a></li></if>
+                                        <if condition="empty($item['tuan'])"><li class="sjsy_hdbg2">近期暂无抢购</li><else/><li class="sjsy_hdbg2"><a target="_blank" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan']['tuan_id']))}>"><{$item['tuan']['title']}></a> 抢购价：<span class="sj_tj"><{:round($item['tuan']['tuan_price']/100,2)}></span> 原价：<del><{:round($item['tuan']['price']/100,2)}></del></li></if>
+                                        <if condition="empty($item['coupon'])"><li class="sjsy_hdbg3">近期暂无优惠</li><else/><li class="sjsy_hdbg3"><a target="_blank" href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon']['coupon_id']))}>"><{$item['coupon']['title']}></a></li></if>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="right sjsy_sjLi_r">
+                                <div class="sjsy_ws">&nbsp;&nbsp;
+                                </div>
+                                
+                                
+                                <if condition="$details[$item['shop_id']]['wei_pic'] eq 0">
+                                <img src="__PUBLIC__/img/wx.png"  width="129" height="129"/>
+                                <else/>
+                                <img src="<{$details[$item['shop_id']]['wei_pic']}>" width="129" height="129" />
+                                </if>
+                                
+                                
+                                <p><a class="sjsy_ljzx" style="margin-top: 5px; width: 113px; " mini='act' href="<{:U('shop/favorites',array('shop_id'=>$item['shop_id']))}>">关注商家</a></p>
+                            </div>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+            <div class="x">
+                <{$page}>
+            </div>
+        </div>
+        <div class="right shangjiaC_r">
+            <div class="sjsy_sjrz"><a target="_blank" href="<{:U('shop/apply')}>"><img src="__PUBLIC__/img/sjrz_03.jpg" width="228" height="347" /></a></div>
+            <div class="sjsy_newsList">
+                <h3>新入驻商家</h3>
+                <ul class="sjsy_newsUl">
+                    <calldata mdl="Shop" where=" closed=0 AND audit=1" limit="0,10" cache="86400" order="shop_id desc">
+                        <li><a title="<{$item.shop_name}>" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{:bao_msubstr($item['shop_name'],0,10,false)}></a></li>
+                    </calldata>
+                </ul>
+            </div>
+            <div class="sjsy_newsList">
+                <h3>活动&优惠</h3>
+                <div class="sjsy_hdyh">
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('.sjsy_flexslider').flexslider({
+                                directionNav: true,
+                                pauseOnAction: false,
+                            });
+
+                        });//首页轮播js
+                    </script>
+                    <div class="sjsy_flexslider">
+                        <ul class="slides">
+                            <calldata mdl="Activity" where=" closed=0 AND audit=1 AND bg_date ELT '{$today}' AND end_date EGT '{$today}'" limit="0,2" cache="21600" order="orderby asc">
+                                <li class="sy_hotgzLi"><a target="_blank" href="<{:U('huodong/detail',array('activity_id'=>$item['activity_id']))}>" title="<{$item.title}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="212" height="158" /></a></li>
+                            </calldata>
+                            <calldata mdl="Coupon" where="closed=0 AND audit=1 AND expire_date EGT '{$today}'" limit="0,2" cache="10800" order="coupon_id desc">
+                                <li class="sy_hotgzLi"><a target="_blank" href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>" title="<{$item.title}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="212" height="158" /></a></li>
+                            </calldata>  
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask_box dhPop_mask">
+<div class="dhPop">
+    <h2><span class="bao_closed"></span><em id="yuyue_title"></em></h2>
+    <form method="post" id="yuyue_form">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td align="right">联系人：</td>
+                <td><input type="text" name="data[name]" class="dhInput" value="" /></td>
+            </tr>
+            <tr>
+                <td align="right">手机号：</td>
+                <td><input type="text" class="dhInput" name="data[mobile]" value="" /></td>
+            </tr>
+            <tr>
+                <td align="right">预约日期：</td>
+                <td>
+                    <input type="text" class="dhInput" name="data[yuyue_date]" value="<{$yuyue_date}>" onfocus="WdatePicker({minDate: '<{$today}>'});" />
+                    <select id="yuyue_time" name="data[yuyue_time]" class="dhInput" >
+                        <for start="0" end="24">
+                            <option value="<{$i}>:00"><{$i}>:00</option>
+                            <option value="<{$i}>:30"><{$i}>:30</option>
+                        </for>
+                    </select>
+                    <script>
+                        $("#yuyue_time").val('<{$yuyue_time}>');
+                    </script>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="right">人数：</td>
+                <td>
+                    <select id="number" name="data[number]" class="dhInput">
+                        <for start="1" end="10">
+                            <option <eq name="number" value="$i">selected="selected"</eq> value="<{$i}>"><{$i}>人</option>
+                        </for>
+                        <option value="10"  <eq name="number" value="10">selected="selected"</eq>>10人及以上</option>
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
+                <td  align="right">留言：</td>
+                <td><textarea rows="6" cols="50" name="data[content]"></textarea></td>
+            </tr> 
+            <tr>
+                <td align="right"></td>
+                <td><input style="cursor: pointer; margin-bottom: 20px;" class="subBtn" type="button" value="立即预约" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</div>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
+<script>
+    $(document).ready(function () {
+        $(".sjsy_ljzx2").click(function () {
+            var url = $(this).attr('rel');
+            $("#yuyue_title").html($(this).attr('data'));
+            $(".mask_box").show();
+            $(".subBtn").click(function(){
+                var yuyue_form = $("#yuyue_form").serialize();
+                $.post(url,yuyue_form,function(data){
+                    if(data.status == 'success'){
+                        $(".mask_box").hide();
+                        layer.msg(data.msg,{icon:1});
+                            setTimeout(function () {
+                                    window.location.href = data.url;
+                            }, 1000)
+                    }else{
+                        layer.msg(data.msg,{icon:2});
+                    }
+                },'json')
+            })
+        });
+        $(".bao_closed").click(function () {
+            $(".mask_box").hide();
+        });
+    })
+</script>
+<include file="public:footer"/>
+
+

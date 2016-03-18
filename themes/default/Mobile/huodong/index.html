@@ -1,0 +1,108 @@
+<include file="public:header"/>
+<link rel="stylesheet" href="/static/default/wap/css/shop.css">
+    <script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			活动列表
+		</div>
+		
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+	</header>
+    
+    
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x6"><span>全部分类</span><i></i></li>
+			<li class="x5"><span>全部时间</span><i></i></li>
+		</ul>
+	</div>
+    <div class="serch-bar-mask" style="display:none;">
+        <div class="serch-bar-mask-list">
+            <ul>
+                <li class="on"><a class="<if condition='empty($cat)'>on</if> "><a href="<{:LinkTo('huodong/index',$linkArr,array('cat'=>0))}>" >全部分类</a></li>
+                <volist name="cates" id="item">
+                    <li <if condition="$item['cate_id'] eq $cat">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+                </volist>
+                
+                   
+                   
+            </ul>
+        </div>
+        <div class="serch-bar-mask-list">
+            <ul>
+                <li><a href="#" class="<if condition='empty($area_id)'>on</if>">全部地区</a></li>
+               
+
+                 <li <if condition="empty($bg_time)">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>0))}>">全部</a></li>
+                <li <if condition="$bg_time eq 1">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>1))}>">今天</a></li>
+                <li <if condition="$bg_time eq 2">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>2))}>">昨天</a></li>
+                <li <if condition="$bg_time eq 3">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>3))}>">一周内</a></li>
+                <li <if condition="$bg_time eq 4">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>4))}>">一月内</a></li>
+                <li <if condition="$bg_time eq 5">class="on"</if> ><a href="<{:LinkTo('huodong/index',$linkArr,array('bg_time'=>5))}>">一月前</a></li>
+        
+              
+            </ul>
+        </div>
+        
+        
+        <div class="serch-bar-mask-bg"></div>
+    </div>
+
+	<div class="blank-40"></div>
+	<div class="container">
+		<div id="shop-list" class="shop-list"></div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			loaddata('<{$nextpage}>', $("#shop-list"), true);
+		});
+	</script>
+
+<include file="public:footer"/>

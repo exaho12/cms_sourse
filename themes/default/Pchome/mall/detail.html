@@ -1,0 +1,1809 @@
+<include file="public:header" /> 
+
+
+
+<include file="public:top"/>
+
+
+
+<script>
+
+    $(function () {
+
+        $(".minu_zuone li img").each(function (e) {
+
+            $(this).click(function () {
+
+                $(".minu_zuone li img").removeClass("on");
+
+                $(this).addClass("on");
+
+                $(".minu_img").each(function (i) {
+
+                    if (e == i) {
+
+                        $(".minu_img").hide();
+
+                        $(this).show();
+
+                    }
+
+                });
+
+            });
+
+        });
+
+    });
+
+</script>
+
+
+
+<div class="nav">
+
+
+
+    <div class="navList">
+
+
+
+        <ul>
+
+
+
+            <li class="navListAll zy_navListAll"><i class="nav-bz left"></i><span class="navListAllt ">全部购物分类<em></em></span>
+
+
+
+                <div class="shadowy navAll">
+
+
+
+                    <include file="mall:nav"/>
+
+
+
+                </div>
+
+
+
+            </li>
+
+
+
+<php>
+$map = array('status' => 4);
+$navigations = D('Navigation');
+$nav = $navigations ->where($map)->order(array('orderby' => 'asc'))->select();
+</php>
+
+<volist name="nav" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+
+
+
+
+        </ul>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<div class="content zy_content">
+
+
+
+    <div class="spxq_xqT spxq_xqT2">
+
+
+
+        <ul>
+
+
+
+            <li class="jq_spxq_xqBt1 on"><code rel="spxq_xqBt1">商品详情</code><em></em></li>
+
+
+            <li class="jq_spxq_xqBt3"><code rel="spxq_xqBt2">购买须知</code><em></em></li>
+
+
+
+            <li class="jq_spxq_xqBt4"><code rel="spxq_xqBt3">商家详情</code><em></em></li>
+
+
+
+            <li class="jq_spxq_xqBt5"><code rel="spxq_xqBt4">用户评价</code><em></em></li>
+
+
+
+        </ul>
+
+
+
+        <div style="float:right;"><a style="height:31px; line-height:31px;margin-top:5px;width:100px;" mini='buy' rel="jq_num" class="spxq_qgjjKq spxq_qgjjLq" href="<{:U('mall/cartadd2',array('goods_id'=>$detail['goods_id']))}>">立即购买</a></div>
+
+
+
+    </div>
+
+
+
+      <script>
+
+        $(document).ready(function () {
+
+            var href = window.location.href;
+
+            var param = href.split('#');
+
+            if (param[1] != undefined && param[1] !=null && param[1] != "") {
+
+                var _targetTop2 = $('#' + param[1]).offset().top;//获取位置
+
+                jQuery("html,body").animate({scrollTop: _targetTop2}, 300);//跳转
+
+            }
+
+            $(".spxq_xqT2 ul li").click(function () {
+
+                $(".spxq_xqT2 ul li").removeClass("on");
+
+                $(this).addClass("on");
+
+                var _targetTop = $('.' + $(this).find('code').attr('rel')).offset().top;//获取位置
+
+                jQuery("html,body").animate({scrollTop: _targetTop}, 300);//跳转
+
+            });
+
+            $(window).scroll(function () {
+
+                $('.spxq_xqT2 ul li').each(function(i){
+
+                    if($("."+$(this).find('code').attr("rel")).offset().top - $(window).scrollTop() < 50){
+
+                        $(this).addClass('on').siblings().removeClass('on');
+
+                    }
+
+                });
+
+            });            
+
+        });
+
+    </script>
+
+
+
+    <div class="spxq_loca">
+     <a href="<{:U('mall/index')}>">商城首页</a>
+    <if condition='isset($goodsids)'>&nbsp;&gt;&nbsp;
+			<location cid='$goodsids'>
+				<if condition='$cate_id == $goodsids'>
+					<{$cate_name}>
+                 <elseif condition='$parent_id != 0'/>
+                 <a href="<{:U('mall/index',array('cat'=>$parent_id,'cates'=>$cate_id))}>"><{$cate_name}></a>&nbsp;&gt;&nbsp;
+				<else/>
+					<a href="<{:U('mall/index',array('cat'=>$cate_id))}>"><{$cate_name}></a>&nbsp;&gt;&nbsp;
+				</if>
+			</location>
+		</if>
+    </div>
+
+    <div class="spxq_xqgm">
+
+        <div class="left spxq_xqgm_l">
+
+            <div class="spxq_qg" style="padding-top: 10px;">
+
+                <div class="left spxq_qg_l">
+
+                    <script type="text/javascript">
+
+                         $(document).ready(function () {
+
+                             $('.spxq_slider').flexslider({
+
+                                 slideshow: false,
+
+                                 controlNav: "thumbnails"
+
+                             });
+
+                         });
+
+                        $(function () {
+
+                            $(".sy_hotgzLi").hover(function () {
+
+                                $(".spxq_slider .flex-direction-nav").show();
+
+                            }, function () {
+
+                                $(".spxq_slider .flex-direction-nav").hide();
+
+                            });
+
+                            $(".spxq_slider .flex-direction-nav").hover(function () {
+
+                                $(".spxq_slider .flex-direction-nav").show();
+
+                            }, function () {
+
+                                $(".spxq_slider .flex-direction-nav").hide();
+
+                            });
+
+                        });
+
+                    </script>
+
+                    <div class="spxq_slider">
+                    <if condition="$detail['num'] eq 0"><span class="mallmgl"></span></if>
+
+                        <ul class="slides">
+
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>">
+
+                                <img src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" width="470" height="285" />
+                     
+
+                            </li>
+
+                            <foreach  name="pics" item="item">
+
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item.photo}>">
+
+                                    <img src="__ROOT__/attachs/<{$item.photo}>" width="470" height="285" />
+
+                                </li>
+
+                            </foreach>
+
+                        </ul>
+
+                        <if condition="empty($pics)">
+
+                        <ol class="flex-control-nav flex-control-thumbs">
+
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo}>"><img src="__ROOT__/attachs/<{$detail.photo}>" width="108" height="68" /></li>
+
+                            <php>$i=0;</php>
+
+                            <foreach name="pics" item="item">
+
+                                <php>$i++;if($i<=3){</php>
+
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item.photo}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="108" height="68" /></li>
+
+                                <php>}</php>
+
+                            </foreach>
+
+                        </ol>
+
+                        </if>
+
+                    </div>
+
+                </div>
+
+              <php>
+
+                    $discount = round(($detail['mall_price']/$detail['price'])*10,1);
+
+                </php>
+
+
+
+                <div class="right spxq_qg_r">
+
+
+
+                    <div class="spxq_qgjgk minu_font" style="padding-top: 10px;"><{$detail.title}>
+                         <p class="spxq_xqjj"><{$detail.intro}></p>
+                    
+                    </div>
+                    
+                    
+                  
+
+
+
+					<!--增加结束-->
+
+
+                    <div class="spxq_qgjgk"><span class="spxq_qgjg">￥<{:round($detail['mall_price']/100,2)}><del>￥<{:round($detail['price']/100,2)}></del></span><span class="spxq_qgjgz"><{$discount}>折</span></div>
+
+
+
+                    <div class="spxq_qgjgk">
+
+
+
+                        <span class="spxq_qgps">已售<span class="spxq_qgsnum"><{$detail['sold_num']}></span></span>
+                         
+
+
+
+                        <span class="spxq_qgps"><{$totalnum}>人已评价</span>
+
+
+
+                        <span class="spxq_qgps"><span class="spxq_qgpstarBg"><span class="spxq_qgpstar  spxq_qgpstar<{$shop.score}>">&nbsp;</span></span><span class="spxq_qgsnum"><{:round($shop['score']/10,1)}></span>分</span>
+
+
+
+                    </div>
+
+ <div class="spxq_qgjgk"><span class="spxq_qgps">剩余<span class="spxq_qgsnum"><{$detail['num']}></span></span> </div>
+
+                    <div class="spxq_qgjgk">
+
+
+
+                        <span style="height: 30px; line-height: 30px;">商家：<a style=" font-size: 18px; font-weight: bold;" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a></span>
+
+
+
+                    </div>
+
+
+
+                    <script>
+
+
+
+                        $(document).ready(function () {
+
+
+
+                            $(".spxq_qgAdd").click(function () {
+
+
+
+                                var num = $("#jq_num").val();
+
+
+
+                                if (num < 99) {
+
+
+
+                                    num++;
+
+
+
+                                }
+
+
+
+                                $("#jq_num").val(num);
+
+
+
+                            });
+
+
+
+                            $(".spxq_qgRedu").click(function () {
+
+
+
+                                var num = $("#jq_num").val();
+
+
+
+                                if (num > 1) {
+
+
+
+                                    num--;
+
+
+
+                                }
+
+
+
+                                $("#jq_num").val(num);
+
+
+
+                            });
+
+
+
+                        });</script>
+
+
+
+                    <div class="spxq_qgjgk">
+
+
+
+                        <div class="left spxq_qgjj"><input type="text" value="1" name="num" id="jq_num" /><span class="spxq_qgAdd">&and;</span><span class="spxq_qgRedu">&or;</span></div>
+
+
+
+                        <div class="left spxq_qgjjAn"><a href="javascript:void(0);" class="spxq_qgjjKq spxq_qgjjLq jq_addcart2">立即购买</a><a href="javascript:void(0);" class="spxq_qgjjKk jq_addcart">加入购物车</a></div>
+
+
+
+                    </div>
+
+
+
+                    <script>
+
+
+
+                        var nums = '<{$cartnum}>';
+
+
+
+                        nums = parseInt(nums);
+
+
+
+                        $(document).ready(function () {
+
+
+
+                            $(document).on('click', '.jq_addcart', function () {
+
+
+
+                                var num = $("#jq_num").val();
+
+
+
+                                var goods_id = "<{$detail.goods_id}>";
+
+
+
+                                var url = '__ROOT__/index.php?g=pchome&m=mall&a=cartadd&mt=<{:time()}>&goods_id=<{$detail.goods_id}>&num=' + num;
+
+
+
+                                $.get(url, function (data) {
+
+
+
+                                    if (data.status == 'success') {
+
+
+
+                                        nums += parseInt(num);
+
+
+
+                                        $("#num").html(nums);
+
+
+
+                                        layer.msg(data.msg);
+
+
+
+                                    } else {
+
+
+
+                                       layer.msg(data.msg);
+
+
+
+                                    }
+
+
+
+                                }, 'json');
+
+
+
+
+
+
+
+                            });
+
+
+
+                            $(document).on('click', '.jq_addcart2', function () {
+
+
+
+                                var num = $("#jq_num").val();
+
+
+
+                                var goods_id = "<{$detail.goods_id}>";
+
+
+
+                                var url = '__ROOT__/index.php?g=pchome&m=mall&a=cartadd2&mt=<{:time()}>&goods_id=<{$detail.goods_id}>&num=' + num;
+
+
+
+                                $.get(url, function (data) {
+
+
+
+                                    if (data.status == 'success') {
+
+
+
+                                        nums += parseInt(num);
+
+
+
+                                        $("#num").html(nums);
+
+
+
+                                        layer.msg(data.msg);
+
+
+
+                                        setTimeout(function(){
+
+
+
+                                            window.location.href=data.url;
+
+
+
+                                        },2000);  
+
+
+
+                                    } else {
+
+
+
+                                       layer.msg(data.msg);
+
+
+
+                                    }
+
+
+
+                                }, 'json');
+
+
+
+
+
+
+
+                            });
+
+
+
+                        });
+
+
+
+                    </script>
+
+
+
+                     <div class="spxq_fuwu">
+                     <div class="fuwu">   
+                     <span class="spxq_spxqmc">服&nbsp;&nbsp;&nbsp;&nbsp;务:</span>                               </div>
+                     <div class="tubiao">
+                     <ui>
+                    <eq name="detail.is_vs1" value="1"><li class="vs1">认证商家</li></eq>
+                    <eq name="detail.is_vs2" value="1"><li class="vs2">正品保证</li></eq>
+                    <eq name="detail.is_vs3" value="1"><li class="vs3">假一赔十</li></eq>
+                    <eq name="detail.is_vs4" value="1"><li class="vs4">当日送达</li></eq>
+                    <eq name="detail.is_vs6" value="1"><li class="vs5">货到付款</li></eq>
+                    <eq name="detail.is_vs5" value="1"><li class="vs6">免运费</li></eq>
+                    </ui>
+                    </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="right spxq_xqgm_r">
+
+
+
+            <div class="spxq_qgwx"><img src="<{$ex['wei_pic']}>" width="120" height="120" />
+
+
+
+                <p>扫描商家微信</p>
+
+
+
+                <p>轻松购享优惠</p>
+
+
+
+            </div>
+
+
+
+            <div class="share bdsharebuttonbox spxq_qgFx" data-tag="share_1"><eq name="shop.favo" value="0"><a mini='act' class="spxq_qgFxA" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>"><em>&nbsp;</em>收藏本店</a><else/><a class="spxq_qgFxA" href="javascript:void(0);"><em>&nbsp;</em>已收藏</a></eq><a class="spxq_qgFxA" data-cmd="more" href="javascript:void(0);"><em>&nbsp;</em>分享到</a></div>
+
+
+
+            <script>window._bd_share_config = {share: [{"tag": "share_1", 'bdCustomStyle': '__TMPL__statics/empty.css'}]};
+
+
+
+                with (document)
+
+
+
+                    0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div class="spxqBox">
+
+
+
+        <div class="left zy_content_l">
+
+
+
+            <div class="spxq_xqT">
+
+
+
+                <ul>
+
+
+
+                    <li class="on"><code rel="spxq_xqBt1">商品详情</code><em></em></li>
+                    <li><code rel="spxq_xqBt2">购买须知</code><em></em></li>
+                   <li><code rel="spxq_xqBt3">商家详情</code><em></em></li>
+                    <li><code rel="spxq_xqBt4">用户评价</code><em></em></li>
+                </ul>
+
+
+
+            </div>
+
+
+
+            <script>
+
+
+
+                $(document).ready(function () {
+
+
+                    $(".spxq_xqT li").click(function () {
+
+
+                        $(".spxq_xqT2 ul li").removeClass("on");
+
+
+                        $(".jq_" + $(this).find('code').attr('rel')).addClass("on");
+
+
+                        var _targetTop = $('.' + $(this).find('code').attr('rel')).offset().top;//获取位置
+
+
+                        jQuery("html,body").animate({scrollTop: _targetTop}, 300);//跳转
+
+
+                    });
+
+
+                });
+
+
+
+            </script>
+
+
+
+            <div class="spxq_xqBt1">
+
+
+
+                <div class="spxq_xqBt">商品详情</div>
+
+
+
+                <div class="spxq_xqNr"><{$detail.details}></div>
+
+
+
+            </div>
+            
+            
+
+
+
+            <div class="spxq_xqBt2">
+
+
+
+                <div class="spxq_xqBt">购买须知</div>
+
+
+
+                <div class="spxq_xqNr"><{$detail.instructions}></div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="spxq_xqBt3">
+
+
+
+                <div class="spxq_xqBt">店铺地图</div>
+
+
+
+                <div class="spxq_xqNr">
+
+
+
+                    <div class="left spxq_xqMap_l">
+
+
+
+                        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+
+
+
+                        <div id="allmap" style="width:384px; height:300px;"></div>
+
+
+
+                        <script type="text/javascript">
+
+
+
+                // 百度地图API功能
+
+
+
+                var map = new BMap.Map("allmap");
+
+
+
+                map.centerAndZoom(new BMap.Point("<{$shop.lng}>", "<{$shop.lat}>"), 15);
+
+
+
+                var point = new BMap.Point("<{$shop.lng}>", "<{$shop.lat}>");
+
+
+
+                map.centerAndZoom(point, 15);
+
+
+
+                var marker = new BMap.Marker(point); // 创建标注
+
+
+
+                map.clearOverlays();
+
+
+
+                map.addOverlay(marker); // 将标注添加到地图中
+
+
+
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+
+
+
+                map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
+
+
+
+                        </script>
+
+
+
+                    </div>
+
+
+
+                    <div class="left spxq_xqMap_r">
+
+
+
+                        <script>
+
+
+
+                            $(function () {
+
+
+
+                                $(".spxq_xqMapList li").each(function (e) {
+
+
+
+                                    $(this).click(function () {
+
+
+
+                                        $(".spxq_xqMapList li").removeClass("on");
+
+
+
+                                        $(this).addClass("on");
+
+
+
+                                        $(".spxq_xqMapListNr").each(function (i) {
+
+
+
+                                            if (e == i) {
+
+
+
+                                                $(".spxq_xqMapListNr").hide();
+
+
+
+                                                $(this).show();
+
+
+
+                                            }
+
+
+
+                                            else {
+
+
+
+                                                $(this).hide();
+
+
+
+                                            }
+
+
+
+                                        });
+
+
+
+                                    });
+
+
+
+                                });
+
+
+
+                            });
+
+
+
+                        </script>			
+
+
+
+                        <div class="left spxq_xqMapList">
+
+
+
+                        <ul>
+
+
+
+                            <php>$i=0;</php>
+
+
+
+                            <foreach name="lists" item="item">
+
+
+
+                                <php>$i++;if($i<=5){</php>
+
+
+
+                                <li id="li_<{$i}>" <if condition="$i eq 1">class="on"</if> ><{$item.name}></li>
+
+
+
+                                <php>}else{</php>
+
+
+
+                                <li id="li_<{$i}>" style="display:none;"><{$item.name}></li>
+
+
+
+                                <php>}</php>
+
+
+
+                            </foreach>
+
+
+
+                        </ul>
+
+
+
+                    </div>
+
+
+
+                    <div class="left" style="width:356px;">
+
+
+
+                        <php>$i=0;</php>
+
+
+
+                        <foreach name="lists" item="item">
+
+
+
+                            <php>$i++;if($i<=5){</php>
+
+
+
+                            <div class="spxq_xqMapListNr" id="detail_<{$i}>" <if condition="$i eq 1"> style="display:block;"</if> >
+
+
+
+                                <table width="100%" class="spxq_table" border="0" cellspacing="0" cellpadding="0">
+
+
+
+                                    <tr>
+
+
+
+                                        <td colspan="2"><p class="spxq_xqMapT"><{$shop.shop_name}>（<{$item.name}>）</p></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td width="50"><p class="spxq_tabT">评价：</p></td>
+
+
+
+                                        <td><a class="" href=""><{$item.score_num}>人评价</a></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td><p class="spxq_tabT">地址：</p></td>
+
+
+
+                                        <td><p class="spxq_xqMapWz"><{$item.addr}></p></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td><p class="spxq_tabT">电话：</p></td>
+
+
+
+                                        <td><p class="spxq_xqMapWz"><{$item.telephone}></p></td>
+
+
+
+                                    </tr>
+
+
+
+                                </table>
+
+
+
+                            </div>
+
+
+
+                            <php>}else{</php>
+
+
+
+                            <div class="spxq_xqMapListNr" style="display:none;" id="detail_<{$i}>">
+
+
+
+                                <table width="100%" class="spxq_table" border="0" cellspacing="0" cellpadding="0">
+
+
+
+                                    <tr>
+
+
+
+                                        <td colspan="2"><p class="spxq_xqMapT"><{$shop.shop_name}>（<{$item.name}>）</p></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td width="50"><p class="spxq_tabT">评价：</p></td>
+
+
+
+                                        <td><a class="" href=""><{$item.score_num}>人评价</a></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td><p class="spxq_tabT">地址：</p></td>
+
+
+
+                                        <td><p class="spxq_xqMapWz"><{$item.addr}></p></td>
+
+
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+
+
+                                        <td><p class="spxq_tabT">电话：</p></td>
+
+
+
+                                        <td><p class="spxq_xqMapWz"><{$item.telephone}></p></td>
+
+
+
+                                    </tr>
+
+
+
+                                </table>
+
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <php>}</php>
+
+
+
+                        </foreach>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+                <div id='setpage'></div>
+
+
+
+            </div>
+
+
+
+            </div>
+
+
+
+            <script type="text/javascript">
+
+
+
+                var totalpage, pagesize, cpage, count, curcount, outstr, total;
+
+
+
+                total = "<{$count}>";
+
+
+
+                cpage = 1;
+
+
+
+                totalpage = "<{$totalnums}>";
+
+
+
+                pagesize = 5;
+
+
+
+                outstr = "";
+
+
+
+                function gotopage(target) {
+
+
+
+                    var big_val = target * 5;
+
+
+
+                    var small_val = big_val - 4;
+
+
+
+                    $('.spxq_xqMapList ul li').hide();
+
+
+
+                    $('.spxq_xqMapListNr').hide();
+
+
+
+                    $('.spxq_xqMapList ul li').removeClass('on');
+
+
+
+                    for (var i = small_val; i <= big_val; i++) {
+
+
+
+                        $('#li_' + i).show();
+
+
+
+                        $('#li_' + small_val).addClass('on');
+
+
+
+                        $('#detail_' + small_val).show();
+
+
+
+                    }
+
+
+
+                    cpage = target;        //把页面计数定位到第几页 
+
+
+
+                    setpage();
+
+
+
+                    //reloadpage(target);    //调用显示页面函数显示第几页,这个功能是用在页面内容用ajax载入的情况 
+
+
+
+                }
+
+
+
+                setpage();    //调用分页 
+
+
+
+            </script>
+
+
+
+            <div class="spxq_xqBt4">
+
+
+
+                <div class="spxq_xqBt">
+
+
+
+                    <div class="left">用户评价</div>
+
+
+
+                    <div class="right spxq_xqBt_r">我买过此商品，<a class="spxq_pjAn" href="<{:U('member/index/index')}>">我要评价</a></div>
+
+
+
+                </div>
+
+
+
+                <div class="spxq_xqNr">
+
+
+
+                    <ul>
+
+
+
+                        <foreach name="list" item="var">
+
+
+
+                            <li class="spxq_pjList">
+
+
+
+                                <div class="left spxq_pjList_l">
+
+
+
+                                    <div class="spxq_pjTx"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" width="50" height="50" /></div>
+
+
+
+                                    <p class="spxq_pjYh"><{$users[$var['user_id']]['nickname']}></p>
+
+
+
+                                    <p><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
+
+
+
+                                </div>
+
+
+
+                                <div class="left spxq_pjList_r">
+
+
+
+                                    <div><span class="spxq_qgpstarBg"><span class="spxq_qgpstar">&nbsp;</span></span><span class="spxq_pjTime"><{$var.create_time|date='Y-m-d',###}></span></div>
+
+
+
+                                    <p class="spxq_pjP"><{$var.contents}></p>
+
+
+
+                                    <ul class="spxq_pjUl">
+
+
+
+                                        <foreach name="pics" item="pic">
+
+
+
+                                            <eq name="pic.order_id" value="$var.order_id">
+
+
+
+                                            <li class="spxq_pjLi"><img src="__ROOT__/attachs/<{$pic.pic}>" width="100" height="100" /></li>
+
+
+
+                                            </eq>
+
+
+
+                                        </foreach>
+
+
+
+                                    </ul>
+
+
+
+                                </div>
+
+
+
+                            </li>
+
+
+
+                        </foreach>
+
+
+
+                        <div class="x">
+
+
+
+                            <{$page}>
+
+
+
+                        </div>
+
+
+
+                    </ul>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="right zy_content_r">
+
+
+
+            <div class="nearbuy_wx"><img src="__PUBLIC__/img/nearwx_03.jpg" width="200" height="320" /></div>
+
+
+
+            <div class="nearbuy_hotCp">
+
+
+
+                <div class="nearbuy_hotCpT">
+
+
+
+                    <div class="left">猜你喜欢</div>
+
+
+
+                    <div class="right"><a class="nearbuy_zjClear" href="javascript:void(0);">换换<em></em></a></div>
+
+
+
+                </div>
+
+
+
+                <ul id="glike">
+
+
+
+                    <volist name="like" id="l">
+
+
+
+                        <li>
+
+
+
+                             <egt name="i" value="2">
+
+
+
+                                <hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-bottom:16px;" />
+
+
+
+                             </egt>
+
+
+
+                            <div class="sy_hottjList"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$l['goods_id']))}>"><img src="__ROOT__/attachs/<{$l.photo}>" width="180" height="115" />
+
+
+
+                                    <p class="sy_hottjbt"><{$l.title}></p> 
+
+
+
+                                    <p class="sy_hottjJg"><span class="left">¥<php>echo intval($l['mall_price']/100);</php><del>¥<php>echo intval($l['price']/100);</php></del></span><span class="right">已售<{$l.sold_num}></span></p>
+
+
+
+                                    </a>
+
+
+
+                            </div>
+
+
+
+                        </li>
+
+
+
+                    </volist>
+
+
+
+                </ul>
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <script type="text/javascript" language="javascript">
+
+
+
+
+
+
+
+                $(document).ready(function () {
+
+
+
+                    $('.nearbuy_zjClear').click(function () {
+
+
+
+                        $.post("<{:U('mall/get_like')}>", {}, function (result) {
+
+
+
+                            if (result.status == 'success') {
+
+
+
+                                var res = '';
+
+
+
+                                arr = result.likes;
+
+
+
+                                
+
+
+
+                                var url = BAO_ROOT + '/mall/detail/goods_id/';
+
+
+
+                                $.each(arr, function (n, value) {
+
+
+
+                                    url += value.goods_id+'.html';
+
+
+
+                                    res += '<li><div class=sy_hottjList><a target="_blank" href="'+url+'"><img src=__ROOT__/attachs/' + value.photo + ' width=180 height=115 />';
+
+
+
+                                    res += '<p class=sy_hottjbt>' + value.title + '</p>';
+
+
+
+                                    res += '<p class=sy_hottjJg><span class=left>¥' + parseInt(value.mall_price / 100) + '<del>¥' + parseInt(value.price / 100) + '</del></span><span class="right">已售' + value.sold_num + '</span></p>';
+
+
+
+                                    res += '<hr style=border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px; />';
+
+
+
+                                    res += '</a></div></li>';
+
+
+
+
+
+
+
+                                });
+
+
+
+
+
+
+
+                                $('#glike').html(res);
+
+
+
+
+
+
+
+
+
+
+
+                            } else {
+
+
+
+                                layer.msg(result.message);
+
+
+
+                            }
+
+
+
+                        }, 'json');
+
+
+
+
+
+
+
+                    })
+
+
+
+                })
+
+
+
+
+
+
+
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="nearbuy_hotCp">
+
+
+
+                <div class="nearbuy_hotCpT">
+
+
+
+                    <div class="left">浏览足迹</div>
+
+
+
+                    <div class="right"><a class="nearbuy_zjClear" id="emptygoods"  href="javascript:void(0);">清空</a></div>
+
+
+
+                </div>
+
+
+
+                <script>
+
+
+
+                    $(document).ready(function(){
+
+
+
+                        $("#emptygoods").click(function(){
+
+
+
+                            $.post("<{:U('mall/emptygoods')}>",'',function(data){
+
+
+
+                                if(data.status == 'success'){
+
+
+
+                                    layer.msg(data.msg,{icon:1});
+
+
+
+                                    window.location.reload(true);
+
+
+
+                                }else{
+
+
+
+                                    layer.msg(data.msg,{icon:2});
+
+
+
+                                }
+
+
+
+                            },'json')
+
+
+
+                        })
+
+
+
+                    });
+
+
+
+                </script>
+
+
+
+                <ul>
+
+
+
+                    <php>$i =0;</php>
+
+
+
+                    <foreach name="viewgoods" item="item">
+
+
+
+                        <php>$i++</php>
+
+
+
+                        <li>
+
+
+
+                        <if condition="$i gt 1">
+
+
+
+                            <hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-bottom:16px;" />
+
+
+
+                        </if>
+
+
+
+                            <div class="sy_hottjList"><a target="_blank" target="_blank" href="<{:U('goods/detail',array('goods_id'=>$item['goods_id']))}>">
+
+
+
+                                    <div class="left nearbuy_zj_l"><img src="__ROOT__/attachs/<{$item.photo}>" width="82" height="50" /></div>
+
+
+
+                                    <p style="height: 36px; overflow: hidden;" class="nearbuy_zjP"><{$item.title}></p> 
+
+
+
+                                    <p style="font-weight: normal;" class="nearbuy_zjJg">¥<{:round($item['mall_price']/100,2)}><del>¥<{:round($item['price']/100,2)}></del></p>
+
+
+
+                            </div>
+
+
+
+                        </li>
+
+
+
+                    </foreach>
+
+
+
+                </ul>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<include file="public:footer"/>

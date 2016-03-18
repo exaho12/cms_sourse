@@ -1,0 +1,171 @@
+<title>物流配送中心</title>
+
+<include file="public:header"/>
+
+<link rel="stylesheet" href="/static/default/wap/css/delivery.css">
+<script src = "/themes/default/Mobile/statics/js/jquery-1.7.1.min.js" ></script>
+<script src="/themes/default/Mobile/statics/js/layer/layer.js"></script>
+
+ 
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('delivery/index/express')}>" ><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			快递众包
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('delivery/login/logout')}>">退出</a>
+	</div>
+</header>
+
+
+
+<ul id="shangjia_tab">
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/express',array('ss'=>0))}>" <eq name='ss' value='0'>class="on"</eq>>抢快递</a></li>
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/express',array('ss'=>1))}>"<eq name='ss' value='1'>class="on"</eq>>配送中</a></li>
+        <li style="width: 33.3333367%;"><a href="<{:U('lists/express',array('ss'=>2))}>"<eq name='ss' value='2'>class="on"</eq>>已完成</a></li>
+</ul>
+
+
+<!-- 筛选TAB -->
+
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="#">订单列表
+             <eq name="ss" value="0">抢快递</eq>
+            <eq name="ss" value="1">配送中</eq>
+            <eq name="ss" value="2">已完成</eq>
+            </a>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<div class="container1">
+
+<div class="list-media-x" id="list-media">
+
+	<ul>
+
+
+
+<volist name="rdv" id="r"> 
+
+
+
+    <li class="line padding">
+
+        <div class="x12">
+
+            <p class="text-small">快递编号:<{$r.express_id}> <a class="icon icon-send radius-little " style=" color:#F00; padding:0px 5px;"> 距离<{$r.d}></a>
+
+           </p>
+
+
+
+ 
+			<p class="text-small"><{$r.title}></p> 
+            <p class="text-small">下单时间： <{$r.create_time|date='Y-m-d H:i:s',###}></p> 
+            <div class="blank-10"></div>
+            <p class="text-small">寄件人：<{$r.from_name}>  <{$r.from_mobile}></p>
+            <p class="text-small">地址：<{$r.to_addr}> </p>
+            <div class="blank-10"></div>
+            <p class="text-small1">收件人：<{$r.to_name}>  <{$r.to_mobile}></p>
+            <p class="text-small1">地址：<{$r.to_addr}> </p>
+
+            
+
+            
+
+
+
+
+<div class="blank-10"></div>
+
+<p class="text-right padding-top">
+
+
+
+
+<eq name="r.status" value="0"><a href="javascript:void(0);" class="button button-small bg-yellow">抢单中</a></eq>
+<eq name="r.status" value="1"><a href="javascript:void(0);" class="button button-small bg-yellow">配送中</a></eq>
+<eq name="r.status" value="2"><a href="javascript:void(0);" class="button button-small bg-gray">已完成</a></eq> 
+
+
+
+
+
+
+
+<eq name="r.status" value="0"><a href="javascript:void(0);" val="<{$r.express_id}>" class="button button-small bg-dot qiang_btn">抢单</a></eq>
+<eq name="r.status" value="1"><a href="javascript:void(0);" val="<{$r.express_id}>" class="button button-small bg-dot ok_btn">确认完成</a></eq>
+
+
+
+</p>
+
+          </p>
+        </div>
+    </li>
+
+    <div class="blank-10 bg"></div>
+
+
+</volist><!--循环结束-->
+
+ <script type="text/javascript" language="javascript">
+                $(document).ready(function () {
+                    $('.qiang_btn').click(function () {
+                        var id = $(this).attr('val');
+                        $.post('<{:U("lists/qiang")}>', {express_id: id}, function (result) {
+                            if (result.status == 'success') {
+                                layer.msg(result.message);
+                                setTimeout(function () {
+                                    location.reload(true);
+                                    window.location.href = "<{:U('lists/express',array('ss'=>1))}>";
+                                }, 1500);
+                            } else {
+                                layer.msg(result.message);
+                            }
+                        }, 'json');
+                    })
+
+                    $('.ok_btn').click(function () {
+                        var id = $(this).attr('val');
+                        $.post('<{:U("lists/express_ok")}>', {express_id: id}, function (result) {
+                            if (result.status == 'success') {
+                                layer.msg(result.message, {icon: 6});
+                                setTimeout(function () {
+                                    //location.reload(true);
+                                    window.location.href = "<{:U('lists/express',array('ss'=>2))}>";
+                                }, 1500);
+                            } else {
+                                layer.msg(result.message);
+                            }
+                        }, 'json');
+                    })
+                })
+
+            </script>
+
+
+
+
+
+  </ul>
+
+</div> 
+
+</div> 
+
+
+
+<include  file='public:footer'/>

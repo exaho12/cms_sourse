@@ -1,0 +1,83 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">投票插件</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('vote/create')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">投票标题：</td>
+                    <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="scAddTextName w210" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                投票banner：
+                </td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[banner]" value="<{$detail.banner}>" id="data_logo" />
+                        <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="logo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.banner|default='default.jpg'}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸:<{$CONFIG.attachs.votebanner.thumb}>
+                    </div>
+                    <script>
+                        $("#logo_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"votebanner"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传投票banner',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_logo").val(data);
+                                $("#logo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+
+                    </script>
+                </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">选项：</td>
+                    <td class="rgTdBt">
+                        <label><span>是否多选:</span><input type="checkbox" name="data[is_select]" value="1" /></label>
+                        <label><span>是否有图片:</span><input type="checkbox" name="data[is_pic]" value="1" /></label>            
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">商家：</td>
+                    <td class="rgTdBt">
+                        <div class="lt">
+                            <input type="hidden" id="shop_id" name="data[shop_id]" value="<{$detail.shop_id|default=''}>"/>
+                            <input type="text" id="shop_name" name="shop_name" value="" class="scAddTextName w210 sj" />
+                        </div>
+                        <a mini="select"  w="1000" h="600" href="<{:U('shop/select')}>" class="seleSj">选择商家</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">投票人数：</td>
+                    <td class="rgTdBt"><input type="text" name="data[num]" value="<{$detail.num|default=''}>" class="scAddTextName w210" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">结束时间：</td>
+                    <td class="rgTdBt"><input type="text" name="data[end_date]" value="<{$detail.end_date|default=''}>" onfocus="WdatePicker();"  class="inputData" />
+                    </td>
+                </tr>  
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

@@ -1,0 +1,195 @@
+<include file='public:header'/>  
+
+	<header class="top-fixed bg-yellow bg-inverse">
+
+		<div class="top-back">
+
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+
+		</div>
+
+		<div class="top-title">
+
+			订座订单管理
+
+		</div>
+
+		<div class="top-share">
+
+			<a href="#" id="cate-btn"></a>
+
+		</div>
+
+	</header>
+
+    
+
+   <div class="line xiaoqu-search">
+
+		<form method="post"  action="<{:U('ding/index')}>" id="form1" class="form1">
+
+			<div class="form-group">
+
+				<div class="field">
+
+					<div class="input-group">
+
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+
+                        <input type="hidden" value='<{$status}>' name='status'>
+
+						<input type="text" class="input" name="order_no" size="50" value="<{$order_no}>" placeholder="订单编号"  />
+
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</form>
+
+	</div>
+
+    
+
+    
+
+    <!-- 筛选TAB -->
+
+<div class="line tab-bar">
+
+	<div class="button-toolbar">
+
+		<div class="button-group">
+
+			<a class="block button <if condition="empty($status) || $status eq 3">bg-dot active</if>" href="<{:U('ding/index',array('status'=>'3'))}>">未消费</a>
+
+			<a class="block button <if condition="$status eq 4">bg-dot active</if>" href="<{:U('ding/index',array('status'=>'4'))}>">已消费</a>
+
+			<a class="block button <if condition="$status eq 2">bg-dot active</if>" href="<{:U('ding/index',array('status'=>'2'))}>">未支付</a>
+
+            <a class="block button <if condition="$status eq 1">bg-dot active</if>" href="<{:U('ding/index',array('status'=>'1'))}>">已退款</a>
+
+		</div>
+
+	</div>
+
+</div>   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="list-media-x" id="list-media">
+
+	<ul>
+
+   
+
+  
+
+    
+
+   <foreach name="list" item="var">  
+
+    <li class="line padding">
+
+        <div class="x12">
+
+            <p class="text-small">订单号:<{$var.order_no}></p>
+
+            <p class="text-small">预计人数:<{$arr[$var['ding_id']]['number']}></p> 
+
+            <p class="text-small">支付定金：<{:round($var['need_price']/100,2)}>元</p>
+
+            <p class="text-small">预订人姓名：<{$var.name}>手机：<{$var.mobile}></p>
+
+           
+
+
+
+
+
+                                  
+
+<if condition="empty($status) || $status eq 3 || $status eq 4">                              	                                        
+
+<p><span class="text-dot margin-right">预约时间:<{$arr[$var['ding_id']]['last_date']}> <{$arr[$var['ding_id']]['last_t']}></span></p>
+
+<a href="<{:U('ding/detail',array('order_id'=>$var['order_id']))}>" class="button button-small bg-dot"> 点击查看</a> 
+
+<else/>
+
+<p><span class="text-dot margin-right">预约时间:<{$arr[$var['ding_id']]['last_date']}> <{$arr[$var['ding_id']]['last_t']}></span></p>            
+
+</if>            
+
+            
+
+            
+
+            </p>
+
+        </div>
+
+    </li>
+
+   </foreach>   
+
+    
+
+  </ul>
+
+</div> 
+
+
+
+
+
+
+
+
+
+
+
+<div class="blank-20"></div>
+
+
+
+<div class="container login-open">
+
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+
+<div class="blank-20"></div>
+
+</div>
+
+        
+
+
+
+
+
+		
+
+<include file="public:footer"/>

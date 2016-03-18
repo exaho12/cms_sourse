@@ -1,0 +1,155 @@
+<include file='public:header_news'/> <div class="blank-10"></div>
+	<div class="container">
+		<div class="menu-table">
+			<div class="filter-section">
+				<php>
+				$selected_cat_id = 0;
+				if($cat){
+					$cate = $shopcates[$cat];
+					if($cate['parent_id'] == 0){
+						$selected_cat_id = $cat;
+						$selected_cat_name = $cate['cate_name'];
+					}else{
+						$selected_cat_id = $cate['parent_id'];
+						$selected_cat_name = $cate['cate_name'];
+					}
+				}
+				</php>
+
+				<if condition="!empty($cat)">
+				<div class="filter-bread">
+					<a class="button button-small" href="<{:U('seller/index')}>">全部</a>
+					<if condition="!empty($cat)">
+					<a class="button button-small" href="<{:U('seller/index')}>"><{$selected_cat_name}> <i class="icon icon-times"></i></a>
+					</if>
+				</div>
+				</if>
+		
+				<if condition="empty($selected_cat_id)">
+				<div class="filter-list filter-first">
+					<div class="list-label">
+						分类：
+					</div>
+					<ul class="list-sect">
+						<li <if condition="$cat eq null">class="current"</if>><a title="所有商家" href="<{:U('seller/index')}>">全部</a></li>
+						<php>$i = 1;</php>
+						<foreach name="shopcates" item="item">
+						<eq name="item.parent_id" value="0"> 
+						<php>$i++;if($i < 15){</php>
+						 <li <eq name="item.cate_id" value="$selected_cat_id">class="current"</eq>><a title="<{$item.cate_name}>"  href="<{:U('seller/index',array('cat'=>$item['cate_id']))}>" ><{$item.cate_name}></a></li>
+						<php>}</php>
+						</eq>
+						</foreach>
+					</ul>
+				</div>
+				</if>
+				
+                <if condition="!empty($selected_cat_id)">
+				<div class="filter-list filter-first">
+					<div class="list-label">
+						服务：
+					</div>
+					<ul class="list-sect">
+						<foreach name="shopcates" item="item">
+						<eq name="item.parent_id" value="$selected_cat_id"> 
+						<li <eq name="item.cate_id" value="$cat"> class="current"</eq>>
+						<a title="<{$item.cate_name}>" href="<{:U('seller/index',array('cat'=>$item['cate_id']))}>" ><{$item.cate_name}></a></li>
+						</eq>
+						</foreach>
+						
+					</ul>
+				</div>
+                </if>
+			</div>
+			
+			<div class="sort-section">
+				<ul>
+					<li <eq name="order" value="1">class="current"</eq> >
+						<a href="<{:LinkTo('seller/index',array('cat'=>$cat,'order'=>'1'))}>">默认排序</a>
+						<if condition="$order eq 1">
+							<i class="icon icon-angle-down"></i>
+						<else />
+							<i class="icon icon-angle-up"></i>
+						</if>
+					</li>  
+					<li <eq name="order" value="2">class="current"</eq> >
+						<a href="<{:LinkTo('seller/index',array('cat'=>$cat,'order'=>'2'))}>">热度排序</a>
+						<if condition="$order eq 2">
+							<i class="icon icon-angle-down"></i>
+						<else />
+							<i class="icon icon-angle-up"></i>
+						</if>
+					</li>
+					<li <eq name="order" value="3">class="current"</eq> >
+						<a href="<{:LinkTo('seller/index',array('cat'=>$cat,'order'=>'3'))}>">时间排序</a>
+						<if condition="$order eq 3">
+							<i class="icon icon-angle-down"></i>
+						<else />
+							<i class="icon icon-angle-up"></i>
+						</if>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="blank-10"></div>
+	
+	<div class="container">
+		<div class="line">
+			<div class="x9">
+				<ul class="index-list-box">
+					<foreach name="list" item="var">
+					<li>                        
+						<a class="pic" title="<{$var.title}>" target="_blank" href="<{:U('seller/detail',array('news_id'=>$var['news_id']))}>">
+							<img src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" alt="<{$var.title}>" />
+						</a>
+						<div class="des">
+							<h3><a title="<{$var.title}>" target="_blank" href="<{:U('seller/detail',array('news_id'=>$var['news_id']))}>"><{$var.title}></a></h3>
+							<p class="des-txt">
+							  <{:niuMsubstr($var['details'],0,150)}>
+							</p>
+							<p class="des-tit">
+								<span><{$var.create_time|date='Y-m-d',###}></span>
+								<em>总浏览：<code><{$var.views}></code></em>   
+							</p>
+						</div>
+					</li>
+					</foreach>
+				</ul>
+
+				<div class="blank-10"></div>
+				
+				<div class="pagination">
+					<{$page}>
+				</div>
+			</div>
+			<div class="x3">
+				<div class="side-ad">
+					<ul>
+						<calldata mdl="Ad" where=" closed=0 AND site_id=49  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="43200" order="orderby asc">
+						<li><a href="<{$item.link_url}>" target="_blank" > <img src="__ROOT__/attachs/<{$item.photo}>"></a></li>
+						</calldata>
+					</ul>
+				</div>
+				
+				<div class="blank"></div>
+				
+				<ul class="side-list-coupon">
+					<calldata mdl="Coupon"  limit="0,10"  cache="21600" order="coupon_id desc">
+					<li class="media media-x">
+						<a class="float-left" href="<{:U('mall/detail',array('coupon_id'=>$item['coupon_id']))}>" target="_blank">
+							<img class="radius" src="/attachs/<{$item.photo}>" alt="<{$item.title}>" />
+						</a>
+						<div class="media-body">
+							<strong><a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>" target="_blank"><{$item.title}></a></strong>
+							<{$item.intro}>
+						</div>
+					</li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+<include  file='public:footer'/>  

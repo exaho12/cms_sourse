@@ -1,0 +1,70 @@
+<include  file='public:header_news'/>    
+<body >
+    <header>
+        <div class="header_color">
+            <a class="back" href="<{:U('index/index')}>"><img  src="__TMPL__statics/img/back_icon.png"></a>
+            投票详情
+        </div>
+    </header>
+    <!--banner-->
+    <div class="big-box">
+        <div class="banner"><img src="__ROOT__/attachs/<{$detail.banner}>" width="320" height="130"/></div>
+        <div class="content">
+            <p title="<{$detail.title}>"><{$detail.title}></p>
+            <div class="tline"></div>
+            <div class="logo-container">
+                <div class="bigc">
+                    <volist name="options" id="item" key="index">
+                        <div <if condition="$index%2 eq 1">style="margin-left:9px;" </if> class="w145 fl"> 
+                            <img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" width="145" height="145"/>
+                            <div class="tt">
+                                <div class="title"><{$item.title}></div>
+                                <if condition="$works eq 0"><div class="vote"><a href="<{:U('vote/picvote',array('vote_id'=>$detail['vote_id'],'option_id'=>$item['option_id']))}>">投票</a></div><else/><div class="notvote"><a href="javascript:void(0);">投票</a></div></if>
+                            </div>
+                        </div>
+                        <if condition="$index%2 eq 1"> <div class="v-line fl"><div class="line"></div></div> </if>
+                        <if condition="$index%2 eq 0"><div class="tline hr"></div></if>
+                    </volist>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $(".notvote").click(function () {
+                    alert('您已经投过票了');
+                });
+            });
+        </script>
+        <hr />
+        <footer>
+            <center>
+               <div class="tips">温馨提示：此活动的最终解释权归BAOCMS，如有疑问请致电客服热线0551-63641901</div>
+            </center>
+        </footer>
+
+        <div class="float-bg">
+            <div id="cancel" class="close_btn"><img src="__TMPL__statics/img/close.png"/></div>
+            <div class="float-box">
+                <h2>请关注我们官方微博参与投票</h2>
+                <if condition="$shopdetails['wei_pic'] eq null">
+                    <div class="weixin"><img src="__TMPL__statics/img/weixin.jpg"/></div>
+                    <else/>
+                    <div class="weixin"><img src="__ROOT__/attachs/<{$shopdetails.wei_pic'}>"/></div>
+                </if>
+                <h4>长按二维码保存图片到手机，之后<br />
+                    用微信“扫一扫”选择右上角，<br />
+                    “从相册读取二维码”，关注我们<br />
+                    发送ＸＸＸ参与活动
+                </h4>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#cancel").click(function () {
+                $(this).parent().css('display', 'none');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <a href="<{:U('zhuanti/index')}>"><li class="li2">专题管理</li></a>
+        <li class="li2 li3" onclick="javascript:window.location.reload()">专题组</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <div class="jsglNr">
+        <div class="selectNr" style="border-top: 1px solid #dbdbdb;">
+            <div class="left">
+                <a href="<{:U('zhuanti/addspecial')}>">创建专题</a>
+                <a href="<{:U('tuan/index')}>">添加专题商品</a>
+                <a href="<{:U('zhuanti/config')}>">专题配置</a>
+                <a href="<{:U('zhuanti/floor')}>">楼层管理</a>
+            </div>
+        </div>
+
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF; text-align:center;">
+                 <tr bgcolor="#ffaa7b" height="48px;" style="color:#FFF; font-size:16px; line-height:48px;">
+                    <td>专题ID</td>
+                    <td>专题名称</td>
+                    <td>操作</td>
+                </tr>
+                <volist name="lists" id="list">
+                <tr height="48px;" style="color:#555; font-size:16px; line-height:48px;">
+                    <td><{$list.map_id}></td>
+                    <td><{$list.title}></td>
+                    <td>
+                        <a href="<{:U('Zhuanti/index')}>">产品</a>
+                        <a href="<{:U('Zhuanti/config')}>">配置</a>
+                        <a href="<{:U('Zhuanti/editspecial',array('map_id'=>$list['map_id']))}>">编辑</a>
+                        <a href="<{:U('Zhuanti/delspecial',array('map_id'=>$list['map_id']))}>" mini="act">移除</a>
+                        
+                        <a target="_blank" href="<{:U('pchome/zhuanti/index',array('zt'=>$list['map_id']))}>">PC访问</a>
+                        <a target="_blank" href="<{:U('mobile/zhuanti/index',array('zt'=>$list['map_id']))}>">手机访问</a>
+                    </td>
+                </tr>
+                </volist>
+            </table>
+            <{$page}>
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>
+
+
+
+
+
+
+

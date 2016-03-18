@@ -1,0 +1,24 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('coupon/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			我的优惠券
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="container">
+	<div class="padding-large">
+            <img width="100%" src="__ROOT__/attachs/<{$file}>" />
+            <p>
+                该二维码提供给对应商家，商家指定员工帐号登录<{$CONFIG[site]['sitename']}>，然后用微信或者浏览器扫描，验证成功即可享受优惠！
+            </p>
+	</div>
+</div>
+
+
+<include  file='public:footer'/>

@@ -1,0 +1,50 @@
+<volist name="list" id="item">
+	<li class="tie-item">
+		<div class="item-head line">
+			<span class="avatar x2">
+				<img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+			</span>
+			<span class="info x10">
+				<em><{$users[$item['user_id']]['nickname']}></em>
+				<span class="float-right"><{$item.create_time|date="Y-m-d",###}></span>
+				<p class="title">
+					<{:msubstr($item['title'],0,25)}>
+				</p>
+			</span>
+			<span class="coner"></span>
+		</div>
+		<div class="item-body">
+			<a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>">
+			<php>$desc = msubstr(strip_tags($item['details']),0,100);</php>
+			<if condition="$desc neq '...'">
+			<p><{$desc}></p>
+			</if>
+			</a>
+			<div class="pic">
+			<if condition="!empty($item['pic'])">
+			<php>$gallery = explode(',',$item['pic']);</php>
+				<ul class="gallery">
+					<foreach name="gallery" item="var">
+						<li><a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>"><img src="/attachs/<{$var}>" /></a></li>
+					</foreach>
+				</ul>
+			</if>
+			</div>
+			<div class="blank-10"></div>
+			<div class="ctrl">
+				<a class="ctrl-zan" id="zan-<{$item.post_id}>" data="<{$item.post_id}>"><i class="icon-thumbs-up"></i> <em><{$item['zan_num']}></em></a>
+				<a class="ctrl-reply" href="<{:U('tieba/reply',array('post_id'=>$item['post_id']))}>"><i class="icon-comments"></i> <em><{$item['reply_num']}></em></a>
+			</div>
+		</div>
+		<if condition="!empty($item['reply'])">
+		<div class="item-foot">
+			<foreach name="item.reply" item="var">
+				<p><em><{$var[user][nickname]}> :</em>
+                <php>$descc = msubstr(strip_tags($var['contents']),0,50);</php>
+			<if condition="$descc neq '...'">
+                 <{$descc}></p>
+			</foreach>
+		</div>
+		</if>
+	</li>
+</volist>

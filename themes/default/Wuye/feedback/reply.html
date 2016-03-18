@@ -1,0 +1,33 @@
+<include file="public:header"/>
+
+<link rel="stylesheet" href="/static/default/wap/css/tieba.css">
+
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			回复反馈
+		</div>
+		
+	</header>
+
+	<form class="post-form" action="<{:U('feedback/reply',array('feed_id'=>$detail['feed_id']))}>" method="post" >   
+		<div class="line border-bottom">
+        <div class="x9 form-title">
+			<textarea class="form-content" name="data[reply]"  placeholder="请输入内容"/></textarea>
+         </div>
+		</div>
+        
+		<div class="blank-10 clearfix"></div>
+		<div class="container">
+			<div id="uploader" class="uploader">
+				<button class="button bg-green margin-small-right" type="submit">确认回复</button>
+				<div id="filelist" class="uploader-list"></div>
+			</div>
+		</div>
+				
+	</form>
+<include file='public:footer'/>  
+

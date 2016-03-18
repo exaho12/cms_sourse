@@ -1,0 +1,80 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		生活信息
+	</div>
+	<div class="top-search" style="display:none;">
+		<form method="post" action="<{:U('life/lists')}>">
+			<input name="keyword" placeholder="输入信息的关键字"  />
+			<button type="submit" class="icon-search"></button> 
+		</form>
+	</div>
+	<div class="top-signed">
+		<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+	</div>
+</header>
+<div id="index-cate" class="index-cate">
+	<script>
+		$(function(){
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			$("#index-cate .cate-more").click(function(){
+				$(this).parent().children().find(".more-content").toggle();
+				if($(this).hasClass("active")){
+					$(this).removeClass("active");
+					$(this).children().find("span").html("展开更多");
+				}
+				else{
+					$(this).addClass("active");
+					$(this).children().find("span").html("点击收起");
+				}
+			});
+		});
+	</script>
+	<php>$ii = 0;</php>
+	<volist name="list" id="arr">
+	<php>$ii++;</php>
+	<ul>
+		<li class="cate-name">
+			<a href="<{:U('life/channel',array('channel'=>$key))}>">
+				<img src="/static/default/wap/image/life/cate-<{$ii}>.png" />
+				<span><{$arr['channel']}></span>
+				<span class="float-right text-gray"><i class="icon-angle-right"></i></span>
+			</a>
+		</li>
+		<li class="cate-list">
+			<php>$on=false;$num=count($arr['cate']);</php>
+			<volist name="arr['cate']" id="cate">
+				<if condition="$key lt 12">
+				<a href="<{:U('life/lists',array('cat'=>$cate['cate_id']))}>"><{$cate.cate_name}></a>
+				<else/>
+					<if condition="!$on">
+						<span class="more-content" style="display:none;">
+						<php>$on=true;</php>
+					</if>
+					<a href="<{:U('life/lists',array('cat'=>$cate['cate_id']))}>"><{$cate.cate_name}></a>
+					<if condition="count($arr['cate']) eq $key+1">
+						</span>
+					</if>
+				</if>
+			</volist>
+		</li>
+		<if condition="($key gt 12) AND ($num gt 12)">
+		<li class="cate-more"><a href="javascript:;"><span>展开更多</span><i class="down icon-angle-down"></i><i class="up icon-angle-up"></i></a></li>
+		</if>
+		<li class="blank-10 bg"></li>
+	</ul>
+	</volist>
+</div>
+<include file="public:footer"/>

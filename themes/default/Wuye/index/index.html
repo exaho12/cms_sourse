@@ -1,0 +1,92 @@
+<include file="public:header"/>
+<link rel="stylesheet" href="/static/default/wap/css/wuye.css">
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('wuye/index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			物业中心
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('wuye/index/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<div class="index-top">
+	<div class="top-a">
+		<div class="user">	
+			<span class="avatar">    
+            <img src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" />         
+            </span>
+			<div class="info">	
+				<p>欢迎您，<b style="color: red;"><{$COMMUNITY.name}></b>的管理员<{$MEMBER.nickname}>！</p>	
+				<p>
+					<span>积分：<{$MEMBER.integral}></span>
+					<span>余额：<{:round($MEMBER['money']/100,2)}></span>
+					<span>金块：<{:round($MEMBER['gold']/100,2)}></span>
+				</p>	
+			</div>	
+		</div>	
+
+	</div>
+	
+	
+	
+	
+</div>
+
+
+<div class="panel-list">
+	<ul>
+		
+        
+        <li>
+			<a href="<{:U('communitynews/index')}>">
+				<span class="icon-bullhorn"></span>
+				通知管理news
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+		<li>
+			<a href="<{:U('feedback/index')}>">
+				<span class="icon-edit"></span>
+				便民报修feedback
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+		<li>
+			<a href="<{:U('convenientphone/index')}>">
+				<span class="icon-phone"></span>
+				便民电话phone
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+        
+        <li>
+			<a href="<{:U('neighbor/index')}>">
+				<span class="icon-user"></span>
+				业主管理neighbor
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+        
+        <li>
+			<a href="<{:U('bbs/index')}>">
+				<span class="icon-money"></span>
+				小区论坛post
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+        
+        
+		<li>
+			<a href="<{:U('wuye/passport/logout')}>">
+				<span class="icon-sign-out"></span>
+				注销登录out
+				<i class="icon-angle-right"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<include  file='public:footer'/>

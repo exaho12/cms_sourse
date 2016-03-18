@@ -1,0 +1,53 @@
+<include file="public:header"/>
+<div class="content_right">  
+<div class="tgdd">
+    <div class="tgdd_t">
+        <a style="display: inline-block; float: right; margin-right: 10px;" class="myInfor_sx" href="<{:U('express/create')}>">发布快递</a>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <th>编号</th>
+                <th>标题</th>
+                <th>寄件人姓名</th>
+                <th>寄件人地址</th>
+                <th>寄件人手机</th>
+                <th>城市</th>
+                <th>收件人姓名</th>
+                <th>收件人地址</th>
+                <th>收件人手机</th>
+                <th>创建时间</th> 
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrt" style="border-bottom:1px solid #e2e2e2;">
+                    <td><{$var.express_id}></td>
+                    <td><{$var.title}></td>
+                    <td><{$var.from_name}></td>
+                    <td><{$var.from_addr}></td>
+                    <td><{$var.from_mobile}></td>
+                    <td><{$city[$var['city_id']]['name']}></td>
+                    <td><{$var.to_name}></td>
+                    <td><{$var.to_addr}></td>
+                    <td><{$var.to_mobile}></td>
+                    <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    <td>
+                        <eq name="var.status" value="0"><a class="tgdd_nrt" href="javascript:void(0);">等待处理</a></eq>
+                        <eq name="var.status" value="1"><a class="tgdd_nrt" href="javascript:void(0);">已接单</a></eq>
+                        <eq name="var.status" value="2"><a class="tgdd_nrt" href="javascript:void(0);">配送完成</a></eq>
+                        <eq name="var.status" value="-1"><a class="tgdd_nrt" href="javascript:void(0);">已拒收</a></eq>
+                    </td>
+                <td>
+                <if condition="$var['status'] eq 0"><a class="tgdd_nrt" href="<{:U('express/edit',array('express_id'=>$var['express_id']))}>">编辑</a></if>
+                <if condition="$var['status'] eq 0 or $var['status'] eq 2"><a class="tgdd_nrt" href="<{:U('express/delete',array('express_id'=>$var['express_id']))}>" mini="confirm">删除</a></if>
+                </td>
+                </tr>
+            </foreach>
+        </table>    
+        <div class="x"><{$page}></div>
+    </div>
+</div> 
+</div>
+</div>
+<include file="public:footer"/>

@@ -1,0 +1,73 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			金块充值
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+<!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button" href="<{:U('money/index')}>">余额充值</a>
+			<a class="block button" href="<{:U('money/recharge')}>">代金券充值</a>
+			<a class="block button bg-dot active" href="<{:U('money/gold')}>">金块充值</a>
+		</div>
+	</div>
+</div>
+
+<form method="post" action="<{:U('money/goldpay')}>" >
+<div class="line padding border-bottom">
+    <span class="x3">金块数量</span>
+	<span class="x9">
+		<input class="text-input" type="text" name="gold" placeholder="请输入充值金块数量" />
+	</span>
+</div>
+<div class="blank-10 bg"></div>
+<ul id="pay-method" class="pay-method">
+	<foreach name="payment" item="var">
+	<eq name="var.is_open" value="1">
+	<if condition="$var['code'] neq 'money'">
+	<li data-rel="<{$var.code}>" class="media media-x payment">
+		<a class="float-left"  href="javascript:;">
+			<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+		</a>
+		<div class="media-body">
+			<div class="line">
+				<div class="x10">
+				<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+				</div>
+				<div class="x2">
+					<span class="radio txt txt-small radius-circle bg-green"><i class="icon-check"></i></span>
+				</div>
+			</div>
+		</div>
+	</li>
+	</if>
+	</eq>
+	</foreach>
+</ul>
+<input id="code" type="hidden" name="code" value="" />
+<script>
+	$("#pay-method li").click(function(){
+		var code = $(this).attr("data-rel");
+		$("#code").val(code);
+		$("#pay-method li").each(function(){
+			$(this).removeClass("active");
+		});
+		$(this).addClass("active");
+	});
+</script>
+
+
+<div class="blank-30"></div>
+<div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

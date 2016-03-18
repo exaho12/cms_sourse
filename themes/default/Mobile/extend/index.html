@@ -1,0 +1,72 @@
+<include file="public:header_news"/>
+
+<body style="background:#cd2f58;">
+	<header>
+		<a href="<{:U('index/index')}>"><i class="icon-goback"></i></a>
+		<div class="title">全民经济人</div>
+		<i class="icon-menu"></i>
+	</header>
+
+ <div id="life" class="page-center-box">
+    <div id="scroll">
+        <div class="natnalEco_box">
+            <div class="natnalEco">
+                <div class="img_bg"><img src="__TMPL__statics/img/natnalEco1.png"></div>
+                <div class="btn_box">
+                    <div class="img"><img src="__TMPL__statics/img/natnalEco2.png"></div>
+                    
+                    <a href="javascript:void(0);" id='share' class="btn"><img src="__TMPL__statics/img/natnalEcoBtn.png"></a>
+                    
+                </div>
+            </div>
+            <div class="weixin_sm">
+                <p>点击分享或者让朋友扫描以下二维码<php>if(empty($MEMBER)){</php>（您当前未登录，请登录后分享给朋友）<php>}</php></p>
+              
+                <div id="code"></div> 
+              
+            </div>
+            <script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script>
+        
+                <script>
+                   $('#code').qrcode("http://<{$Think.SERVER.HTTP_HOST}>__ROOT__<{:U('index/index',array('invite'=>$MEMBER['user_id']))}>"); 
+                </script>
+            <php>if(empty($MEMBER)){</php>
+            <script>
+                function lo(){
+                    location.href='<{:U("passport/login")}>';
+                }
+                $(document).ready(function(){
+                    $(".btn").click(function(){
+                         error('请登录后再分享',3000,"lo()");
+                    });
+                });
+            </script>
+            <php>}else{</php>
+            
+            <script type="text/javascript" src="http://openapi.baidu.com/widget/social/1.0/share.js"></script>
+              <script type="text/javascript">
+                    baidu.socShare.init({
+                    "afterRender": function () {
+                    },
+                            "client_id": "ZVEpDSsmZ0qxa1gmgDAh1Fje",
+                            "dom_id": "share",
+                            "content": "<{$detail.title}>",
+                            "theme": "web",
+                            "animate": true,
+                            "url": "http://<{$Think.SERVER.HTTP_HOST}>__ROOT__<{:U('index/index',array('invite'=>$MEMBER['user_id']))}>",
+                            "pic_url": 'http://<{$Think.SERVER.HTTP_HOST}>__TMPL__statics/img/natnalEco2.png'
+                    });
+            </script>      
+            <php>}</php>
+            <div class="nr">
+            	<h3><span>活动内容</span></h3>
+                <p><{:nl2br($CONFIG['quanming']['content'])}> </p>
+            </div>
+            <div class="nr">
+            	<h3><span>活动规则</span></h3>
+                <p><{:nl2br($CONFIG['quanming']['intro'])}> </p>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer_news"/>

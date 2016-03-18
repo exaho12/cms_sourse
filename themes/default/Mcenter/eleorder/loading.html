@@ -1,0 +1,130 @@
+<foreach name="list" item="order">
+
+<li class="line ">
+
+        <dt>
+        <a class="x4">订单编号：<{$order.order_id}></a>
+        <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$order['shop_id']['shop_id']))}>">  
+        
+         <php>
+         		$shop_ids =$order['shop_id'];
+                $shop_idss = D('Shop') -> where($shop_ids) -> find();
+                $shop_name =$shop_idss['shop_name'];
+        </php> 
+               
+        <{$shop_name}> <span class=" icon-angle-right"></span> </a>
+        </dt>
+   
+        
+   <foreach name="products" item="product">  
+   <if condition="$product['order_id'] eq $order['order_id']">   
+  <dd class="zhong">
+        <div class="x4">
+            <a href="<{:U('eleorder/detail',array('order_id'=>$order['order_id']))}>"><img src="__ROOT__/attachs/<{$eleproducts[$product['product_id']]['photo']}>" width="70" height="70" style="width:90%;"></a>
+        </div>
+        <div class="x8">
+            <p><{$eleproducts[$product['product_id']]['product_name']}></p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">小计：<span class="text-dot">￥<{:round($eleproducts[$product['product_id']]['price']/100,2)}> x <{$product.num}> = <{:round($product['total_price']/100,2)}> 元</span></span>
+
+
+			</p>
+         </div>
+        </dd>
+         </if>
+ </foreach>        
+         
+         <dt>
+             <div class="x12">
+             <span class="margin-right">总费用：&yen;<{:round($order['total_price']/100,2)}></span>
+             <span>下单时间：<{$order.create_time|date='Y-m-d',###}></span>
+             </div>
+         </dt>   
+			
+        
+      
+      <dl>
+      <p class="text-right padding-top">
+           <eq name="order.is_pay" value="1">
+			<eq name="order.status" value="0">
+				<a class="button button-small bg-dot" href="<{:U('mobile/ele/pay',array('order_id'=>$order['order_id']))}>">去付款</a>
+			<else />
+				<a class="button button-small bg-dot" href="javascript:void(0);"><{$cfg[$order['status']]}></a> 
+                <if condition="$order['status'] eq 1">
+				<a class="button button-small bg-gray" href="<{:U('mcenter/eleorder/eletui',array('order_id'=>$order['order_id']))}>">申请退款</a>
+				</if>
+                <if condition="$order['status'] eq 3">
+				<a class="button button-small bg-dot" href="<{:U('mcenter/eleorder/qx',array('order_id'=>$order['order_id']))}>">取消退款</a>
+				</if>
+				<if condition="$order['status'] eq 0">
+				<a class="button button-small bg-gray" href="<{:U('mcenter/eleorder/del',array('order_id'=>$order['order_id']))}>">删除订单</a>
+				</if>
+                <if condition="$order['status'] eq 4">
+				<a class="button button-small bg-gray" href="<{:U('mcenter/eleorder/del',array('order_id'=>$order['order_id']))}>">删除订单</a>
+               
+				</if>
+                 <if condition="$order['status'] eq 8">
+				<a class="button button-small bg-gray" href="<{:U('mcenter/eleorder/del',array('order_id'=>$order['order_id']))}>">删除订单</a>
+				</if>
+                
+			</eq>
+		<else />
+			<eq name="order.status" value="0">
+				<a class="button button-small bg-dot"  href="<{:U('mobile/ele/pay',array('order_id'=>$order['order_id']))}>">去付款</a>
+                <a class="button button-small bg-gray" href="<{:U('mcenter/eleorder/del',array('order_id'=>$order['order_id']))}>">删除订单</a>
+			<else />
+			<span  class="button button-small bg-dot" >餐到付款</span>&nbsp;&nbsp;<span  class="button button-small bg-dot" ><{$cfg[$order['status']]}></span>
+			</eq>
+            
+        
+             
+                
+            
+		</eq>
+        
+        <if condition="$order['status'] eq 1">
+        <a class="order_detail jq_deletes button button-small bg-gray" rel="<{$order['order_id']}>" style="color: #fff;" href="javascript:void(0);">取消订单</a>
+        </if>
+        <if condition="$order['status'] eq 2">
+        <a class="order_detail button button-small bg-dot"  href="<{:U('eleorder/yes',array('order_id'=>$order['order_id']))}>">确定收货</a>
+        </if>
+        
+        
+         <eq name="order.status" value="8">
+                <eq name="order.is_dianping" value="1">
+                <a href="javascript:void(0);"  class="order_detail button button-small bg-gray" >已点评</a>
+                <else/>
+                <a class="order_detail button button-small bg-dot" href="<{:U('eleorder/dianping',array('order_id'=>$order['order_id']))}>">去点评</a>
+                </eq>
+            </eq>  
+            
+            
+        </p>
+      
+      </dl>
+    </li>
+    
+<div class="blank-10 bg"></div>
+</foreach>
+<script>
+        $(".jq_deletes").click(function () {
+        var order_id = $(this).attr('rel');
+        layer.confirm('您确定要取消订单？', {
+            area: ['150px', '150px'], //宽高
+            btn: ['是的', '不'], //按钮
+            shade: false //不显示遮罩
+        }, function () {
+            $.post("<{:U('eleorder/del')}>", {order_id:order_id}, function (result) {
+                if (result.status == "success") {
+                    layer.msg(result.msg);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    layer.msg(result.msg);
+                }
+            }, 'json');
+        });
+        $('.layui-layer-btn0').css('background','#2fbdaa');
+    });
+    </script>

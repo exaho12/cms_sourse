@@ -1,0 +1,22 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mcenter/member/xiaoxizhongxin')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			系统通知
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+	</div>
+</header>
+
+<foreach name="msgs" item="item">
+<a class="line padding border-bottom" href="<{:U('/mcenter/message/msgshow',array('msg_id'=>$item['msg_id']))}>">
+	<h5><{$item.title}></h5>
+	<p class="text-gray text-small"><{$item.intro}></p>
+</a>
+</foreach>
+
+
+<include file='public:footer'/>

@@ -1,0 +1,194 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<style>
+.nav {margin-bottom: 0px !important;}
+.spxq_qg_r {width: 460px;padding-left: 5px; float:right}
+.spxq_qg {overflow: hidden;height: auto;margin-bottom: 20px;border: 1px solid #dbdbdb;padding: 10px;}
+.spxq_qg_l {width: 350px;overflow: hidden;}
+.zy_content_l {width: 870px !important;}
+</style>
+<div class="zy_doorSer_detail">
+    <div class="banner">
+        <div class="pagewd"><img src="__TMPL__statics/images/doorSer_top.png" width="310" height="105" /></div>
+    </div>
+    <div class="pagewd">
+        <div class="left nrL mt10">
+            <div class="spxq_qg">
+                    <div class="left spxq_qg_l">
+       
+                        <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('.spxq_slider').flexslider({
+                                slideshow: false,
+                                controlNav: "thumbnails"
+                            });
+                        });
+                        $(function () {
+                            $(".sy_hotgzLi").hover(function () {
+                                $(".spxq_slider .flex-direction-nav").show();
+                            }, function () {
+                                $(".spxq_slider .flex-direction-nav").hide();
+                            });
+                            $(".spxq_slider .flex-direction-nav").hover(function () {
+                                $(".spxq_slider .flex-direction-nav").show();
+                            }, function () {
+                                $(".spxq_slider .flex-direction-nav").hide();
+                            });
+                        });
+                    </script>
+                    <!--幻灯开始-->
+                    <div class="spxq_slider">
+                        <ul class="slides">
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo}>"><img src="__ROOT__/attachs/<{$detail.photo}>" width="470" height="285" /></li>
+                            <php>$i=0;</php>
+                            <foreach name="detail.thumb" item="item">
+                                <php>$i++;if($i<=3){</php>
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item}>"><img src="__ROOT__/attachs/<{$item}>" width="470" height="285" /></li>
+                                <php>}</php>
+                            </foreach>
+                        </ul>
+                        <if condition="empty($detail['thumb'])">
+                        <ol class="flex-control-nav flex-control-thumbs">
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo}>"><img src="__ROOT__/attachs/<{$detail.photo}>" width="108" height="68" /></li>
+                            <php>$i=0;</php>
+                            <foreach name="thumb" item="item">
+                                <php>$i++;if($i<=3){</php>
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item}>"><img src="__ROOT__/attachs/<{$item}>" width="108" height="68" /></li>
+                                <php>}</php>
+                            </foreach>
+                        </ol>
+                        </if>
+                    </div>
+                    <!--幻灯结束-->
+					</div>
+                    
+                    
+                <div class="right spxq_qg_r">
+                    <div class="spxq_qgjgk minu_font" style="padding-top: 10px;"><{$detail.name}>
+                    <p class="spxq_xqjj"><{$detail.title}></p>
+                    </div>
+					<!--增加结束-->
+                    <div class="spxq_qgjgk"><span style="height: 30px; line-height: 30px;">类别：<{$cates[$detail['cate_id']]['cate_name']}></span><span class="spxq_qgjgz" style="float: right;">价格：<{:round($detail['price']/100,2)}></b>元/<{$detail.unit}></span></div>
+                     <div class="spxq_qgjgk">
+                        <span style="height: 30px; line-height: 30px;">服务时间：<{$detail.biz_time}></span>
+                    </div>
+                    <div class="spxq_qgjgk">
+                        <span style="height: 30px; line-height: 30px;">工具：<{$detail.gongju}></span>
+                    </div>
+                    <div class="spxq_qgjgk">
+                        <span style="height: 30px; line-height: 30px;">商家：<a style=" font-size: 18px; font-weight: bold;" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shops[$detail['shop_id']]['shop_name']}> </a></span>
+                    </div>
+                    <div class="spxq_qgjgk">
+
+                        <div class="left spxq_qgjjAn"><a href="javascript:void(0);" class="spxq_qgjjKq spxq_qgjjLq jq_addcart2"><{$detail.yuyue_num}>已预约</a><a href="javascript:void(0);" class="spxq_qgjjKk jq_addcart"><{$detail.views}>次浏览</a></div>
+
+                    </div>
+                </div>
+         
+            </div>
+
+            <!--添加开始-->
+
+            <div class="left zy_content_l">
+            <div class="spxq_xqT">
+                <ul>
+                    <li class="on"><code rel="spxq_xqBt1">家政详情</code><em></em></li>
+                    <li><code rel="spxq_xqBt2">服务须知</code><em></em></li>
+                    <li><code rel="spxq_xqBt3">服务详情</code><em></em></li>
+                    <li><code rel="spxq_xqBt4">家政评价</code><em></em></li>
+                </ul>
+            </div>
+            <div class="spxq_xqBt1">
+            </div>
+
+            <div class="spxq_xqBt2">
+               <div class="spxq_xqBt">服务须知</div>
+                <div class="spxq_xqNr"><{$detail.title}></div>  
+            </div>
+
+            <div class="spxq_xqBt3">
+                <div class="spxq_xqBt">服务详情</div>
+                <div class="spxq_xqNr"><{$detail.contents}></div>
+            </div>
+            
+            
+             <div class="spxq_xqBt4">
+
+                <div class="spxq_xqBt">
+                    <div class="left"><{$detail.user}>的评价</div>
+                    <div class="right spxq_xqBt_r">我预约过<{$detail.user}>，<a class="spxq_pjAn" href="<{:U('member/mylifeservice/index')}>">我要评价</a></div>
+                </div>
+                <div class="spxq_xqNr">
+                    <ul>
+                        <foreach name="list" item="var">
+                            <li class="spxq_pjList">
+                                <div class="left spxq_pjList_l">
+                                    <div class="spxq_pjTx"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" width="50" height="50" /></div>
+                                    <p class="spxq_pjYh"><{$users[$var['user_id']]['nickname']}></p>
+                                    <p style="text-align:center"><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
+                                </div>
+                                <div class="left">
+                                    <div>评分：<{$var.score}>分~<span class="spxq_pjTime"><{$var.create_time|date='Y-m-d',###}></span></div>
+                                    <p class="spxq_pjP">评价内容：<{$var.contents}></p>
+                                    <ul class="spxq_pjUl">
+                                        <foreach name="pics" item="pic">
+                                            <eq name="pic.id" value="$var.id">
+                                            <li class="spxq_pjLi"><a href="javascript:void(0);" rel="__ROOT__/attachs/<{$pic.pic}>" ><img src="__ROOT__/attachs/<{$pic.pic}>" width="100" height="100" /></a></li>
+                                            </eq>
+                                        </foreach>
+                                    </ul>
+                                     <div style="color:#F00">回复：<{$var.reply}></div>
+                                </div>
+                            </li>
+                        </foreach>
+                        <div class="x">
+                            <{$page}>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+ </div>
+        
+  <!--添加结束-->
+        </div>
+        <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+
+        <div class="right nrForm">
+            <form method="post" target="baocms_frm" action="<{:U('lifeservice/create',array('id'=>$detail['id']))}>">
+                <p>服务时间</p>
+                <div class="int_box">
+                    <input class="search_form_time" type="text" name="date" value="<{$today}>" onfocus="WdatePicker({minDate: '<{$tmr}>'});"  />
+                    <select name="time">
+                    <volist name='cfg' id='item'>
+							<option value="<{$key}>"><{$item}></option>
+						</volist>  
+                    </select>
+                </div>
+                <p>服务地址</p>
+                <input type="text" name="addr" placeholder="请输入详细服务地址" />
+                <p>联系方式</p>
+                <input type="text" name="name" placeholder="请输入联系人"  value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}> <else/></if>"/>
+                <input type="text" name="tel" placeholder="请输入联系电话" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}> <else/></if>" />
+                <p>更多需求</p>
+                <input type="text" name="contents" placeholder="您可以在这里填写更多需求" />
+                 <input type="submit" class="btn" value="立即预约" />
+            </form>
+        </div>
+<!--        
+<eq name="detail['sign']" value="0">
+<else/>
+<style>
+.nrForm .btn { padding:2px 12px !important;}
+</style>
+ <div class="right nrForm" style="height:330px; text-align:center;">
+  <a href="javascript:void(0);" class="spxq_qgjjKk jq_addcart">您已预约<{$detail.user}></a>
+  <a href="<{:U('lifeservice/index')}>" class="spxq_qgjjKq spxq_qgjjLq jq_addcart2">去家政市场</a> 
+</div>    
+</eq>-->
+
+        <div class="clear"></div>
+    </div>
+</div>
+<include file="public:footer" /> 
+

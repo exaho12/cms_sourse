@@ -1,0 +1,80 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">投票插件</li>
+        <li class="li2 li3">选项设置</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('vote/setting',array('vote_id'=>$detail['vote_id']))}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="rgTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+
+                <div>
+                    <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+                </div>
+                <script>
+                    var num = "<{:count($options)}>";
+                    $("#logo_file").uploadify({
+                        'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                        'uploader': '<{:U("app/upload/uploadify",array("model"=>"votepic"))}>',
+                        'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                        'buttonText': '上传图片',
+                        'fileTypeExts': '*.gif;*.jpg;*.png',
+                        'queueSizeLimit': 10,
+                        'onUploadSuccess': function (file, data, response) {
+                            num++;
+                            var str = '<tr><td><img src="__ROOT__/attachs/' + data + '" /><input type="hidden"  name="data[' + num + '][photo]" value="' + data + '"/></td>';
+                            str += ' <td><input class="scAddTextName w150" type="text" name="data[' + num + '][title]" /></td>';
+                            str += ' <td><input class="scAddTextName w150" type="text" name="data[' + num + '][orderby]" /></td>';
+                            str += ' <td><a class="jq_delete remberBtn" href="javascript:void(0);">删除</a></td></tr>';
+                            $(".jq_table").append(str);
+
+                        }
+                    });
+
+                    $(document).on("click", ".jq_delete", function () {
+                        $(this).parent().parent().remove();
+                    });
+                </script>
+                </td>
+                </tr>
+                <tr>
+                    <td style="padding:0px;">
+                        <style>
+                            .jq_table td{border-left: 1px solid #dbdbdb; border-top: 1px solid #dbdbdb; text-align: center;}
+                            .jq_table td.fst{border-left: none;}
+                            .jq_table td.topnone{border-top: none;}
+                        </style>
+                        <table class='jq_table' bordercolor="#dbdbdb" cellspacing="0" width="100%" border="0px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;">
+                            <tr>
+                                <td width='200' class="topnone fst" >图片</td>
+                                <td widtd='200' class="topnone">标题</td>
+                                <td widtd="200" class="topnone">排序</td>
+                                <td widtd='200' class="topnone">操作</td>
+                            </tr>
+                            <php>$i=0;</php>
+                            <foreach name="options" item="item">
+                                <php>$i++;</php>
+                                <tr>   
+                                    <td class="fst"><input type='hidden' name="data[<{$i}>][photo]" value='<{$item.photo}>' /><img src="__ROOT__/attachs/<{$item.photo}>" /></td>
+                                    <td><input class="scAddTextName w150" type="text" name="data[<{$i}>][title]" value='<{$item.title}>' /></td>
+                                    <td><input class="scAddTextName w150" type="text" name="data[<{$i}>][orderby]" value='<{$item.orderby}>' /></td>
+                                     <td><a class="remberBtn" href="javascript:void(0);">删除</a></td> 
+                                </tr>
+                            </foreach>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+    </div>
+</form>
+
+<include  file='public:footer'/>   

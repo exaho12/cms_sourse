@@ -1,0 +1,186 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd">
+				<h3>网友点评</h3>
+			</div>
+				<div class="shop-ping-box">
+					<div class="ping-total line">
+						<div class="x1">
+							<div class="ping-all">
+								<em><{:round($detail['score']*2,2)}>%</em>
+								<p>好评度</p>
+							</div>
+						</div>
+						<div class="x10">
+							<div class="ping-ban">
+								<em><span class="ban-txt"><{$cate.d1}></span><span class="ui-starbar"><span style="width:<{:round($detail['d1'],2)}>%;"></span></span></em>
+								<em><span class="ban-txt"><{$cate.d2}></span><span class="ui-starbar"><span style="width:<{:round($detail['d2'],2)}>%;"></span></span></em>
+								<em><span class="ban-txt"><{$cate.d3}></span><span class="ui-starbar"><span style="width:<{:round($detail['d3'],2)}>%;"></span></span></em>
+							</div>
+						</div>
+						<div class="x1">
+							<a class="button bg-yellow button-block" href="#post"><i class="icon-edit"></i> 有话说</a>
+						</div>
+					</div>
+					<ul class="ping-list">
+						<volist name="list" id="var">
+						<li class="media media-x">
+							<a class="float-left" href="<{:U('blog/index',array('user_id'=>$var['user_id']))}>">
+								<img class="txt-big radius-circle bg-green border-green reply-avatar" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='avatar.jpg'}>" alt="<{$users[$var['user_id']]['nickname']}>" />
+								<p><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
+							</a>
+							<div class="media-body">
+								<p>
+									<span class="reply-user"><{$users[$var['user_id']]['nickname']}></span>
+									<span class="ui-starbar"><span style="width:<{:round($var['score']*20,2)}>%;"></span></span>
+									<span class="float-right">人均<em><{$var.cost}></em>元</span>
+								</p>
+								<p class="reply-text"><{$var.contents}></p>
+								<p class="reply-time">发表时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+								<if condition="!empty($pics)">
+								<p class="reply-pic">
+								<foreach name="pics" item="pic">
+									<eq name="pic.dianping_id" value="$var.dianping_id">
+									<img src="__ROOT__/attachs/<{$pic.pic}>" />
+									</eq>
+								</foreach>
+								</p>
+								</if>
+								<if condition="!empty($var['reply'])"><p class="reply-relax"><span>商家回评：</span><{$var.reply}></p></if>
+							</div>
+						</li>
+						</volist>
+					</ul>
+
+					<div class="ping-page clearfix">
+						<div class="pagination">
+							<{$page}>
+						</div>
+					</div>
+					
+					<div class="ping-post">
+						<h2><i class="icon-comments-o"></i></strong> 发表评论<a name="post"></a></h2>
+						<div class="blank-10"></div>
+						<form id="ping-form" class="form-auto"  target="x-frame" method="post" action="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">
+							<div class="line">
+								<div class="x8">
+									<if condition="!empty($MEMBER)">
+									<div class="frm-pic">
+										<script src="/static/default/pc/js/upload.js"></script>
+										<a class="button input-file" href="javascript:void(0);"> + 添加图片 <input name="niu_file" id="niu_file" type="file" /> </a>
+										<span class="pic-input"></span>
+										<span class="pic-tip"><i class="icon-bell"></i> 最多可添加5张照片，文件大小2M以内 </span>
+									</div>
+									<div class="blank-10"></div>
+									<ul class="pic-list" id="jq_photo_list">
+										<li class="loading" style="display:none;"><span class="icon-spinner rotate"></span></li>
+									</ul>
+									<div class="blank-10"></div>
+									<script>
+										function ajaxupload(){
+											$(".loading").show();
+											$.ajaxFileUpload({
+												url: '<{:U("app/upload/uploadify",array("model"=>"dianping"))}>',
+												type: 'post',
+												fileElementId: 'niu_file',
+												dataType: 'text',
+												secureuri: false, //一般设置为false
+												success: function (data, status) {
+													$(".loading").hide();
+													var str = '<li><img src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos[]" value="' + data + '" /><a href="javascript:void(0);">[删除]</a></li>';
+													$("#jq_photo_list").append(str);
+													$("#niu_file").unbind('change');
+													$("#niu_file").change(function () {
+													ajaxupload();
+													});
+												}
+											});
+										}
+										$(document).ready(function () {
+											$("#niu_file").change(function () {
+												 ajaxupload();
+											});
+											$(document).on("click", "#jq_photo_list  a", function () {
+												$(this).parent().remove();
+											});
+										});
+									</script>
+									</if>
+									<div class="form-group">
+										<textarea name="data[contents]" class="input" rows="4" placeholder="说说你对商家的评价，此处可写200字。" style="width:650px;" ></textarea>
+									</div>
+								</div>		
+								<div class="x4">
+									<div class="form-star m1-10">
+										<ul>
+											<li>
+												总体评分：
+												<input id="datascore" name="data[score]" type="hidden" value="1" />
+												<span class="star-select" id="star-datascore">
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(1,'datascore');" onMouseOut="javascript:setProfix('datascore_');clearStars('datascore');" href="javascript:setProfix('datascore_');setStars(1,'datascore');"><img id="datascore_1" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(2,'datascore');" onMouseOut="javascript:setProfix('datascore_');clearStars('datascore');" href="javascript:setProfix('datascore_');setStars(2,'datascore');"><img id="datascore_2" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(3,'datascore');" onMouseOut="javascript:setProfix('datascore_');clearStars('datascore');" href="javascript:setProfix('datascore_');setStars(3,'datascore');"><img id="datascore_3" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(4,'datascore');" onMouseOut="javascript:setProfix('datascore_');clearStars('datascore');" href="javascript:setProfix('datascore_');setStars(4,'datascore');"><img id="datascore_4" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(5,'datascore');" onMouseOut="javascript:setProfix('datascore_');clearStars('datascore');" href="javascript:setProfix('datascore_');setStars(5,'datascore');"><img id="datascore_5" src="/static/default/pc/image/icon_star_1.gif"></a>
+											   </span>
+											</li>
+											<li>
+												<{$cate.d1}>评分：
+												<input id="datascore1" name="data[d1]" type="hidden" value="1" />
+												<span class="star-select" id="star-datascore1">
+													<a onMouseOver="javascript:setProfix('datascore_');showStars(1,'datascore1');" onMouseOut="javascript:setProfix('datascore1_');clearStars('datascore1');" href="javascript:setProfix('datascore1_');setStars(1,'datascore1');"><img id="datascore1_1" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore1_');showStars(2,'datascore1');" onMouseOut="javascript:setProfix('datascore1_');clearStars('datascore1');" href="javascript:setProfix('datascore1_');setStars(2,'datascore1');"><img id="datascore1_2" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore1_');showStars(3,'datascore1');" onMouseOut="javascript:setProfix('datascore1_');clearStars('datascore1');" href="javascript:setProfix('datascore1_');setStars(3,'datascore1');"><img id="datascore1_3" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore1_');showStars(4,'datascore1');" onMouseOut="javascript:setProfix('datascore1_');clearStars('datascore1');" href="javascript:setProfix('datascore1_');setStars(4,'datascore1');"><img id="datascore1_4" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore1_');showStars(5,'datascore1');" onMouseOut="javascript:setProfix('datascore1_');clearStars('datascore1');" href="javascript:setProfix('datascore_');setStars(5,'datascore1');"><img id="datascore1_5" src="/static/default/pc/image/icon_star_1.gif"></a>
+											   </span>
+											</li>
+											<li>
+												<{$cate.d2}>评分：
+												<input id="datascore2" name="data[d2]" type="hidden" value="1" />
+												
+												<span class="star-select" id="star-datascore2">
+													<a onMouseOver="javascript:setProfix('datascore2_');showStars(1,'datascore2');" onMouseOut="javascript:setProfix('datascore2_');clearStars('datascore2');" href="javascript:setProfix('datascore2_');setStars(1,'datascore2');"><img id="datascore2_1" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore2_');showStars(2,'datascore2');" onMouseOut="javascript:setProfix('datascore2_');clearStars('datascore2');" href="javascript:setProfix('datascore2_');setStars(2,'datascore2');"><img id="datascore2_2" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore2_');showStars(3,'datascore2');" onMouseOut="javascript:setProfix('datascore2_');clearStars('datascore2');" href="javascript:setProfix('datascore2_');setStars(3,'datascore2');"><img id="datascore2_3" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore2_');showStars(4,'datascore2');" onMouseOut="javascript:setProfix('datascore2_');clearStars('datascore2');" href="javascript:setProfix('datascore2_');setStars(4,'datascore2');"><img id="datascore2_4" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore2_');showStars(5,'datascore2');" onMouseOut="javascript:setProfix('datascore2_');clearStars('datascore2');" href="javascript:setProfix('datascore_');setStars(5,'datascore2');"><img id="datascore2_5" src="/static/default/pc/image/icon_star_1.gif"></a>
+											   </span>
+											</li>
+											<li>
+												<{$cate.d3}>评分：
+												<input id="datascore3" name="data[d3]" type="hidden" value="1" />
+												<span class="star-select" id="star-datascore3">
+													<a onMouseOver="javascript:setProfix('datascore3_');showStars(1,'datascore3');" onMouseOut="javascript:setProfix('datascore3_');clearStars('datascore3');" href="javascript:setProfix('datascore3_');setStars(1,'datascore3');"><img id="datascore3_1" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore3_');showStars(2,'datascore3');" onMouseOut="javascript:setProfix('datascore3_');clearStars('datascore3');" href="javascript:setProfix('datascore3_');setStars(2,'datascore3');"><img id="datascore3_2" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore3_');showStars(3,'datascore3');" onMouseOut="javascript:setProfix('datascore3_');clearStars('datascore3');" href="javascript:setProfix('datascore3_');setStars(3,'datascore3');"><img id="datascore3_3" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore3_');showStars(4,'datascore3');" onMouseOut="javascript:setProfix('datascore3_');clearStars('datascore3');" href="javascript:setProfix('datascore3_');setStars(4,'datascore3');"><img id="datascore3_4" src="/static/default/pc/image/icon_star_1.gif"></a>
+													<a onMouseOver="javascript:setProfix('datascore3_');showStars(5,'datascore3');" onMouseOut="javascript:setProfix('datascore3_');clearStars('datascore3');" href="javascript:setProfix('datascore_');setStars(5,'datascore3');"><img id="datascore3_5" src="/static/default/pc/image/icon_star_1.gif"></a>
+											   </span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="line">
+								<div class="form-group">
+									<div class="field field-icon">
+										<input type="text" class="input" name="data[cost]" size="10" id="datacost"/>
+										<span class="icon icon-cny"></span>
+										元/位 ( 请根据您的消费情况填写每人的消费平均消费价格 )
+									</div>
+								</div>
+							</div>
+							<div class="line">
+								<div class="form-button">
+									<button class="button bg-dot" rel="ping-form" type="submit">提交点评</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+	</div>
+</div>

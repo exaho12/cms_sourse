@@ -1,0 +1,79 @@
+<include file="public:header" /> 
+<style>
+.button {border-radius: 0px;font-size: 12px;padding: 0px 10px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		搜索详情
+	</div>
+</header>
+
+ <div class="top-fixed2">
+    <div class="top-search">
+			<form method="post" action="<{:U('all/index')}>">
+			  <input name="keyword" placeholder="<{$keyword}>"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+   </div>
+</div> 
+
+<div class="panel-list">
+	<ul><li><a href="javascript:;">您的关键字<em style="color:#F00; font-weight:bold;">「<{$keyword}>」</em>一共找到：<em><{$total_num}></em>条结果。</a></li></ul>
+</div>
+
+
+<div class="container">
+<div id="shop-list" class="shop-list">
+
+<?php
+if ($total_num>0){
+?>
+<foreach name="list" item="item">
+                
+ 
+ <a class="item" href="<{:U($item['t_url'],array($item['t_param']=>$item['t_id']))}>">
+        <if condition="!empty($item['t_photo'])">
+		<img class="pic" src="__ROOT__/attachs/<{$item.t_photo}>">
+        <else/>
+        <img class="pic" src="__ROOT__/attachs/no.png">
+        </if>
+		<div class="des">	
+			<h5>名称：<{$item.t_title}></h5>	
+            <div class="info">类型：<span class="button bg-dot"><{$item.t_name}></span></div>
+            <if condition="!empty($item['t_note'])">
+			<span class="addr">说明：<{$item.t_note}></span>
+            </if>
+		</div>	
+	</a>
+
+
+</foreach>
+			<?php
+				}
+				else{
+			?>
+				<dd align="center">
+					呃~暂无数据，换一个关键词试试！
+				</dd>
+			<?php
+				}
+			?>
+			</if>
+            
+</div>
+</div>
+
+<div class="blank-20"></div>
+		<div class="text-center">
+			<div class="x">
+				<{$page}>
+			</div>
+		</div>
+		<div class="blank-20"></div>
+        
+<include file="public:footer"/>
+
+

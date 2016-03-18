@@ -1,0 +1,152 @@
+<include file="public:header"/>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_t">
+            <ul>
+                <li <if condition="$status eq 1 or empty($status)">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>1))}>">商家点评</a></li>
+                <li <if condition="$status eq 2">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>2))}>">抢购点评</a></li>
+                <li <if condition="$status eq 6">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>6))}>">商城（微店）点评</a></li>
+                <li <if condition="$status eq 3">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>3))}>">订餐点评</a></li>
+                <li <if condition="$status eq 4">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>4))}>">订座点评</a></li>
+                <if condition="$open_lifeservice eq '1' ">
+                <li <if condition="$status eq 5">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>5))}>">家政点评</a></li>
+                </if>
+            </ul>
+        </div>
+        <if condition="$status gt 1">
+            <div class="tgdd_t">
+                <ul>
+                    <li <if condition="$st eq 1 or empty($st)">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>$status,'st'=>1))}>">未点评</a></li>
+                    <li <if condition="$st eq 2">class="on"</if> ><a href="<{:U('dianping/index',array('status'=>$status,'st'=>2))}>">已点评</a></li>
+                </ul>
+            </div>
+        </if>
+        <if condition="$st eq 2">
+            <div class="tgdd_nr">
+                <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                    <tr class="tgdd_nrt">
+                        <th>商城订单</th>
+                        <th>商城标题</th>
+                        <th>商城图片</th>
+                        <th>商家</th>
+                        <th>评分</th>
+                        <th>评价</th>
+                        <th>生效日期</th>
+                        <th>点评日期</th>
+                    </tr>
+                    <volist name="list" id="var" key="index">
+                   
+                        <tr class="tgdd_nrt">
+                 
+                            <td><{$var.order_id}></td>
+                            <td><{$goodss[$var['goods_id']]['title']}></td>
+                            <td>
+                                <a class="myInfor_sx"  target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$goodss[$var['goods_id']]['photo']}>"  width="70" style=" margin-top:5px;"/></a>
+                            </td>
+                            <td>
+                                <a  class="myInfor_sx" title="<{$shops[$var['shop_id']]['shop_name']}>" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>">
+                                    <{$shops[$var['shop_id']]['shop_name']}>
+                                </a>
+                            </td>
+                            <td width="150">
+                                <div class="jq_star_show" style="" rel="<{$var['score']*10}>"></div>
+                            </td>
+                            <td>
+                            <a class="tips" rel="<{$var.contents}>" style="color: #fff; background: #1ca290; padding: 0px 5px; margin-left: 10px; display: inline-block;  height: 20px; line-height: 20px;" href="javascript:void(0)">查看评价</a>
+                            </td>
+                            <td>
+                                <{$var.show_date}>
+                            </td>
+                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                            
+                        </tr>
+                       
+                        
+                        <if condition="!empty($var['reply'])">
+                            <tr class="tgdd_nrb">
+                                <td  class="tgdd_hui1">点评回复(reply)：</td>
+                                <td colspan="7" align="left" class="tgdd_hui"><{$var.reply}></td>
+                            </tr>
+                        </if>
+                        
+                        <if condition="$var['pichave'] eq 1">
+                            <tr class="tgdd_nrb">
+                               <td  class="tgdd_hui1">点评图片(images)：</td>
+                                <td colspan="7"  class="tgdd_hui">
+                            <foreach name="pics" item="item">
+                                <if condition="$var['order_id'] eq $item['order_id']">
+                                    <img class="tgdd_pic" src="__ROOT__/attachs/<{$item.pic}>" width="70" height="50"  style=" margin-top:5px;"/>
+                                </if>
+                            </foreach>
+                            </td>
+                       
+                            </tr>
+                        </if>
+                       
+                       
+                    </volist>
+                    
+                </table>
+                <div class="x"><{$page}></div>
+            </div>
+            <else/>
+            <div class="tgdd_nr">
+                <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                    <tr class="tgdd_nrt">
+                        <th>抢购订单</th>
+                        <th>数量</th>
+                        <th>总价</th>
+                        <th>使用积分</th>
+                        <th>RMB</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                    </tr>
+                    <volist name="list" id="var">
+                        <tr class="tgdd_nrBh">
+                            <td colspan="7" style="text-align:left;text-indent:20px">订单编号：<span class="tgdd_bh"><{$var.order_id}></span></td>
+                        </tr>
+                        <tr class="tgdd_nrC">
+                            <td style="text-align:left;" width="335px"><div class="tgdd_tw">
+                                    <div class="left"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>" width="81" height="60" /></a></div>
+                                    <div class="lef"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><{$tuan[$var['tuan_id']]['title']}></a><p>有效期至：<{$tuan[$var['tuan_id']]['fail_date']}></p><p>商家：<a class="myInfor_sx" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$shops[$var['shop_id']]['shop_name']|default='本站'}></a></p></div>
+                                </div></td>
+                            <td class="tgdd_nrCtd"><{$var.num}></td>
+                            <td class="tgdd_nrCtd">&yen;<{:round($var['total_price']/100,2)}></td>
+                            <td class="tgdd_nrCtd"><{$var.use_integral}></td>
+                            <td class="tgdd_nrCtd">&yen;<{:round($var['need_pay']/100,2)}></td>
+                            <td class="tgdd_nrCtd">
+                                <eq name="var.status" value="0">                               
+                                <a class="myInfor_sx myInfor_sx_fk" target="_blank" href="<{:U('pchome/tuan/pay',array('order_id'=>$var['order_id']))}>">去付款</a>
+                        <else />
+                        <eq name="var.status" value="-1">       
+                        到店付
+                        <else />
+                        <php>
+                            $tc = D('TuanCode');
+                            $rtc = $tc -> where(array('order_id'=>$item['order_id'],'is_used'=>1)) -> find();
+                        </php>
+                        <if condition="!empty($rtc)">
+                        <a class="myInfor_sx" href="javascript:void(0)">已完成</a>
+                        <if condition="$var['is_dianping'] eq 0">
+                            <a class="myInfor_sx" href="<{:U('dianping/tuandianping',array('order_id'=>$var['order_id']))}>">点评</a>     
+                            <else/>
+                            <a class="myInfor_sx" href="javascript:void(0)">已评价</a>
+                        </if>
+                        <else/>
+                        <a style="color:#fff;" href="javascript:void(0)">已付款</a><a style="color:#fff;" href="javascript:void(0)">未消费</a>
+                        </if>
+                        </eq>
+                        </eq>
+                        </td>
+                        <td align="center"><a mini='confirm' class="tgdd_del red" href="<{:U('order/delete',array('order_id'=>$var['order_id']))}>">删除</a></td>
+                        </tr>
+                    </volist>
+                </table>
+                <div class="x"><{$page}></div>
+            </div>
+        </if>
+    </div> 
+</div>
+</div>
+<include file="public:footer"/>
+

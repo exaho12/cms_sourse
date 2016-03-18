@@ -1,0 +1,86 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+
+    <ul>
+
+        <li class="li1">设置</li>
+
+        <li class="li2">基本设置</li>
+
+        <li class="li2 li3">短信设置</li>
+
+    </ul>
+
+</div>
+
+<p class="attention"><span>注意：</span>万能短信接口，不知道怎么使用可以询问技术售后！QQ:120585022</p>
+
+<form  target="baocms_frm" action="<{:U('setting/sms')}>" method="post">
+
+    <div class="mainScAdd">
+
+        <div class="tableBox">
+
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+
+
+                <tr>
+
+                    <td class="lfTdBt">短信URL：</td>
+
+                    <td class="rgTdBt">
+
+                        <input type="text" name="data[url]" value="<{$CONFIG.sms.url}>" style="width: 700px;" class="scAddTextName " />
+
+                        <code>填写短信服务商的HTTP请求接口，需要将发送给的人的参数替换成{mobile}，内容替换成{content}，记住前面不能留空格！</code>
+
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+
+                    <td class="lfTdBt">内容编码：</td>
+
+                    <td class="rgTdBt">
+
+                        <label><input type="radio" name="data[charset]" <eq name="CONFIG.sms.charset" value="1">checked="checked"</eq> value="1"  />GBK</label>
+
+                        <label><input type="radio" name="data[charset]"  <eq name="CONFIG.sms.charset" value="0">checked="checked"</eq>  value="0"  />UTF-8</label>
+
+                        <code>如果短信那边编码是GBK 就需要选择GBK！</code>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="lfTdBt">成功状态值：</td>
+
+                    <td class="rgTdBt">
+
+                        <input type="text" name="data[code]" value="<{$CONFIG.sms.code}>"  class="scAddTextName " />
+
+                        <code>填写对方HTTP接口请求的正确返回值</code>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </div>
+
+</form>
+
+<include  file='public:footer'/>       
+

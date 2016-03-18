@@ -1,0 +1,65 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<include  file='public:nav2'/>
+<!--top END-->
+<div class="bangdan">
+    <div class="bdnav">
+        <div class="class_area">
+            <div class="classification">
+                <span>分类:</span>
+                <a <if condition="empty($cate_id)">class="first_item on"<else/> class="first_item"</if> href="<{:U('billboard/bdlist')}>">全部</a>
+                <volist name="billcate" id="var">
+                    <a <eq name="var.cate_id" value="$cate_id">class="on"</eq> href="<{:U('billboard/bdlist',array('cate_id'=>$var['cate_id']))}>"><{$var.cate_name}></a>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bangdan">
+    <div class="bangdan_container lt">
+        <div class="bdLists">
+            <h3 class="bdL_title">榜单列表(<{$count}>)</h3>
+            <ul class="bdListUl">
+                <volist name="list" id="var">
+                    <li class="bdListLi">
+                        <a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$var['list_id']))}>">    <div class="left"> <td><img src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" width="120" height="90"/></td></div></a>
+                        <div class="center">
+                            <div class="bdList_T"> 
+                                <a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$var['list_id']))}>"><div class="bdList_T_lef"><span><{$billcate[$var['cate_id']]['cate_name']}></span><{$var.title}></div></a>
+                                <div class="bdList_T_rig"><span><{$var.looknum}>人</span></div>
+                            </div>
+                            <p class="bdList_nr"><span>榜单简介：</span><{$var.intro}></p>
+                            <div class="time"><span><{$var.create_time|date="Y-m-d H:i:s",###}></span></div>
+                        </div>
+                    </li>
+                </volist>
+            </ul>
+        </div> 
+        <div class="x">
+            <{$page}>
+        </div>
+    </div>
+    <div class="bangdan_R rt">
+        <div class="first_bd">
+            <h2>首推榜单</h2>
+            <ul>
+                <calldata mdl="Billboard" order="looknum  asc"  cache="1800" limit="0,4">
+                    <li><a target="_blank" class="st_A" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>">查看详情</a><a class="st_B" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><{$item.title}></a></li>
+
+                </calldata>
+            </ul>
+        </div>
+        <div class="rank_bd">
+            <h2>排名榜单</h2>
+            <ul>
+                <calldata mdl="Billboard" order="orderby asc"  cache="1800" limit="0,10">
+                    <li> <a target="_blank" href="<{:U('billboard/bddetails',array('list_id'=>$item['list_id']))}>"><span><{:bao_msubstr($item['title'],0,4,false)}>：</span><{:bao_msubstr($item['intro'],0,14,true)}></a></li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="cl"></div>
+<!--main end-->
+<include file="public:footer"/>

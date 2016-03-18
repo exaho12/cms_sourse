@@ -1,0 +1,68 @@
+<foreach name="list" item="order">
+<li class="line ">
+
+		
+        <dt>
+        <a class="x4">订单编号：<{$order.order_id}></a>
+        <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>">  
+        <{$shops[$yuyue[$order['ding_id']]['shop_id']]['shop_name']}> <span class=" icon-angle-right"></span> </a>
+        </dt>
+        
+        
+        
+        
+  <dd class="zhong">
+        <div class="x4">
+            <a href="<{:U('mobile/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$yuyue[$order['ding_id']]['shop_id']]['photo']}>" width="70" height="70" style="width:90%;"></a>
+        </div>
+        <div class="x8">
+            <p><a href="<{:U('mobile/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>"><{$shops[$yuyue[$order['ding_id']]['shop_id']]['shop_name']}></a> </p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">地址：<{$shops[$yuyue[$order['ding_id']]['shop_id']]['addr']}><a class="text-dot1" href="<{:U('mobile/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>">[详细]</a></span>
+
+			</p>
+            <p class="text-small">
+				<span class="text-dot1 margin-right">餐厅类型
+                ：<if condition="$yuyue[$order['ding_id']]['room_id'] eq 0">大厅<else/>包厢</if>
+                <if condition="empty($yuyue[$order['ding_id']]['menu'])">未点菜<else/>已点菜</if>
+                </span>
+			</p>
+          
+      </div>
+    </dd><dt>
+             <div class="x12">
+             <span class="margin-right text-smal text-dot1"  style=" font-size:12px; letter-spacing:0px;">
+             电话:<{$shops[$yuyue[$order['ding_id']]['shop_id']]['mobile']}>
+                 <{$shops[$yuyue[$order['ding_id']]['shop_id']]['tel']}>&nbsp;
+             日期:<{$order.create_time|date='m-d H:i:s',###}>
+             </span>
+             </div>
+         </dt>   
+			
+        
+      
+      <dl>
+      <p class="text-right padding-top">
+      <a  class="button button-little bg-dot"  href="<{:U('ding/detail',array('order_id'=>$order['order_id']))}>">查看详情</a>
+      <if condition="$order[status] eq 0">
+                                 
+      <a class="button button-little bg-dot" <if condition="!empty($order['name']) && !empty($order['mobile'])"> href="<{:U('mobile/ding/pay2',array('order_id'=>$order['order_id']))}>" <else/> href="<{:U('mobile/ding/pay',array('order_id'=>$order['order_id']))}></if> target="_blank">去付款</a>
+      <elseif condition="$order[status] eq 1" />
+      <a class="button button-little bg-blue"  href="">已付款</a>    
+      <elseif condition="$order[status] eq 2" />
+      <a class="button button-little bg-gray"  href="">已消费</a>   
+      <eq name="order.is_dianping" value="0">
+      <a  class="button button-little bg-dot"  href="<{:U('ding/dianping',array('order_id'=>$order['order_id']))}>">点评</a>
+      <else/><a  class="button button-little bg-gray"  href="javascript:void(0);">已点评</a></eq>
+      <elseif condition="$order[status] eq -1" />
+      <a  class="button button-little bg-gray" href="">已退款</a>       
+      </if>
+                                
+       
+     </p>
+      
+      
+      </dl>
+    </li>
+	<div class="blank-10 bg"></div>
+</foreach>

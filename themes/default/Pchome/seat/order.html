@@ -1,0 +1,278 @@
+<include file='public:seat_header'/>  
+<script>
+	$(function(){
+		//幻灯片
+		$('#needui_slide').needui_slide({
+			width  : 350,
+			height : 250,
+			data : [
+				<volist name="pic" id="pic" key="k">
+				<if condition="$k lt 4">
+				{pic:'__ROOT__/attachs/<{$pic.photo}>'},
+				</if>
+				</volist>
+			],
+			action : 'mouseover',
+			auto   : true,
+			time   : 5
+		});
+		$.reset_input(0, function(id, val){
+			if (id == 'people_num')
+			{
+				$('#check_room .box')
+				.find('.tabcard_' + val)
+				.show()
+				.siblings()
+				.hide();
+				$('#tabcard_' + val)
+				.addClass('active')
+				.siblings()
+				.removeClass('active');
+			}
+		});
+		//点包厢
+		$('#check_room .tabcard div').click(function(){
+			$('#check_room .tabcard div').removeClass('active');
+			$(this).addClass('active');
+			$('#check_room .box')
+			.find('.' + $(this).attr('id'))
+			.show()
+			.siblings()
+			.hide();
+			$('#people_num label').html($(this).html());
+			$('#people_num input').val($(this).index() + 1);
+		});
+		$('#check_room input').click(function(){
+			var li = $(this).parent().parent().parent();
+			if ($(this).is(':checked'))
+			{
+				var active = $('#check_room .box').find('.active');
+				active.find('label')
+				.removeClass('checkbox-active')
+				.children()
+				.attr('checked', false);
+				active.removeClass('active');
+				li.addClass('active');
+			}
+			else
+			{
+				li.removeClass('active');
+			}
+		});
+		//点菜
+		$('#check_food input').click(function(){
+			$.food($(this), 'order_form');
+		});
+		//切换菜品类别
+		$('#food_box ul').eq(1).show();
+		$('#check_food .tabcard').find('div:first').addClass('active');
+		$('#check_food .tabcard div').click(function(){
+			$('#check_food .tabcard div').removeClass('active');
+			$(this).addClass('active');
+			$('#food_box')
+			.find('.' + $(this).attr('id'))
+			.show()
+			.siblings().not('.title')
+			.hide();
+			$('#food_box .title').find('em').html($(this).html());
+			$('#food_box .title').find('span').html(
+			$('#food_box').find('.' + $(this).attr('id')).children('li').length
+			);
+		});
+		//切换包厢大厅
+		$('.site_type').click(function(){
+			if($(this).val() == 1)
+			{
+				$('#room').hide();
+			}
+			else
+			{
+				$('#room').show();
+			}
+		});
+		//日期选择
+		$('#choose_date').needui_datepicker('<{$today}>', 'order');
+		//订座执行
+		$('#action').click(function(){
+			var seat_type  = $("input[name='seat_type']:checked").val();
+			var check_food = $('#check_food').find("input[type='checkbox']:checked");
+			var check_room = $('#check_room').find(":checkbox:checked");
+			if (seat_type == 2)
+			{
+				if (check_room.length == 0)
+				{
+					$._alert('您还没有选择包厢哦!');	
+					return false;
+				}
+			}
+			if (check_food.length == 0)
+			{
+				$._confirm({
+					msg : '请问是否需要现在点菜？现在点菜的话将获得更优质的订座体验哦！'	,
+					confirm_id : 'seat',
+					yes : function(){
+						$('html').animate({
+							scrollTop : $('#food_title').offset().top
+						}, 500);
+						return false;
+					},
+					no : function(){
+						$('#order_form').submit();
+					}
+				});
+			}
+			else
+			{
+				$('#order_form').submit();
+			}
+		});
+		$('#order_form').submit(function(){
+			var seat_type  = $("input[name='seat_type']:checked").val();
+			var check_room = $('#check_room').find(":checkbox:checked");
+			if (seat_type == 2)
+			{
+				if (check_room.length == 0)
+				{
+					$._alert('您还没有选择包厢哦!');
+					return false;
+				}
+			}	
+		});
+	});
+</script>
+<div id="seat">
+	<p id="here"><a href="<{:U('index/index')}>">首页</a> > <a href="<{:U('seat/index')}>">订座</a> > <{$data.shop_name}></p>
+	<div class="seat-order-left">
+	<div class="seat-order-left-top">
+		<div class="seat-order-left-top-slide" id="needui_slide"></div>
+		<div class="seat-order-left-top-center">
+			<div class="title"><{$data.shop_name}><em>[<{$data.branch_num}>家分店]</em></div>
+			<div>综合评分：<div class="point"><div style="width: <php>echo $data['score'] * 1.8;</php>px;"></div></div>
+			</div>
+			<div><{$data.d1_name}>：<span><{$data['d1'] / 10}></span> <{$data.d2_name}>：<span><{$data['d2'] / 10}></span> <{$data.d3_name}>：<span><{$data['d3'] / 10}></span> 人均消费：<span><{$data['price'] / 100}> 元</span></div>
+			<div>地址：<{$data['addr']}></div>
+			<div>营业时间：<{$data['business_time']}> / 电话：<{$data['tel']}></div>
+			<div class="msg">温馨提示：凡在本店预订座位者，本店收取20元预订金，结账时归还，还望谅解</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="seat-order-left-center">
+		<div class="title">优惠促销</div>
+		<!-- 商家优惠 -->
+		<div class="seat-order-left-center-hui">
+			<ul>
+				<li><i class="ding"></i>本店支持在线订座，满480元送果汁一杯，六月特惠，一定要用手机买单哦！</li>
+				<li><i class="quan"></i>仅售30元，价值50元的代金券，节假日通用</li>
+			</ul>
+		</div>
+		<!-- 订座信息 -->
+        <form id="order_form" method="post" action="<{:U('seat/sure_order', array('shop_id' => $data['shop_id']))}>">
+		<div class="seat-order-left-center-seatinfo">
+			<div class="select">
+				<div class="long" id="choose_date"><i></i><label><{$show_date}> 周<{$weekday}></label><input type="hidden" name="date" value="<{$date}>"></div>
+				<div class="short baocms_select" id="people_num" option="<{$people_num}>" value="<{$people_val}>"><label><{$show_people}></label><input type="hidden" value="<{$people}>" name="people"></div>
+				<div class="short baocms_select" option="<{$seat_time}>" value="<{$seat_time}>"><label><{$time}></label><input type="hidden" value="<{$time}>" name="time"></div>
+                <if condition="$data.hall eq 0">
+                <label style="margin-top: 5px;"><input type="radio" class="site_type" name="seat_type" value="1" <if condition="$seat_type eq 1">checked="checked"</if> />大厅 (有空位)</label>
+                <else />
+                <label style="margin-top: 5px;"><input type="radio" class="site_type" name="seat_type" value="1" <if condition="$seat_type eq 1">checked="checked"</if> />大厅 (无空位)</label>
+                </if>
+                <if condition="$data.status eq 1">
+                <label style="margin-top: 5px;"><input type="radio" class="site_type" name="seat_type" value="2" <if condition="$seat_type eq 2">checked="checked"</if> />包厢 (有空位)</label>
+                <elseif condition="$data.status eq 2"/>
+                <label style="margin-top: 5px;"><input type="radio" class="site_type" name="seat_type" value="2" <if condition="$seat_type eq 2">checked="checked"</if> />包厢 (紧张)</label>
+                <else />
+                <label style="margin-top: 5px;"><input type="radio" class="site_type" name="seat_type" value="2" <if condition="$seat_type eq 2">checked="checked"</if> />包厢 (已订完)</label>
+                </if>
+			</div>
+			<div class="btn" id="action">立即预约</div>
+		</div>
+		<div id="room" <if condition="$seat_type eq 1">style="display: none;"</if>>
+		<div class="title">点包厢</div>
+		<!-- 点包厢 -->
+		<div class="seat-order-left-center-room" id="check_room">
+			<div class="tabcard">
+            	<volist name="people_arr" id="val" key="k">
+				<div <?php if ($k == $people){echo 'class="active"';}?> id="tabcard_<{$k}>"><{$val}></div>
+                </volist>
+			</div>
+			<div class="box">
+            	<foreach name="room" item="val" key="k">
+				<ul class="tabcard_<{$k}>" <if condition="$k neq $people">style="display:none"</if>>
+                	<foreach name="val" item="row">
+					<li>
+						<if condition="$row.recommend eq 1"><i class="tj"></i></if>
+						<p><img src="__ROOT__/attachs/<{$row.pic}>"/></p>
+						<p><{$row.room_name}>
+                        <if condition="$row.status eq 1">
+						<span class="fr c_r">已被订</span>
+                        <else />
+                        <label class="fr"><input name="room" type="checkbox" value="<{$row.room_id}>" /></label>
+                        </if>
+						</p>
+					</li>
+					</foreach>
+				</ul>
+                </foreach>
+			</div>
+			<div class="clear"></div>
+		</div>
+		</div>
+        </form>
+		<div class="title" id="food_title">点菜单</div>
+		<!-- 点菜单 -->
+		<div class="seat-order-left-center-food" id="check_food">
+			<div class="tabcard">
+            	<foreach name="food_cate" item="val">
+				<div id="food_<{$val.cate_id}>"><{$val.cate_name}></div>
+				</foreach>
+			</div>
+			<div class="seat-order-left-center-food-tuijian">
+				<ul class="title">
+					<li><em>推荐菜</em> (14)</li>
+				</ul>
+			</div>
+			<div class="seat-order-left-center-food-catafood" id="food_box">
+				<ul class="title">
+					<li><em><?php echo($food_cate[0]['cate_name']);?></em> (<span><?php echo count($food[$food_cate[0]['cate_id']]);?></span>)</li>
+				</ul>
+                <foreach name="food" item="val" key="k">
+				<ul class="box food_<{$k}>">
+                	<foreach name="val" item="row">
+					<li>
+						<div>
+                        	<?php
+                            	if ($row['price'] < $row['old_price']){
+                            ?>
+							<i class="hui"></i>
+                            <?php }?>
+							<img src="__ROOT__/attachs/<{$row.photo}>"/>
+						</div>
+						<div class="mr0">
+							<p class="h20px"><label><input type="checkbox" id="<{$row.product_id}>" food="<{$row.product_name}>" price="<{$row['price'] / 100}>" /></label></p>
+							<p><{$row.product_name}></p>
+							<p class="now_price">￥<{$row['price'] / 100}></p>
+                            <?php
+                            	if ($row['old_price'] > 0){
+                            ?>
+							<p class="old_price"><del>￥<{$row['old_price'] / 100}></del></p>
+                            <?php }?>
+						</div>
+					</li>
+                    </foreach>
+				</ul>
+                </foreach>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	</div>
+	<div class="seat-order-right">
+		<div class="qrcode">
+			<img src="<{$data['wei_pic']}>"/>
+		</div>
+		<div class="cart" id="cart_num">0</div>
+	</div>
+    <div class="clear"></div>
+</div>
+<include file='public:footer'/>  

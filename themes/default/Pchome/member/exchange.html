@@ -1,0 +1,43 @@
+<include  file='member:head'/>    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <ul>
+            <li><a href="<{:U('member/ordercode')}>">我的抢购券</a></li>
+            <li><a href="<{:U('member/coupon')}>">我的优惠券</a></li>
+            <li class="on"><a href="<{:U('member/exchange')}>">我的兑换</a></li>
+            <li><a href="<{:U('member/yuyue')}>">我的预约</a></li>
+        </ul>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>兑换商品</td>
+                <td>花费积分</td>
+                <td>收货地址</td>
+                <td>兑换时间</td>
+                <td style="width: 60px;">状态</td>
+            </tr>
+            <foreach name="list" item="var">
+                <tr class="tgdd_nrC">
+                    <td style="text-align:left;" width="335px"><div class="tgdd_tw">
+                            <div class="left"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$var['shop_id']]['photo']}>" width="81" height="60" /></a></div>
+                            <div class="lef"><a class="myChange_sp" target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">商铺：<{$shops[$var['shop_id']]['shop_name']}></a><p><{$goods[$var['goods_id']]['title']}></p><p>兑换时间：<{$var.create_time|date='Y-m-d H:i',###}></p></div>
+                        </div></td>
+                    <td class="tgdd_nrCtd"><{$goods[$var['goods_id']]['integral']}></td>
+                    <td class="tgdd_nrCtd">
+                        <{$areas[$addrs[$var['addr_id']]['area_id']]['area_name']}>
+                        <{$business[$addrs[$var['addr_id']]['business_id']]['business_name']}>
+                        <{$addrs[$var['addr_id']]['addr']}>,
+                        <{$addrs[$var['addr_id']]['name']}>,
+                        <{$addrs[$var['addr_id']]['mobile']}>
+                    </td>
+                    <td class="tgdd_nrCtd"><{$var.create_time|date="Y-m-d H:i:s",###}></td>
+                    <td class="tgdd_nrCtd"><eq name="var.audit" value="1">已审核<else/>未审核</eq></td>
+                </tr>
+            </foreach>
+        </table>
+        <{$page}>
+    </div>
+</div>
+</body>
+</html>

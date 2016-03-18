@@ -1,0 +1,57 @@
+<div class="layout">
+			<div class="navbar">
+				<div class="container">			
+					<div class="navbar-body">
+						<div class="main-drop float-left">
+							<span class="main-drop-title">全部商家分类 </span>
+							<div class="main-drop-menu <if condition="$ctl neq 'index'">out-index</if>">
+								<php>$i=0;</php> <!--定义I函数-->
+								<foreach name="tuancates" item="item">
+								<eq name="item.parent_id" value="0"> 
+								<php>$i++;if($i <= 10){</php>
+								<dl>
+									<dt><a href="<{:U('tuan/index',array('cat'=>$item['cate_id']))}>"><{:msubstr($item['cate_name'],0,2,'utf-8',false)}></a></dt>
+									<dd class="sub-nav">
+										<php>$i2=0;</php>
+										 <foreach name="tuancates" item="item2">
+                                        <eq name="item2.parent_id" value="$item.cate_id"> 
+                                        <php>$i2++;if($i2 <= 2){</php>
+										<a href="<{:U('tuan/index',array('cat'=>$item['cate_id'],'cate_id'=>$item2['cate_id']))}>"><{:msubstr($item2['cate_name'],0,4,'utf-8',false)}></a>
+									 <php>}</php>
+                                        </eq>
+                                    </foreach>
+									</dd>
+									<dd class="pop-nav">
+										<span><{$item.cate_name}></span>
+										<ul>
+											<foreach name="tuancates" item="item2"><!--二级分类foreach-->
+												<eq name="item2.parent_id" value="$item.cate_id"> <!--删选条件-->
+											<li><a href="<{:U('tuan/index',array('cat'=>$item['cate_id'],'cate_id'=>$item2['cate_id']))}>"><{$item2['cate_name']}></a></li>
+											</eq>
+											</foreach>
+										</ul>
+									</dd>
+									<span class="icon icon-angle-right"></span>
+								</dl>
+								<php>}</php>
+								</eq>
+								</foreach>
+							</div>
+						</div>
+						<ul class="nav nav-inline nav-menu">
+
+
+<volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
+</if>
+</volist>
+						</ul>
+						<if condition="$ctl eq 'index'">
+						<div class="navbar-text navbar-right"><a class="dialogs" href="javascript:;" data-toggle="click" data-target="#shop-cate" data-mask="1" data-width="60%"><i class="icon icon-bars"></i> 选商家</a></div>
+						</if>
+					</div>
+				</div>
+			</div>
+		</div>

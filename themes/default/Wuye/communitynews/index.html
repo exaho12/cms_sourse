@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<link rel="stylesheet" href="/static/default/wap/css/wuye.css">
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			物业通知
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('communitynews/create')}>"><i class="icon-plus-square"></i> 发布</a>
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="#">物业通知列表</a>
+
+		</div>
+	</div>
+</div>
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+    
+<script>
+        $(document).ready(function () {
+            loaddata('<{$nextpage}>', $("#list-media"), true);
+        });
+    </script>
+    
+    
+<include  file='public:footer'/>

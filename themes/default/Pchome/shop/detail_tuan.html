@@ -1,0 +1,28 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box shop-tuan-list">
+			<div class="box-hd box-ld">
+				<h3>团购大全</h3>
+			</div>
+			<div class="box-bd">
+				<ul class="line">
+					<calldata mdl="Tuan" where="shop_id = {$detail['shop_id']}" limit="0,30"  cache="21600" order="tuan_id desc">
+					<li class="x3">
+						<div class="tuan-item">
+							<a class="item-pic" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" target="_blank">
+								<img src="/attachs/<{$item.photo}>" alt="<{$item.title}>" />
+							</a>
+							<h2><a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" target="_blank"><{$item.title}></a></h2>
+							<p><{:bao_msubstr($item['intro'],0,40,false)}></p>
+							<div class="item-des">
+								<span>团购价<em>¥ <{:round($item['tuan_price']/100,2)}></em></span>
+								<del>¥ <{:round($item['price']/100,2)}></del>
+							</div>
+						</div>
+					</li>
+					</calldata>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

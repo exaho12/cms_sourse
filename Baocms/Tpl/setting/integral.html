@@ -1,0 +1,74 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">积分设置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>这里设置积分是奖励的作用，不作为限制某种行为的作用！所以积分都设置为非负数，当然也可以填写负数，只不过系统不在做积分余额的判断，那么用户积分很可能会出现负数!二次开发用户注意：配置这里后也要在 UsersModel里面配置一下！</p>
+<form  target="baocms_frm" action="<{:U('setting/integral')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+               <tr>
+                    <td class="lfTdBt">消费积分：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[gouwu]" value="<{$CONFIG.integral.gouwu|default='0'}>" class="scAddTextName w150" />
+                        <code>
+                            一块钱反多少积分,比如填写1块钱就返1积分
+                            （后面积分抵扣的时候100积分等于1块钱）填写0则关闭积分，此设置适用于团购和购物，外卖以及订座
+                        </code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">发表分享：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[share]" value="<{$CONFIG.integral.share}>" class="scAddTextName w150" />
+                        <code>由于分享需要审核，积分会在后台审核后增加到用户账户</code>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="lfTdBt">回复帖子：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[reply]" value="<{$CONFIG.integral.reply}>" class="scAddTextName w150" />
+                        <code>由于回复帖子需要审核，积分会在后台审核后增加到用户账户</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">绑定手机：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[mobile]" value="<{$CONFIG.integral.mobile}>" class="scAddTextName w150" />
+                        <code>建议多奖励一些积分</code>
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">邮件认证：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[email]" value="<{$CONFIG.integral.email}>" class="scAddTextName w150" />
+                        <code>建议多奖励一些积分</code>
+                    </td>
+                </tr> 
+
+                <tr>
+                    <td class="lfTdBt">手机签到：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[sign]" value="<{$CONFIG.integral.sign}>" class="scAddTextName w150" />
+                        <code>建议多奖励一些积分</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">手机首次签到：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[firstsign]" value="<{$CONFIG.integral.firstsign}>" class="scAddTextName w150" />
+                        <code>建议多奖励一些积分</code>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>   

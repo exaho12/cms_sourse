@@ -1,0 +1,116 @@
+<include file="public:header"/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('coupon/main')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			智惠生活
+		</div>
+		<div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('coupon/index')}>">
+				<input name="keyword" placeholder="输入搜索的关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+	</header>
+	<script>
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+
+		$("#search-bar li").each(function(e){
+			$(this).click(function(){
+				if($(this).hasClass("on")){
+					$(this).parent().find("li").removeClass("on");
+					$(this).removeClass("on");
+					$(".serch-bar-mask").hide();
+				}
+				else{
+					$(this).parent().find("li").removeClass("on");
+					$(this).addClass("on");
+					$(".serch-bar-mask").show();
+				}
+				$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+					
+					if(e==i){
+						$(this).parent().find(".serch-bar-mask-list").hide();
+						$(this).show();
+					}
+					else{
+						$(this).hide();
+					}
+					$(this).find("li").click(function(){
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+					});
+				});
+			});
+		});
+		});
+    </script>
+	<div id="search-bar" class="search-bar">
+		<ul class="line">
+			<li class="x4"><span>全城分类</span><i></i></li>
+			<li class="x4"><span>全部区域</span><i></i></li>
+			<li class="x4"><span>默认排序</span><i></i></li>
+		</ul>
+	</div>
+	<div class="serch-bar-mask" style="display:none;">
+		<div class="serch-bar-mask-list">
+			<ul>
+				 <li class="<if condition='empty($cat)'>on</if>"><a href="<{:U('coupon/index')}>" >全部</a></li>
+				<if condition="$cat">    
+					<li class="on"><a href="<{:LinkTo('coupon/index',array('cat'=>$cat))}>"><{$shopcates[$cat]['cate_name']}></a></li>
+				</if>   
+				<foreach name="shopcates" item="var">
+					<if condition="$var.parent_id eq $cat">   
+						<li <if condition="$var.cate_id eq $cat">class='on'</if>> 
+							<a title="<{$var.cate_name}>" href="<{:LinkTo('coupon/index',array('cat'=>$var['cate_id']))}>"><{$var.cate_name}>
+							</a>
+						</li>
+					</if>
+				</foreach>
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+				<foreach name="areas" item="var">
+                <php>if($var['city_id'] == $city_id){</php>
+					<li <if condition="$var.area_id eq $area_id">class='on'</if>>
+						<a href="<{:LinkTo('coupon/index',array('area_id'=>$var['area_id']))}>"><{$var.area_name}></a>
+					</li>
+                    <php>}</php>
+				</foreach>
+			</ul>
+		</div>
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li <if condition="$_GET['order'] eq 1">class="on"</if> > 
+					<a href="<{:LinkTo('coupon/index',array('area'=>$area_id,'business'=>$business_id,'order'=>1))}>">下载次数</a>
+				</li>
+				<li <if condition="$_GET['order'] eq 2">class='on'</if> >
+					<a href="<{:LinkTo('coupon/index',array('area'=>$area_id,'business'=>$business_id,'order'=>2))}>">推荐排序</a>
+				</li>
+			</ul>
+		</div>            
+	</div>
+	<div class="blank-40"></div>
+    <div id="coupon-list" class="coupon-list"></div>
+    <script>
+        $(document).ready(function () {
+            loaddata('<{$nextpage}>', $("#coupon-list"), true);
+        });
+    </script>
+
+<include file='public:footer'/>      		

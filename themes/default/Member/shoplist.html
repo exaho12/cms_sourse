@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script> var BAO_PUBLIC = '__PUBLIC__'; var BAO_ROOT = '__ROOT__'; </script>
+        <script src="__PUBLIC__/js/jquery.js"></script>
+        <style>
+            *{margin:0px;border:0px;padding:0px;}
+            body{margin: 0;padding: 0; background: #fff; text-align: center;font:12px "宋体";}
+            a{color:#000;text-decoration:none;}
+            a:hover{color:#F30;text-decoration:underline;}
+
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+            .dd_nav th{ height:40px;line-height:40px;border-bottom:2px #C1C0C0 solid;background:#F7F7F6;font-weight:bold;font-size:13px; text-align: center;}
+            .dd_nav   td{border-bottom:1px #ccc dashed; height: 40px; line-height: 40px;}
+            .cjinput{
+                width:190px;height:44px;line-height:44px;border:1px #D1D0D0 solid;
+            }
+            .manageSelect{
+                width:96px;height:30px;line-height:30px;
+            }
+
+            .remberSubmit{width:84px;height:37px;text-align:center;background:#FD3C00;font-size:18px;color:#fff;border:0px;font-family:微软雅黑;cursor:pointer;}
+            .search_input{width:100px;height:36px;line-height:36px;bordr:1px #BFBFBF solid;}
+        </style>
+        <!--我的订单js-->
+    </head>
+    <body>
+
+        <form method="post" action="<{:U('member/shoplist')}>">
+            <table cellpadding="0" cellspacing="0" >
+                <tr>
+           
+                    <td style=" padding-left: 10px;"> 
+                        关键字(电话或商户名称) <input type="text" name="keyword" value="<{$keyword|default=''}>" class="cjinput" /><input type="submit" class="remberSubmit" value="搜索" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <form  target="baocms_frm" method="post">
+            <table cellpadding="0"  cellspacing="0" width="100%" class="dd_nav">
+                <tr>
+                    <th>ID</th>
+                    <th>分类</th>
+                    <th>所在区域商圈</th>
+                    <th>商铺名称</th>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><input  rel="<{$var.shop_name}>"  type="radio" name="shop_id" value="<{$var.shop_id}>" /> <{$var.shop_id}></td>
+                        <td><{$cates[$var['cate_id']]['cate_name']}></td>
+                        <td><{$areas[$var['area_id']]['area_name']}>-<{$business[$var['business_id']]['business_name']}></td>
+                        <td><{$var.shop_name}></td>
+
+                    </tr>
+                </foreach>
+                <tr>
+                    <td colspan="3" align="left">
+
+                        <div class="lt" style="margin-left: 50px;">
+                            <{$page}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <input type="button" id="select_btn" class="remberSubmit" value="确定选择" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            $(document).ready(function(e){
+                $("#select_btn").click(function(){
+                    $("input[name='shop_id']").each(function(a){
+                        if($(this).prop("checked") == true){
+                            parent.selectCallBack('shop_id','shop_name',$(this).val(),$(this).attr('rel'));   
+                        }          
+                    });          
+                });
+        
+            });
+        </script>
+    </body>
+</html>

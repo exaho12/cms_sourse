@@ -1,0 +1,101 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<div class="cl"></div>
+<div class="main">
+<div class="local">
+ 	<a href="#" target="_blank">首页</a>> <a href="#" target="_blank">分享</a> >晶之恋婚纱摄影厅—8588送1000元购物卡
+ </div>
+ <div class="showLeft">
+ <div class="shareCon">
+ 	<div class="shareConTit">
+    	<h3>
+            <span><a mini="act" href="<{:U('share/zan',array('post_id'=>$detail['post_id']))}>">赞</a>(<{$detail.zan_num}>)</span>
+            <{$detail.title}>  
+            <em> 编号：<cite><{$detail.post_id}></cite></em></h3>
+      <p>
+          <em>发布：<{$detail.nickname}></em><em>时间：<{$detail.create_time|date="Y-m-d H:i:s",###}></em>
+           <em>ip：<{$detail.create_ip}></em>
+          <em>回复：<{$detail.reply_num}></em>
+      </p>
+    </div>
+    <div class="showTxt">
+  
+        <{$detail.details}>
+        
+        
+        
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                        <script>window._bd_share_config = {"common": {"bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdPic": "", "bdStyle": "0", "bdSize": "16"}, "share": {}};
+                            with (document)
+                            0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script></div>
+    </div>
+    <div class="cl"></div>
+    <div class="pingLbox">
+    	<h3><span><{$count}>条评论</span>全部评论</h3>
+        
+          <volist name="list" id="var">
+        <dl>
+        	<dt><a target="_blank" title="<{$users[$var['user_id']]['nickname']}>" href="<{:U('blog/index',array('user_id'=>$var['user_id']))}>"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" /></a></dt>
+            <dd class="txt">
+            	<B><a target="_blank" title="<{$users[$var['user_id']]['nickname']}>" href="<{:U('blog/index',array('user_id'=>$var['user_id']))}>"><{$users[$var['user_id']]['nickname']}></a></B>
+                <p><{$var.create_time|date="Y-m-d",###}></p>
+                <p><cite><{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}></cite></p>
+            </dd>
+            <dd class="txt2"><{$var.contents}></dd>
+        </dl>
+        </volist>
+          <div class="cl"></div>
+           <div class="pages">
+            <{$page}>
+        </div>
+        
+     
+        
+        <div class="areabox">
+           <form id="share_reply" action="<{:U('share/reply',array('post_id'=>$detail['post_id']))}>" method="post" target="baocms_frm">	
+            <textarea name="data[contents]" class="area2"></textarea>
+            <p><span><input rel="share_reply" type="submit" class="tjbtn" value="提交" /></span>文明上网 礼貌发帖</p>
+            </form>
+        </div>
+    </div>
+    <div class="cl"></div>
+ </div>
+ <div class="cl"></div>
+ <div class="msg">
+ 	<span><a href="<{:U('share/share')}>">免费发布分享</a></span>
+ 	<p>网上建议用户通过支付宝付款，有效保障您的个人权益<br/>
+交易时请警惕网络诈骗、欺诈交易。有卖家卖手机、汽车、笔记本等的，请查询手机归属地以确保是同城交易<br/>
+若遇上疑似或确定为欺诈交易、网络诈骗等信息，请向本网站举报</p>
+ </div>
+ </div>
+ 
+ <div class="rbar">
+ 	<h3 class="titA">分享分类</h3>
+    <div class="shSer">
+    	<foreach name="sharecates" item="item">
+            <eq name="item.parent_id" value="0">
+            <a href="<{:U('share/index',array('cat'=>$item['cate_id']))}>" target="_blank"><{$item.cate_name}></a>
+            </eq>
+        </foreach>
+    </div>
+    <h3 class="titA mt10">热点推荐</h3>
+    <ul class="hotTj">
+        
+    <calldata mdl="Recommend" order="orderby asc" where="group_id = 1 AND bg_date ELT '{$today}' AND end_date EGT '{$today}' " cache="3600" limit="0,5">
+ <li><a title="<{$item.title}>" href="<{$item.link_url}>" target="_blank"><img width="197"  src="__ROOT__/attachs/<{$item.photo}>" /></a>
+     <p><a title="<{$item.title}>" href="<{$item.link_url}>" target="_blank"><{:msubstr($item['title'],0,8,'utf-8',false)}></a></p>
+ </li>
+                       </calldata>
+
+    </ul>
+ 
+ </div>
+</div>
+<div class="cl"></div>
+
+
+
+
+<div class="cl"></div>
+<!--main end-->
+<include  file='public:footer'/>  

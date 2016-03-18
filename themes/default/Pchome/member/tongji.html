@@ -1,0 +1,74 @@
+<include file="member:head"/>
+<div class="tgdd">
+ 
+
+    <form   action="<{:U('member/tongji')}>" method="post">
+        <div class="addAddress_nr">
+            <p class="addAddress_t">查看我的推广结果：</p>
+            <ul>
+                <li>
+                    <div class="left"><span>开始日期：</span></div>
+                    <div class="lef">
+                        <input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="inputData" />
+                    </div>
+                </li>
+                 <li>
+                    <div class="left"><span>结束日期：</span></div>
+                    <div class="lef">
+                        <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});"  class="inputData" />
+                    </div>
+                </li>
+                <li>
+                     <div class="left"><span>总成交额：</span></div>
+                    <div class="lef">
+                        共<{$total.num|default="0"}>条消费记录，共计<{:round($total['money']/100,2)}>元销售额
+                    </div>
+                </li>
+
+            </ul>
+            <div class="addAddress_bcqx"><input class="bc" type="submit" value="查看" /></div>
+            
+            
+        </div>
+    </form>
+        <script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+<script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+    <div id='container2'>
+        
+    </div>
+    <script>
+        $(function () {
+            $('#container2').highcharts({
+                title: {
+                    text: '<{$bg_date|default=''}>-<{$end_date|default=''}>成交金额最多的10家商家',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'baocms.com',
+                    x: -20
+                },
+                xAxis: {
+                    categories: [<{$shops}>]
+                },
+                yAxis: {
+                    title: {
+                        text: '成交金额'
+                    },
+                    plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                },
+           
+                series: [{
+                        name: '前10名商家',
+                        data: [<{$moneys}>]
+                    }]
+            });
+        });
+				
+    </script>
+</div>
+</body>
+</html>

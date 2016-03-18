@@ -1,0 +1,14 @@
+<volist name="list" id="item" key="index ">
+<li class="line">
+	<a href="<{:U('mart/detail',array('goods_id'=>$item['goods_id'],'shop_id'=>$item['shop_id']))}>">
+		<div class="x4">
+			<img src="__ROOT__/attachs/<{$item.photo}>">
+		</div>
+		<div class="x8">
+			<h5><{$item['title']}></h5>
+			<p class="price"><span>&yen;<{:round($item['mall_price']/100,2)}></span>  <del>&yen;<{:round($item['price']/100,2)}></del></p>
+		</div>
+	</a>
+	    <div class="num"><a class="jq_addcart" href="<{:U('mart/cartadd',array('goods_id'=>$item['goods_id'],'shop_id'=>$item['shop_id']))}>"><span class="r">+</span></a> <if condition="$item['mobile_fan'] gt 0"><a style="float: left; margin-left: 0.1rem; height: 0.24rem; line-height: 0.24rem;" href="javascript:void(0);">手机下单立减￥<{:round($item['mobile_fan']/100,2)}></a></if></div>
+</li>
+</volist>

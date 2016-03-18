@@ -1,0 +1,35 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('ele/shop',array('shop_id'=>$detail['shop_id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			<{$detail.shop_name}>
+		</div>
+		<div class="top-share">
+			<a href="#" id="share-btn"></a>
+		</div>
+	</header>  
+	
+	
+    
+    
+      <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button" href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a>
+			<a class="block button  bg-dot active" href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a>
+		</div>
+	</div>
+</div>  
+
+ <div id="coupon-list" class="coupon-list"></div>
+    <script>
+        $(document).ready(function () {
+            loaddata('<{:U("ele/dianpingloading",array("shop_id"=>$detail["shop_id"],"p"=>"0000"))}>', $("#coupon-list"), true);
+        });
+    </script>
+
+
+<include file='public:footer'/>   

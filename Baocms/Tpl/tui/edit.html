@@ -1,0 +1,29 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">运营</li>
+        <li class="li2">推广配置</li>
+        <li class="li2 li3">编辑</li>
+    </ul>
+</div>
+<div class="mainScAdd ">
+    <div class="tableBox">
+        <form target="baocms_frm" action="<{:U('tui/edit',array('tui_id'=>$detail['tui_id']))}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">推广名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[tui_name]" value="<{$detail.tui_name|default=''}>" class="manageInput" />
+                        <code>例如：某某的推广</code>
+                    </td>
+                </tr><tr>
+                    <td class="lfTdBt">推广连接：</td>
+                    <td class="rgTdBt"><input type="text" name="data[tui_link]" value="<{$detail.tui_link|default=''}>" class="manageInput" />
+                        <code>可以是数字也可以是英文</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

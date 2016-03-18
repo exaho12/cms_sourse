@@ -1,0 +1,91 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('store/index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			微店产品
+		</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="cate-btn">+</a>
+		</div>
+	</header>
+	
+    
+	
+	
+	<div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('goods/index')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="商品名称"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+    
+    
+    
+ <!-- 筛选TAB -->
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="<{:U('mart/index')}>">商城商品</a>
+			<a class="block button" href="<{:U('mart/order')}>">卖出商品</a>
+			<a class="block button" href="<{:U('mart/wait')}>">付款订单</a>
+            <a class="block button" href="<{:U('mart/wait2')}>">货到付款</a>
+		</div>
+	</div>
+</div>   
+    
+    
+<div class="list-media-x" id="list-media">
+	<ul>
+    
+  <foreach name="list" item="var">   
+    <li class="line padding">
+        <div class="x4">
+            <a href="javascript:void(0);"><img style="width:90%;" src="__ROOT__/attachs/<{$var.photo}>"></a>
+        </div>
+        <div class="x8">
+            <p><a href="javascript:void(0);"><{$var.title}></a> </p>
+            <p class="text-small">创建时间：<{$var.create_time|date='Y-m-d H:i:s',###}></p>
+            <p>       
+				<span class="text-dot margin-right">市场价：￥<{$var.price}></span>
+				<span class="text-dot">商城价：￥<{$var.mall_price}></span>
+			</p>
+            <p>       
+				<span class="text-dot margin-right">卖出数量：<{$var.sold_num}></span>
+				<span class="text-dot">浏览量：<{$var.views}></span>
+			</p>
+			<p class="text-right padding-top">
+            <a href="javascript:void(0);" class="button button-small">商品状态：<eq name="var.audit" value="0">等待审核<else/>正常</eq></a>
+            <a href="<{:U('goods/edit',array('goods_id'=>$var['goods_id']))}>" class="button button-small bg-dot">编辑</a>
+            </p>
+        </div>
+    </li>
+   </foreach>   
+    
+  </ul>
+</div> 
+	
+
+
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+        
+
+
+
+
+		
+<include file="public:footer"/>
+

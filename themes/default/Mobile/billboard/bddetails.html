@@ -1,0 +1,86 @@
+<include  file='public:header'/> 
+
+<body>
+    <iframe id="baocms_frm" name="baocms_frm" style="display:none;"></iframe>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">
+        	上榜商户
+        </div>
+		<i class="icon-menu"></i>
+	</header>
+    <script>
+		$(function(){
+			$("#search-bar li").each(function(e){
+				$(this).click(function(){
+					if($(this).hasClass("on")){
+						$(this).parent().find("li").removeClass("on");
+						$(this).removeClass("on");
+						$(".serch-bar-mask").hide();
+					}
+					else{
+						$(this).parent().find("li").removeClass("on");
+						$(this).addClass("on");
+						$(".serch-bar-mask").show();
+					}
+					$(".serch-bar-mask .serch-bar-mask-list").each(function(i){
+						
+						if(e==i){
+							$(this).parent().find(".serch-bar-mask-list").hide();
+							$(this).show();
+						}
+						else{
+							$(this).hide();
+						}
+						$(this).find("li").click(function(){
+							$(this).parent().find("li").removeClass("on");
+							$(this).addClass("on");
+						});
+					});
+				});
+			});
+		});
+    </script>
+   
+	<div id="billboard" class="page-center-box">
+		
+			<div class="billboard-shanghu-box">
+            
+            	<volist name="list" id="var">
+                	<div class="billboard-shanghu-list">
+                        <div class="nr">
+                            <div class="img"><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$var['shop_id']))}>">  <img width="140" height="140" src="__ROOT__/attachs/<{$billshops[$var['shop_id']]['photo']|default='default.jpg'}>" alt=""/></a></div>
+                            <div class="wz">
+                                <p class="overflow_clear bt"><{$billshops[$var['shop_id']]['shop_name']}></p>
+                                <p>地址: <{$billshops[$var['shop_id']]['addr']}></p>
+                                <p style="padding-top:0.08rem;"><span>票数：<{$var.votenum}></span>
+                                
+                              
+                                
+                                  <if condition="$var['work'] eq 1"> <a mini='act' class="fr btn" href="<{:U('billboard/vote',array('bill_id'=>$var['bill_id']))}>">投一票</a><else/>
+                                <a class="fr btn" style="background: #808080  !important;" href="javascript:void(0);">已投票</a></if>
+                                
+                               </p>
+                            </div>
+                        </div>
+                        <div class="reason">上榜理由：<span class="sbReasonNr"><{$var.reason}></span></div>
+                        <div class="review">
+                            <div class="bt">点评 <span class="rig"><a target="_blank" href="<{:U('shop/dianping',array('shop_id'=>$var['shop_id']))}>">更多</a></span></div>
+                           
+                            
+                            <if condition="$var['dianping']['user_id'] neq null">
+                                 <p><span class="user"><{$users[$var['dianping']['user_id']]['nickname']}>：</span><{$var['dianping']['contents']}></p>
+                            	 <p class="time"><{$var['dianping']['create_time']|date="Y-m-d",###}></p>
+                            <else/>
+                                <p class="namePl" style="font-size: 14px;">暂无点评</p>
+                            </if>
+                        </div>
+                    </div>
+             </volist>
+			<div class="bdList_fy">
+				<{$page}>
+			</div>
+	</div>
+<include file="public:footer"/>
+
+

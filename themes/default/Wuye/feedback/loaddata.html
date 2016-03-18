@@ -1,0 +1,18 @@
+<foreach name="list" item="item">
+	<div class="line padding border-bottom">
+		<div class="x12">
+			<p>
+		<a class="title" href="<{:U('feedback/detail',array('feed_id'=>$item['feed_id']))}>"><font color="green"><{:bao_msubstr($item['title'],0,16,false)}></font></a>
+			</p>
+			<p class="text-gray x10">时间:<{$item.create_time|date='Y-m-d',###}></p>
+            
+            <if condition="$item['reply'] eq null">
+            <a class="button button-small bg-dot text-right " href="<{:U('feedback/reply',array('feed_id'=>$item['feed_id']))}>">回复</a>
+			<else/>
+            <a class="button button-small bg-dot text-right " href="javascript:void(0);">已回复</a>
+            </if>
+		</div>
+	</div>
+	
+	<div class="blank-10 bg"></div>
+</foreach>

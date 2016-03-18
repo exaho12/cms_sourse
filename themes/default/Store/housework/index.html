@@ -1,0 +1,110 @@
+<include file='public:header'/>  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			家政服务
+		</div>
+		<div class="top-share">
+			<a  href="javascript:void(0);" id="cate-btn"></a>
+		</div>
+	</header>
+    
+
+<body>
+<style>
+.button {
+    border-radius:0px;
+}
+</style>  
+
+ <div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active">家政需要用金块查看用户联系方式滴！</a>
+		</div>
+	</div>
+</div> 
+	<div class="line xiaoqu-search">
+		<form method="post"  action="<{:U('housework/index')}>" id="form1" class="form1">
+			<div class="form-group">
+				<div class="field">
+					<div class="input-group">
+						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="输入服务内容"  />
+						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+<div class="xiaoqu-list">
+<ul id="xiaoqu-list">
+              
+              
+     <foreach name="list" item="item">     
+     <li class="line">
+	<a href="javascript:void(0);" class="item fix hightitem">	
+		</a><div class="x12"><a href="javascript:void(0);" class="item fix hightitem">	
+			</a><h5>项目：<{$workTypes[$item['svc_id']]}></h5>
+            
+            
+<if condition="!empty($looks[$item['housework_id']])"> 
+<a href="javascript:void(0);" class="button button-big bg-dot float-right">已经购买</a>	                     
+<else/>                   
+<a href="<{:U('housework/look',array('housework_id'=>$item['housework_id']))}>" class="button button-big bg-yellow float-right"><{$item.gold}>金块购买</a>	 
+</if>
+            
+			<p class="addr">服务时间：<{$item.svctime}></p>
+            <p class="addr">内容：<{$item.contents}></p>
+            <if condition="!empty($looks[$item['housework_id']])">
+            <p class="addr">地址：<{$item.addr}></p>
+            <else/>
+            <p class="addr">地址：<{:msubstr($item['addr'],0,5)}></p>                     
+            </if>
+                
+                    
+                 
+                    
+                    
+            <p class="text-small">
+            <if condition="!empty($looks[$item['housework_id']])">
+			<span class="text-dot margin-right">姓名：<{$item.name}></span>
+			<span class="text-dot">电话：<{$item.tel}></span>
+            <else/> 
+            <span class="text-dot margin-right">姓名：***</span>
+			<span class="text-dot">电话：***</span>
+            </if>                
+			</p>
+            
+                     
+<eq name="item.is_real" value="1">      
+<p class="addr">状态：真实需求</p>
+<else/>
+<p class="addr">状态：未确认 </p>
+</eq>   
+            
+		</div>	
+		</li>
+       </foreach>
+		
+        
+
+</ul>  
+	</div>
+
+	
+    
+    
+    
+    
+<div class="blank-20"></div>
+
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+        
+<include file="public:footer"/>

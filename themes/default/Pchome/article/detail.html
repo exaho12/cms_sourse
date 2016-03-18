@@ -1,0 +1,59 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+<div class="main">
+    <div class="local">
+        当前位置：  <a href="<{:U('index/index')}>" title="<{$CONFIG.site.sitename}>"><{$CONFIG.site.sitename}></a>  >
+        <a href="<{:U('article/index')}>">文章资讯</a>  > <if condition="$cate"> <a title="<{$cate['cate_name']}>" href="<{:LinkTo('news/index',array('cat'=>$cate['cate_id']))}>"><{$cate['cate_name']}></a></if> >
+        <{$detail.title}>
+    </div>
+    <div class="cl"></div>
+    <div class="show">
+        <div class="showbox">
+            <div class="showTit">
+                <h2><{$detail.title}></h2>
+                <div class="showtit2">
+                    <{$detail.create_time|date='Y-m-d',###}> 
+                    总浏览：<{$detail.views}>
+                </div>
+            </div>
+            <div class="showTxt">
+                <{$detail.details}>  
+
+            </div>
+        </div>
+        <div class="cl"></div>
+       
+
+
+    </div>
+    <div class="sidebar">
+        <ul class="cFb">
+            <li><a href="<{:U('shop/apply')}>" >商家入驻申请</a></li>
+            <li class="li2"><a href="<{:U('share/share')}>" >免费发布分享</a></li>
+            <li class="li3"><a href="<{:U('ele/index')}>" ><{$CONFIG.site.sitename}>餐饮频道</a></li>
+        </ul>
+        <div class="cl"></div>
+        <div class="hotNews">
+            <h3>热门资料</h3>
+            <ul>
+                <calldata mdl="Article" order="article_id desc" limit="0,6" cache="600">
+                <li>
+                    <a title="<{$item.title}>" target="_blank"  href="<{:U('article/detail',array('article_id'=>$item['article_id']))}>">
+                        <img height="86" width="86" src="__ROOT__/attachs/<{$item['photo']|default='default.jpg'}>" />
+                    </a>
+                    <h4>
+                        <a title="<{$item.title}>" target="_blank"  href="<{:U('article/detail',array('article_id'=>$item['article_id']))}>">
+                            <{:msubstr($item['title'],0,8)}>
+                        </a>
+                    </h4>
+                    <p> 时间：<{$item['create_time']|date='Y-m-d',###}></p>
+                    <p>浏览：<code><{$item.views}></code></p>
+                </li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<include  file='public:footer'/>  

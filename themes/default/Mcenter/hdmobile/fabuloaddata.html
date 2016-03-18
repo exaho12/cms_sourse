@@ -1,0 +1,26 @@
+<foreach name="list" item="item">
+	<div class="line padding border-bottom">
+		<div class="x3">
+			<a href="<{:U('mobile/hdmobile/detail',array('huodong_id'=>$item['huodong_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="90%" /></a>
+		</div>
+		<div class="x9">
+			<p>
+				<a class="title" href="<{:U('mobile/hdmobile/detail',array('huodong_id'=>$item['huodong_id']))}>">
+					<volist name="getHuoCate" id="var" key="index2">
+						<eq name="item.cate_id" value="$index2">[<{$var}>]</eq>
+					</volist>
+					<{:bao_Msubstr($item['title'],0,20,true )}>
+				</a>
+			</p>
+			<p class="text-gray">时间：<{$item.time}></p>
+			<p class="text-gray">地点：<{$item.addr}></p>
+			<p class=""></p>
+		</div>
+	</div>
+	<div class="line padding">
+		<span class="x3"><em class="text-dot"><{$item.sign_num}></em>人报名</span>
+		<span class="x7">性别要求：<{$getPeopleCate[$item['sex']]|default='不限'}></span>
+		<span class="x2 text-right"><a class="button button-small bg-dot" href="<{:U('mcenter/hdmobile/join_people',array('huodong_id'=>$item['huodong_id']))}>">报名详情</a></span>
+	</div>
+	<div class="blank-10 bg"></div>
+</foreach>

@@ -1,0 +1,112 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">插件</li>
+        <li class="li2">插件列表</li>
+        <li class="li2 li3">新增</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('plugin/create')}>" method="post">
+    <div class="mainScAdd ">
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt">插件名称：</td>
+                    <td class="rgTdBt"><input type="text" name="data[plugin_name]" value="<{$detail.plugin_name|default=''}>" class="scAddTextName" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">是否指定模版：</td>
+                    <td class="rgTdBt">
+                        <input type="checkbox" name="data[is_theme]" value="1"  />
+
+                        <code>如果勾选了，那么前台用户在插件列表看不到这个插件！购买模版后会自动绑定！</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">
+                <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                插件图标：
+                </td>
+                <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[icon]" value="<{$detail.icon}>" id="data_icon" />
+                        <input id="icon_file" name="icon_file" type="file" multiple="true" value="" />
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="icon_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.icon|default='default.jpg'}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.plugin.thumb}>
+                    </div>
+                    <script>
+                        $("#icon_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"plugin"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传插件图标',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_icon").val(data);
+                                $("#icon_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+                    </script>
+                </td>
+            </tr><tr>
+            <td class="lfTdBt">插件说明：</td>
+            <td class="rgTdBt"><textarea  name="data[contents]" cols="50" rows="10" ><{$detail.contents|default=''}></textarea>
+            </td>
+        </tr><tr>
+            <td class="lfTdBt">月价格：</td>
+            <td class="rgTdBt"><input type="text" name="data[month_price]" value="<{$detail.month_price|default=''}>" class="scAddTextName" />
+                <code>填写金块数，可以为0；如果不为0 那么一年的价格是10个月的月价格</code>
+            </td>
+        </tr>
+        <tr>
+            <td class="lfTdBt">排序：</td>
+            <td class="rgTdBt"><input type="text" name="data[orderby]" value="<{$detail.orderby|default='100'}>" class="scAddTextName" />
+
+            </td>
+        </tr>
+        <tr>
+            <td class="lfTdBt">管理菜单：</td>
+            <td class="rgTdBt">
+                <table class="jq_table">
+                    <tr>
+                        <td style="width: 200px;">名称</td>
+                        <td style="width: 200px;">管理地址</td>
+                        <td><a class="jq_add"  href="javascript:void(0);">新增一条</a></td>
+                    </tr>
+                    <tr>
+                        <td><input class="scAddTextName w150" type="text" name="data[menu][1][name]" value="" /></td>
+                        <td><input class="scAddTextName w150" type="text" name="data[menu][1][url]" value="" /></td>
+                        <td><a class="jq_delete" href="javascript:void(0);">删除</a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <script>
+            var num = 1;
+            $(document).ready(function () {
+                $(document).on('click', '.jq_delete', function () {
+                    $(this).parent().parent().remove();
+                });
+
+                $(".jq_add").click(function () {
+                    num++;
+                    var str = '<tr><td><input type="text" class="scAddTextName w150" name="data[menu][' + num + '][name]" value="" /></td> <td><input type="text" class="scAddTextName w150" name="data[menu][' + num + '][url]" value="" /></td> <td><a class="jq_delete" href="javascript:void(0);">删除</a></td> </tr>';
+                    $(".jq_table").append(str);
+                });
+            });
+
+        </script>
+    </table>
+
+    </div>
+    <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+</div>
+</form>
+<include  file='public:footer'/>     

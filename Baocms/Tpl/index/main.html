@@ -1,0 +1,247 @@
+
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">首页</li>
+        <li class="li2">网站运行状态</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="left">
+                <a>欢迎您：<{$admin.username}>（<{$admin.role_name}>）</a>
+                <a>上次登录地址：<{$ad.last_ip}></a>
+                <a>更新到<{$v}></a>
+                <a>php版本：<{:phpversion()}></a>
+
+            </div>
+            <div class="right">
+               
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+            <div class="selectNr selectNr2">
+                <div class="left">
+                    <div class="seleK">
+                       
+                    </div>
+
+                </div>
+                <div class="right">
+                  
+                </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <style>
+	.gray{background-color: #F8F8F8; color:#F00 }
+	.main-jsgl .jsglNr table tr td .gray{ color:#F00 }
+	.main-jsgl .jsglNr table tr td .dot{ color:#F00 }
+	.main-jsgl .jsglNr table tr td .dot1{ background: #F00;}
+	</style>
+        <div class="tableBox">
+            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50">ID</td>
+                    <td>项目</td>
+                    <td>总数量</td>
+                    <td class="gray">今日数量</td>
+                    <td>操作</td>
+
+                </tr>
+            
+            
+            		 <tr>
+                        <td>1</td>
+                        <td>会员数量</td>
+                        <td><{$counts.users}></td>
+                        <td class="gray">今日新增<a class="dot">(<{$counts.totay_user}>)</a>个会员</td>
+                        <td><a href="<{:U('user/index')}>" class="remberBtn ">详情</a></td>
+                    </tr>
+                     <tr>
+                        <td>2</td>
+                        <td>商家数量</td>
+                        <td><{$counts.shops}></td>
+                        <td class="gray">
+                        今日入驻商家<a class="dot">(<{$counts.totay_shop}>)</a>家
+                        待审核<a href="<{:U('shop/apply')}>"   class="dot">(<{$counts.totay_shop_audit}>)</a>条
+                        待认领<a href="<{:U('shop/recognition')}>" class="dot">(<{$counts.shoprecognition}>)</a>家
+                        </td>
+
+                       
+
+                        <td>
+                        <if condition="$counts['totay_shop_audit'] gt 0">
+                        <a href="<{:U('shop/apply')}>"  class="remberBtn dot1">审核</a>
+                        <else/>
+                        </if>
+                        <a href="<{:U('shop/index')}>" class="remberBtn ">详情</a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>3</td>
+                        <td>网站订单数量</td>
+                        <td>商：<{$counts.order}>，外：<{$counts.order_waimai}>，团：<{$counts.order_tuan}></td>
+                        <td class="gray">
+                        今日商城<a href="<{:U('order/index')}>"  class="dot">(<{$counts.totay_order}>)</a>单
+                        今日外卖<a href="<{:U('eleorder/index')}>"  class="dot">(<{$counts.totay_order_waimai}>)</a>单
+                        今日团购<a href="<{:U('tuanorder/index')}>"  class="dot">(<{$counts.totay_order_tuan}>)</a>单
+                        <br/><!--下面是退款的-->
+                        商城退款<a href="<{:U('order/index')}>"  class="dot">(<{$counts.order_tui}>)</a>笔
+                        外卖退款<a href="<{:U('eleorder/index')}>"  class="dot">(<{$counts.order_waimai_tui}>)</a>笔
+                       
+                        </td>
+                        <td>
+                        <if condition="$counts['totay_order'] gt 0">
+                        <a href="<{:U('order/index')}>" class="remberBtn ">商城</a>
+                        <else/>
+                        </if>
+                        <if condition="$counts['totay_order_waimai'] gt 0">
+                        <a href="<{:U('eleorder/index')}>" class="remberBtn ">外卖</a>
+                        <else/>
+                        </if>
+                        <if condition="$counts['totay_order_tuan'] gt 0">
+                        <a href="<{:U('tuanorder/index')}>" class="remberBtn ">团购</a>
+                        <else/>
+                        </if>
+                        
+                        
+                        
+                        </td>
+                    </tr>
+                    
+                     <tr>
+                        <td>4</td>
+                        <td>会员充值数</td>
+                        <td><{$counts.totay_gold}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.totay_gold}>)</a>人充值</td>
+                        <td><a href="<{:U('usermoneylogs/index')}>" class="remberBtn ">详情</a></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>家政服务预约</td>
+                        <td><{$counts.jiazheng}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.totay_jiazheng}>)</a>人预约
+                        其中<a class="dot">(<{$counts.totay_jiazheng_queren}>)</a>人需要确认</td>
+                        <td>
+                        <if condition="$counts['totay_jiazheng_queren'] gt 0">
+                        <a href="<{:U('housework/index')}>"  class="remberBtn dot1">家政确认</a>
+                        <else/>
+                        </if>
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>优惠劵下载</td>
+                        <td><{$counts.coupon}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.today_coupon}>)</a>次下载</td>
+                        <td><a href="<{:U('coupondownload/index')}>" class="remberBtn ">详情</a></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>点评数量</td>
+                        <td>
+                        商家：<{$counts.dianping}>
+                        商城：<{$counts.dianping_goods}>
+                        抢购：<{$counts.dianping_tuan}>
+                        外卖：<{$counts.dianping_waimai}>
+                        </td>
+                        <td class="gray">
+                        今日商家<a href="<{:U('shopdianping/index')}>"  class="dot">(<{$counts.totay_dianping}>)</a>
+                        今日商城<a href="#"  class="dot">(<{$counts.totay_dianping_goods}>)</a>
+                        今日团购<a href="<{:U('tuandianping/index')}>"  class="dot">(<{$counts.totay_dianping_tuan}>)</a>
+                        今日外卖<a href="#"  class="dot">(<{$counts.totay_dianping_waimai}>)</a>
+                      
+                        <td>
+                        <if condition="$counts['totay_dianping'] gt 0">
+                        <a href="<{:U('shopdianping/index')}>" class="remberBtn ">商家点评</a>
+                        <else/>
+                        </if>
+                        <if condition="$counts['totay_dianping_tuan'] gt 0">
+                        <a href="<{:U('tuandianping/index')}>" class="remberBtn ">团购点评</a>
+                        <else/>
+                        </if>
+                       
+                        </td>
+                    </tr>
+                    
+                     <tr>
+                        <td>8</td>
+                        <td>帖子数量</td>
+                        <td><{$counts.post}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.totay_post}>)</a>篇新帖
+                        待审核<a href="<{:U('post/index')}>"   class="dot">(<{$counts.totay_post_audit}>)</a>条
+                        </td>
+                        <td>
+                        <if condition="$counts['totay_post_audit'] gt 0">
+                        <a href="<{:U('post/index')}>"  class="remberBtn dot1">审核</a>
+                        <else/>
+                        </if>
+                        <a href="<{:U('post/index')}>" class="remberBtn ">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>分类信息数量</td>
+                        <td><{$counts.life}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.totay_life}>)</a>条分类信息
+                        
+                        待审核<a href="<{:U('life/index')}>"   class="dot">(<{$counts.totay_life_audit}>)</a>条
+                        </td>
+                        <td>
+                        <if condition="$counts['totay_life_audit'] gt 0">
+                        <a href="<{:U('life/index')}>"  class="remberBtn dot1">审核</a>
+                        <else/>
+                        </if>
+                        <a href="<{:U('life/index')}>" class="remberBtn ">详情</a>
+                        </td>
+                    </tr>
+                    <!--家政预约-->
+                    <tr>
+                        <td>10</td>
+                        <td>网站预约</td>
+                        <td><{$counts.yuyue}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.today_yuyue}>)</a>人预约</td>
+                        <td><a href="<{:U('shopyuyue/index')}>" class="remberBtn ">预约详情</a></td>
+                    </tr>
+                    
+                     <tr>
+                        <td>11</td>
+                        <td>网站缴费</td>
+                        <td><{$counts.bill}></td>
+                        <td class="gray">今日<a class="dot">(<{$counts.totay_bill}>)</a>条分类信息
+                        
+                        待审核<a href="<{:U('bill/billorder')}>"   class="dot">(<{$counts.totay_bill_audit}>)</a>条
+                        </td>
+                        <td>
+                        <if condition="$counts['totay_bill_audit'] gt 0">
+                        <a href="<{:U('bill/billorder')}>"  class="remberBtn dot1">确认</a>
+                        <else/>
+                        </if>
+                        <a href="<{:U('bill/billorder')}>" class="remberBtn ">退款</a>
+                        </td>
+                    </tr>
+                    
+           
+            </table>
+            <{$page}>
+        </div>
+        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
+            <div class="left">
+               <a href="http://www.fengmiyuanma.com/list-83.html"  class="remberBtn ">点击获取更新</a>
+               <a href="http://www.fengmiyuanma.com/list-83.html"  class="remberBtn ">使用教程</a>
+               <a href="http://www.fengmiyuanma.com/list-87.html"  class="remberBtn ">免费下载精品源码</a>
+               <a href="http://www.baocms.com" target="_blank"  class="remberBtn ">正式运营购买正版授权</a>
+            </div>
+        </div>
+
+</div>
+</div>
+<include  file='public:footer'/> 

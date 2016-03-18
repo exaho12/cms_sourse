@@ -1,0 +1,62 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">声望设置</li>
+    </ul>
+</div>
+<p class="attention"><span>注意：</span>威望（声望）和升级有关系！当然用户等级再未来会有其他的作用！ 声望暂时只有这些，如果会二次开发的可以将这些应用到更多地方</p>
+<form  target="baocms_frm" action="<{:U('setting/prestige')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+                    <td class="lfTdBt">每日登录：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[login]" value="<{$CONFIG.prestige.login}>" class="scAddTextName w150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">点评商家：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[dianping]" value="<{$CONFIG.prestige.dianping}>" class="scAddTextName w150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">发表分享：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[share]" value="<{$CONFIG.prestige.share}>" class="scAddTextName w150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">回复帖子：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[reply]" value="<{$CONFIG.prestige.reply}>" class="scAddTextName w150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">抢购：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[tuan]" value="<{$CONFIG.prestige.tuan}>" class="scAddTextName w150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt">绑定手机：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[mobile]" value="<{$CONFIG.prestige.mobile}>" class="scAddTextName w150" />
+                    </td>
+                </tr>  
+                <tr>
+                    <td class="lfTdBt">邮件认证：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[email]" value="<{$CONFIG.prestige.email}>" class="scAddTextName w150" />
+                    </td>
+                </tr>  
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

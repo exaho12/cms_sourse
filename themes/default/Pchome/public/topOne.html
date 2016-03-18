@@ -1,0 +1,108 @@
+<div class="topOne">
+    <div class="nr">
+        <div class="left">
+            <span class="welcome"><{$city_name}></span>
+             
+           <li class="liOne2 liOne_visit2"><a class="liOneA2" href="javascript:void(0);">切换城市<em>&nbsp;</em></a>
+           <div class="list liOne_visit_pull2">
+           <ul>
+             <foreach name="citylists" item="item">                      
+             <li class="liOne_visit_pull_li2">
+             <div class="price_box"><a href="#"><em class="price"><{$key}></em>
+             <volist name="item" id="var" key="i">
+             <span class="old_price"><a href="<{:U('city/change',array('city_id'=>$var['city_id']))}>"><{$var.name}></a>  </span>
+             </volist>
+             </a></div>
+             </li>
+             </foreach>         
+           </ul>
+           <p class="empty"><a href="javascript:;" id="emptyhistory">您当前所在城市：<{$city_name}></a></p>
+           </div>
+          </li>
+              
+              </div>
+                
+                
+                <div class="right">                    
+                    <ul>
+                    	<if condition="empty($MEMBER)">
+                        <li class="liOne"><a class="liOneB" href="<{:U('pchome/passport/login')}>" >登录</a><em>&nbsp;</em></li>
+                        <li class="liOne"><a class="liOneB" href="<{:U('passport/register')}>" >注册</a><em>&nbsp;</em></li>
+                        <else/>
+                        <li class="liOne"><a class="liOneB" href="<{:U('member/index/index')}>" ><{$MEMBER.nickname}></a><em>&nbsp;</em></li>
+                        <li class="liOne"><a class="liOneB" href="<{:U('member/index/index')}>" >个人中心</a><em>&nbsp;</em></li>
+                        <li class="liOne"><a class="liOneB" href="<{:U('pchome/passport/logout')}>" >退出登录</a><em>&nbsp;</em></li>
+                        </if>
+                        <li class="liOne"><a class="liOneA" href="javascript:void(0);">我的服务<em>&nbsp;</em></a>
+                            <div class="list">
+                                <ul>
+                                    <li><a href="<{:U('member/order/index')}>">我的订单</a></li>
+                                    <li><a href="<{:U('member/ele/index')}>">我的外卖</a></li>
+                                    <li><a href="<{:U('member/yuyue/index')}>">我的预约</a></li>
+                                    <li><a href="<{:U('member/dianping/index')}>">我的评价</a></li>
+                                    <li><a href="<{:U('member/favorites/index')}>">我的收藏</a></li>                                    
+                                    <li><a href="<{:U('member/myactivity/index')}>">我的活动</a></li>
+                                    <li><a href="<{:U('member/life/index')}>">会员服务</a></li>
+                                    <li><a href="<{:U('member/set/nickname')}>">帐号设置</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                       
+                        <li class="liOne liOne_visit"><a class="liOneA" href="javascript:void(0);">最近浏览<em>&nbsp;</em></a>
+                            <div class="list liOne_visit_pull">
+                                <ul>
+                                    <?php
+                                        $views = unserialize(cookie('views'));
+                                        $views = array_reverse($views, TRUE);
+                                        if($views){
+                                        foreach($views as $v){
+                                    ?>
+
+                                    <li class="liOne_visit_pull_li">
+                                        <a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><img src="__ROOT__/attachs/<{$v.photo}>" width="80" height="50" /></a>
+                                        <h5><a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><{$v.title}></a></h5>
+                                        <div class="price_box"><a href="<{:U('tuan/detail',array('tuan_id'=>$v['tuan_id']))}>"><em class="price">￥<{$v.tuan_price}></em><span class="old_price">￥<{$v.price}></span></a></div>
+                                    </li>
+                                    <?php }?>
+                                </ul>
+                                <p class="empty"><a href="javascript:;" id="emptyhistory">清空最近浏览记录</a></p>
+                                <?php }else{?>
+                                <p class="empty">您还没有浏览记录</p>
+                                <?php } ?>
+                            </div>
+                        </li>
+                        
+                         <li class="liOne"> <a class="liOneA" href="javascript:void(0);">快捷导航<em>&nbsp;</em></a>
+                            <div class="list">
+                                <ul class="kuan">
+                                    <li><a href="<{:U('shangjia/login/index')}>">商家中心</a></li>
+                                    <li><a href="<{:U('community/index/index')}>">物业登录</a></li>
+                                    <li><a href="<{:U('delivery/index/index')}>">物流中心</a></li>
+                                    <li><a href="<{:U('pchome/shop/index')}>">商家列表</a></li>
+                                    <li><a href="<{:U('pchome/jifen/index')}>">积分商城</a></li>
+                                    <li><a href="<{:U('pchome/billboard/index')}>">商家榜单</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="liOne"><a class="liOneB" href="<{:U('pchome/index/index')}>" >回到首页</a><em>&nbsp;</em></li>
+                    </ul>
+                </div>
+         </div>   
+    </div>
+<script>
+    $(document).ready(function(){
+        $("#emptyhistory").click(function(){
+            $.get("<{:U('tuan/emptyviews')}>",function(data){
+                if(data.status == 'success'){
+                    $(".liOne_visit_pull ul li").remove();
+                    $(".liOne_visit_pull p.empty").html("您还没有浏览记录");
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            },'json')
+            //$.cookie('views', '', { expires: -1 }); 
+            //$(".liOne_visit_pull ul li").remove();
+            //$(".liOne_visit_pull p.empty").html("您还没有浏览记录");
+        })
+    });
+</script>    

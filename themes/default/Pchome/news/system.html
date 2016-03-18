@@ -1,0 +1,35 @@
+<include  file='public:ex_header'/>  
+<include  file='public:ex_top'/> 
+
+<div class="blank"></div>
+<div class="row">
+	<div class="sys-art">
+		<div class="art-l">
+			<div class="art-l-t"><i class="iconfont">&#xf00a9;</i> 相关栏目</div>
+			<ul>
+				<foreach name="contents" item="var">
+					<li><a <eq name="var.content_id" value="$content_id"> class="active"</eq> title="<{$var.title}>" href="<{:U('article/system',array('content_id'=>$var['content_id']))}>"><i class="iconfont">&#xf02af;</i> <{$var.title}></a></li>
+				</foreach>
+			</ul>
+			<div class="art-l-b"></div>
+		</div>
+		<div class="art-r">
+			<div class="art-c">
+				<div class="c-hd">
+					<h1><span><{$detail.title}></span></h1>
+				</div>
+
+				<div class="c-bd">
+					<{$detail.contents}>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="blank"></div>
+
+ 
+
+<!--main end-->
+<include  file='public:ex_footer'/>  

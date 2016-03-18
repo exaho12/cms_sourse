@@ -1,0 +1,113 @@
+<include file='public:header'/>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-search">
+			<form method="post" action="<{:U('permit/search')}>">
+				<input name="keyword" placeholder="输入关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+
+
+	</header>
+	
+    <div class="serch-bar-mask" id="cate_menu" style="display:none;top:50px;">
+		<div class="serch-bar-mask-list">
+			<ul>
+				<li class="<if condition='empty($cat)'>on</if> "><a href="<{:U('news/index')}>" >全部新闻</a></li>
+				<foreach name="cates" item="item">
+				<eq name="item.parent_id" value="0">
+				<li>
+					<a  href="<{:U('news/cate',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>
+				</li>  
+				</eq>
+				</foreach>
+			</ul>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {	
+			$("#cate_menu ul li a").click(function () {
+				$("#cate_menu").toggle();
+			});
+
+		});
+	</script>
+
+	<div id="roll" class="roll">
+		<div class="bd">
+			<ul>
+				<php>$i=0;</php>
+				<calldata mdl="Article" where="isroll = 1 AND photo != ''" limit="0,5" cache="43200" order="article_id desc">
+				<php>
+					$i++;
+					if($i==1){
+						$first = $item['title'];
+					}
+				</php>
+				<li>
+					<a class="pic" href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" /></a>
+					<a class="tit" href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><{$item['title']}></a>
+				</li>
+				</calldata>
+			</ul>
+		</div>
+		<div class="hd">
+			<ul></ul>
+		</div>
+	</div>
+	
+	<div class="blank-10"></div>
+	<div class="sec-title">	
+		<div class="divider"></div>	
+		<span><a  href="<{:U('permit/cate',array('cat'=>16))}>">个人办事</a></span>
+	</div>
+	
+	<div class="row">	
+		<calldata mdl="Article" where="istop = 1 AND photo !='' AND cate_id = 16 " limit="0,6" cache="43200" order="article_id desc">
+		<a class="col" href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>">	
+			<div class="cover">
+				<img src="__ROOT__/attachs/<{$item['photo']}>" class="cover" />	
+				<div class="title"><{$item['title']}></div>	
+			</div>
+		</a>
+		</calldata>
+	</div>
+	
+	<div class="blank-10"></div>
+	<div class="sec-title">	
+		<div class="divider"></div>	
+		<span><a  href="<{:U('permit/cate',array('cat'=>18))}>">企业办事</a></span>
+	</div>
+	
+	<div class="news-list">
+		<foreach name="list" item="var">
+		<a class="item media media-x" href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>">
+			<span class="float-left">
+				<img class="radius" src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" />	
+			</span>
+			<div class="media-body">
+				<strong><{$var.title}></strong>
+				<p class="desc"><{:bao_Msubstr($var['details'],0,100)}></p>
+				<p class="info">
+					<i class="icon-commenting-o"></i> <em><{$var.views}></em>
+					<i class="icon-clock-o"></i> <em><{$var.create_time|date='Y-m-d',###}></em>
+				</p>
+			</div>
+		</a>
+		</foreach>
+	</div>
+	
+	<script type="text/javascript">	
+		TouchSlide({ 
+			slideCell:"#roll",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			autoPage:true //自动分页
+		});
+	</script>
+
+<include file="public:footer"/>

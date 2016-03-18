@@ -1,0 +1,72 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">商城</li>
+        <li class="li2">专题管理</li>
+        <li class="li2 li3">商品专题</li>
+        <li class="li2 li3" onclick="javascript:window.location.reload()">商品专题</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"></p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox"><iframe name="baocms_frm" style="display:none;"></iframe>
+        <form  target="baocms_frm" action="<{:U('zhuanti/editgoods',array('zhuan_id'=>$zhuan['zhuan_id']))}>" method="post">
+            <input type='hidden' name='data[zhuan_id]' value='<{$zhuan["zhuan_id"]}>'/>
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" width="160" >专题编号：</td>
+                    <td class="rgTdBt">
+                        <select name="data[map_id]" class="seleFl  jq_type" style="display: inline-block;">
+                            <volist name="maps" id="map">
+                                <option value="<{$map.map_id}>" <eq name="map['map_id']" value="$zhuan['map_id']">selected='selected'</eq> ><{$map.title}></option>
+                            </volist>
+                        </select>
+                        <code>相同楼层的商品在专题页面被划为一组</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" width="160" >所在楼层：</td>
+                    <td class="rgTdBt">
+                        <select name="data[floor_id]" class="seleFl  jq_type" style="display: inline-block;">
+                            <volist name="floors" id="floor">
+                                <option value="<{$floor.floor_id}>" <eq name='zhuan["floor_id"]' value="$floor['floor_id']">selected='selected'</eq>><{$floor.title}></option>
+                            </volist>
+                        </select>
+                        <code>相同楼层的商品在专题页面被划为一组</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >到期时间：</td>
+                    <td class="rgTdBt">
+                        <script src="/Public/js/my97/WdatePicker.js"></script>
+                        <input type="text" name="data[deadline]" class="scAddTextName" value="<{$zhuan.deadline|date='Y-m-d',###}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"/>
+                        <code>超过指定时间商品自动下架</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >排序：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[sort]" class="scAddTextName " value="<{$zhuan.sort}>" />
+                        <code>同楼层商品排序,越小越靠前</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lfTdBt" >是否显示：</td>
+                    <td class="rgTdBt">
+                        <select name="data[status]" class="seleFl  jq_type" style="display: inline-block;">
+                            <option value="1" <eq name='zhuan["status"]' value='1'>selected='selected'</eq>>显示</option>
+                            <option value="0" <eq name='zhuan["status"]' value='0'>selected='selected'</eq>>不显示</option>
+                        </select>
+                        <code>默认为显示</code>
+                    </td>
+                </tr>
+               
+            </table>
+            <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

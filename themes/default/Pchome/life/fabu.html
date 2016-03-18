@@ -1,0 +1,32 @@
+<include file='life:header_life'/> <include file='life:top'/>  
+
+	<div class="container">
+		<div class="blank-20"></div>
+
+		<div class="progress progress-big progress-striped radius">
+			<div class="progress-bar bg-green" style="width:33%;">选择分类</div>
+		</div>
+
+		<div class="blank-20"></div>
+		
+		<div class="collapse fabu-panel">
+			<foreach name="channelmeans" key="key" item="item">
+			<div class="panel <eq name='key' value='1'>active</eq>">
+				<div class="panel-head">
+					<h4><{$item}><span>展开选择需要发布的<{$item}>分类</span></h4>
+				</div>
+				<div class="panel-body">
+					<ul class="fabu-cate">
+						<foreach name="cates" key="key1" item="cat">
+						<eq name="key" value="$cat.channel_id">   
+						<li><a href="<{:U('life/create',array('cat'=>$cat['cate_id']))}>"><{$cat.cate_name}></a></li>
+						</eq>
+						</foreach>
+					</ul>
+				</div>
+			</div>
+			</foreach>
+		</div>
+	</div>
+
+<include  file='public:footer'/>   

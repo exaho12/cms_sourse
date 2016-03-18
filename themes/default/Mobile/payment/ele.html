@@ -1,0 +1,90 @@
+<include  file='public:header'/>    
+<link rel="stylesheet" href="/static/default/wap/css/mcenter.css">
+<body>
+   <header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back();"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			恭喜！完成支付 
+		</div>
+	</header>  
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				订单编号：
+				<em><{$detail.order_id}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				付款时间：
+				<em class="text-dot"><{$detail.create_time|date='Y-m-d H:i',###}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				订餐名称
+				<em><{$products[$item['product_id']]['product_name']}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				<{$item.num}>
+				<em>x￥<{:round($products[$item['product_id']]['price']/100,2)}>=￥<{:round($item['total_price']/100,2)}></em>
+			</a>
+		</li>
+        <if condition="!empty($detail['new_money'])">
+		<li><a href="javascript:;">新单立减：<em><{:round($detail['new_money']/100,2)}></em></a></li>
+        </if>
+        
+        <if condition="!empty($detail['fan_money'])">
+		<li><a href="javascript:;">下单返利：<em><{:round($detail['fan_money']/100,2)}></em></a></li>
+        </if>
+        
+        
+		<li>
+			<a href="javascript:;">
+				付款方式：
+				<em><{$paytype[$detail['code']]['name']}></em>
+			</a>
+		</li>
+		<li>
+			<a href="javascript:;">
+				结算价格：
+				<em>￥<{:round($detail['need_pay']/100,2)}></em>
+			</a>
+		</li>
+        <li>
+			<a href="javascript:;">
+				地址：
+				<em><{$citys[$addr['city_id']]['name']}>&nbsp;<{$areas[$addr['area_id']]['area_name']}>&nbsp;<{$bizs[$addr['business_id']]['business_name']}>&nbsp;<{$addr['addr']}></em>
+			</a>
+		</li>
+        <li>
+			<a href="javascript:;">
+				下单时间：
+				<em><{$detail.single_time|date='Y-m-d H:i',###}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+<div class="blank-30"></div>
+<div class="line text-center">
+	<a class="button bg-dot" href="<{:U('mcenter/eleorder/detail',array('order_id'=>$detail['order_id']))}>">查看详情</a>
+	<a class="button bg-main" href="<{:U('mobile/ele/index')}>">继续逛逛</a>
+</div>
+<div class="blank-20"></div>
+
+
+<include  file='public:footer'/>    
+   

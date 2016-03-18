@@ -1,0 +1,10 @@
+			<foreach name="shopcates" item="var">
+			<eq name="var.parent_id" value="$cat">
+				<li>
+					<a href="<{:U('mart/index',array('cat'=>$var['cate_id']))}>">
+						<img src="/static/default/wap/image/mart/cat-<{$var['cate_id']}>.png">
+						<p><{$var.cate_name}></p>
+					</a>
+				</li>	
+			</eq>
+			</foreach>

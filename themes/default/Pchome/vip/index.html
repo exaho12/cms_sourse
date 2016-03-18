@@ -1,0 +1,114 @@
+<include  file='public:header_niucms'/><div class="blank-10"></div>
+<div class="container">
+	<div class="line">
+		<div class="x9">
+			<div class="banner">
+				<div class="carousel">
+					<calldata mdl="Ad" where=" bg_date ELT '{$today}' AND end_date EGT '{$today}' AND closed=0 AND site_id=33" limit="0,3" cache="21600" order="orderby asc">
+					<div class="item"><a target="_blank" href="<{$item.link_url}>" title="<{$item.title}>" ><img src="__ROOT__/attachs/<{$item.photo}>" /></a></div>
+					</calldata>
+				</div>
+			</div>
+		</div>
+		<div class="x3">
+			<div class="vip-card">
+				<img src="/static/default/pc/image/vip/vip-card.png" alt="<{$CONFIG.site.sitename}>会员卡">
+			</div>
+			<div class="blank-10"></div>
+			<a class="button button-block bg-dot bg-inverse">申请会员卡 <span class="badge bg-white">享受全城折扣</span></a>
+			<div class="blank-10"></div>
+			<div class="vip-tip">
+				成功申请<{$CONFIG.site.sitename}>会员卡，在任意加盟商户可以优惠消费。商家可以为您返积分兑换可精美礼品、还有会员专享活动。更多优惠等你来参与！
+			</div>
+		</div>
+	</div>
+	
+	<div class="blank-10"></div>
+	
+	<div class="line">
+		<div class="x9">
+			<div class="shop-list">
+				<ul class="line">
+					<foreach name="list" item="item">
+					<li class="x4">
+						<div class="list-item">
+							<div class="imge">
+								<a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" title="<{$item.shop_name}>" >
+									<img class="lazy" src="__ROOT__/attachs/<{$item.photo}>" alt="<{$item.shop_name}>" />
+								</a>
+							</div>
+							<h2>
+								<a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" title="<{$item.shop_name}>" >
+									<{:niuMsubstr($item['shop_name'],0,10,false)}>
+								</a>
+							</h2>
+							<div class="desc">
+								<span class="ui-starbar" title="<{$item.score_num}>人点评，好评率 <{:round($item['score']*2,2)}>%"><span style="width:<{:round($item['score']*2,2)}>%;"></span></span> 
+								<span class="float-right"><em><{$item.score_num}></em>人点评</span>
+							</div>
+							<div class="tags">
+								<if condition="!empty($item['huodong'])"><span class="h">有活动</span></if>
+								<if condition="!empty($item['tuan'])"><span class="t">有团购</span></if>
+								<if condition="!empty($item['coupon'])"><span class="y">有优惠</span></if>
+								<gt name="item.card_date" value="$today"><span class="c">一卡通</span></gt>
+								<lt name="item.orderby" value="100"><span class="r">精推荐</span></lt>
+								<gt name="item.wei_date" value="$today"><span class="w">微商户</span></gt>
+								<gt name="item.niu_date" value="$today"><span class="b">已认证</span></gt>
+							</div>
+							
+							<div class="cove">
+								<if condition="$details[$item['shop_id']]['wei_pic'] eq null">
+								<img src="/static/default/pc/image/wx.png" alt="扫描微信二维码"/>
+								<else/>
+								<img src="__ROOT__/attachs/<{$details[$item['shop_id']]['wei_pic']}>" /></if>
+								</if>
+								<p>手机扫一扫，随时享有优惠</p>
+							</div>
+
+						</div>
+					<li>
+					</foreach>
+				</ul>
+			</div>
+			
+			<div class="blank-10"></div>
+			<div class="text-center">
+				<div class="pagination">
+					<{$page}>
+				</div>
+			</div>
+		</div>
+		<div class="x3">
+			<div class="index-side">
+				<div class="side-hd">
+					<h3>商家排行榜<span>The Hotest</span></h3>
+					<a class="more" href="<{:U('shop/index')}>">更多 <i class="icon icon-angle-right"></i></a>
+				</div>
+				<div class="side-bd">
+					<ul class="side-shop">
+						<php>$i=0;</php>
+						<calldata mdl="Shop" where="closed=0 AND audit=1" limit="0,5"  cache="14400" order="orderby desc">
+						<php>$i++;</php>
+						<li>
+							<a class="pic" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
+								<img class="lazy" src="__ROOT__/attachs/<{$item.photo}>" alt="<{$item['shop_name']}>" />
+							</a>
+							<div class="des">	
+								<h2><a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$item['shop_name']}></a></h2>
+								<p>
+									<span class="ui-starbar"><span style="width:<{:round($item['score']*2,2)}>%;"></span></span>
+									<span class="tel"><i class="icon icon-phone"></i> <{$item['tel']}></span>
+								</p>
+								<p><i class="icon icon-map-marker"></i> <{$item['addr']}></p>
+							</div>
+							<span class="order">NO.<{$i}></span>
+						</li>
+						</calldata>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<include file="public:footer_niucms"/>

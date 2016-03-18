@@ -1,0 +1,35 @@
+<include  file='public:header'/>  
+  
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('mobile/index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			城市切换
+		</div>
+	</header>
+	
+    <div class="more-service">
+    	<p class="more-title">
+    		<span>当前城市：<a href="<{:U('index/index')}>"><{$city_name}></a></span>
+    	</p>   
+          <foreach name="citylists" item="item"> 
+        <p class="more-title">
+    		<span><{$key}></span>
+    	</p>
+    	<div class="more-list">
+         <volist name="item" id="var" key="i">
+    		<a href="<{:U('city/change',array('city_id'=>$var['city_id']))}>">
+    			<img src="/static/default/wap/image/housekeeping/hk18.png" />
+    			<p><{$var.name}></p>
+    		</a>
+    		 </volist>
+    	</div>
+    	
+        </foreach>      
+		
+    </div>
+
+<include file='public:footer'/>  
+
+

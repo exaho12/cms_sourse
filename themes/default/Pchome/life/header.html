@@ -1,0 +1,81 @@
+<include  file='public:header'/>  
+
+<include  file='public:nav'/>  
+
+
+
+<div class="topHead">
+
+    <div class="header">
+
+        <if condition="!empty($CONFIG['site']['logo'])">
+
+            <h2><a href="<{:U('index/index')}>"><img width="220" src="__ROOT__/attachs/<{$CONFIG.site.logo}>" /></a></h2>
+
+            <else/>
+
+            <h2><a href="<{:U('index/index')}>"><img src="__TMPL__statics/images/logo2.jpg" /></a></h2>
+
+        </if>    
+
+        <div class="tuanTop" style="margin:35px 0 0 40px; float:left; display:inline;width:500px;">
+
+            <form id="search_life1" method="post" action="<{:LinkTo('life/main',$linkArr,array('keyword'=>''))}>">
+
+                <input type="text" name="keyword" value="<{$keyword}>" class="tuanInput"  style="width: 400px;"/>
+
+                <input type="submit" rel="search_life1" class="tuanBtn" value="" />
+
+            </form>
+
+        </div>
+
+        <div class="tuanHot tuanHot2">
+
+            <span>
+
+                <a href="<{:U('life/fabu')}>" target="_blank">免费发布信息</a>
+
+            </span>
+
+            热门搜索：
+
+            <calldata mdl="Keyword" limit="0,2" where =" type=3 or type =0" order="key_id desc" cache="3600">
+
+               <a href="<{:U('life/main',array('keyword'=>$item['keyword']))}>" title="<{$item.keyword}>生活信息" target="_blank"><{$item.keyword}></a> 
+
+            </calldata>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="channel">
+
+    <div class="channelM">
+
+        <h2>全部频道</h2>
+
+        <ul class="tuanMenu" style="width: 1000px;">
+
+            <li><a href="<{:U('life/index')}>"<if condition="empty($channel)"> class="cur" </if> >生活首页</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>5))}>" title="房产信息" <if condition="$channel eq 5"> class="cur" </if> >房产</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>2))}>" title="车辆信息" <if condition="$channel eq 2"> class="cur" </if> >车辆</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>8))}>" title="本地服务" <if condition="$channel eq 8"> class="cur" </if> >服务</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>7))}>"  title="招聘求职"<if condition="$channel eq 7"> class="cur" </if> >招聘</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>6))}>"  title="培训教育" <if condition="$channel eq 6"> class="cur" </if> >培训</a></li>
+
+            <li><a href="<{:U('life/main',array('channel'=>10))}>"  title="宠物门户" <if condition="$channel eq 10"> class="cur" </if> >宠物</a></li>
+
+        </ul>
+
+    </div>
+
+</div>

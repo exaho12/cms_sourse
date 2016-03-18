@@ -1,0 +1,26 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<div class="about-main zy_content">
+    <div class="about-content">
+        <div class="about-centleft">
+            <ul class="about-nav">
+                <foreach name="contents" item="var">
+                    <li <eq name="var.content_id" value="$content_id"> class="on"</eq> ><a title="<{$var.title}>" href="<{:U('article/system',array('content_id'=>$var['content_id']))}>"><{$var.title}></a></li>
+                </foreach>
+            </ul>
+            <div class="about-qie">
+                <ul class="about-us">
+                    <li><{$detail.title}></li>
+                </ul>
+                <div class="about-nr">
+                    <{$detail.contents}>
+                </div>
+            </div>
+        </div>
+        <div class="about-centright">
+            <img src="__PUBLIC__/img/nearwx_03.jpg">
+        </div>
+    </div>
+</div>
+<include  file='public:footer'/>  

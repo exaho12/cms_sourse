@@ -1,0 +1,94 @@
+<include  file='public:header'/>    
+<body>
+<header> 
+    <a href="<{:U('member/mycoupon')}>"><i class="icon-goback"></i></a>
+    <div class="title">我的优惠券</div>
+</header>
+<!-- 筛选TAB -->
+<div class="shop-lie">
+    <ul>
+        <li class="on"><span>全部</span></li>
+        <li><span>未使用</span></li>
+        <li><span>已使用</span></li>
+    </ul>
+</div>
+<div id="personal-coupon" class="page-center-box">
+    <div id="scroll"> 
+        <!-- 列表 -->
+        <div class="send-out">
+            <div class="coupon-list">
+                <div class="coupon-box">
+                    <div class="coupon-box-content">
+                        <div class="fl left">
+                            <div class="bg c-1">
+                                <div class="coupon-dw">券</div>
+                                <img src="__TMPL__statics/img/personal_coupon_roud_c1.png"> </div>
+                            <div class="state c-1">未使用</div>
+                        </div>
+                        <div class="fl center">
+                            <p class="overflow_clear">仅售9999元，价值16</p>
+                            <p>密码：37270947</p>
+                            <p>提供密码或商家扫描二维码</p>
+                        </div>
+                        <div class="fl right">
+                            <div class="star"><img src="__TMPL__statics/img/personal_coupon_star_c1.png"></div>
+                            <p class="c-1">有效期至</p>
+                            2015-05-24 </div>
+                        <div class="clear"></div>
+                    </div>
+                    <img src="__TMPL__statics/img/personal_coupon1_bg_c1.png" width="100%" height="100%"> </div>
+            </div>
+            <div class="list-box">
+                <div class="activ-list-content coupon-button"> <a href=""><span class="shop-pay">去使用</span></a> <a href=""><span class="shop-del">删 除</span></a> </div>
+            </div>
+            <div class="coupon-list">
+                <div class="coupon-box">
+                    <div class="used"><img src="__TMPL__statics/img/personal_coupon.png"></div>
+                    <div class="coupon-box-content">
+                        <div class="fl left">
+                            <div class="bg c-3">
+                                <div class="coupon-dw">券</div>
+                                <img src="__TMPL__statics/img/personal_coupon_roud_c3.png"> </div>
+                            <div class="state c-3">已使用</div>
+                        </div>
+                        <div class="fl center">
+                            <p class="overflow_clear">仅售9999元，价值</p>
+                            <p>密码：37270947</p>
+                            <p>该抢购券已经使用</p>
+                        </div>
+                        <div class="fl right">
+                            <div class="star"><img src="__TMPL__statics/img/personal_coupon_star_c3.png"></div>
+                            <p class="c-3">有效期至</p>
+                            2015-05-24 </div>
+                        <div class="clear"></div>
+                    </div>
+                    <img src="__TMPL__statics/img/personal_coupon1_bg_c2.png" width="100%" height="100%"> </div>
+            </div>
+            <div class="list-box">
+                <div class="activ-list-content coupon-button"> <a href=""><span class="shop-pay c-1">不能使用</span></a> <a href=""><span class="shop-del">删 除</span></a> </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+$(function(){
+        $(".shop-lie li").each(function(e){
+            $(this).click(function(){
+                $(".shop-lie li").removeClass("on");
+                $(this).addClass("on");
+                $(".send-out").each(function(s){
+                    if(e==s){
+                        $(".send-out").hide();
+                        $(this).show();
+                    }
+                    else{
+                        $(this).hide();
+                    }
+                });
+            });
+        });
+    });
+
+</script>
+<include  file='public:footer'/>    

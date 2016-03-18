@@ -1,0 +1,129 @@
+<include  file='public:head_bolg'/>   
+
+<div class="blank-10"></div>
+
+<div class="container">
+	<div class="blog-main">
+		<div class="user-box bg-blue-light">
+			<div class="media media-x">
+				<span class="float-left">
+					<img src="__ROOT__/attachs/<{$user.face|default='default.jpg'}>" class="radius" />
+				</span>
+				<div class="media-body">
+					<strong><{$user.nickname}></strong>
+					<p>博客地址: <php>echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; </php></p>
+					<p>
+						<a href="#" class="button bg-dot radius"><i class="icon-lightbulb-o"></i> 关注 <span class="badge bg-white">5</span></a>
+					</p>
+				</div>
+			</div>		
+		</div>
+		<div class="blog-nav bg-blue-light">
+			<ul class="nav nav-menu nav-inline nav-tabs nav-justified nav-big nav-navicon">
+				<li <if condition="$act eq ''">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id))}>"><i class="icon-home"></i> 主页</a></li>
+				<li <if condition="$act eq 'ping'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'ping'))}>"><i class="icon-thumbs-o-up"></i> 点评</a></li>
+				<li <if condition="$act eq 'tie'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'tie'))}>"><i class="icon-comments-o"></i> 帖子</a></li>
+				<li <if condition="$act eq 'fav'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'fav'))}>"><i class="icon-heart-o"></i> 收藏</a></li>
+				<li <if condition="$act eq 'pic'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'pic'))}>"><i class="icon-image"></i> 图片</a></li>
+			</ul>
+		</div>
+		<div class="main-bd">
+		
+		<eq name="act" value="">
+			<h4>基本信息</h4>
+			<ul class="line user-info">
+				<li class="x3"><em>电子邮箱</em><if condition="!empty($user[email])"><{$user.email}><else/>未知</if></li>
+				<li class="x3"><em>手机号码</em><if condition="!empty($user[mobile])"><{:niuMsubstr($user[mobile],0,7,false)}>****<else/>未知</if></li>
+				<li class="x3"><em>邮箱状态</em><if condition="!empty($user[email])">已认证<else/>未认证</if></li>
+				<li class="x3"><em>手机状态</em><if condition="!empty($user[mobile])">已认证<else/>未认证</if></li>
+				<li class="x3"><em>用户等级</em><{$ranks[$user['rank_id']]['rank_name']}></li>
+				<li class="x3"><em>积分数量</em><{$user.integral}></li>
+				<li class="x3"><em>声望点数</em><{$user.prestige}></li>
+			</ul>
+			<div class="blank-10"></div>
+			<h4>活跃状态</h4>
+			<ul class="line user-info">
+				<li class="x3"><em>注册日期</em><{$user.reg_time|date='Y-m-d',###}></li>
+				<li class="x3"><em>最后登录</em><{$user.last_time|date='Y-m-d',###}></li>
+				<li class="x3"><em>注册地址</em><{$user.reg_ip}></li>
+				<li class="x3"><em>注册地址</em><{$user.last_ip}></li>
+				<php>
+					if(!empty($user['lng']) && !empty($user['lat'])){
+						$place = getArea($user['lat'],$user['lng']);
+					}else{
+						$place['formatted_address'] = '没有用微信登录！';
+					}
+				</php>
+				<li class="x12"><em>上次微信登录</em><{$place['formatted_address']}></li>
+			</ul>
+			<div class="blank-10"></div>
+			<h4>Ta的访客</h4>
+			<ul class="line user-visitor">
+				<foreach name="visitors.users" item="item">
+				<li class="x1">
+					<a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><img class="radius-circle" src="__ROOT__/attachs/<{$item.face|default='default.jpg'}>" /></a>
+					<p><a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><{$item['nickname']}></a></p>
+				</li>
+				</foreach>
+			</ul>
+		</eq>
+		
+		<eq name="act" value="ping">
+			<h4>Ta点评了</h4>
+			<ul class="line ping-list">
+				<foreach name="dianping" item="item">
+				<li class="x6 media media-x">
+					<a class="float-left" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
+						<img src="/attachs/<{$shops[$item['shop_id']]['logo']}>" class="radius" />
+					</a>
+					<div class="media-body">
+						<strong><{$shops[$item['shop_id']]['shop_name']}></strong>
+						<p>人均：￥<{$item.cost}></p>
+						<p>点评：<{$item.contents}></p>
+						<p>时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
+					</div>
+				</li>
+				</foreach>
+			</ul>
+		</eq>
+		
+		<eq name="act" value="tie">
+			<ul class="tie-list">
+				<foreach name="tie" item="item">
+				<li><a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>" target="_blank"><{$item.title}></a><span>(<{$item.zan_num}>赞)</span> <em><{$item.create_time|date='Y-m-d',###}></em></li>
+				</foreach>
+			</ul>
+		</eq>
+		
+		<eq name="act" value="fav">
+			<h4>Ta收藏了</h4>
+			<ul class="line">
+				<foreach name="favorites" item="item">
+				<li class="x6 media media-x">
+					<a class="float-left" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
+						<img src="/attachs/<{$shops[$item['shop_id']]['logo']}>" class="radius" />
+					</a>
+					<div class="media-body">
+						<strong><{$shops[$item['shop_id']]['shop_name']}></strong>
+						<p>总评：<span class="ui-starbar"><span style="width:<{:round($shops[$item['shop_id']]['score']*2,2)}>%;"></span></span></p>
+						<p>电话：<{$shops[$item['shop_id']]['tel']}></p>
+						<p>地址：<{$shops[$item['shop_id']]['addr']}></p>
+					</div>
+				</li>
+			   </foreach>
+			</ul>
+		</eq>
+		
+		<eq name="act" value="pic">
+			<h4>Ta上传了</h4>
+			<ul class="line">
+				<foreach name="pics" item="item">
+					<li><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" ><img src="__ROOT__/attachs/<{$item.pic|default='default.jpg'}>" width="195" height="129" /></a></li>
+				</foreach>
+			</ul>
+		</eq>
+		</div>
+	</div>
+</div>
+
+<include  file='public:footer_niucms'/>    

@@ -1,0 +1,238 @@
+<include file='public:header_news'/> <div class="blank-10"></div>
+<div class="container">
+	<div class="line">
+		<div class="x3">
+			<div class="bar-left fixed" data-style="fixed-top" data-offset-fixed="10">
+				<dl class="user-panel">
+					<dt><img src="__ROOT__/attachs/<{$MEMBER['face']|default='default.jpg'}>" /></dt>
+					<dd>
+						<span><if condition="!empty($MEMBER)"><{$MEMBER['nickname']}><else />游客</if></span>
+						<span><if condition="!empty($MEMBER)">发帖数：<{$MEMBER['post_num']}><else />点击这里[<a mini="load" href="/tieba/login.html">登录</a>]</if></span>
+					</dd>
+				</dl>
+				<div class="blank-10"></div>
+				<div class="collapse bar-cate">
+					<div class="cate-index"><a href="<{:U('tieba/index')}>"><i class="icon-reorder"></i> 全部板块</a></div>
+					<php>$i=0;</php>
+					<foreach name="sharecates"  item="item"> 
+					<eq name="item.parent_id" value="0">
+					<php>$i++;</php>
+					<div class="panel <eq name='i' value='1'>active</eq>">
+						<div class="panel-head"><h4><{$item.cate_name}></h4></div>
+						<div class="panel-body">
+							<ul>
+								<foreach name="sharecates" item="item2"> 
+								<eq name="item2.parent_id" value="$item.cate_id">
+								<li><a href="<{:U('tieba/index',array('cat'=>$item2['cate_id']))}>"><{$item2.cate_name}></a></li>
+								</eq>
+								</foreach>
+							</ul>
+						</div>
+					</div>
+					</eq>
+					</foreach>
+				</div>
+			</div>
+		</div>
+		<div class="x9">
+			<div class="bar-list">
+				<div class="tie-read">
+					<div class="read-top">
+							<h1><{$detail.title}></h1>
+							<div class="p">
+								<div class="float-left">
+									<a class="lz" href="javascript:showauthor();">只看楼主</a>
+									<a class="hf" href="#reply">回复</a>
+								</div>
+								<div class="float-right status">
+									浏览：<{$detail.views}>　回复：<{$detail.reply_num}>
+								</div>
+							</div>
+							<a class="zan" mini="act" href="<{:U('tieba/zan',array('post_id'=>$detail['post_id']))}>">(<{$detail.zan_num}>)<span></span></a>
+					</div>
+					<div class="read-reply">
+						<ul id="show-list">
+							<li rel="<{$detail['user_id']}>">
+								<div class="reply-l">
+									<span class="face">
+										<img src="__ROOT__/attachs/<{$users[$detail['user_id']]['face']|default='default.jpg'}>" />
+									</span>
+									<span class="nick">
+										<{$detail['nickname']}> <em class="level-bg level-<{$users[$detail['user_id']]['rank_id']}>"></em>
+									</span>
+									<p>注册日期：<{$users[$detail['user_id']][reg_time]|date='Y-m-d',###}></p>
+									<p>最后登录：<{$users[$detail['user_id']][last_time]|date='Y-m-d',###}></p>
+									<span class="louzhu"></span>
+								</div>
+								<div class="reply-r">
+									<div class="detail">
+										<{$detail[details]}>
+									</div>
+									<!-- if condition="!empty($detail['pic'])">
+									<php>$gallery = explode(',',$detail['pic']);</php>
+									<ul class="gallery clearfix">
+										<foreach name="gallery" item="var">
+										<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+										</foreach>
+									</ul>
+									</if -->
+									<div class="line">
+										<div class="ctrol text-center">
+											<a href="#reply" class="button icon-comment-o text-blue margin-large-right radius"> 回复
+												<span class="badge bg-sub"><{$detail.reply_num}></span>
+											</a>
+											<a mini="act" href="<{:U('tieba/zan',array('post_id'=>$detail['post_id']))}>" class="button icon-thumbs-o-up text-yellow  radius"> 我赞
+												<span class="badge bg-yellow"><{$detail.zan_num}></span>
+											</a>
+										</div>
+									</div>
+									<p class="desc"><{$detail.create_time|date='Y-m-d',###}></p>
+								</div>
+							</li>
+							<foreach name="list"  item="item" key="index">
+							<li rel="<{$item['user_id']}>">
+								<div class="reply-l">
+									<span class="face">
+										<img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+									</span>
+									<span class="nick">
+										<{$users[$item['user_id']]['nickname']}> <em class="level-bg level-<{$users[$item['user_id']]['rank_id']}>"></em>
+									</span>
+									<p>注册日期：<{$users[$item['user_id']][reg_time]|date='Y-m-d',###}></p>
+									<p>最后登录：<{$users[$item['user_id']][last_time]|date='Y-m-d',###}></p>
+								</div>
+								<div class="reply-r">
+									<div class="detail">
+										<{$item[contents]}>
+									</div>
+									<if condition="!empty($item['pic'])">
+									<php>$gallery = explode(',',$item['pic']);</php>
+									<ul class="gallery clearfix">
+										<foreach name="gallery" item="var">
+										<li><a href="/attachs/<{$var}>"><img src="/attachs/<{$var}>" /></a></li>
+										</foreach>
+									</ul>
+									</if>
+									<div class="clearfix"></div>
+									<div class="desc">
+										<span><a mini="act" href="<{:U('tieba/zans',array('reply_id'=>$item['reply_id']))}>"><i class="icon-thumbs-o-up"></i> 赞(<{$item.zan_num}>)</a></span>
+										<span>时间：<{$item.create_time|date='Y-m-d',###}></span>
+									</div>
+								</div>
+							</li>
+							</foreach>
+						</ul>
+					</div>
+					<div class="blank-20"></div>
+					<div class="text-center">
+						<if condition="!empty($page)">
+						<div class="pagination">
+							<{$page}>
+						</div>
+						<else />
+						暂时还没有人发布评论，就差您了！
+						</if>
+					</div>
+					<div class="blank-20"></div>
+				</div>
+			</div>
+			<div class="tieba-form">
+				<form target="x-frame" action="<{:U('tieba/reply',array('post_id'=>$detail['post_id']))}>" method="post" id="reply">
+					<div class="line">
+						<div class="x12">
+							<div class="post-photo">
+								<strong>上传图片</strong> <span>(只有登录成功才能发表帖子、上传图片哦！)</span>											
+								<div class="left">
+                        <script type="text/javascript" src="/Public/js/uploadify/jquery.uploadify.min.js"></script>
+                        <link rel="stylesheet" href="/Public/js/uploadify/uploadify.css">
+                    </div>
+                   <div class="lef" style="float: left;">
+                        <div>
+                            <input id="niu_file" name="niu_file" type="file" multiple="true" value="<{$item.pic}>" />
+                        </div>
+                        <div class="jq_uploads_img">
+                            <foreach  name="photos" item="item">
+                        <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                            <img width="200" height="100" src="__ROOT__/attachs/<{$item.pic}>">  
+                            <input type="hidden" name="photos" value="<{$item.pic}>" />  
+                            <a class="myInfor_sx" href="#">取消</a>  
+                        </span>
+                        </foreach>
+                        </div>
+                        <script>
+                            $("#niu_file").uploadify({
+                                'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                'uploader': '<{:U("app/upload/uploadify",array("model"=>"tieba"))}>',
+                                'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                'buttonText': '上传图片',
+                                'fileTypeExts': '*.gif;*.jpg;*.png',
+                                'queueSizeLimit': 5,
+                                'onUploadSuccess': function (file, data, response) {
+                                    var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos" value="' + data + '" />    <a class="myInfor_sx" href="#">取消</a>  </span>';
+                                   // $(".jq_uploads_img").append(str);
+									var strs = '<img width="200" height="100" src="__ROOT__/attachs/' + data + '">';
+									$("#data_details").append(strs);
+                                }
+                            });
+                            $(document).on("click", ".jq_uploads_img a", function () {
+                                $(this).parent().remove();
+                            });
+                        </script>
+ <script>
+									$(document).ready(function () {
+										<if condition="!empty($MEMBER)">
+										$("#niu_file").change(function () {
+											 ajaxupload();
+										});
+										$(document).on("click", "#jq_photo_list  a", function () {
+											$(this).parent().remove();
+										});
+										<else />
+										$("#niu_file").change(function () {
+												alert("登录后刷新页面才可以上传图片！");
+											});
+										</if>
+									});
+									function showauthor(){
+										var author = "<{$detail['user_id']}>";
+										$("#show-list li").each(function(){
+												var uid = $(this).attr("rel");
+												if(uid != author){
+													$(this).hide();
+												}
+										  });	
+									}
+								</script>
+							</div>
+						</div>
+						<div class="x12">
+								<p>
+									<label>内容</label>
+									<script type="text/plain" id="data_details" name="data[contents]" class="post-editor"></script>
+									<link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+									<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.simple.js"></script>
+									<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+									<script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+									<script>
+										um = UM.getEditor('data_details', {
+											imageUrl: "<{:U('public/editor')}>",
+											imagePath: '__ROOT__/attachs/editor/',
+											lang: 'zh-cn',
+											langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+											focus: false
+										});
+									</script>
+								</p>
+								<p>
+									<button class="button" type="submit">发表帖子</button>
+								</p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/default/pc/css/zoom.css" />
+<script src="/static/default/pc/js/zoom.js"></script>
+<include  file='public:footer'/>  

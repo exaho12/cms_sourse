@@ -1,0 +1,117 @@
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index',array('cat'=>$detail['cate_id']))}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			家政服务
+		</div>
+	</header>
+
+	<div class="line">
+		<div id="roll" class="roller">
+			<div class="bd">
+				<ul>
+				<calldata mdl="Ad" where="closed=0 AND site_id=53 and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="43200" order="orderby asc">
+				<li><a href="<{$item.link_url}>" target="_blank" ><img src="__ROOT__/attachs/<{$item.photo}>" /></a></li>
+				</calldata>
+				</ul>
+			</div>
+			<div class="hd">
+				<ul></ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">	
+		TouchSlide({ 
+			slideCell:"#roll",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			autoPage:true //自动分页
+		});
+	</script>
+	
+	<div class="line main-service border-bottom">
+		<div class="x6 border-right">
+			<a href="<{:U('housekeeping/appointment',array('svc_id'=>1))}>">
+				<div class="pic"><img src="/static/default/wap/image/housekeeping/mk01.png"></div>		 
+				<div class="des">
+					<p>家庭保洁</p>
+					<span>全市最低价格</span>
+				</div>
+			</a>
+		</div>
+		<div class="x6">
+			<a href="<{:U('housekeeping/appointment',array('svc_id'=>3))}>">
+				<div class="pic"><img src="/static/default/wap/image/housekeeping/mk03.png"></div>		 
+				<div class="des">
+					<p style="text-blue">洗衣洗鞋</p>
+					<span>满50元免费送</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	
+	<div class="blank-10 bg"></div>
+	
+	<div class="other-service border-top">
+		<ul class="line">
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>11))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk11.png"></i>
+					<span>擦玻璃</span>
+				</a>
+			</li>
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>6))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk06.png"></i>
+					<span>油烟机清洗</span>
+				</a>
+			</li>
+			<li class="x4 border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>12))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk12.png"></i>
+					<span>厨房保养</span>
+				</a>
+			</li>
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>2))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk02.png"></i>
+					<span>新居开荒</span>
+				</a>
+			</li>
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>14))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk14.png"></i>
+					<span>地板打蜡</span>
+				</a>
+			</li>
+			<li  class="x4 border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>7))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk07.png"></i>
+					<span>空调清洗</span>
+				</a>
+			</li>
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>15))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk15.png"></i>
+					<span>沙发保养</span>
+				</a>
+			</li>
+			<li class="x4 border-right border-bottom">
+				<a href="<{:U('housekeeping/appointment',array('svc_id'=>4))}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk04.png"></i>
+					<span>窗帘清洗</span>
+				</a>
+			</li>
+			<li  class="x4 border-bottom">
+				<a href="<{:U('housekeeping/index')}>">
+					<i><img src="/static/default/wap/image/housekeeping/hk00.png"></i>
+					<span>更多服务</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+<include file="public:footer"/>

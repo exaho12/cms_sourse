@@ -1,0 +1,41 @@
+<include  file='public:header'/>     
+<header>
+<div class="headerTop">
+    <div class="headerTop_back"><a href="javascript:history.go(-1);"></a></div>
+    <div class="headerTop_t">会员充值</div>
+    <div class="headerTop_menuTog m_header_wz"><a href="#"><span><img src="../images/add_03.png" width="8" height="8"></span>新增</a></div>
+</div> 
+</header>
+	<form method="post" action="<{:U('Vip/bonus',array('uid'=>$user['user_id']))}>">
+
+<section class="fixed_pad">
+	<div class="CouponBox">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="Coupon_tr">
+			<td  class="CouponDel_td" style="width: 80px;">用户名:</td>
+            <td><{$user['nickname']}></td>
+
+        </tr>
+		   <tr class="Coupon_tr">
+			<td class="CouponDel_td">手机号:</td>
+            <td><{$user['mobile']}></td>
+
+        </tr>
+		   <tr class="Coupon_tr">
+			<td class="CouponDel_td">当前积分:</td>
+            <td><{$user['integral']}></td>
+
+        </tr>
+		   <tr class="Coupon_tr">
+			<td class="CouponDel_td">赠送积分:</td>
+            <td><input class="CouponInput" style="width:100px;" name="integral"  type="text" /></td>
+
+        </tr>
+    </table>
+	<input class="CouponButt" type="submit" value="确认赠送" />
+</div>
+
+
+</form>
+</section>
+<include file="public:footer"/>

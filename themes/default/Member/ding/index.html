@@ -1,0 +1,72 @@
+<include file="public:header"/>
+<div class="content_right"> 
+<div class="tgdd">
+    <div class="tgdd_t">
+        <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+        <form action="<{:U('ding/index')}>" method="post">
+            <div class="search_form"> 
+                <span class="search_form_wz">开始时间</span><input class="search_form_time" type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  />
+                <span class="search_form_wz">结束时间</span><input class="search_form_time" type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" />
+                <span class="search_form_wz">状态</span>
+                <select name="st" class="search_form_zt">
+                    <option value="999">请选择</option>
+                    <option <eq name="st" value="0">selected="selected"</eq>  value="0">未付款</option>
+                    <option <eq name="st" value="1">selected="selected"</eq>  value="1">已付款</option>
+                    <option <eq name="st" value="2">selected="selected"</eq>  value="2">已消费</option>
+                    <option <eq name="st" value="-1">selected="selected"</eq>  value="-1">已退款</option>
+                </select>
+                <span class="search_form_wz">订单编号</span>
+                <input type="text" name="keyword" value="<{$keyword}>" class="search_form_ssk" /><input type="submit" class="search_form_ssan" value="搜索" />
+            </div>
+        </form>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <th>订餐订单</th>
+                <th>总价</th>
+                <th>定金</th>
+                <th>订单状态</th>
+                <th>操作</th>
+            </tr>
+            <foreach name="list" item="order">
+                <tr class="tgdd_nrBh">
+                    <td colspan="4" style="text-align:left; text-indent:20px">订单编号：<span class="tgdd_bh"><{$order.order_no}></span></td>
+                    <td><eq name="order.is_pay" value="1"><if condition="$order['status'] eq 1"><a mini='confirm' class="tgdd_del" href="<{:U('member/ele/elecancle',array('order_id'=>$order['order_id']))}>">取消订单</a></if></eq></td>
+                </tr>
+                <tr class="tgdd_nrC">
+                    <td class="tgdd_tdtw"><div class="tgdd_tw">
+                            <div class="left"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>"><img src="__ROOT__/attachs/<{$shops[$yuyue[$order['ding_id']]['shop_id']]['photo']}>" width="100" height="75" /></a></div>
+                            <div class="lef"><a class="myInfor_sx" href="<{:U('pchome/shop/detail',array('shop_id'=>$yuyue[$order['ding_id']]['shop_id']))}>">商家：<{$shops[$yuyue[$order['ding_id']]['shop_id']]['shop_name']}></a><p>下单时间：<{$order.create_time|date='Y-m-d H:i:s',###}></p></div>
+                             <div class="lef"><p>订座时间：<{$yuyue[$order['ding_id']]['last_date']}> &nbsp;<{$yuyue[$order['ding_id']]['last_t']}></p></div>
+                             <div class="lef"><p> <if condition="$yuyue[$order['ding_id']]['room_id'] eq 0">大厅<else/>包厢</if>
+                             <if condition="empty($yuyue[$order['ding_id']]['menu'])">未点菜<else/>已点菜</if>
+                             </p></div>
+                        </div></td>
+                   
+                    <td class="tgdd_nrCtd" id="price-color">￥<{:round($order['total_price']/100,2)}></td>
+                    <td class="tgdd_nrCtd" id="price-color">￥<{:round($order['need_price']/100,2)}></td>
+                    <td class="tgdd_nrCtd">
+                <if condition="$order[status] eq 0">
+                        <a class="myInfor_sx myInfor_sx_fk" <if condition="!empty($order['name']) && !empty($order['mobile'])"> href="<{:U('pchome/ding/pay2',array('order_id'=>$order['order_id']))}>" <else/> href="<{:U('pchome/ding/pay',array('order_id'=>$order['order_id']))}>"</if> target="_blank">去付款</a>
+                <elseif condition="$order[status] eq 1" />
+                		已付款
+                <elseif condition="$order[status] eq 2" />
+                		已消费
+                        <eq name="order.status" value="2"><if condition="$order['is_dianping'] eq 0"><a class="myInfor_sx" href="<{:U('ding/dianping',array('order_id'=>$order['order_id']))}>">点评</a><else/><a class="myInfor_sx" href="javascript:void(0);">已点评</a></if></eq>
+                 <elseif condition="$order[status] eq -1" />
+                 		已退款
+               	</if>
+                       
+                </td>
+                <td class="tgdd_nrCtd"><a class="myInfor_sx_fk" href='<{:U('ding/detail',array('order_id'=>$order['order_id']))}>'>查看</a></td>
+                </tr>
+            </foreach>
+        </table>
+        <div class='x'><{$page}></div>
+     </div>
+</div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

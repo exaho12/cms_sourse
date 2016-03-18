@@ -1,0 +1,30 @@
+	<style>
+	.foot-fixed .foot-item { width: 25%;}
+	</style>
+    
+    <footer class="foot-fixed">		
+    <a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:U('index/index')}>">		
+    	<span class="icon icon-home"></span>		
+        	<span class="foot-label">首页</span>		
+            </a>		
+            
+            <a class="foot-item <eq name="ctl" value="favorites">active</eq>" href="<{:U('communitynews/index')}>">		
+            	<span class="icon icon-bullhorn"></span>			
+                <span class="foot-label">通知管理</span>		</a>		
+            
+            <a class="foot-item <eq name="ctl" value="mcenter">active</eq>" href="<{:U('feedback/index')}>">			
+            <span class="icon icon-edit"></span>			
+            <span class="foot-label">问题反馈</span>		</a>	
+            
+              <a class="foot-item <eq name="ctl" value="mcenter">active</eq>" href="<{:U('passport/logout')}>">			
+            <span class="icon icon-sign-out"></span>			
+            <span class="foot-label">退出</span>		</a>	
+            
+          
+            
+            </footer>	
+            
+            	<iframe id="x-frame" name="x-frame" style="display:none;"></iframe>
+                </body>
+                
+                </html>

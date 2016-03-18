@@ -1,0 +1,13 @@
+<foreach name="list" item="var">
+<li>
+	<a class="line border-bottom padding" href="<{:U('game/detail',array('id'=>$var['game_id']))}>">
+		<div class="x2">
+			<img src="/Theme/games/<{$var.alias}>/icon.png" width="90%" />
+		</div>
+		<div class="x10">
+			<h5><{$var.name}></h5>
+			<p class="text-gray text-small">人气度：<{$var.views}></p>
+		</div>
+	</a>
+</li>
+</foreach>

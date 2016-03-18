@@ -1,0 +1,133 @@
+<include  file='public:header'/>
+
+<body>
+	<header>
+		<i class="icon-goback"></i>
+		<div class="title">餐厅详情</div>
+		<i class="icon-menu" id="ico_1"></i>
+	</header>
+	<div id="seat" class="page-center-box">
+		<div id="scroll">
+			<!-- BANNER图 -->
+			<div class="seat-banner">
+				<img src="__TMPL__statics/img/banner.jpg" width="100%" height="100%"/>
+				<div class="shade"></div>
+				<div class="shade-content">
+					<p class="title">上海四季酒店 Caft Studio</p>
+					<p>
+						人均：<span>￥180</span> / 4.7分
+						<em>365条评论</em>
+					</p>
+				</div>
+			</div>
+			<!-- 评分 -->
+			<div class="point">
+				<div class="point-left">
+					<span>口味：5.0</span>
+					<span>环境：4.3</span>
+					<span>服务：3.8</span>
+				</div>
+				<div class="point-right">
+                	<script>
+						$(function(){
+							$("#seat .point-right .btn").click(function(){
+								$(this).find(".seat-btn-pull-down").toggle();
+							});
+							$(".seat-btn-pull-down li").click(function(){
+								$(this).parent().find("li").removeClass("on");
+								$(this).addClass("on");
+							});
+						});
+                    </script>
+					<div class="btn"><a href="#">立刻订座</a><i></i>
+                    	<div class="seat-btn-pull-down">
+                        	<ul>
+                            	<li><a href="#">大厅</a></li>
+                                <li><a href="#">包厢</a></li>
+                            </ul>
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<!-- 分享 -->
+			<div class="share">
+				<a href="#" class="b-1">分享</a>
+				<a href="#" class="b-2">关注</a>
+			</div>
+			<!-- 地址 -->
+			<div class="address">
+				<ul>
+					<li class="address-here">安徽省合肥市包河区芜湖路万达广场</li>
+					<li><a href="#" class="b-1">到这去<i></i></a></li>
+					<li><a href="#" class="b-2">0551-60666666<i></i></a></li>
+				</ul>
+			</div>
+			<!-- 商家信息 -->
+			<div class="info">
+				<ul>
+					<li class="title">商家信息</li>
+					<li>营业时间： 午餐11:30~14:00, 晚餐18:00~0:00 饮料区全时段营业，饮料区不接受预订</li>
+					<li>
+						<p class="mb10"><span class="c-1">订</span>本店支持在线订座，满480元送特制果汁一份</p>
+						<p><span class="c-2">券</span>仅售20元，50元代金券，节假日通用</p>
+					</li>
+					<li class="other"><a href="#">查看其他2家分店 &gt;&gt;</a></li>
+				</ul>
+			</div>
+			<!-- 点评 -->
+			<div class="guest">
+				<div class="title">
+					<span>网友点评(12)</span>
+					<a href="#" class="guest-add">我要评论</a>
+					<em><a href="#">全部评论&gt;&gt;</a></em>
+				</div>
+				<!-- 循环 -->
+				<div class="guest-box">
+					<div class="icon" style="background-image: url(img/user.jpg);"></div>
+					<div class="guest-box-content">
+						<p>大耳朵图图<span>2015/07/24</span></p>
+						<div class="point-star"><div style="width: 0.8rem;"></div></div>
+						<p class="c_h">还真是用丝袜拉出来的奶茶，味道不错，挺正宗的，港式奶茶的感觉，把happy站台不大的店面装修的挺有特色，店家也是用心了，蛋挞和咖喱三宝味道还有提升空间。</p>
+						<p class="img">
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+						</p>
+					</div>
+				</div>
+				<div class="guest-box">
+					<div class="icon" style="background-image: url(img/user.jpg);"></div>
+					<div class="guest-box-content">
+						<p>大耳朵图图<span>2015/07/24</span></p>
+						<div class="point-star"><div style="width: 0.8rem;"></div></div>
+						<p class="c_h">还真是用丝袜拉出来的奶茶，味道不错，挺正宗的，港式奶茶的感觉，把happy站台不大的店面装修的挺有特色，店家也是用心了，蛋挞和咖喱三宝味道还有提升空间。</p>
+						<p class="img">
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+						</p>
+					</div>
+				</div>
+				<div class="guest-box mb0">
+					<div class="icon" style="background-image: url(img/user.jpg);"></div>
+					<div class="guest-box-content">
+						<p>大耳朵图图<span>2015/07/24</span></p>
+						<div class="point-star"><div style="width: 0.8rem;"></div></div>
+						<p class="c_h">还真是用丝袜拉出来的奶茶，味道不错，挺正宗的，港式奶茶的感觉，把happy站台不大的店面装修的挺有特色，店家也是用心了，蛋挞和咖喱三宝味道还有提升空间。</p>
+						<p class="img">
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+							<img src="__TMPL__statics/img/banner.jpg" alt="" />
+						</p>
+					</div>
+				</div>
+				<!-- 循环 -->
+			</div>
+			<!-- 底部按钮 -->
+			<div class="seat-bottom-btn">
+				<a href="#">立刻订座</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

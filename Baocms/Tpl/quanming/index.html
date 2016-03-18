@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">会员</li>
+        <li class="li2">全名推广</li>
+        <li class="li2 li3">推广日志</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <div class="jsglNr">
+        <div class="selectNr" style="margin-top: 0px; border-top:none;">
+            <div class="right">
+                <form class="search_form" method="post" action="<{:U('quanming/index')}>">
+                    <div class="seleHidden" id="seleHidden">
+                         <label><span>开始时间</span>
+                            <input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="inptText" />
+                         </label> <label>
+                            <span>结束时间</span>
+                            <input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  class="inptText" />
+                        </label> <label>
+                            <span>用户</span>
+                            <input type="hidden" id="user_id" name="user_id" value="<{$user_id|default=''}>"/>
+                            <input type="text"   id="nickname" name="nickname" value="<{$nickname}>" class="inptText w150 sj" />
+                            <a mini="select"  w="1000" h="600" href="<{:U('user/select')}>" class="seleSj" style="float: left;">选择用户</a>
+                           </label>   <input type="submit" value="   搜索"  class="inptButton" />
+                    </div> 
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+      
+    <form  target="baocms_frm" method="post">
+        <div class="tableBox">
+            <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                <tr>
+                    <td class="w50">ID</td>
+                    <td>用户</td>
+                    <td>消费者</td>
+                    <td>商家结算金额</td>
+                    <td>佣金</td>
+                    <td>消费日期</td>
+                </tr>
+                <foreach name="list" item="var">
+                    <tr>
+                        <td><{$var.tid}></td>
+                        <td><{$users[$var['uid']]['account']}></td>
+                        <td><{$users[$var['buy_uid']]['account']}></td>
+                         <td><{:round($var['price']/100,2)}></td>
+                        <td><{:round($var['commission']/100,2)}></td>
+                        <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+                    </tr>
+                </foreach>
+            </table>
+            <{$page}>
+        </div>
+    </form>
+</div>
+</div>
+<include  file='public:footer'/>  

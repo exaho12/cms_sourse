@@ -1,0 +1,33 @@
+<div class="listBox clfx">
+    <div class="menuManage">
+        <form  target="baocms_frm" action="<{:U('housework/edit',array('housework_id'=>$detail['housework_id']))}>" method="post">
+            <div class="mainScAdd">
+                <div class="tableBox">
+                    <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                        <tr>
+                            <td class="lfTdBt">是否真实：</td>
+                            <td class="rgTdBt">
+                                <input name="is_real" id="is_real" <eq name="detail.is_real" value="1">checked="checked"</eq> type="radio" value="1"  />已确认
+                                
+                                <input name="is_real" id="is_real" <eq name="detail.is_real" value="0">checked="checked"</eq>  type="radio"  value="0" />未确认
+                            </td>
+                        </tr>
+                        <tr>
+                             <td class="lfTdBt">金块数：</td>
+                            <td class="rgTdBt">
+                                <input name="gold" value="<{$detail.gold}>" type="text" class="manageInput" />
+                            </td>
+                        </tr>
+                         <tr>
+                             <td class="lfTdBt">限制查看数：</td>
+                            <td class="rgTdBt">
+                                <input name="num" value="<{$detail.num}>" type="text" class="manageInput" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="smtQr"><input type="submit" value="创建角色" class="smtQrIpt" /></div>
+            </div>
+        </form>
+    </div>
+</div>

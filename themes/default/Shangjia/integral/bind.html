@@ -1,0 +1,34 @@
+<include  file='public:header'/>
+<div class="local">
+    当前位置：一卡通 > 赠送会员积分 > 绑定会员卡
+</div>
+<div class="notice">
+    <span>注意：</span> 绑定会员卡后将可以充值积分给会员！
+</div>
+<div class="addlist">
+    <form method="post" class="password"  action="<{:U('integral/bind')}>"  target="baocms_frm">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td align="right" width="180"><span style=" color: #F9510D; float: left; margin-left: 70px;">*</span>用户卡号：</td>
+                <td><input type="text" name="card_num" class="cjinput" value="<{$card_num}>" /></td>
+            </tr>    
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td align="right" width="180"><span style=" color: #F9510D; float: left; margin-left: 70px;">*</span>用户平台帐号：</td>
+                <td><input type="text" name="username" class="cjinput" value="" />或者用户ID<input type="text" name="user_id" class="cjinput" value="" /></td>
+            </tr> 
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" class="cjbtn_new" value="绑定" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<include file="public:header"/>
+
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mcenter/member/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		发布快递
+	</div>
+</header>
+
+
+<form method="post" id="fa-from"  target="x-frame" action="<{:U('express/create')}>"   >
+	
+	<div class="line padding border-bottom">
+		<div class="x3">
+			标题：
+		</div>
+		<div class="x9">
+			 <input data-role="none" class="text-input" type="text" name="data[title]" value="<{$detail.title|default=''}>"  >
+		</div>
+	</div>
+    <div class="blank-20 bg"></div>
+    <div class="line padding border-bottom">
+		<div class="x4">
+			寄件人姓名：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[from_name]" value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}> <else/></if>" >
+		</div>
+	</div>
+    <div class="line padding border-bottom">
+		<div class="x4">
+			寄件人地址：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[from_addr]" value="<if condition="!empty($useraddr)">
+    <foreach name="useraddr" item="item">
+   	 <{$item.addr}>
+    </foreach>
+<else/>
+</if>"  >
+		</div>
+	</div>
+    <div class="line padding border-bottom">
+		<div class="x4">
+			寄件人手机：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[from_mobile]" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}> <else/></if>"  >
+		</div>
+	</div>
+    
+    <div class="blank-20 bg"></div>
+    
+    <div class="line padding border-bottom">
+		<div class="x4">
+			收件人姓名：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[to_name]" value="<{$detail.to_name|default=''}>"  >
+		</div>
+	</div>
+    <div class="line padding border-bottom">
+		<div class="x4">
+			收件人地址：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[to_addr]" value="<{$detail.to_addr|default=''}>"  >
+		</div>
+	</div>
+    <div class="line padding border-bottom">
+		<div class="x4">
+			收件人手机：
+		</div>
+		<div class="x8">
+			 <input data-role="none" class="text-input" type="text" name="data[to_mobile]" value="<{$detail.to_mobile|default=''}>"  >
+		</div>
+	</div>
+    
+    <div class="blank-20 bg"></div>
+    <div class="line padding border-bottom">
+		
+        <div class="life-infor-float" >
+                             <p class="life-infor-p">所在坐标</p>
+                            <div id="login-input" class="life-infor-float">
+                                <div class="left"><span>经度：</span><input type="text" name="data[lng]" id="data_lng"/></div>
+                                <div class="right"><span>纬度：</span><input type="text" name="data[lat]" id="data_lat"/></div>
+                            </div>
+                            <div class="life-infor-float" >
+                               <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+                                <div id="allmap" style="width: 100%; height:300px;"></div>
+                                <script type="text/javascript">
+
+                                // 百度地图API功能
+                                var map = new BMap.Map("allmap");
+                                map.centerAndZoom(new BMap.Point("<{$city['lng']}>", "<{$city['lat']}>"), 16);
+                                function selectCallBack(id, name, v1, v2) {
+                                    $("#" + id).val(v1);
+                                    $("#" + name).val(v2);
+                                    var point = new BMap.Point(v1, v2);
+                                    var marker = new BMap.Marker(point);  // 创建标注
+                                    map.clearOverlays();
+                                    map.addOverlay(marker);              // 将标注添加到地图中
+
+                                }
+                                function showInfo(e) {
+                                    selectCallBack('data_lng', 'data_lat', e.point.lng, e.point.lat);
+                                }
+                                map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+                                map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}));  //右上角，仅包含平移和缩放按钮
+                                map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN}));  //左下角，仅包含平移按钮
+                                map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM}));  //右下角，仅包含缩放按钮
+                                map.addEventListener("click", showInfo);
+                                </script>
+                            </div>
+                        </div>
+                    
+	</div>
+
+	
+    
+	
+
+    <div class="blank-30"></div>
+    <div class="container"><button type="submit" class="button button-block button-big bg-dot">免费发布快递</button></div>
+	<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

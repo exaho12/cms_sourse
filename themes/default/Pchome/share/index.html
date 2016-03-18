@@ -1,0 +1,84 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>  
+
+<div class="cl"></div>
+<!--top END-->
+<div class="main">
+    <div class="nav">
+        <h3>全部信息</h3>
+        <dl>
+            <php>$i=0;</php>
+            <foreach name="sharecates"  item="item"> 
+                <eq name="item.parent_id" value="0">
+                <php>$i++; </php>
+                <dt <eq name="i" value="1">class="cur"</eq>><span></span><{$item.cate_name}></dt>
+                <dd <eq name="i" value="1">style="display:block"</eq>>
+                <foreach name="sharecates" item="item2"> 
+                    <eq name="item2.parent_id" value="$item.cate_id">
+                    <a href="<{:U('share/index',array('cat'=>$item2['cate_id']))}>" target="_blank"><{$item2.cate_name}></a>
+                    </eq>
+                </foreach>
+                </dd>
+                </eq>
+            </foreach>
+        </dl>
+        <code><a href="<{:U('share/share')}>">快速发布分享</a></code>
+    </div>
+    <div class="content" style="width: 980px;">
+        <dl class="itemList">
+            <dt><span>总数：<code><{$counts|default='0'}></code></span><b>筛选条件</b></dt>
+            <dd>
+                <em>分类：</em>
+                <a href="<{:U('share/index')}>" <eq name="parent_id" value="0">class="cur"</eq>>全部分享</a>
+                 <foreach name="sharecates"  item="item"> 
+                <eq name="item.parent_id" value="0">
+                <a <eq name="parent_id" value="$item.cate_id">class="cur"</eq> href="<{:U('share/index',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>    
+                </eq>
+            </foreach>
+            </dd>
+
+        </dl>
+        <div class="shareSearch">
+            <div class="shareTit">
+                <span><a href="<{:U('share/share')}>">免费发布分享</a></span>
+                <form method="post" action="<{:U('share/index')}>" id="share_frm1">
+                    <input name="keyword" type="text" class="shareInput" value="<{$keyword}>" />
+                <input  type="submit" rel="share_frm1" class="shareBtn" value=" "/>
+                </form>
+            </div>
+            <div class="sharetable">
+                <table cellpadding="0" cellspacing="0" width="100%" >
+                    <tr>
+                        <th width="69%" style="text-align:left; padding-left:20px">分享主题</th>
+                        <th width="24%">发布</th>
+                        <th width="7%">发布时间</th>
+                    </tr>
+       <volist name="list" id="item" key="index">
+                    <tr <if condition="($index%2)  eq 0"> class="bg2"</if> >
+                        <td>
+                            <cite><a href="<{:U('share/index',array('cat'=>$sharecates[$item['cate_id']]['parent_id']))}>">[<{$sharecates[$sharecates[$item['cate_id']]['parent_id']]['cate_name']}>]</a></cite>
+                            <em><a target="_blank" href="<{:U('share/detail',array('post_id'=>$item['post_id']))}>"><{:msubstr($item['title'],0,25)}></a></em>
+                            <cite><a href="<{:U('share/index',array('cat'=>$item['cate_id']))}>" target="_blank">[<{$sharecates[$item['cate_id']]['cate_name']}>]</a></cite>
+                            <code class="c2"><{$item.reply_num}>回复</code>
+                             <if condition="$item['orderby'] lt 100"><code class="c4">置顶</code></if>
+                        </td>
+                        <td class="td2"><span><{$users[$item['user_id']]['nickname']}></span></td>
+                        <td class="td2"><span><{:formatt($item['create_time'])}></span></td>
+                    </tr>            
+  </volist>
+                </table>
+                <div class="pages">
+                    <{$page}>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cl"></div>
+
+    </div>
+</div>
+<div class="cl"></div>
+<!--main end-->
+
+<include  file='public:footer'/>  

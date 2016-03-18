@@ -1,0 +1,44 @@
+<include file="public:header"/>
+<div class="content_right">    
+<div class="tgdd">
+    <div class="tgdd_t">
+        <a style="display: inline-block; float: right; margin-right: 10px;" class="myInfor_sx" href="<{:U('address/addressadd')}>">新增地址</a>
+    </div>
+    <div class="tgdd_nr">
+        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+            <tr class="tgdd_nrt">
+                <td>地址序号</td>
+                <td>地区</td>
+                <td>具体地址</td>
+                <td>收货人</td>
+                <td>手机号</td>
+                <td>是否默认</td>
+                <td>操作</td>
+            </tr>
+            <volist name="list" id="item" key="index">
+                <tr class="tgdd_nrC">
+                    <td class="tgdd_nrCtd  bullionLog_td"><{$index}></td>
+                    <td class="tgdd_nrCtd  bullionLog_td"><{$areas[$item['area_id']]['area_name']}>-<{$business[$item['business_id']]['business_name']}></td>
+                    <td class="tgdd_nrCtd  bullionLog_td"><{$item.addr}></td>
+                    <td class="tgdd_nrCtd  bullionLog_td"><{$item.name}></td>
+                    <td class="tgdd_nrCtd  bullionLog_td"><{$item.mobile}></td>
+                    <td class="tgdd_nrCtd  bullionLog_td">
+                        <eq name="item.is_default" value="0">
+                            <a class="myInfor_sx" mini="confirm" href="<{:U('address/updatedefault',array('addr_id'=>$item['addr_id']))}>">设为默认</a>
+                        <else/>
+                            <a class="myInfor_sx" mini="confirm" href="<{:U('address/cancel',array('addr_id'=>$item['addr_id']))}>">取消默认</a>
+                        </eq>
+                    </td>
+                <td class="tgdd_nrCtd  bullionLog_td">
+                    <a class="myInfor_sx" href="<{:U('address/editaddr',array('addr_id'=>$item['addr_id']))}>">编辑</a>
+                    <a class="myInfor_sx" mini="confirm" href="<{:U('address/deleteaddr',array('addr_id'=>$item['addr_id']))}>">删除</a>
+                </td> 
+                </tr>
+            </volist>
+        </table>
+        <div class="x"><{$page}></div>
+    </div> 
+</div>
+</div>
+</div>
+<include file="public:footer"/>

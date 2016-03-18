@@ -1,0 +1,39 @@
+<include file="public:header"/>
+<style>
+.tgdd_nrt {
+    background-color: #fff;
+}
+</style>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <th>家政（头像）</th>
+                    <th>姓名</th>
+                    <th>服务工具</th>
+                    <th>上门服务时间</th>
+                    <th>预约时间</th>
+                    <th>家政介绍</th>
+                    <th>操作</th>
+                </tr>
+                <volist name="list" id="item" key="index">
+                    <tr class="tgdd_nrt">
+                        <td style="text-indent:20px;"><div class="activityImg"><a  target="_blank" href="<{:U('pchome/lifeservice/detail',array('activity_id'=>$item['activity_id']))}>"><img style="margin: 10px auto 1px " width="120" height="81" src="__ROOT__/attachs/<{$houseworksetting[$item['id']]['photo']|default='default.jpg'}>" /></a></div></td>
+                        <td><a class="myInfor_sx" target="_blank" href="<{:U('pchome/lifeservice/detail',array('id'=>$item['id']))}>"><{$houseworksetting[$item['id']]['user']}></a></td>
+                        <td><{$houseworksetting[$item['id']]['gongju']}></td>
+                         <td><{$item.svctime}></td>
+                         <td><{$item.create_time|date="Y-m-d H:i:s",###}></td>
+                         <td>
+                        <a class="tips" rel=" <{$houseworksetting[$item['id']]['title']}>" style="color: #fff; background: #1ca290; padding: 0px 5px; margin-left: 10px; display: inline-block; height: 20px; line-height: 20px;" href="javascript:void(0)">查看服务介绍</a>
+                        </td>
+                        <td><a class="myInfor_sx myInfor_sx_fk" href="<{:U('dianping/lifeservicedianping',array('id'=>$item['id']))}>">点评<{$houseworksetting[$item['id']]['user']}></a></td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="x"><{$page}></div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

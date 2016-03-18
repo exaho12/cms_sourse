@@ -1,0 +1,24 @@
+<include file="public:header"/>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_nr">
+            <ul class="myMessage_list">
+                <foreach name="list" item="item">
+                    <li>
+                        <img src="__ROOT__/attachs/<{$item.face}>" width="48" height="48" />
+                        <div class="nr">
+                            <div class="left">
+                                <p><{$item.nickname}></p>
+                                <p class="date"><{$item.time|date='Y-m-d H:i',###}></p>
+                            </div>
+                            <div class="right"><a class="btn" href="<{:U('message/mlist',array('uid'=>$item['user_id']))}>">查看对话</a></div>
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+            <div class="x"><{$page}></div>
+        </div>
+    </div> 
+</div>
+</div>
+<include file="public:footer"/>

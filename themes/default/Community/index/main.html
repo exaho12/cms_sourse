@@ -1,0 +1,51 @@
+<include file='public:header'/>
+<script src="__PUBLIC__/js/highcharts/highcharts.js"></script>
+<script src="__PUBLIC__/js/highcharts/modules/exporting.js"></script>
+<div class="sjgl_lead">
+    <ul>
+        <li><em class="sjgl_leadico"></em><a href="#">首页</a></li>
+    </ul>
+</div>
+<div class="sy_content">
+    <div class="sy_c1">
+        <ul>
+            <li class="left sy_c1Li">
+                <div class="sy_c1Linr">
+                    <div class="sy_c1Linr_t">小区（<{$COMMUNITY.name}>）物业数据中心！</div>
+                    <div class="sy_c1List">
+                        <ul>
+                            <li class="sy_c1nrLi">
+                                <div class="left sy_c1nrLit">已发小区公告</div>
+                                <div class="left sy_c1nrLit sy_c1nrLis"><{$counts.news}>个</div>
+                                <div class="right"><a class="radius3 sy_lookan" href="<{:U('community/news/index')}>">查看</a></div>
+                            </li>
+                            <li class="sy_c1nrLi">
+                                <div class="left sy_c1nrLit">待处理问题反馈</div>
+                                <div class="left sy_c1nrLit sy_c1nrLis"><{$counts.feedback}>个</div>
+                                <div class="right"><a class="radius3 sy_lookan" href="<{:U('community/feedback/index')}>">查看</a></div>
+                            </li>
+                            <li class="sy_c1nrLi">
+                                <div class="left sy_c1nrLit">便民电话</div>
+                                <div class="left sy_c1nrLit sy_c1nrLis"><{$counts.phone}>个</div>
+                                <div class="right"><a class="radius3 sy_lookan" href="<{:U('community/phone/index')}>">查看</a></div>
+                            </li>
+                            <li class="sy_c1nrLi">
+                                <div class="left sy_c1nrLit">待缴费小区账单</div>
+                                <div class="left sy_c1nrLit sy_c1nrLis"><{$counts.order}>个</div>
+                                <div class="right"><a class="radius3 sy_lookan" href="<{:U('community/order/index')}>">查看</a></div>
+                            </li>
+                            <li class="sy_c1nrLi">
+                                <div class="left sy_c1nrLit">待回复小区论坛</div>
+                                <div class="left sy_c1nrLit sy_c1nrLis"><{$counts.bbs}>个</div>
+                                <div class="right"><a class="radius3 sy_lookan" href="<{:U('community/bbs/index')}>">查看</a></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+<include file='public:footer'/>

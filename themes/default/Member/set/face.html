@@ -1,0 +1,51 @@
+<include file="public:header"/>
+<div class="content_right">
+    <div class="tgdd">
+        <div class="tgdd_t password_t">
+            <ul>
+                <li><a href="<{:U('set/base')}>">基本设置</a></li>
+                <li><a href="<{:U('set/nickname')}>">昵称设置</a></li>
+                <li class="on"><a href="<{:U('set/face')}>">修改头像</a></li>
+                <li><a href="<{:U('set/password')}>">修改密码</a></li>
+                <li><a href="<{:U('set/mobile')}>">手机认证</a></li>
+                <li><a href="<{:U('set/email')}>">邮箱认证</a></li>
+            </ul>
+        </div>
+        <form method="post"  action="<{:U('set/face')}>"  target="baocms_frm">
+            <div class="HeadPort_nr">
+                <div class="HeadPort_sc">
+                    <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
+                    <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
+                    <div class="left HeadPort_sc_img"> <img id="face_img" width="110" height="110"  src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" /> </div>
+                    <div class="left HeadPort_sc_txt">
+                        <div style="margin:30px 0px;">
+                            <input type="hidden" name="face" value="<{$MEMBER.face}>" id="data_face" />
+                            <input id="face_file" name="face_file" type="file" multiple="true" value="" />
+                        </div>
+                        <p class="head_mc"> 建议尺寸:<{$CONFIG.attachs.user.thumb.thumb}></p>
+                        <div class="headPort_subm">
+                            <input type="submit" class="headPort_bc" value="保存头像" />
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $("#face_file").uploadify({
+            'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+            'uploader': '<{:U("app/upload/uploadify",array("model"=>"user"))}>',
+            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+            'buttonText': '上传头像',
+            'fileTypeExts': '*.gif;*.jpg;*.png',
+            'queueSizeLimit': 1,
+            'onUploadSuccess': function (file, data, response) {
+                $("#data_face").val(data);
+                $("#face_img").attr('src', '__ROOT__/attachs/' + data).show();
+            }
+        });
+    </script> 
+</div>
+</div>
+<include file="public:footer"/>

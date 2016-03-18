@@ -1,0 +1,72 @@
+/* 店铺列表 */
+.shop-list {list-style:none;padding:0;}
+.shop-list .item{display:block;overflow:hidden;padding:10px;border-bottom:thin solid #EEE;position:relative;}
+.shop-list .item  img{width:90%;max-height:80px;}
+.shop-list .item p{margin:0;color:#999;font-size:12px;}
+.shop-list .item .des-star{margin-top:5px;}
+.shop-list .item h5 span{float:right;margin-left:5px;width:20px;height: 20px;text-align: center;line-height: 20px;color: #fff;font-size:12px!important;cursor:pointer;}
+.shop-list .item h5 span.fu{background: #eb6100;}
+.shop-list .item h5 span.pei{background: #55830A;}
+.shop-list .item h5 span.fan{background: #ff2121;}
+.shop-list .item h5 span.jian{background: #00a0e9;}
+
+/*商家介绍*/
+.detail-top p{margin:0;font-size:12px;height:20px;}
+.detail-top p.star{height:20px;margin-top:5px;}
+
+
+/*预定表单*/
+.ding-form .date{border:none;width:100%;}
+.ding-form .date[disabled]{background:#fff;color:#999;}
+.ding-form .select{border:none;width:100%;background:#fff;}
+
+/*包厢选择*/
+.room-item{display:block;position:relative;width:95%;border-radius:5px;overflow:hidden;}
+.room-item img{width:100%;height:100px;}
+.room-item p{position:absolute;width:100%;height:24px;line-height:24px;background:rgba(0,0,0,0.4);bottom:0;margin:0;color:#FFF;padding:0 10px;}
+.room-item .status{position:absolute;top:0;right:10px;color:#fff;padding:2px 5px;font-size:12px;}
+.room-item .man{background:#F00;}
+.room-item .xian{background:#2C7;}
+.room-item .xuan{background:#0AE!important;}
+
+/*浮动底栏*/
+.cart-bar{bottom:0px;display:table;width:100%;height:50px;padding:0px;table-layout:fixed;position:fixed;z-index:10;right:0px;left:0px;background: #FAFAFA;box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.55);backface-visibility: hidden;}
+.cart-bar{overflow:hidden;padding:0 20px;}
+.cart-bar .cart{float:left;height:50px;line-height:50px;color:#999;}
+.cart-bar .num{float:left;height:50px;line-height:50px;font-size:18px;color:#E33;padding:0 5px;}
+.cart-bar i{float:left;color:#999;font-size:22px;margin-right:5px;}
+.cart-bar .result{float:right;margin-top:8px;}
+.cart-bar .jquery-last{color:#f00;font-size:12px;margin-left:20px;}
+
+/*店铺分类*/
+.shop-cate{list-style:none;padding:0;border-right:thin solid #EEE;background:#FAFAFA;}
+.shop-cate li{border-bottom:thin solid #EEE;}
+.shop-cate a{background:#FAFAFA;display:block;padding:15px 0;text-align:center;}
+.shop-cate a.active{color:#F60;border:none;background:#FFF;margin-right:-1px;}
+
+/*商品列表*/
+.item-list{list-style:none;padding:0 10px;}
+.item-list li{padding:10px 0;border-bottom:thin solid #eee;position:relative;}
+.item-list h5{font-size:12px;}
+.item-list img{width:90%;}
+.item-list p{margin:0;}
+.item-list .price{}
+.item-list .price span{color:#F60;}
+.item-list .price del{color:#999;font-size:12px;margin-left:10px;}
+.item-list .item-addcart{position:absolute;right:0;bottom:15px;}
+
+
+/*购物车*/
+.cart-list ul{list-style:none;padding:0;}
+.cart-list li{padding:10px;border-bottom:thin solid #eee;}
+.cart-list li img{width:90%;}
+.cart-list li .txt{display:block;float:left;}
+.cart-list li .jian{border-top-right-radius:0!important;border-bottom-right-radius:0!important;}
+.cart-list li .jia{border-top-left-radius:0!important;border-bottom-left-radius:0!important;}
+.cart-list li  .num{background:#fff;border:none;border-top:thin solid #eee;border-bottom:thin solid #eee;}
+.cart-list li  .del i{font-size:24px!important;}
+.cart-list li p{margin:0;}
+
+/*支付确认*/
+.pay-form .text-input{width:100%;border:none;}
+.pay-form .text-area{width:100%;height:80px;resize:none;}

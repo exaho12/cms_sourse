@@ -1,0 +1,33 @@
+<include file="public:header"/>
+<style>
+.tgdd_nrt {
+    background-color: #fff;
+}
+</style>
+<div class="content_right">  
+    <div class="tgdd">
+        <div class="tgdd_nr">
+            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
+                <tr class="tgdd_nrt">
+                    <th>活动图片</th>
+                    <th>活动标题</th>
+                    <th>活动地址</th>
+                    <th>活动开始时间</th>
+                    <th>活动结束时间</th>
+                </tr>
+                <volist name="list" id="item" key="index">
+                    <tr class="tgdd_nrt">
+                        <td style="text-indent:20px;"><div class="activityImg"><a  target="_blank" href="<{:U('pchome/huodong/detail',array('activity_id'=>$item['activity_id']))}>"><img style="margin: 10px auto 1px " width="120" height="81" src="__ROOT__/attachs/<{$activity[$item['activity_id']]['photo']|default='default.jpg'}>" /></a></div></td>
+                        <td><a class="myInfor_sx" target="_blank" href="<{:U('pchome/huodong/detail',array('activity_id'=>$item['activity_id']))}>"><{$activity[$item['activity_id']]['title']}></a></td>
+                        <td><{$activity[$item['activity_id']]['addr']}></td>
+                        <td><{$activity[$item['activity_id']]['bg_date']}></td>
+                        <td><{$activity[$item['activity_id']]['end_date']}></td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="x"><{$page}></div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>

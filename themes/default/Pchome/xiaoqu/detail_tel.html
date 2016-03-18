@@ -1,0 +1,33 @@
+<div class="line">
+	<div class="x12">
+		<div class="midd-box">
+			<div class="box-hd box-ld">
+				<h3>便民电话</h3>
+			</div>
+			<div class="xiaoqu-tel-list">
+				<ul>
+					<volist name="phones" id="var" key="index">
+						<li><a title="<{$var.name}>" href="javascript:;">
+							<span><{:niuMsubstr($var['name'],0,4,false)}></span>
+							<strong><{$var.phone}></strong></a>
+						</li>
+					</volist>
+				</ul>
+			</div>
+			<div class="blank-10"></div>
+			<p>服务电话入驻指南：联系<{$CONFIG['site']['sitename']}>，每个电话仅需50元/年即可入驻到小区，和手机端同步显示，电话：<{$CONFIG['site']['tel']}>！</p>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var tags = $(".xiaoqu-tel-list li");
+			tags.each(function(){
+				var x = 9;
+				var y = 0;
+				var rand = parseInt(Math.random() * (x - y + 1) + y);
+			$(this).addClass("tags"+rand);
+		});
+	})
+</script> 

@@ -1,0 +1,83 @@
+<include file="public:header"/>
+
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			在线商城
+		</div>
+		<div class="top-search" style="display:none;">
+			<form method="post" action="<{:U('mall/index')}>">
+				<input name="keyword" placeholder="输入商品的关键字"  />
+				<button type="submit" class="icon-search"></button> 
+			</form>
+		</div>
+		<div class="top-signed">
+			<a id="search-btn" href="javascript:void(0);"><i class="icon-search"></i></a>
+		</div>
+	</header>
+	<script>
+	$(function(){
+		$("#search-btn").click(function(){
+			if($(".top-search").css("display")=='block'){
+				$(".top-search").hide();
+				$(".top-title").show(200);
+			}
+			else{
+				$(".top-search").show();
+				$(".top-title").hide(200);
+			}
+		});
+	});
+	</script>
+
+	<div class="line">
+		<div class="x3">
+			<ul id="main-cate" class="main-cate">
+			<foreach name="goodscates" item="var">
+			<eq name="var.parent_id" value="0"> 
+				<li><a rel="<{$var.cate_id}>" href="javascript:;"><{$var.cate_name}></a></li>	
+			</eq>
+			</foreach>
+			</ul>
+		</div>
+		<div class="x9">
+			<ul id="now-cate" class="now-cate">
+			<php>$i=0;</php>
+			<foreach name="goodscates" item="var">
+				<if condition="$var['parent_id'] neq 0">
+				<php>$i++;</php>
+				<if condition="$i elt 9">
+				<li>
+					<a href="<{:U('mall/index',array('cat'=>$var['cate_id']))}>">
+						<img src="/static/default/wap/image/mall/cate-<{$var['cate_id']}>.png">
+						<p><{$var.cate_name}></p>
+					</a>
+				</li>
+				</if>
+				</if>
+			</foreach>
+			</ul>
+		</div>
+	</div>
+
+	<div class="mall-cart">
+		<a href="<{:U('mall/cart')}>">
+		<div class="round radius-circle bg-green"><div class="badge-corner"><i class="icon-shopping-cart"></i><span class="badge bg-red"><{$cartnum}></span></div></div>
+		</a>
+	</div>
+	
+	<script>
+	$("#main-cate a").click(function(){
+		var cateid = $(this).attr("rel");
+		  $("#main-cate a").each(function(){
+			$(this).removeClass("active");
+		  });
+		$(this).addClass("active");
+		$("#now-cate").html("");
+		loaddata('/mobile/mall/cate/cat/'+cateid+'.html', $("#now-cate"));
+	});
+	
+	</script>
+<include file='public:footer'/>   
