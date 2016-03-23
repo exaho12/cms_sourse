@@ -2,6 +2,4 @@
 <buildpath>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
 	<buildpathentry including="Core/Extend/|Core/Lib/" kind="src" path=""/>
-	<buildpathentry external="true" kind="lib" path="H:/code-tools/wamp/www/cms_sourse/Core/Lib"/>
-	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/CMS"/>
 </buildpath>
