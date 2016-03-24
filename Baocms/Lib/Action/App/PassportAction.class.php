@@ -66,8 +66,7 @@ class PassportAction extends CommonAction{
             }
             //开始其他的判断了
             if (true == D('Passport')->register($data)) {
-                $data = array('status' => self::BAO_REQUEST_SUCCESS,'msg' =>'恭喜您注册成功' );
-                //TODO
+                $data = array('status' => self::BAO_REQUEST_SUCCESS,'msg' =>'恭喜您注册成功' ); 
                 $this->stringify($data);
             }
             $data = array('status' => self::BAO_DB_ERROR,'msg' => D('Passport')->getError() );

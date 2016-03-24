@@ -36,8 +36,7 @@
 	        $shops = D('Shop')->itemsByIds($shop_ids);
 	           foreach ($shops as $k => $val) {
 	            $shops[$k]['d'] = getDistance($lat, $lng, $val['lat'], $val['lng']);
-	        }
-	        //TODO
+	        } 
 	        //city_id IN city_ids;
 	        $map = array('closed' => 0,'site_id' => 32, 'city_id' =>$this->city_id ,'bg_date'=> array('ELT',TODAY),'end_date'=>array('EGT',TODAY));
 	        $order = 'orderby asc';
@@ -127,8 +126,7 @@
 			 if (empty($this->uid)) {
 			 	$data = array('status' => self::BAO_LOGIN_ERROR,'msg'=>'登录状态失效' );
 			 	$this->stringify($data);
-	        }
-        	//TODO
+	        } 
 	        if (empty($this->member['mobile'])) {
 	        	$data = array('status' => self::BAO_INPUT_ERROR,'msg'=>'亲还没有验证手机号码！' );
 	        	$this->stringify($data);

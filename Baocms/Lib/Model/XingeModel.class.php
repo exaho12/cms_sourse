@@ -23,8 +23,7 @@ class XingeModel {
     }
     
     public function mass($data){
-        $token = $this->getToken('android');
-        //TODO
+        $token = $this->getToken('android'); 
         $PushService = new PushService($token['appid'],$token['appsecret']);
         $ret= $PushService->PushAllAndroid($data['title'],$data['contents'],$data['url']);
         if($ret['err_msg']){
@@ -62,8 +61,7 @@ class XingeModel {
 
 
     public function history(){
-        exit;
-        //TODO
+        exit; 
         $Coupon = D('XingeHistory');
         import('ORG.Util.Page'); // 导入分页类
         $news= (int) $this->_get('order');
