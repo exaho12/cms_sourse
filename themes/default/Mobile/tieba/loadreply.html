@@ -3,7 +3,17 @@
 		<div class="line">
 			<div class="x2">
 				<span class="avatar">
-					<img class="radius" src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+                
+                <!--手机贴吧头像调用-->
+            <?php if(strstr($users[$item['user_id']]['face'],"http")){ ?>
+            <img src="<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }else{ ?>
+            <img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
+            
+            
+            
+					
 				</span>
 			</div>
 			<div class="x10">

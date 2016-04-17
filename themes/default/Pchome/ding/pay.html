@@ -50,14 +50,13 @@
 							<else/>
 							<span class="mr25">未点</span> </if>
 						<p >注意：凡在本店订座者需预交收取<b class="fontcl2">￥<{:round($setting['money']/100,2)}></b>定金</p>
-						<p>如有疑问，请致电：<font class="pointcl">0551-3453543</font></p>
 					</td>
 					<td> <font class="pointcl"><{:round($order['total_price']/100,2)}>元</font></td>
 				</tr>
 			</table>
 			<div class="seat-order-content-box">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-					<form method="post" action="<{:U('ding/pay2',array('order_id'=>$order_id))}>">
+					<form method="post" action="<{:U('ding/pay2',array('order_id'=>$order_id))}>" >
 						<tr>
 							<th>手机号</th>
 							<td>

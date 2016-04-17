@@ -37,7 +37,6 @@
                         <td>分类</td>
                         <td>缩略图</td>
                         <td>价格</td>
-                        <td>结算价格</td>
                         <td>是否新品</td>
                         <td>是否热门</td>
                         <td>是否推荐</td>
@@ -54,7 +53,6 @@
                             <td><{$cates[$var['cate_id']]['cate_name']}></td>
                             <td><img src="__ROOT__/attachs/<{$var.photo}>" class="w80" /></td>
                             <td><{:round($var['price']/100,2)}></td>
-                            <td><{:round($var['settlement_price']/100,2)}></td>
                             <td><eq name="var.is_new" value="1">新品<else/>无</eq></td>
                         <td>
                         <eq name="var.is_hot" value="1">热门<else/>无</eq>

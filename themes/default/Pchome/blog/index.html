@@ -1,129 +1,120 @@
-<include  file='public:head_bolg'/>   
-
-<div class="blank-10"></div>
-
-<div class="container">
-	<div class="blog-main">
-		<div class="user-box bg-blue-light">
-			<div class="media media-x">
-				<span class="float-left">
-					<img src="__ROOT__/attachs/<{$user.face|default='default.jpg'}>" class="radius" />
-				</span>
-				<div class="media-body">
-					<strong><{$user.nickname}></strong>
-					<p>博客地址: <php>echo 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; </php></p>
-					<p>
-						<a href="#" class="button bg-dot radius"><i class="icon-lightbulb-o"></i> 关注 <span class="badge bg-white">5</span></a>
-					</p>
-				</div>
-			</div>		
-		</div>
-		<div class="blog-nav bg-blue-light">
-			<ul class="nav nav-menu nav-inline nav-tabs nav-justified nav-big nav-navicon">
-				<li <if condition="$act eq ''">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id))}>"><i class="icon-home"></i> 主页</a></li>
-				<li <if condition="$act eq 'ping'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'ping'))}>"><i class="icon-thumbs-o-up"></i> 点评</a></li>
-				<li <if condition="$act eq 'tie'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'tie'))}>"><i class="icon-comments-o"></i> 帖子</a></li>
-				<li <if condition="$act eq 'fav'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'fav'))}>"><i class="icon-heart-o"></i> 收藏</a></li>
-				<li <if condition="$act eq 'pic'">class="active"</if>><a href="<{:U('blog/index',array('user_id'=>$user_id,'act'=>'pic'))}>"><i class="icon-image"></i> 图片</a></li>
-			</ul>
-		</div>
-		<div class="main-bd">
-		
-		<eq name="act" value="">
-			<h4>基本信息</h4>
-			<ul class="line user-info">
-				<li class="x3"><em>电子邮箱</em><if condition="!empty($user[email])"><{$user.email}><else/>未知</if></li>
-				<li class="x3"><em>手机号码</em><if condition="!empty($user[mobile])"><{:niuMsubstr($user[mobile],0,7,false)}>****<else/>未知</if></li>
-				<li class="x3"><em>邮箱状态</em><if condition="!empty($user[email])">已认证<else/>未认证</if></li>
-				<li class="x3"><em>手机状态</em><if condition="!empty($user[mobile])">已认证<else/>未认证</if></li>
-				<li class="x3"><em>用户等级</em><{$ranks[$user['rank_id']]['rank_name']}></li>
-				<li class="x3"><em>积分数量</em><{$user.integral}></li>
-				<li class="x3"><em>声望点数</em><{$user.prestige}></li>
-			</ul>
-			<div class="blank-10"></div>
-			<h4>活跃状态</h4>
-			<ul class="line user-info">
-				<li class="x3"><em>注册日期</em><{$user.reg_time|date='Y-m-d',###}></li>
-				<li class="x3"><em>最后登录</em><{$user.last_time|date='Y-m-d',###}></li>
-				<li class="x3"><em>注册地址</em><{$user.reg_ip}></li>
-				<li class="x3"><em>注册地址</em><{$user.last_ip}></li>
-				<php>
-					if(!empty($user['lng']) && !empty($user['lat'])){
-						$place = getArea($user['lat'],$user['lng']);
-					}else{
-						$place['formatted_address'] = '没有用微信登录！';
-					}
-				</php>
-				<li class="x12"><em>上次微信登录</em><{$place['formatted_address']}></li>
-			</ul>
-			<div class="blank-10"></div>
-			<h4>Ta的访客</h4>
-			<ul class="line user-visitor">
-				<foreach name="visitors.users" item="item">
-				<li class="x1">
-					<a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><img class="radius-circle" src="__ROOT__/attachs/<{$item.face|default='default.jpg'}>" /></a>
-					<p><a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><{$item['nickname']}></a></p>
-				</li>
-				</foreach>
-			</ul>
-		</eq>
-		
-		<eq name="act" value="ping">
-			<h4>Ta点评了</h4>
-			<ul class="line ping-list">
-				<foreach name="dianping" item="item">
-				<li class="x6 media media-x">
-					<a class="float-left" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
-						<img src="/attachs/<{$shops[$item['shop_id']]['logo']}>" class="radius" />
-					</a>
-					<div class="media-body">
-						<strong><{$shops[$item['shop_id']]['shop_name']}></strong>
-						<p>人均：￥<{$item.cost}></p>
-						<p>点评：<{$item.contents}></p>
-						<p>时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
-					</div>
-				</li>
-				</foreach>
-			</ul>
-		</eq>
-		
-		<eq name="act" value="tie">
-			<ul class="tie-list">
-				<foreach name="tie" item="item">
-				<li><a href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>" target="_blank"><{$item.title}></a><span>(<{$item.zan_num}>赞)</span> <em><{$item.create_time|date='Y-m-d',###}></em></li>
-				</foreach>
-			</ul>
-		</eq>
-		
-		<eq name="act" value="fav">
-			<h4>Ta收藏了</h4>
-			<ul class="line">
-				<foreach name="favorites" item="item">
-				<li class="x6 media media-x">
-					<a class="float-left" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
-						<img src="/attachs/<{$shops[$item['shop_id']]['logo']}>" class="radius" />
-					</a>
-					<div class="media-body">
-						<strong><{$shops[$item['shop_id']]['shop_name']}></strong>
-						<p>总评：<span class="ui-starbar"><span style="width:<{:round($shops[$item['shop_id']]['score']*2,2)}>%;"></span></span></p>
-						<p>电话：<{$shops[$item['shop_id']]['tel']}></p>
-						<p>地址：<{$shops[$item['shop_id']]['addr']}></p>
-					</div>
-				</li>
-			   </foreach>
-			</ul>
-		</eq>
-		
-		<eq name="act" value="pic">
-			<h4>Ta上传了</h4>
-			<ul class="line">
-				<foreach name="pics" item="item">
-					<li><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" ><img src="__ROOT__/attachs/<{$item.pic|default='default.jpg'}>" width="195" height="129" /></a></li>
-				</foreach>
-			</ul>
-		</eq>
-		</div>
-	</div>
+<include  file='blog:header'/>    
+<!--中间-->
+<div id="conter">
+    <!--个人浏览者-->
+    <div class="gr_top">
+        <div class="gr_top_top"></div>
+        <div class="gr_top_mid">
+            <div class="gr_top_mid_img">
+                <img src="__ROOT__/attachs/<{$user.face|default='default.jpg'}>" width="120" height="120" /> 
+            </div>
+            <div class="gr_top_mid_mid">
+                <dl>
+                    <dt><{$user.nickname}></dt>
+                    <dd><div class="ico"></div>积分： <{$user.integral}></dd>
+                    <dd><div class="ico01"></div>声望值： <{$user.prestige}></dd>
+                    <dd><div class="ico02"></div>会员等级：<{$ranks[$user['rank_id']]['rank_name']}></dd>
+                    <dd><div class="ico03"></div>注册时间：<{$user.reg_time|date='Y-m-d',###}></dd>
+                </dl>
+            </div>
+            <!--导航-->
+            <div class="gr_top_mid_right" id="menu">
+                <ul>
+                    <li><a href="#menu" class="active"><h1></h1>首页</a></li>
+                    <li><a href="#dianping"><h2></h2>点评</a></li>
+                    <li><a href="#sc"><h3></h3>收藏</a></li>
+                    <li><a href="#photo"><h4></h4>图片</a></li>
+                </ul>
+            </div>
+            <!--导航结束-->
+        </div>
+        <div class="gr_top_bot"></div>
+    </div>
+    <!---->
+    <div class="gr_bot">
+        <!--左边-->
+        <div class="gr_bot_left">           
+            <dl>
+                <dt><span>最近访客</span></dt>
+                <ul>
+                    <foreach name="visitors.users" item="item">
+                    <li>
+                        <a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><img width="60" height="60" src="__ROOT__/attachs/<{$item.face|default='default.jpg'}>" /></a>
+                        <p> <a target="_blank" href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>"><{:msubstr($item['nickname'],0,3)}></a></p>
+                    </li>
+                    </foreach>
+                </ul>
+            </dl>           
+        </div>
+        <!--右边-->
+        <div class="gr_bot_right">
+            <div id="dianping" class="gr_bot_right_nav">点评</div>
+            <div class="gr_bot_right_font">
+                <!--点评-->
+                <div class="dp">
+                    <ul>
+                        <foreach name="dianping" item="item">
+                        <li>
+                            <div class="dp_xx">
+                                <h1><{$shops[$item['shop_id']]['shop_name']}></h1><div style="float: left; margin-left: 5px;" class="jq_star_show" rel="<{$item['score']*10}>"></div>&nbsp;&nbsp;&nbsp;&nbsp;人均：<{$item.cost}>
+                            </div>
+                            <div class="dp_font">&nbsp;&nbsp;&nbsp;&nbsp;<{$item.contents}></div>
+                            <div class="date"><{$item.create_time|date='Y-m-d H:i:s',###}></div>
+                            <div class="right"><a target="_blank" title="<{$shops[$item['shop_id']]['shop_name']}>" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">我也要点评</a></div>
+                        </li>
+                        </foreach>
+                    </ul>
+                    <div class="clear"></div>
+              
+                </div>
+            </div>
+            <!--收藏-->
+            <div class="sc">
+                <div id="sc" class="sc_nav"><h1></h1>收藏</div>
+                <div class="sc_font">
+                    <ul>
+                        <foreach name="favorites" item="item">
+                        <li>
+                            <h1><a target="_blank" title="<{$shops[$item['shop_id']]['shop_name']}>" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$shops[$item['shop_id']]['shop_name']}></a></h1>
+                            <dl>
+                                <dt class="jq_star_show" rel="<{$shops[$item['shop_id']]['score']}>"><img src="__TMPL__statics/images/xx.jpg" width="91" height="16" /></dt>
+                                <dt><{$shops[$item['shop_id']]['tel']}></dt>
+                                <dt><{$shops[$item['shop_id']]['business_time']}></dt>
+                            </dl>
+                        </li>
+                       </foreach>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+              
+            </div>
+            <!--图片-->
+            <div class="tp_img" id="photo">
+                <div class="tp_img_nav"><h1></h1>图片</div>
+                <div class="tp_img_font">
+                    <script language="javascript" type="text/javascript" src="__TMPL__statics/js/superslide.js"></script>
+                    <div class="mr_frbox">
+                        <img class="mr_frBtnL prev" src="__TMPL__statics/images/mfrL.jpg" width="23" height="130" />
+                        <div class="mr_frUl">
+                            <ul>
+                                <foreach name="pics" item="item">
+                                    <li><a target="_blank" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" ><img src="__ROOT__/attachs/<{$item.pic|default='default.jpg'}>" width="195" height="129" /></a></li>
+                                </foreach>
+                            </ul>
+                        </div>
+                        <img class="mr_frBtnR next" src="__TMPL__statics/images/mfrR.jpg" width="23" height="130" />
+                    </div>
+                    <script language="javascript">
+                        $(".mr_frUl ul li img").hover(function(){$(this).css("border-color","#A0C0EB");},function(){$(this).css("border-color","#d8d8d8")});
+                        jQuery(".mr_frbox").slide({titCell:"",mainCell:".mr_frUl ul",autoPage:true,effect:"leftLoop",autoPlay:true,vis:4});
+                    </script>
+                </div> 
+              
+            </div>
+            <!--图片结束-->
+        </div>
+        <div class="clear"></div>
+    </div>
 </div>
 
-<include  file='public:footer_niucms'/>    
+<include  file='member:footer'/>    

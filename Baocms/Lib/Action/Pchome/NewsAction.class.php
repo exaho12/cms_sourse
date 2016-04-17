@@ -28,7 +28,7 @@ class NewsAction extends CommonAction {
     public function index() {
         $Article = D('Article');
         import('ORG.Util.Pageam'); // 导入分页类
-        $map = array('city_id' => $this->city_id,'closed' => 0);
+        $map = array('city_id' => $this->city_id,'closed' => 0,'audit' => 1);
 		//搜索开始
 		if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
             $map['title'] = array('LIKE', '%' . $keyword . '%');
@@ -163,26 +163,22 @@ class NewsAction extends CommonAction {
 	
 	public function post(){
 		if (empty($this->uid)) {
-           $this->baoSuccess('登录状态失效!', U('passport/login'));
+           $this->ajaxLogin();//检测登录
         }
 		$data = $this->checkFields($this->_post('data', false), array('post_id', 'parent_id', 'content'));
 	
-		
-		
 		if (empty($data['content'])) {
-			$this->baoError('评论内容不能为空');
+			$this->niuError('评论内容不能为空');
 		}
 		if ($words = D('Sensitive')->checkWords($content)) {
-          $this->baoError('商家介绍含有敏感词：' . $words);
+          $this->niuError('商家介绍含有敏感词：' . $words);
         }
 		
-		
-		
 		if (empty($data['post_id'])) {
-			$this->baoError('文章编号不正确');
+			$this->niuError('文章编号不正确');
 		}
 		if (!$detail = D('Article')->find($data['post_id'])) {
-			$this->error('没有该文章');
+			$this->niuError('没有该文章');
 		}			
 		$data['nickname'] = $this->member['nickname'];
 		$data['user_id'] = $this-> uid;
@@ -193,11 +189,11 @@ class NewsAction extends CommonAction {
 		
 		
 		if (D('Articlecomment')->where(array('post_id' => $this->uid))->find()) {
-            $this->baoError('不可重复评价');
+            $this->niuError('不可重复评价');
         }
 		
 		if (D('Articlecomment')->add($data)) {
-			$this->baoSuccess('回复成功！', U('news/detail', array('article_id' => $data['post_id'])));
+			$this->niuSuccess2('回复成功！', U('news/detail', array('article_id' => $data['post_id'])));
 		}
 	}
 	
@@ -211,6 +207,17 @@ class NewsAction extends CommonAction {
         D('Articlecomment')->updateCount($comment_id, 'zan');
 		//$this->ajaxReturn(array('status' => 'success', 'msg' => '恭喜您，点赞成功！', U('news/detail', array('article_id' => $detail['post_id']))));	
         $this->error('恭喜您，点赞成功！', U('news/detail', array('article_id' => $detail['post_id'])));
+    }
+	
+	 public function cai() {
+        $comment_id = (int) $this->_get('comment_id');
+        $detail = D('Articlecomment')->find($comment_id);
+        if (empty($detail)) {
+            $this->error('您踩的内容不存在！');
+        }
+        D('Articlecomment')->updateCount($comment_id, 'cai');
+		//$this->ajaxReturn(array('status' => 'success', 'msg' => '恭喜您，点赞成功！', U('news/detail', array('article_id' => $detail['post_id']))));	
+        $this->error('恭喜您，踩了一脚！', U('news/detail', array('article_id' => $detail['post_id'])));
     }
 	
 	

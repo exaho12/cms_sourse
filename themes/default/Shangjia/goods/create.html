@@ -19,13 +19,13 @@
             <tr>
                 <td width="120"><p class="tuanfabu_t">商品名称：</p></td>
                 <td><div class="tuanfabu_nr">
-                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="tuanfabu_int tuanfabu_intw2"  style="width: 484px;"/>
                 </div></td>
             </tr>
              <tr>
                     <td width="120"><p class="tuanfabu_t">商品简介：</p></td>
                     <td><div class="tuanfabu_nr">
-                            <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                            <input type="text" name="data[intro]" value="<{$detail.intro|default=''}>" class="tuanfabu_int tuanfabu_intw2" style="width: 584px;"  />
                         </div></td>
                 </tr>
                 <tr>
@@ -132,7 +132,7 @@
                 </td>
             </tr>
              <tr>
-                    <td><p class="tuanfabu_t">更多详情图：</p></td>
+                    <td><p class="tuanfabu_t">更多详情图【最多4张】：</p></td>
                     <td class="rgTdBt">
                         <div class="tuanfabu_nr">
                             <div>
@@ -155,7 +155,7 @@
 
                                     'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
 
-                                    'uploader': '<{:U("app/upload/uploadify",array("model"=>"goodspic"))}>',
+                                    'uploader': '<{:U("app/upload/uploadify",array("model"=>"goods"))}>',
 
                                     'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
 

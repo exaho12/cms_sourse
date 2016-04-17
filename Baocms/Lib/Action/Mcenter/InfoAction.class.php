@@ -42,7 +42,13 @@ class InfoAction extends CommonAction {
                 $randstring = rand_string(6, 1);
                 session('code', $randstring);
             }
-            D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+			//大鱼短信
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+            D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yzm', $mobile, array('code' => $randstring));
+			}else{
+				D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+			}
+
         }
     }
 
@@ -81,33 +87,14 @@ class InfoAction extends CommonAction {
             if ($yzm != $s_code){
 				$this->niuMsg('验证码不正确');
 			}
-			$user_id = D('Users')->where(array('mobile'=>$mobile))->getField('user_id'); //获取用户输入的认证手机所在的user_id
-			$uids = D('Users')->where(array('user_id'=>$this->uid))->getField('user_id'); //获取当前自动登录用户的user_id
+			$user_id = D('Users')->where(array('mobile'=>$mobile))->getField('user_id'); 
+			$uids = D('Users')->where(array('user_id'=>$this->uid))->getField('user_id');
 			
 			$connect = M('Connect'); //连接connect表
-			$open_id = $connect->where(array('uid'=>$uids))->getField('open_id'); //获取当前用户的open_id
+			$open_id = $connect->where(array('uid'=>$uids))->getField('open_id'); 
 			
-			$result = $connect -> where(array('open_id'=>$open_id))->setField('uid',$user_id); //根据open_id查询在connect表中的uid并进行替换
-			
-			//$result = $connect->where(array('open_id'=>$open_id))->setField('uid',$user_id);
-			
-			//$domain_arr = explode('.',$this->_CONFIG['site']['host']);
-			//$domain_str = $domain_arr[1].'.'.$domain_arr[2];
-			//if(!strpos($this->member['account'],$domain_str)){
-			//	$this->niuMsg('您的帐号不符合修改昵称的条件！');
-			//}
-			//$user = D('Users')->where(array('account'=>$mobile))->find();
-			//if(!empty($user)){
-			//	$this->niuMsg('该手机号已经被其他用户绑定！');
-			//}
-			//$uid = D('Connect')->where(array('uid'=>$uid))->find();
-			//$uid = D('Users')->where(array('user_id'=>$this->uid))->find();
-			//$opneid= D('Connect') ->where(array('opne_id'=>));
-			//D('Connect')->save(array('uid'=>$uid));
-			//D('Users')->save(array('account'=>$mobile,'ext0'=>$mobile,'user_id'=>$this->uid));
-			
-			 D('Passport')->logout();
-			
+			$result = $connect -> where(array('open_id'=>$open_id))->setField('uid',$user_id); 
+			D('Passport')->logout();
 			$this->niuMsg('您的帐号已经更新！', U('mobile/index/index'));
 		}
 		$this->display();

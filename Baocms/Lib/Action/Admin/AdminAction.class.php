@@ -3,14 +3,14 @@
 /*
  * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
  * 作者：baocms团队
- * 官网：www.taobao.com
+ * 官网：www.baocms.com
  * 邮件: youge@baocms.com  QQ 800026911
  */
 
 class AdminAction extends CommonAction {
 
-    private $create_fields = array('username', 'password', 'role_id', 'mobile');
-    private $edit_fields = array('password', 'role_id', 'mobile');
+    private $create_fields = array('username', 'password', 'role_id', 'mobile','city_id');
+    private $edit_fields = array('password', 'role_id', 'mobile','city_id');
 
     public function index() {
         $Admin = D('Admin');
@@ -29,6 +29,7 @@ class AdminAction extends CommonAction {
             $val['last_ip_area']   = $this->ipToArea($val['last_ip']);
             $list[$k] = $Admin->_format($val);
         }
+		$this->assign('citys', D('City')->fetchAll());
         $Page->parameter .= 'keyword=' . urlencode($keyword);
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
@@ -58,10 +59,13 @@ class AdminAction extends CommonAction {
         if (D('Admin')->getAdminByUsername($data['username'])) {
             $this->baoError('用户名已经存在');
         }
-        $data['password'] = htmlspecialchars($data['password']);
+		$rand = rand(6);
+		
+        $data['password'] = htmlspecialchars($data['password']+$rand);
         if (empty($data['password'])) {
             $this->baoError('密码不能为空');
         }
+	
         $data['password'] = md5($data['password']);
         $data['role_id'] = (int) $data['role_id'];
         if (empty($data['role_id'])) {
@@ -88,8 +92,7 @@ class AdminAction extends CommonAction {
                 $data = $this->editCheck();
                 $data['admin_id'] = $admin_id;
                 if ($obj->save($data)) {
-					session('admin',null);//销毁session
-                    $this->baoSuccess('操作成功', U('admin/login/index'));
+                    $this->baoSuccess('操作成功', U('admin/index'));
                 }
                 $this->baoError('操作失败');
             } else {
@@ -136,7 +139,6 @@ class AdminAction extends CommonAction {
         if (is_numeric($admin_id) &&($admin_id = (int) $admin_id)) {
             $obj = D('Admin');
             $obj->save(array('admin_id' => $admin_id, 'closed' => 1));
-			session('admin',null);//销毁session
             $this->baoSuccess('删除成功！', U('admin/index'));
         } else {
             $admin_id = $this->_post('admin_id', false);
@@ -145,7 +147,6 @@ class AdminAction extends CommonAction {
                 foreach ($admin_id as $id) {
                     $obj->save(array('admin_id' => $id, 'closed' => 1));
                 }
-				session('admin',null);//销毁session
                 $this->baoSuccess('删除成功！', U('admin/index'));
             }
             $this->baoError('请选择要删除的管理员');

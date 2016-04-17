@@ -24,23 +24,7 @@
 
             <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
             
-                 <tr>
-                    <td class="lfTdBt">PC注册页开启同意协议：</td>
-                    <td class="rgTdBt">
-                        <label><input type="radio" name="data[register_service]" <eq name="CONFIG.mobile.register_service" value="1">checked="checked"</eq> value="1"  />开启</label>
-                        <label><input type="radio" name="data[register_service]"  <eq name="CONFIG.mobile.register_service" value="0">checked="checked"</eq>  value="0"  />关闭</label>
-                        <code>开启之后pc注册页面，默认是开启的，关闭后需要用户自己打钩，阅读并同意 服务协议自动打钩！</code>
-                    </td>
-                </tr>
                 
-                
-                <tr>
-                    <td class="lfTdBt">pc注册服务协议url连接：</td>
-                    <td class="rgTdBt">
-                        <input type="text" name="data[register_service_url]" value="<{$CONFIG.mobile.register_service_url}>" class="manageInput" />
-                        <code>填写有效的http://地址，可以连接文章已可以连接其他地方！</code>
-                    </td>
-                </tr>
                 
                 
             

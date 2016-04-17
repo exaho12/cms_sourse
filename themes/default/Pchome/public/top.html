@@ -2,13 +2,16 @@
 <div class="topTwo">
     <div class="left">
         <if condition="!empty($CONFIG['site']['logo'])">
-            <h1><a href="<{:U('pchome/index/index')}>"><img width="214" height="53" src="__ROOT__/attachs/<{$CONFIG.site.logo}>" /></a></h1>
+            <h1><a href="<{:U('pchome/index/index')}>"><img src="__ROOT__/attachs/<{$CONFIG.site.logo}>" /></a></h1>
             <else/>
-            <h1><a href="<{:U('pchome/index/index')}>"><img width="214" height="53" src="__PUBLIC__/img/logo_03.png" /></a></h1>
+            <h1><a href="<{:U('pchome/index/index')}>"><img src="__TMPL__statics/iamges/images/logo.png" /></a></h1>
         </if> 
-        
+        <div class="changeCity">
+            <p class="changeCity_name"><{$city_name}></p>
+            <a href="<{:U('pchome/city/index')}>" class="graycl changeCity_link">更换城市</a>
+        </div>
     </div>
-    <div class="left center">
+    <div class="right searchBox_r">
     <script>
 		$(document).ready(function () {
 			$(".selectList li a").click(function () {
@@ -34,9 +37,7 @@
 <li><a href="javascript:void(0);" <?php if($ctl == 'tuan'){?> cur='true'<?php }?>rel="<{:U('pchome/tuan/index')}>">抢购</a></li>
 <li><a href="javascript:void(0);" <?php if($ctl == 'life'){?> cur='true'<?php }?>rel="<{:U('pchome/life/index')}>">生活</a></li>
 <li><a href="javascript:void(0);" <?php if($ctl == 'mall'){?> cur='true'<?php }?>rel="<{:U('pchome/mall/index')}>">商品</a></li>
-<li><a href="javascript:void(0);" <?php if($ctl == 'tieba'){?> cur='true'<?php }?>rel="<{:U('pchome/tieba/index')}>">贴吧</a></li>
 <li><a href="javascript:void(0);" <?php if($ctl == 'news'){?> cur='true'<?php }?>rel="<{:U('pchome/news/index')}>">新闻</a></li>
-<li><a href="javascript:void(0);" <?php if($ctl == 'community'){?> cur='true'<?php }?>rel="<{:U('pchome/xiaoqu/index')}>">小区</a></li>
                     </ul>        
                                 
                 </div>
@@ -51,18 +52,21 @@
             <input type="submit" class="submit" value="搜索" />
             </form>
         </div>
-    </div>
-    <div class="right topTwo_b">
-    	<div class="tel">
-            <p>
-            <if condition="$ctl eq mall">
-            <a href="<{:U('mall/cart')}>">购物车：<{$cartnum|default='0'}></a>
-            <elseif condition="$ctl eq tieba"/>
-            <a href="<{:U('tieba/index')}>">发布帖子</a>
-            <else/>
-            <a href="<{:U('life/fabu')}>">发布同城信息</a>
-            </if>
-            </p>
+
+        <div class="hotSearch">
+            <php>$a =1;</php>
+            <calldata mdl="Keyword" where="" limit="0,8" cache="43200" order="key_id desc">
+                <if condition="$item['type'] eq 0 or $item['type'] eq 1">
+                    <a href="<{:U('pchome/shop/index',array('keyword'=>$item['keyword']))}>"><{$item.keyword}></a>
+                <elseif condition="$item['type'] eq 2"/>
+                    <a href="<{:U('pchome/tuan/index',array('keyword'=>$item['keyword']))}>"><{$item.keyword}></a>
+                <elseif condition="$item['type'] eq 3"/>
+                    <a href="<{:U('pchome/life/index',array('keyword'=>$item['keyword']))}>"><{$item.keyword}></a>
+                <elseif condition="$item['type'] eq 4"/>
+                    <a href="<{:U('pchome/mall/index',array('keyword'=>$item['keyword']))}>"><{$item.keyword}></a>
+                </if>
+            </calldata>
         </div>
     </div>
+    <div class="clear"></div>
 </div>

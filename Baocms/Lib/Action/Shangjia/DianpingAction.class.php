@@ -264,13 +264,13 @@ class DianpingAction extends CommonAction {
 		
 		$obj = D('Goodsdianping');
         $detail = D('Goodsdianping')->where(array('order_id' => $order_id))->find();
-		$dianping_id = $detail['dianping_id'];
+		$order_id = $detail['order_id'];
         if (empty($detail) || $detail['shop_id'] != $this->shop_id) {
             $this->baoError('没有该内容');
         }
         if ($this->isPost()) {
             if ($reply = $this->_param('reply', 'htmlspecialchars')) {
-                $data = array('dianping_id' => $dianping_id, 'reply' => $reply);
+                $data = array('order_id' => $order_id, 'reply' => $reply);
 	
                 if($obj->save($data)){
                     $this->baoSuccess('回复成功', U('dianping/mall'));
@@ -284,3 +284,4 @@ class DianpingAction extends CommonAction {
     }
 
 }
+

@@ -10,19 +10,15 @@
 			<a href="<{:U('shop/favorites/',array('shop_id'=>$detail['shop_id']))}>" id="share-btn">关注+</a>
 		</div>
 	</header>  
+<style>
+.x12 { margin-bottom: 8px;}
+</style>	
 	
-	
-    
-    
-      <!-- 筛选TAB -->
-<div class="line tab-bar">
-	<div class="button-toolbar">
-		<div class="button-group">
-			<a class="block button bg-dot active" href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a>
-			<a class="block button" href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a>
-		</div>
-	</div>
-</div>   
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 50%;"><a href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>" class="on">详情</a></li>
+        <li style="width: 50%;"><a href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a></li>
+</ul>    
 
 
 	
@@ -34,29 +30,59 @@
 				<p>月售<{$detail.month_num}>份&nbsp;&nbsp;总售<{$detail.sold_num}></p>
 			</div>	
 		</div>
-        
-        
-
-        
+              
 
 		<div class="line info">
-			<div class="x6">
-				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">退</div></span>
+			<div class="x12">
 				<span class="text-green">店铺地址：<{$shop.addr}></span>
 			</div>
-			<div class="x6">
-				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray"><i class="icon-user"></i></div></span>
+            <div class="x12">
+				<span class="text-green">联系电话：<{$shop.tel}></span>
+			</div>
+            <div class="x12">
 				<span class="text-gray">营业时间：<{$ex.business_time}></span>
 			</div>
+	   </div>
+       <div class="blank-10 bg"></div>
+       
+       <!--资质认证-->
+       
+       <if condition="$shop['is_renzheng'] eq 1">
+       <php>
+       $renzhengs = D('Audit')->where('shop_id ='.$detail['shop_id'])->find();
+       </php>
+       
+       
+		<div class="line info">
+			<div class="x12">
+				<span class="button button-block button-big bg-blue"><{$detail.shop_name}>已通过资质认证</span>
+			</div>
+	   </div>
+       
+       
+       <div class="line info">
+			<div class="x12">
+				<span class="text-gray">企业名称：<{$renzhengs.name}></span>
+			</div>
+            <div class="x12">
+				<span class="text-gray">企业注册地址：<{$renzhengs.addr}></span>
+			</div>
             
-        
-        
-        
+            <div class="x12">
+				<span class="text-gray">营业执照到期时间：<{$renzhengs.end_date}></span>
+			</div>
+            
+            <div class="x12">
+                <div class="line banner">	
+                    <img src="__ROOT__/attachs/<{$renzhengs.photo}>">	
+               </div>
+			</div>
+	   </div>
+       </if>
        
-       
-		<div class="blank-10 bg"></div>
-	</div>
     
+    
+    <div class="blank-10 bg"></div>
  <include file='public:footer'/>   
 
 

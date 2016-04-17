@@ -6,6 +6,8 @@ class GoodsAction extends CommonAction {
 
     public function index() {
         $aready = (int) $this->_param('aready');
+        
+        
         $this->assign('aready', $aready);
         $this->display(); // 输出模板
     }
@@ -85,8 +87,31 @@ class GoodsAction extends CommonAction {
             $this->assign('detail',$detail);
             $this->display();
         }
-
+//正常付款走3
     public function queren($order_id = 0){
+        if (is_numeric($order_id) && ($order_id = (int) $order_id)) {
+            $obj = D('Order');
+            if (!$detial = $obj->find($order_id)) {
+                $this->error('该订单不存在');
+            }
+            if ($detial['user_id'] != $this->uid) {
+                $this->error('请不要操作他人的订单');
+            }
+            if ($detial['status'] != 2) {
+                $this->error('该订单暂时不能确定收货');
+            }
+			
+			
+            if($obj->save(array('order_id'=>$order_id,'status'=>3))){
+				D('Order')->overOrder($order_id); //确认到账入口
+                $this->success('确认订单成功！', U('goods/index'));
+            }
+        } else {
+            $this->error('请选择要确认收货的订单');
+        }
+    }
+	//货到付款走8
+	 public function daofu_queren($order_id = 0){
         if (is_numeric($order_id) && ($order_id = (int) $order_id)) {
             $obj = D('Order');
             if (!$detial = $obj->find($order_id)) {
@@ -144,9 +169,10 @@ class GoodsAction extends CommonAction {
         if ( $detail['is_dianping'] != 0 ){
             $this->niuMsg( "您已经点评过了" );
         }
-		$goodss = D('Ordergoods')->find(array('order_id' => $order_id));
+
+		$goodss = D('Ordergoods')->where('order_id ='.$detail['order_id']) -> find();
 		$goods_id = $goodss['goods_id'];
-		
+	
         if ( $this->isPost( ) ){
             $data = $this->checkFields( $this->_post( "data", FALSE ), array( "score", "cost", "contents" ) );
             $data['user_id'] = $this->uid;
@@ -166,6 +192,10 @@ class GoodsAction extends CommonAction {
             $data['show_date'] = date('Y-m-d', NOW_TIME + $data_mall_dianping * 86400); //15天生效
             $data['create_ip'] = get_client_ip( );
             $obj = D( "Goodsdianping" );
+			
+			
+			
+			
             if ( $dianping_id = $obj->add( $data ) ){
                 $photos = $this->_post( "photos", FALSE );
                 $local = array();
@@ -181,14 +211,15 @@ class GoodsAction extends CommonAction {
                 D( "Shop" )->updateCount( $detail['shop_id'], "score_num" );
                 D( "Users" )->updateCount( $this->uid, "ping_num" );
                 D( "Users" )->prestige( $this->uid, "dianping" );
-                D( "Goodsdianping" )->updateScore( $shop_id );
-                $this->niuMsg( "评价成功", U( "/mcenter/goods/index/" ) );
+				$this->niuMsg( "评价成功", U( "mcenter/goods/index/"));
+                
             }
+			
             $this->niuMsg( "操作失败！" );
         }
         else{
             $this->assign( "detail", $detail );
-            $goods = D( "Goods" )->find( $detail['goods_id'] );
+			$goods = D('Goods')->where('goods_id ='.$goods_id) -> find();
             $this->assign( "goods", $goods );
             $this->display( );
         }

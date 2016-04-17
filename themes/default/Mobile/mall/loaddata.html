@@ -1,13 +1,25 @@
 <volist name="list" id="item" key="index"> 
 	<li class="line">		
     <a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">		
-    <div class="x3">			<img src="__ROOT__/attachs/<{$item.photo}>" />		
+    <div class="x3"><img src="__ROOT__/attachs/<{$item.photo}>" />		
     </div>		
-    <div class="x9">			<h5><{$item.title}></h5>		
-    	<p class="desc"><{:bao_Msubstr($item[instructions],0,60)}></p>			
-        <p class="info"><span>&yen;<{:round($item['mall_price']/100,2)}></span><del>&yen;<{:round($item['price']/100,2)}></del>				<em>已售<{$item.sold_num}></em>		
+    <div class="x9" style="margin-top:0.3rem; padding: 0 5px;"><h5><{:bao_msubstr($item['title'],0,18)}></h5>	
+    
+    	<if condition="!empty($item['mobile_fan'])">
+        <p class="desc">手机下单立减 <span style="color:#F00; font-size:12px;"><{:round($item['mobile_fan']/100,2)}></span> 元</p>	
+		<else/>
+        <p class="desc"><{:bao_msubstr($item['intro'],0,26)}></p>	
+        </if>  
+             
+        <p class="info"><span>&yen;<{:round($item['mall_price']/100,2)}></span><del>&yen;<{:round($item['price']/100,2)}></del>				
+        <em>已售<{$item.sold_num}></em>
+        <php>
+        $shopids = D('Shop')->where('shop_id ='.$item['shop_id'])->find();
+        $is_renzheng = $shopids['is_renzheng'];
+        </php>
+        <if condition="$is_renzheng eq 1"><em class="is_renzheng">认证</em></if>
         	</p>	
         	</div>		
             </a>	
-            </li>
+       </li>
 </volist>

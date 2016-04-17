@@ -3,20 +3,20 @@
 	</style>
     
     <footer class="foot-fixed">		
-    <a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:U('delivery/index/index')}>">		
+    <a class="foot-item   <if condition="($act eq 'index') AND ($ctl eq 'index')">active</if>" href="<{:U('delivery/index/index')}>">		
     	<span class="icon icon-home"></span>		
         	<span class="foot-label">首页</span>		
             </a>
             		
             <if condition="$open_express eq '1' ">
             
-            <a class="foot-item <eq name="ctl" value="index">active</eq>" href="<{:U('lists/index',array('ss'=>0))}>">		
+            <a class="foot-item  <if condition="($ctl eq 'lists') AND ($act neq 'express')">active</if>" href="<{:U('lists/index',array('ss'=>0))}>">		
             <span class="icon icon-cloud-download"></span><span class="foot-label">订单配送</span></a>		
             
-            <a class="foot-item <eq name="ctl" value="express">active</eq>" href="<{:U('lists/express',array('ss'=>0))}>">			
+            <a class="foot-item <eq name="act" value="express">active</eq>" href="<{:U('lists/express',array('ss'=>0))}>">			
             <span class="icon icon-truck"></span><span class="foot-label">众包快递</span></a>	
             
-            <a class="foot-item <eq name="ctl" value="money">active</eq>" href="<{:U('index/money')}>">			
+            <a class="foot-item <eq name="act" value="money">active</eq>" href="<{:U('index/money')}>">			
             <span class="icon icon-database"></span><span class="foot-label">资金管理</span></a>
             
             <else/>

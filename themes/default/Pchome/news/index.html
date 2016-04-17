@@ -1,160 +1,70 @@
+<include  file='public:header'/>  
+<include  file='public:top'/>
+<include  file='public:nav'/>   
+<div class="zixun pagewd mt10">
+    <div class="left zixun_l">
+        <style>
+            .yhsy_flexslider .flex-direction-nav li a{top:-30px;}
+             .yhsy_flexslider .flex-control-nav{top:210px; text-align: center;}
+        </style>
+        <div class="banner">
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.yhsy_flexslider').flexslider({
+                        directionNav: true,
+                        pauseOnAction: false,
+                    });
 
-<php>$seo_title = $detail['title'];</php>
-<include  file='public:head_am'/>  
-
-<div class="get">
-    <div class="am-g">
-        <div class="am-u-lg-12">
-            <div class="get-title">
-                <div class="get_font_left"><img src="/static/default/news/img/font_yjy.png" alt=""></div>
-                <div class="get_font_center" id="banner_num"></div>
-                <div class="get_font_rigth"><img src="/static/default/news/img/font_zty.png" alt=""></div>
-            </div>
-
-            <div class="font_line"><img src="/static/default/news/img/font_line.png" alt=""></div>
-            <p>
-                <a href="###" class="am-btn am-btn-sm get-btn  am-radius banner_ios am-icon-apple"> App store</a> <a
-                    href="###" class="am-btn am-btn-sm  am-radius get-btn banner_android am-icon-android"> Android</a>
-            </p>
-        </div>
-    </div>
-</div>
-
-      
-           
-
-    
-    
-    
-<div class="am-tabs-bd">
-
-  
-    
-    
-    
-   <div class="am-list-news-bd am_news_list_all">
-   
-      <foreach name="cates" item="item">
-    <eq name="item.parent_id" value="0">            
-    <div class="banner_navbg  am-margin-top-sm">
-        <div class="am-g">
-            <div class="banner_nav">
-            
-            <span class="am-icon-caret-right"><a <if condition="$item.cate_id eq $cat">class="banner_hover"</if> href="<{:U('news/cate',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>：</span>
-            <foreach name="cates" item="item2">
-            <eq name="item2.parent_id" value="$item.cate_id">
-            <a <if condition="$item2.cate_id eq $cat">class="banner_hover"</if> href="<{:U('news/index',array('cat'=>$item2['cate_id']))}>"><{$item2.cate_name}></a>
-            </eq>
-            </foreach> 
+                });//首页轮播js
+            </script>
+            <div class="yhsy_flexslider" style="height: 230px;">
+                <ul class="slides">
+                    <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND end_date EGT '{$today}' AND city_id IN ({$city_ids}) AND closed=0 AND site_id=63" limit="0,3" cache="21600" order="orderby asc">
+                        <li class="sy_hotgzLi flex-active-slide" style="width: 100%; float: left; height: 230px; margin-right: -100%; position: relative; opacity: 1; display: block; z-index: 2;"><a href="<{$item.link_url}>" title="<{$item.title}>" target="_blank"><img width="1000" height="230" src="__ROOT__/attachs/<{$item.photo}>" draggable="false"></a></li>
+                    </calldata>
+                </ul>
+                <ol class="flex-control-nav flex-control-paging"></ol>
             </div>
         </div>
+        <ul class="zixunList_box">
+            <foreach name="list" item="item">
+                <li class="zixunList">
+                    <div class="left img"><a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>"  width="130" height="130"  /></a></div>
+                    <div class="wz">
+                        <p class="bt"><a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><{$item.title}></a><span class="date right graycl"><{$item.create_time|date='Y-m-d',###}></span></p>
+                        <div style="max-height:50px;overflow:hidden"><p><{:cleanhtml($item['details'])}></p></div>
+                        <div class="attention">总浏览：<{$item.views}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- 今日浏览：175 --></div>
+                    </div>
+                </li>
+            </foreach>
+        </ul>
+        <div class="x">
+            <{$page}>
+        </div>
     </div>
-    </eq>    
-    </foreach> 
-    
-    
-    <ul class="am-list">
-      <!--缩略图在标题左边-->
-      <foreach name="list" item="var">
-      <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left am_list_li">
-        <div class="am-u-sm-3 am-list-thumb am_list_thumb">
-          <a href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>" class="">
-            <img src="__ROOT__/attachs/<{$var['photo']|default='default.jpg'}>" class="am_news_list_img" alt="<{$var.title}>"
-            />
-          </a>
+    <div class="right zixun_r">
+        <div class="zixun_download_box">
+            <a target="_blank" href="<{$CONFIG.site.android}>" class="btn bg_1">Andriod下载</a>
+            <a target="_blank" href="<{$CONFIG.site.ios}>" class="btn bg_2">IOS下载</a>
         </div>
-        <div class=" am-u-sm-9 am-list-main am_list_main">
-          <h3 class="am-list-item-hd am_list_title">
-            <a href="<{:U('news/detail',array('article_id'=>$var['article_id']))}>" class=""><{$var.title}></a>
-          </h3>
-          <div class="am_list_author"><a href="<if condition="$shops[$var['shop_id']]['shop_name'] neq null"><{:U('shop/detail',array('shop_id'=>$shops[$var['shop_id']]['shop_id']))}><else/>#</if>"><span class="am_list_author_ico" style="background-image: url(<if condition="$shops[$var['shop_id']]['shop_name'] neq null">__ROOT__/attachs/<{$shops[$var['shop_id']]['photo']|default='default.jpg'}><else/>__ROOT__/attachs/<{$var['photo']|default='default.jpg'}></if>);"></span><span class="name">
-          <if condition="$shops[$var['shop_id']]['shop_name'] neq null"><{$shops[$var['shop_id']]['shop_name']}><else/><{$var.source}></if>
-          
-          
-          </span></a><span class="am_news_time">&nbsp;•&nbsp;<time class="timeago" title="<{$var.create_time|date='Y-m-d',###}>" datetime="<{$var.create_time|date='Y-m-d',###}>"> <{$var.create_time|date='Y-m-d',###}> 围观：<{$var.views}>次&nbsp;&nbsp;
-          <if condition="$var.istop eq 1">
-          <a class="am-btn am-btn-danger am-btn-xs toutiao">头条</a>
-          </if>
-          </time></span></div>
-          <div class="am-list-item-text am_list_item_text "><{:bao_msubstr($var['details'],0,120)}></div>
+        <div class="sy_c1wx zixun_c1wx">
+            <div class="left"><img src="__ROOT__/attachs/<{$CONFIG.site.wxcode}>" width="100" height="103" /></div>
+            <div class="right"><p>扫一扫体验微信O2O</p><img src="__TMPL__statics/images/sywx_03.png" width="64" height="45" /></div>
         </div>
-      </li>
-   </foreach>
-    </ul>
-    
-    <{$page}>
-</ul>
-
-  </div> 
-   
-  
+        <div class="zixun_hotnews">
+            <h3>热点新闻</h3>
+            <ul class="list_box">
+                <calldata mdl="Shopnews" order="views desc" limit="0,6" cache="600">
+                    <li class="list">
+                        <a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="170" height="130" /></a>
+                        <p class="bt"><a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>"><{$item.title}></a></p>
+                        <!-- <P><{$item.views}></P> -->
+                    </li>
+                </calldata>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
 </div>
-<script>
-$(function(){
-
-$(window).resize(function(){
-$('.am_listimg_info .am_imglist_time').css('display', $('.am_list_block').width() <= 170 ?  'none' : 'block');
-});
-
-//@首页 图片滑动效果
-$(".am_list_block").on('mouseover', function(){
-    $('.am_img_bg').removeClass('am_img_bg');
-    $(this).find('.am_img').addClass('bounceIn');
-});
-$('.am_img').on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-    $('.am_img').removeClass('bounceIn');
-});
-if($(window).width() < 700 ){
-  $('.am_list_block').off();
-}
-
-
-$(window).resize(function(){
-$('.am_img_bg').height($('.am_img_bg').width());
-});
-//@首页 用户名截取
-$('.am_imglist_user_font').each(
-  function(){
-     if($(this).text().length >= 13){
-        $(this).html($(this).text().substr(0,13));
-     }
-  }
-  );
-
-//@懒加载
-  $("img.am_img").lazyload();
-  $("a.am_img_bg").lazyload({
-  effect : 'fadeIn'
-});
-
-//@首页 数字跳动
-  var options = {
-  useEasing : true,
-  useGrouping : true,
-  separator : '',
-  decimal : '.',
-  prefix : '',
-  suffix : ''
-};
-var banner_num = new CountUp("banner_num", 956000, 956214, 0, 5, options);
-banner_num.start();
-});
-
-//动画效果
-function OpenDonghua( Chufa,Mubiao,Xiaoguo){
-Chufa.on('mouseover', function(){
-    $(this).find(Mubiao).addClass(Xiaoguo);
-});
-}
-function CloseDonghua(Chufa,Mubiao,Xiaoguo){
-    Chufa.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-    Mubiao.removeClass(Xiaoguo);
-});
-}
-
-
-
-</script>
-
-
-<include  file='public:foot_am'/>  
+<!--main end-->
+<include  file='public:footer'/>  

@@ -23,6 +23,7 @@ class IndexAction extends CommonAction {
 		$counts['tuan_order'] = (int) D('Tuanorder')->where(array('shop_id' => $this->shop_id))->count();//总抢购清单
 		$counts['totay_tuan_order'] = (int) D('Tuanorder')->where(array('shop_id' => $this->shop_id,'create_time' => array(array('ELT', NOW_TIME),array('EGT', $bg_time),), 'status' => array('EGT', 0),))->count();//今日抢购订单
 		$counts['tuan_order_code_is_used'] = (int) D('Tuancode')->where(array('shop_id' => $this->shop_id,'is_used' => 0))->count();//未验证
+		$counts['tuan_order_code_is_used_ture'] = (int) D('Tuancode')->where(array('shop_id' => $this->shop_id,'is_used' => 1))->count();//已验证
 		$counts['tuan_order_code_status'] = (int) D('Tuancode')->where(array('shop_id' => $this->shop_id,'status' => 1))->count();//抢购退款中
 		
 		//商城
@@ -38,8 +39,7 @@ class IndexAction extends CommonAction {
 		$counts['coupon'] = (int) D('Coupon')->where(array('shop_id' => $this->shop_id,'closed' => 0,))->count();//总优惠劵
 		$counts['coupon_audit'] = (int) D('Coupon')->where(array('shop_id' => $this->shop_id,'closed' => 0,'audit' => 0))->count();//待审核优惠劵
 		$counts['coupon_download'] = (int) D('Coupondownload')->where(array('shop_id' => $this->shop_id))->count();//总下载优惠劵
-		$counts['totay_coupon_download'] = (int) D('Coupondownload')->where(array('shop_id' => $this->shop_id,'create_time' => array(array('ELT', NOW_TIME),array('EGT', $bg_time),), 'status' => array('EGT', 0),))->count();//今日下载优惠劵
-		$counts['coupon_is_used'] = (int) D('Coupondownload')->where(array('shop_id' => $this->shop_id,'is_used' => 0))->count();//未验证优惠劵
+		$counts['coupon_download_is_used'] = (int) D('Coupondownload')->where(array('shop_id' => $this->shop_id,'is_used' => 0))->count();//未验证优惠劵
 		
 		//外卖
 		$counts['ele'] = (int) D('Ele')->where(array('shop_id' => $this->shop_id))->count();//总外卖个数
@@ -90,7 +90,15 @@ class IndexAction extends CommonAction {
 		$counts['shopyuyue'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,))->count();//总商家预约数量
 		$counts['shopyuyue_one'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,'used' => 1))->count();//已确认预约
 		$counts['shopyuyue_eight'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,'used' => 0))->count();//未确认预约
-
+		
+		//文章
+		$counts['news'] = (int) D('Article')->where(array('shop_id' => $this->shop_id,'closed' => 0))->count();//全部文章
+		$counts['news_autit'] = (int) D('Article')->where(array('shop_id' => $this->shop_id,'closed' => 0,'audit' => 0))->count();//未审核文章
+		
+		//商家员工数量
+		$counts['shopworker'] = (int) D('Shopworker')->where(array('shop_id' => $this->shop_id,'closed' => 0))->count();//总商家预约数量
+		
+	
 	   $this->assign('counts', $counts);
         $this->display();
     }

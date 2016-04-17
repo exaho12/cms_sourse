@@ -1,14 +1,30 @@
-<include file='life:header_life'/> <include  file='life:top'/>
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.sy_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
+        $('.syfq_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
+        $('.hottj_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
 
-<link rel="stylesheet" href="/static/default/pc/css/life_2.css" />
-
-<div class="blank-10"></div>
-	<div class="container">
-		
-         <!--添加开始-->   
-        
-           <div class="goods_flBox">
-            <ul>
+    });//首页轮播js
+</script>
+<style>
+    .shfw_xq_ad .syfq_flexslider .flex-direction-nav li a{top:-35px;}
+    .shfw_xq_ad .syfq_flexslider .flex-control-nav{top:115px; text-align: center;}
+</style>
+<div class="content zy_content" id="life">
+    <div class="goods_flBox">
+        <ul>
             <if condition="empty($cat)">
                 <li class="goods_flList">
                     <div class="left goods_flList_l">频道：</div>
@@ -61,7 +77,7 @@
                     <div class="left goods_flList_r">  
                         <a href="<{:LinkTo('life/index',$linkArr,array('s3'=>0))}>" <if condition="empty($s3)">class="goods_flListA on"<else/>class="goods_flListA"</if> >全部</a> 
                         <foreach name="attrs.select3" item="item">
-                            <a class='goods_flListA <eq name="s2" value="$item.attr_id">on</eq>' href="<{:LinkTo('life/index',$linkArr,array('s3'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+                            <a class='goods_flListA <eq name="s3" value="$item.attr_id">on</eq>' href="<{:LinkTo('life/index',$linkArr,array('s3'=>$item['attr_id']))}>"><{$item.attr_name}></a>
                         </foreach>
                     </div>
                 </li>
@@ -72,7 +88,7 @@
                     <div class="left goods_flList_r">  
                         <a href="<{:LinkTo('life/index',$linkArr,array('s4'=>0))}>" <if condition="empty($s4)">class="goods_flListA on"<else/>class="goods_flListA"</if> >全部</a> 
                         <foreach name="attrs.select4" item="item">
-                            <a class='goods_flListA <eq name="s2" value="$item.attr_id">on</eq>' href="<{:LinkTo('life/index',$linkArr,array('s4'=>$item['attr_id']))}>"><{$item.attr_name}></a>
+                            <a class='goods_flListA <eq name="s4" value="$item.attr_id">on</eq>' href="<{:LinkTo('life/index',$linkArr,array('s4'=>$item['attr_id']))}>"><{$item.attr_name}></a>
                         </foreach>
                     </div>
                 </li>
@@ -91,12 +107,13 @@
             <li class="goods_flList">
                 <div class="left goods_flList_l">地区：</div>
                 <div class="left goods_flList_r">  
-                                            <div class="left goods_flList_r"> <a class="goods_flListA on" href="<{:U('life/index')}>">全部</a> 
-                                               <foreach name="areas" item="item"> 
-                                <php>if($item['city_id'] == $city_id){</php>
-                                <a class="goods_flListA" href="<{:U('life/index',array('area'=>$item['area_id']))}>"><{$item.area_name}></a> 
-                                <php>}</php>
-                      </foreach>
+                    <a href="<{:LinkTo('life/index',$linkArr,array('area'=>0,'business'=>0))}>" <if condition="empty($area)">class="goods_flListA on"<else/>class="goods_flListA"</if> >全部</a> 
+                    <foreach name="areas" item="item">
+                                                <eq name="item.city_id" value="$city_id">
+
+                        <a class='goods_flListA <eq name="area" value="$item.area_id">on</eq>' href="<{:LinkTo('life/index',$linkArr,array('area'=>$item['area_id'],'business'=>0))}>"><{$item.area_name}></a>
+                        </eq>
+                    </foreach>
                 </div>
             </li>
             <if condition="!empty($area)">
@@ -125,59 +142,91 @@
             </form>
         </div>
     </div>
-        
-    <!--添加结束-->    
-        
-        
-	
+    <div class="shangjiaC">
+        <div class="left shangjiaC_l">
+            <div class="hdxq_xqnr life_xq_nr">
+                <ul class="liveTab">
+                    <li>本地生活信息</li>
+                </ul>
+                <ul class="liveBoxlist">
+                    <foreach name="list"  item="var">
+                        <li>
+                            <a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank">
+                                <img width="120" height="77" src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" />
+                            </a>
+                            <h3>
+                                <span><{$var.create_time|date='Y-m-d',###}></span>
+                                <a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank"><{:msubstr($var['title'],0,30)}></a>
+                                <gt name="var.urgent_date" value="$today"> <code></code> </gt>
 
-	<div class="blank-10"></div>
-	
-	<div class="main-list">
-			<dl class="life-list">
-				<dt>
-					<span class="a">信息主题</span>
-					<span class="b">区域</span>
-					<span class="c">发布时间</span>
-				</dt>
-				<php>$i=0;</php>
-                <foreach name="list"  item="var">
-				<php>$i++;</php>
-				<if condition="$i%2 eq 1">
-                <dd>
-				<else/>
-				<dd class="odd">
-				</if>
-					<span class="a">
-						<cite>[ <{$cates[$var['cate_id']]['cate_name']}> ]</cite>
-						<a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank"><{$var['title']}></a>
-						<if condition="!empty($var['photo'])"><em class="p">图</em></if>
-						<if condition="!empty($var['is_shop'])"><em class="s">商</em></if>
-						<gt name="var.urgent_date" value="$today"><em class="q">急</em></gt>
-						<gt name="var.top_date" value="$today"><em class="d">顶</em></gt>
-					</span>
-					<span class="b"><{$areas[$var['area_id']]['area_name']}><{$bizs[$var['business_id']]['business_name']}></span>
-					<span class="c"><{$var.create_time|date='Y-m-d',###}></span>
-				</dd>	
-                </foreach>
-			</dl>
-			<div class="blank-20"></div>
-			<div class="text-center">
-				<div class="pagination">
-					<{$page}>
-				</div>
-			</div>
-			<div class="blank-20"></div>
-		</div>
-
-
-
+                                <gt name="var.top_date" value="$today"> <code class="c3"></code></gt>
+                                <if condition="$var['is_shop'] eq 1">
+                                    <code class="c2"></code>
+                                    <else/>           
+                                    <code class="c4"></code>
+                                </if>
+                            </h3>
+                            <p><{$areas[$var['area_id']]['area_name']}> - <{$bizs[$var['business_id']]['business_name']}> - <{$var.addr}></p>
+                        <if condition="!empty($var['num1'])">
+                            <p class="red"><{$var.num1}><{$cates[$var['cate_id']]['unit1']}></p>
+                            <else/>
+                            <p class="red"><{$var.text1}></p>
+                        </if>
+                        </li>
+                    </foreach>
+                </ul> 
+                <div class="x">
+                    <{$page}>
+                </div>   
+            </div>
+        </div>
+        <div class="right shangjiaC_r">
+            <div class="shadowy shfw_xq_ad">
+                <div class="syfq_flexslider">
+                    <ul class="slides">
+                        <calldata mdl="Ad" where=" closed=0 AND site_id=22 AND city_id IN ({$city_ids}) AND bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="43200" order="orderby asc">
+                            <li class="sy_hotgzLi"><a target="_blank" href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="220" height="128" /></a></li>
+                        </calldata>
+                    </ul>
+                    <ol class="flex-control-nav flex-control-paging"></ol>
+                </div>
+            </div>
+            <div class="shadowy shfw_xq_new">             
+                <if condition="!empty($channel)">    
+                    <h3>相关类目</h3>
+                    <ul>
+                        <foreach name="cates" item="item">
+                            <eq name="item.channel_id" value="$channel">
+                            <li>
+                                <a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>    
+                            </li>  
+                            </eq>
+                        </foreach>
+                    </ul>
+                </if>    
+            </div>
+            <div class="shadowy shfw_xq_new">
+                <h3>热门信息</h3>
+                <ul>
+                    <foreach name="tops" item="item">
+                        <php>if($item['city_id'] == $city_id){</php>
+                        <li style="list-style: none; padding: 10px 0px;">
+                            <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" width="240" height="130" /></a>
+                            <em><a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{:msubstr($item['title'],0,15)}></a></em>
+                            <p><{:msubstr($item['addr'],0,13)}></p>
+                            <code>
+                                <if condition="!empty($item['num1'])">
+                                    <{$item.num1}><{$cates[$item['cate_id']]['unit1']}>
+                                    <else/>
+                                    <{$item.text1}>
+                                </if>
+                            </code>
+                        </li>
+                        <php>}</php>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
-
-
-	
-	
-<include  file='public:footer'/>   
+<include file="public:footer"/>

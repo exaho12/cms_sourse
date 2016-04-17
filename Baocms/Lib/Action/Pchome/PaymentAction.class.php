@@ -1,11 +1,6 @@
 <?php
 
-/*
- * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
- * 作者：baocms团队
- * 官网：www.baocms.com
- * 邮件: youge@baocms.com  QQ 800026911
- */
+import('WxPay', APP_PATH . 'Lib/Payment/weixin', '.Api.php');
 
 class PaymentAction extends CommonAction {
 
@@ -152,11 +147,11 @@ class PaymentAction extends CommonAction {
         $log_id = D('Payment')->getLogId();
         $detail = D('Paymentlogs')->find($log_id);
         if(!empty($detail)){
-            if ($type == 'ele') {
+            if ($detail['type'] == 'ele') {
                 $this->ele_success('恭喜您支付成功啦！', $detail);
-            } elseif ($type == 'ding') {
+            } elseif ($detail['type'] == 'ding') {
                 $this->ding_success('恭喜您支付成功啦！', $detail);
-            } elseif ($type == 'goods') {
+            } elseif ($detail['type'] == 'goods') {
                 
                 if(empty($detail['order_id'])){
                     $this->success('合并付款成功', U('member/order/index'));
@@ -165,7 +160,7 @@ class PaymentAction extends CommonAction {
                 }
                
              
-            } elseif ($type == 'gold' || $detail['type'] == 'money') {
+            } elseif ($detail['type'] == 'gold' || $detail['type'] == 'money'|| $detail['type'] == 'fzmoney') {
                 $this->success('恭喜您充值成功', U('member/index/index'));
 
             } else {
@@ -174,9 +169,7 @@ class PaymentAction extends CommonAction {
         }else{
              $this->success('支付成功', U('member/index/index'));
         }
-        //if(empty($type) || empty($log_id)){
-        //$this->success('支付成功！', U('index/index'));
-        //  }
+        
     }
 
     public function payment($log_id) {
@@ -208,5 +201,182 @@ class PaymentAction extends CommonAction {
         $this->assign('paytype', D('Payment')->getPayments());
         $this->display();
     }
+	
+	 public function b2CQuery(){
+            $map['log_id'] = I('log_id');
+            $logs = D('Paymentlogs')->where($map)->find();
+//            if (!empty($logs) && $logs['is_paid'] == 1) {
+            $button= D('Payment')->b2CQuery($logs);
+            if(is_array($button)){
+                $this->assign('list', $button);
+            }else{
+                $this->assign('button', $button);
+            }
+//            }
+            $this->assign('types', D('Payment')->getTypes());
+            $this->assign('logs', $logs);
+            $this->assign('paytype', D('Payment')->getPayments());
+
+            $this->display();
+        }
+
+        public function b2cRefund(){
+            $map['log_id'] = I('log_id');
+            $logs = D('Paymentlogs')->where($map)->find();
+//            if (!empty($logs) && $logs['is_paid'] == 1) {
+            $button= D('Payment')->b2cRefund($logs);
+            if(is_array($button)){
+                $this->assign('list', $button);
+            }else{
+                $this->assign('button', $button);
+            }
+
+//            }
+//            dump($logs);
+            $this->assign('types', D('Payment')->getTypes());
+            $this->assign('logs', $logs);
+            $this->assign('paytype', D('Payment')->getPayments());
+
+            $this->display();
+        }
+
+        public function orderQuery()
+        {
+            $input = new WxPayOrderQuery();
+            if (isset($_POST["transaction_id"]) && $_POST["transaction_id"] != "") {
+                $transaction_id = $_POST["transaction_id"];
+                $input->SetTransaction_id($transaction_id);
+                $output = WxPayApi::orderQuery($input);
+            } elseif (isset($_REQUEST["out_trade_no"]) && $_POST["out_trade_no"] != "") {
+                $out_trade_no = $_POST["out_trade_no"];
+                $input->SetOut_trade_no($out_trade_no);
+                $output = WxPayApi::orderQuery($input);
+            }
+            $this->assign('list', $output);
+            $this->display();
+        }
+
+        public function refundQuery()
+        {
+            $input = new WxPayRefundQuery();
+            if (isset($_POST["transaction_id"]) && $_POST["transaction_id"] != "") {
+                $transaction_id = $_POST["transaction_id"];
+                $input->SetTransaction_id($transaction_id);
+                $output = WxPayApi::refundQuery($input);
+            } elseif (isset($_POST["out_trade_no"]) && $_POST["out_trade_no"] != "") {
+                $out_trade_no = $_POST["out_trade_no"];
+                $input->SetOut_trade_no($out_trade_no);
+                $output = WxPayApi::refundQuery($input);
+            } elseif (isset($_POST["out_refund_no"]) && $_POST["out_refund_no"] != "") {
+                $out_refund_no = $_REQUEST["out_refund_no"];
+                $input->SetOut_refund_no($out_refund_no);
+                $output = WxPayApi::refundQuery($input);
+            } elseif (isset($_POST["refund_id"]) && $_POST["refund_id"] != "") {
+                $refund_id = $_POST["refund_id"];
+                $input->SetRefund_id($refund_id);
+                $output = WxPayApi::refundQuery($input);
+
+            }
+            $this->assign('list', $output);
+            $this->display();
+        }
+
+        //
+        public function refund()
+        {
+            $input = new WxPayRefund();
+            if (isset($_POST["transaction_id"]) && $_POST["transaction_id"] != "") {
+                $transaction_id = $_POST["transaction_id"];
+                $total_fee = $_POST["total_fee"];
+                $refund_fee = $_POST["refund_fee"];
+                $input->SetTransaction_id($transaction_id);
+                $input->SetTotal_fee($total_fee);
+                $input->SetRefund_fee($refund_fee);
+                $input->SetOut_refund_no(WxPayConfig::MCHID . date("YmdHis"));
+                $input->SetOp_user_id(WxPayConfig::MCHID);
+                $output = WxPayApi::refund($input);
+
+            } elseif (isset($_POST["out_trade_no"]) && $_POST["out_trade_no"] != "") {
+                $out_trade_no = $_REQUEST["out_trade_no"];
+                $total_fee = $_REQUEST["total_fee"];
+                $refund_fee = $_REQUEST["refund_fee"];
+                $input = new WxPayRefund();
+                $input->SetOut_trade_no($out_trade_no);
+                $input->SetTotal_fee($total_fee);
+                $input->SetRefund_fee($refund_fee);
+                $input->SetOut_refund_no(WxPayConfig::MCHID . date("YmdHis"));
+                $input->SetOp_user_id(WxPayConfig::MCHID);
+                $output = WxPayApi::refund($input);
+            }
+            $this->assign('list', $output);
+            $this->display();
+        }
+
+        public function micropay()
+        {
+            if (isset($_POST["auth_code"]) && $_POST["auth_code"] != "") {
+                $auth_code = $_POST["auth_code"];
+                $input = new WxPayMicroPay();
+                $input->SetAuth_code($auth_code);
+                $input->SetBody($_POST['body']);
+                $input->SetTotal_fee($_POST['total_fee']);
+                $input->SetOut_trade_no($_POST['out_trade_no']);
+
+                $microPay = new MicroPay();
+                $output = $microPay->pay($input);
+            }
+            $this->assign('list', $output);
+            $this->display();
+        }
+
+        public function download()
+        {
+//            $datetime1 = date_create($_POST["bill_date1"]);
+//            $datetime2 = date_create($_POST["bill_date2"]);
+//            $interval = date_diff($datetime1, $datetime2);
+//            echo $interval;
+//            echo $interval->format('%R%a days');
+//            
+            if (isset($_POST["bill_date"]) && $_POST["bill_date"] != "") {
+                $bill_date = $_POST["bill_date"];
+                $bill_type = $_POST["bill_type"];
+                $input = new WxPayDownloadBill();
+                $input->SetBill_date($bill_date);
+                $input->SetBill_type($bill_type);
+                $strings = WxPayApi::downloadBill($input);
+                $strings = str_replace('`', '', $strings);
+                $lines = explode(PHP_EOL, $strings);
+                unset($lines[count($lines) - 1]);
+                $title = explode(',', $lines[0]);
+
+                $tail = explode(',', $lines[count($lines) - 2]);
+                $tails = explode(',', $lines[count($lines) - 1]);
+
+                $num = count($lines);
+                unset($lines[$num - 1]);
+                unset($lines[$num - 2]);
+                unset($lines[0]);
+                foreach ($lines as $k => $val) {
+                    $arr[] = explode(',', $val);
+                }
+
+                $this->assign('title', $title);
+                $this->assign('tail', $tail);
+                $this->assign('tails', $tails);
+                $this->assign('arr', $arr);
+                if (isset($_POST['expType']) && $_POST['expType'] != '') {
+                    exportExcel('下载对账单', $title, $arr, $_POST['expType']);
+                }
+            }
+
+            $this->display();
+
+        }
+
+        public function tool()
+        {
+            $this->display();
+        }
+
 
 }

@@ -17,17 +17,10 @@
  <div class="blank-10 bg"></div>
 <div class="panel-list">
 	<ul>
-		<li><a href="javascript:;">付款编号：<{$item[0].order_id}></a></li>
+		<li><a href="javascript:;">付款编号：<{$detail.order_id}></a></li>
 		<li><a href="javascript:;">付款时间：<{$detail.create_time|date='Y-m-d H:i',###}></a></li>
-        
-        <li><a href="javascript:;">名称：<{$good[$var['goods_id']]['title']}><{$var.num}>x￥<{:round($var['price']/100,2)}>=￥<{:round($var['total_price']/100,2)}></a></li>
-		<li><a href="javascript:;">项目：<{$item[1]}>x￥<{:round($menu[$item[0]][ding_price]/100,2)}>=￥<{:round($menu[$item[0]][ding_price]*$item[1]/100,2)}></a></li>
-        
-      
-        
-		<li><a href="javascript:;">下单时间： <{$item[0].create_time|date='Y-m-d H:i',###}></a></li>
 		<li><a href="javascript:;">付款方式：<{$paytype[$detail['code']]['name']}></a></li>
-        <li><a href="javascript:;">结算价格：<em￥<{:round($detail['need_pay']/100,2)}></em></a></li>
+        <li><a href="javascript:;">结算价格：<em>￥<{:round($detail['need_pay']/100,2)}></em></a></li>
         
         <li><a href="javascript:;">地址：<{$citys[$addr['city_id']]['name']}>&nbsp;<{$areas[$addr['area_id']]['area_name']}>&nbsp;<{$bizs[$addr['business_id']]['business_name']}>&nbsp;<{$addr['addr']}></a></li>
        

@@ -56,9 +56,10 @@ class EleorderModel extends CommonModel {
                 }
 
                 if ($settlement_price > 0) {
-                    $settlement_price =  D('Quanming')->quanming($detail['user_id'],$settlement_price,'ele'); //扣去全民营销
                     D('Shopmoney')->add(array(
                         'shop_id' => $detail['shop_id'],
+						'city_id' => $shop['city_id'],
+						'area_id' => $shop['area_id'],
                         'type' => 'ele',
                         'money' => $settlement_price,
                         'create_ip' => get_client_ip(),
@@ -66,8 +67,9 @@ class EleorderModel extends CommonModel {
                         'order_id' => $order_id,
                         'intro' => '餐饮订单:' . $order_id
                     ));
-
-                    D('Users')->addMoney($shop['user_id'], $settlement_price, '餐饮订单:' . $order_id);
+					
+ 					D('Users')->Money($shop['user_id'], $settlement_price, '商户餐饮订单资金结算:' . $order_id);//写入金块
+                    //D('Users')->addMoney($shop['user_id'], $settlement_price, '餐饮订单:' . $order_id);
                 }
                 D('Users')->gouwu($detail['user_id'],$detail['total_price'],'外卖积分奖励');
 

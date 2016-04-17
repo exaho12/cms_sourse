@@ -1,9 +1,9 @@
 <include  file='public:header'/>
 <div class="mainBt">
     <ul>
-        <li class="li1">会员</li>
-        <li class="li2">会员日志</li>
-        <li class="li2 li3">金块日志</li>
+        <li class="li1">商户</li>
+        <li class="li2">商户日志</li>
+        <li class="li2 li3">商户资金日志</li>
     </ul>
 </div>
 <div class="main-jsgl main-sc">
@@ -57,7 +57,7 @@
                     <td class="w50"><input type="checkbox" class="checkAll" rel="log_id" /></td>
                     <td class="w50">ID</td>
                     <td>用户</td>
-                    <td>金块</td>
+                    <td>商户资金</td>
                     <td>说明</td>
                     <td>使用时间</td>
                     <td>使用IP</td>  
@@ -67,7 +67,7 @@
                         <td><input class="child_log_id" type="checkbox" name="log_id[]" value="<{$var.log_id}>" /></td>
                         <td><{$var.log_id}></td>
                         <td><{$users[$var['user_id']]['account']}></td>
-                        <td><{$var.gold}></td>
+                        <td><{:round($var['gold']/100,2)}></td>
                         <td><{$var.intro}></td>
                         <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
                         <td><{$var.create_ip}></td>

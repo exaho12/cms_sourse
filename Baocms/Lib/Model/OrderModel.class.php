@@ -60,14 +60,22 @@ class OrderModel extends CommonModel {
     
     public function overOrder($order_id) { //后台管理员可以直接确认2的
         $order = $this->find($order_id);
+
+		
         if (empty($order))
             return false;
         if ($order['status'] != 2 && $order['status'] != 3) //  添加一个客户确认步骤
             return false;
+			
+			
         if ($this->save(array('status' => 8, 'order_id' => $order_id))) {
             $userobj = D('Users');
             $goods = D('Ordergoods')->where(array('order_id' => $order_id))->select();
             $shop = D('Shop')->find($order['shop_id']);
+			
+			
+			
+			
             if (!empty($goods)) {
                 D('Ordergoods')->save(array('status' => 8), array('where' => array('order_id' => $order_id)));
                 if ($order['is_daofu'] == 0) {
@@ -78,9 +86,10 @@ class OrderModel extends CommonModel {
 						//$money = $val['total_price'];//商城取消结算价格吧，哎，草泥马的！
                         //全民经纪人 后期更改 暂时去除了
                         if ($money > 0) {
-                            $money =  D('Quanming')->quanming($order['user_id'],$money,'mall'); //扣去全民营销
                             D('Shopmoney')->add(array(
                                 'shop_id' => $order['shop_id'],
+								'city_id' => $shop['city_id'],
+								'area_id' => $shop['area_id'],
                                 'money' => $money,
                                 'create_time' => NOW_TIME,
                                 'create_ip' => $ip,
@@ -88,9 +97,13 @@ class OrderModel extends CommonModel {
                                 'order_id' => $order_id,
                                 'intro' => $info,
                             ));
-                            D('Users')->addMoney($shop['user_id'], $money, $info);
+							
+							D('Users')->Money($shop['user_id'], $money, '商户商城订单资金结算：'.$order_id);//写入金块
                         }
                     }
+					
+					
+					
 //                  购物积分奖励给买的人，这个开关在后台
                     D('Users')->gouwu($order['user_id'],$order['total_price'],'购物积分奖励');
                 }

@@ -107,7 +107,12 @@ class CommonAction extends Action {
 		$this->assign('open_billboard',$open_billboard = $this->_CONFIG['operation']['billboard']); //榜单
 		$this->assign('open_market',$open_market = $this->_CONFIG['operation']['market']); //卖场
 		$this->assign('open_express',$open_express = $this->_CONFIG['operation']['express']); //快递
-
+		
+		//查询用户通知
+        $bg_time = strtotime(TODAY);
+        $this->assign('msg_day', $counts['msg_day'] = (int) D('Msg')->where(array('views' => 0, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count());
+		$this->assign('sign_day', $sign_day = D('Usersign')->where(array('user_id' => $this->uid, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->select());
+		//查询通知结束
 		$web_close = $this->_CONFIG['site']['web_close'];
 		$web_close_title = $this->_CONFIG['site']['web_close_title'];
 		

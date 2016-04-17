@@ -7,9 +7,14 @@
 			我的优惠券
 		</div>
 	<div class="top-signed">
-		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+		<include file="public:message"/>
 	</div>
 </header>
+
+<div class="panel-list" style="background: #FBFBFB;">
+	<ul><li><a href="javascript:;">优惠劵验证码：<em style="font-size:16px; color:#F00 "><{$detail['code']}></em></a></li></ul>
+</div>
+
 
 <div class="container">
 	<div class="padding-large">
@@ -20,5 +25,17 @@
 	</div>
 </div>
 
+
+<div class="container text-center">
+              <a class="button bg-blue" href="<{:U('mobile/shop/detail',array('shop_id'=>$detail['shop_id']))}>">商家详情</a>
+              <a class="button bg-blue" href="<{:U('mcenter/coupon/give',array('download_id'=>$detail['download_id']))}>">赠送</a>    
+              <if condition="$detail['is_sms'] eq 0">      
+              <a class="button bg-dot" href="<{:U('mcenter/coupon/sms',array('download_id'=>$detail['download_id']))}>">发送到手机</a> 
+              <else/>
+              <a class="button bg-gray" href="Javascript: void(0)">已发送</a>
+              </if>
+	</div>
+    
+    
 
 <include  file='public:footer'/>

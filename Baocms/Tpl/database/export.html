@@ -11,10 +11,8 @@
     <div class="jsglNr">
         <div class="selectNr">
             <div class="left">
-                <a id="export" class="btn" href="javascript:;" autocomplete="off">立即备份</a>
-                <a id="optimize" class="btn" href="<{:U('optimize')}>">优化表</a>
-                <a id="repair" class="btn" href="<{:U('repair')}>">修复表</a>
-				<a id="repair" class="btn" href="<{:U('index?type=import')}>">数据库还原</a>
+                <a  class="btn" >亲，演示站不停数据库备份等操作。</a>
+              
             </div>
             <div class="right">
                 表总数：<?php echo count($list); ?>
@@ -43,8 +41,8 @@
                             <td><{$table.create_time}></td>
                             <td class="info ">未备份</td>
                             <td class="action">
-                                <a class="remberBtn" href="<{:U('optimize?tables='.$table['name'])}>">优化表</a>&nbsp;
-                                <a class="remberBtn" href="<{:U('repair?tables='.$table['name'])}>">修复表</a>
+                                <!--<a class="remberBtn" href="<{:U('optimize?tables='.$table['name'])}>">优化表</a>&nbsp;
+                                <a class="remberBtn" href="<{:U('repair?tables='.$table['name'])}>">修复表</a>-->
                             </td>
                         </tr>
                     </volist>

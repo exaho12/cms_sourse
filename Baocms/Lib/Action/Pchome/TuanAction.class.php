@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 
 class TuanAction extends CommonAction {
@@ -11,6 +11,7 @@ class TuanAction extends CommonAction {
         $this->assign('types', $this->type);
         $cat = (int) $this->_param('cat');
         $this->assign('cat', $cat);
+		$this->assign('host',__HOST__);
     }
 
     public function main() {
@@ -93,6 +94,11 @@ class TuanAction extends CommonAction {
         $this->assign('detail', $detail);
         $shop_id = $detail['shop_id'];
         $shop = D('Shop')->find($shop_id);
+		
+		
+		$this->assign('shop', $shop);
+		
+		
         if (!$favo = D('Shopfavorites')->where(array('user_id' => $this->uid, 'shop_id' => $shop_id))->find()) {
             $shop['favo'] = 0;
         } else {
@@ -106,7 +112,8 @@ class TuanAction extends CommonAction {
         $count = $Tuandianping->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 5); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $Tuandianping->where($map)->order(array('order_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $list = $Tuandianping->where($map)->order(array('dianping_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+		
         $user_ids = $orders_ids = array();
         foreach ($list as $k => $val) {
             $user_ids[$val['user_id']] = $val['user_id'];
@@ -118,7 +125,7 @@ class TuanAction extends CommonAction {
         if (!empty($orders_ids)) {
             $this->assign('pics', D('Tuandianpingpics')->where(array('order_id' => array('IN', $orders_ids)))->select());
         }
-        $this->assign('totalnum', $count);
+        $this->assign('counts', $count);
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
         //分店  + 
@@ -745,21 +752,28 @@ class TuanAction extends CommonAction {
                     $obj->add($insert);
                 }
                 D('Tuan')->updateCount($tuan['tuan_id'], 'sold_num'); //更新卖出产品
-                //D('Tuan')->updateCount($tuan['tuan_id'], 'num', -1);
-
                 $codestr = join(',', $codes);
-                //发送短信
-                D('Sms')->sendSms('sms_tuan', $this->member['mobile'], array(
-                    'code' => $codestr,
-                    'nickname' => $this->member['nickname'],
-                    'tuan' => $tuan['title'],
-                ));
+			   //大鱼短信
+			   if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                    D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_tgdx', $this->member['mobile'], array(
+                        'sitename'=>$this->_CONFIG['site']['sitename'], 
+                        'code' => $codestr, 
+                        'nickname' => $this->member['nickname'], 
+                        'tuan' => $tuan['title']
+                        ));
+                }else{
+                    D('Sms')->sendSms('sms_tuan', $this->member['mobile'], array(
+                        'code' => $codestr,
+                        'nickname' => $this->member['nickname'],
+                        'tuan' => $tuan['title'],
+                    ));
+                }
                 //更新贡献度
                 D('Users')->prestige($this->uid, 'tuan');
-                //发送短信
+                //发送短信暂时不处理
                 D('Sms')->tuanTZshop($tuan['shop_id']);
 				
-				 //====================微信支付通知==抢购=========================
+			//====================微信支付通知==抢购=========================
             $tuan     = D('Tuan')->find($order['tuan_id']);
             $uaddr = D('UserAddr') -> where('user_id ='.$order['user_id']) -> find();
             include_once "Baocms/Lib/Net/Wxmesg.class.php";

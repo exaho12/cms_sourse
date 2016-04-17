@@ -82,7 +82,7 @@ class CommonAction extends Action{
         }
 		
 		
-        //分销开始
+        //分销开�&#65533;
         $fuid = (int) $this->_get('fuid');
         if (!empty($fuid)) {
             $profit_expire = (int) $this->_CONFIG['site']['profit_expire'];
@@ -93,7 +93,7 @@ class CommonAction extends Action{
             }
         }
         //分销结束
-        //城市循环全局开始
+        //城市循环全局开�&#65533;
         $citylists = array();
         foreach ($this->citys as $val) {
             if ($val['is_open'] == 1) {
@@ -105,15 +105,16 @@ class CommonAction extends Action{
         //重新整理排序
         $this->assign('citylists', $citylists);
         //城市循环结束
-        //购物车开始
+        //购物车开�&#65533;
         $goods = cookie('goods');
         $this->assign('cartnum', (int) array_sum($goods));
-        //购物车结束
+        //购物车结�&#65533;
 		
 		$mapssss = array('status' => 4,'closed'=>0);
 		$this->assign('navigations',$navigations = D('Navigation') ->where($mapssss)->order(array('orderby' => 'asc'))->select());
 		
         //底部导航
+		$this->assign('color',$color = $this->_CONFIG['other']['color']);
         $web_close = $this->_CONFIG['site']['web_close'];
         $web_close_title = $this->_CONFIG['site']['web_close_title'];
         if ($web_close == 0) {
@@ -121,7 +122,10 @@ class CommonAction extends Action{
             die;
         }
 		
-		
+     
+       
+        
+     
 		
 		
     }
@@ -141,61 +145,99 @@ class CommonAction extends Action{
             $this->assign('seo_description', $this->_CONFIG['site']['description']);
         }
     }
-    private function tmplToStr($str, $datas)
-    {
+    private function tmplToStr($str, $datas){
         return tmpltostr($str, $datas);
     }
-    public function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '')
-    {
+    public function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = ''){
+		
         $this->seo();
-        parent::display($this->parseTemplate($templateFile), $charset, $contentType, $content = '', $prefix = '');
+		
+		//p($this->parseTemplate($templateFile) );//这里为什么的url都是对的�&#65533;
+		//这里打印的结�&#65533;/www/web/baocms2/public_html/themes/test/Pchome/index/index.html
+		//parent::来引用父类的方法,输出后为什么目录错误啊
+    		    parent::display($this->parseTemplate($templateFile), $charset, $contentType, $content = '', $prefix = '');
+		
+		
     }
-    private function parseTemplate($template = '')
-    {
-        $depr = c('TMPL_FILE_DEPR');
-        $template = str_replace(':', $depr, $template);
-        $theme = $this->getTemplateTheme();
-        define('NOW_PATH', BASE_PATH . '/themes/' . $theme . 'Pchome/');
-        define('THEME_PATH', BASE_PATH . '/themes/default/Pchome/');
-        define('APP_TMPL_PATH', __ROOT__ . '/themes/default/Pchome/');
-        if ('' == $template) {
-            $template = strtolower(MODULE_NAME) . $depr . strtolower(ACTION_NAME);
-        } else {
-            if (false === strpos($template, '/')) {
-                $template = strtolower(MODULE_NAME) . $depr . strtolower($template);
-            }
-        }
-        $file = NOW_PATH . $template . c('TMPL_TEMPLATE_SUFFIX');
-        if (file_exists($file)) {
-            return $file;
-        }
-        return THEME_PATH . $template . c('TMPL_TEMPLATE_SUFFIX');
-    }
-    private function getTemplateTheme()
-    {
-        define('THEME_NAME', 'default');
-        if ($this->theme) {
-            $theme = $this->theme;
-        } else {
-            $theme = d('Template')->getDefaultTheme();
-            if (c('TMPL_DETECT_THEME')) {
-                $t = c('VAR_TEMPLATE');
-                if (isset($_GET[$t])) {
-                    $theme = $_GET[$t];
-                } else {
-                    if (cookie('think_template')) {
-                        $theme = cookie('think_template');
-                    }
-                }
-                if (!in_array($theme, explode(',', c('THEME_LIST')))) {
-                    $theme = c('DEFAULT_THEME');
-                }
-                cookie('think_template', $theme, 864000);
-            }
-            $this->theme = $theme;
-        }
-        return $theme ? $theme . '/' : '';
-    }
+	
+	//新版
+    private function parseTemplate($template = ""){
+		$depr = C("TMPL_FILE_DEPR");
+		$template = str_replace(":", $depr, $template);
+		$theme = $this->getTemplateTheme();
+		
+		define("NOW_PATH", BASE_PATH . "/themes/" . $theme . "Pchome/");
+		define("THEME_PATH", BASE_PATH . "/themes/default/Pchome/");
+		define("APP_TMPL_PATH", __ROOT__ . "/themes/default/Pchome/");
+
+		if ("" == $template) {
+			$template = strtolower(MODULE_NAME) . $depr . strtolower(ACTION_NAME);
+		}
+		else if (false === strpos($template, "/")) {
+			$template = strtolower(MODULE_NAME) . $depr . strtolower($template);
+		}
+
+		$file = NOW_PATH . $template . C("TMPL_TEMPLATE_SUFFIX");//模板走到这里都是正确�&#65533;$file  /www/web/baocms2/public_html/themes/test/Pchome/index/index.html
+		
+		if (file_exists($file)) {//检查文件是不是存在如果存在�&#65533;
+			return $file;
+		}
+		
+		
+		//哪里错误�&#65533;
+        //THEME_PATH 当前模板主题路径，TMPL_TEMPLATE_SUFFIX配置后缀
+		return THEME_PATH . $template . C("TMPL_TEMPLATE_SUFFIX");
+		
+	}
+	
+	//城市模板选择
+    private function getTemplateTheme(){
+		define("THEME_NAME", "default");
+		
+		if ($this->theme) {
+			$theme = $this->theme;
+			
+		}
+		
+		else {
+			$default = D("Template")->getDefaultTheme();
+			$themes = D("Template")->fetchAll();
+
+			if (C("TMPL_DETECT_THEME")) {
+				$t = C("VAR_TEMPLATE");
+				
+				if (isset($_GET[$t])) {
+					$theme = $_GET[$t];
+					cookie("think_template", $theme, 864000);
+					
+				}
+				
+				else if (!empty($this->city["theme"])) {
+					$theme = $this->city["theme"];
+					
+				}
+				else if (cookie("think_template")) {
+					$theme = cookie("think_template");
+				}
+
+				if (!isset($themes[$theme])) {
+					$theme = $default;
+				}
+				
+				
+			}
+			else {
+				$theme = $default;//目前走的这里，上面没走了
+				
+			}
+		}
+	
+		return $theme ? $theme . "/" : "";
+	}
+	
+	
+	
+	
     protected function baoMsg($message, $jumpUrl = '', $time = 3000, $callback = '', $parent = true)
     {
         $parents = $parent ? 'parent.' : '';
@@ -204,7 +246,7 @@ class CommonAction extends Action{
         $str .= '</script>';
         die($str);
     }
-    //开始
+    //开�&#65533;
     protected function niuSuccess($message, $jumpUrl = '', $time = 3000, $parent = true)
     {
         $parent = $parent ? 'parent.' : '';

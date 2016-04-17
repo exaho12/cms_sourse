@@ -1,0 +1,59 @@
+<include  file='public:header'/>
+<div class="sjgl_lead">
+    <ul>
+        <li><a href="#">商家管理</a> > <a href="">营销管理</a> > <a>卡卷</a></li>
+    </ul>
+</div>
+<div class="tuan_content">
+    <form method="post" action="<{:U('coupon/index')}>">
+    <div class="radius5 tuan_top">
+        <div class="tuan_top_t">
+            <div class="left tuan_topser_l">
+            卡劵
+
+            </div>
+            <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('card/wxqrcode2',array('shop_id'=>$shop_id))}>">查看卡券</a></div>
+        </div>
+    </div>
+    </form>
+	</form>
+    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#eee;">
+            <td>卡劵类型</td>
+            <td>商户名字</td>
+            <td>卡券名</td>
+            <td>副标题</td>
+            <td>剩余</td>
+            <td>总库存</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <foreach name="card" item="var">
+            <tr>
+                <td><if condition='$var["card_type"] eq "DISCOUNT"'> 折扣券
+                <elseif condition='$var["card_type"] eq "GIFT"'/>礼品券
+                <elseif condition='$var["card_type"] eq "CASH"'/>代金券
+                <elseif condition='$var["card_type"] eq "GENERAL_COUPON"'/>通用券
+                <elseif condition='$var["card_type"] eq "GROUPON"'/>团购券<else/>其他</if></td>
+                <td><{$var.brand_name}></td>
+                <td><{$var.title}></td>
+                <td><{$var.sub_title}></td>
+                <td><{$var.sku.quantity}></td>
+                <td><{$var.sku.total_quantity}></td>
+                <td><if condition='$var["status"] eq "CARD_STATUS_NOT_VERIFY"'> 待审核
+                <elseif condition='$var["status"] eq "CARD_STATUS_VERIFY_FAIL"'/>审核失败
+                <elseif condition='$var["status"] eq "CARD_STATUS_VERIFY_OK"'/>通过审核
+                <elseif condition='$var["status"] eq "CARD_STATUS_DELETE"'/>卡券被商户删除
+                <elseif condition='$var["status"] eq "CARD_STATUS_DELETE"'/>在公众平台投放过的卡券<else/></if></td>
+                <td>
+					<a class="radius3 sjgl_an tuan_topbt" href="<{:U('card/wxqrcode',array('id'=>$var['id'],'shop_id'=>$shop_id))}>" target="_blank">投放</a>
+                    <a class="radius3 sjgl_an tuan_topbt" href="<{:U('card/consume',array('id'=>$var['iid']))}>">核销</a>
+                    <a mini='confirm' class="radius3 sjgl_an tuan_topbt" href="<{:U('card/delete_card',array('iid'=>$var['iid']))}>">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </table>
+    <{$page}>
+</div>
+
+<include  file='public:footer'/>

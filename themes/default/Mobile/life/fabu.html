@@ -1,21 +1,11 @@
-<include  file='public:header'/>   <link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
-
-<script src="/static/default/wap/other/webuploader.js"></script> 
-
+<include  file='public:header'/>   
 <header class="top-fixed bg-yellow bg-inverse">
-
 	<div class="top-back">
-
 		<a class="top-addr" href="<{:U('life/index')}>"><i class="icon-angle-left"></i></a>
-
 	</div>
-
 	<div class="top-title">
-
 		发布<{$cate.cate_name}>
-
 	</div>
-
 </header>
 
 
@@ -24,23 +14,47 @@
 
 <div class="blank-10"></div>
 
-<div class="container">
-
-	<div id="uploader" class="uploader">
-
-		<div id="filepicker">选择图片</div>
-
-		<div id="filelist" class="uploader-list"></div>
-
-	</div>
-
-	<div class="blank-10"></div>
-
+ <div class="Upload-img-box">
+   <div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" data-role="none">上传图片</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
 </div>
-
+                    <script type="text/javascript" src="/static/default/wap/js/ajaxfileupload.js"></script>
+                    <script>
+                        function ajaxupload() {
+                            $(".loading").show();
+                            $.ajaxFileUpload({
+                                url: '<{:U("app/upload/upload",array("model"=>"life"))}>',
+                                type: 'post',
+                                fileElementId: 'fileToUpload',
+                                dataType: 'text',
+                                secureuri: false, //一般设置为false
+                                success: function (data, status) {
+                                    $(".loading").hide();
+                                    var str = '<img src="__ROOT__/attachs/' + data + '"><input type="hidden" name="data[photo]" value="' + data + '" />';
+                                    $(".jq_photo").show().html(str);
+                                    $("#fileToUpload").unbind('change');
+                                    $("#fileToUpload").change(function () {
+                                        ajaxupload();
+                                    });
+                                }
+                            });
+                        }
+                        $(document).ready(function () {
+                            $("#fileToUpload").change(function () {
+                                ajaxupload();
+                            });
+                            $(document).on("click", ".photo img", function () {
+                                $(this).parent().remove();
+                            });
+                        });
+                    </script>
 
 
 <div class="blank-10 bg border-top"></div>
+
 
 <div class="row">
 
@@ -510,109 +524,7 @@
 
 </form>
 
-	<script>
-
-		jQuery(function() {
-
-			var $ = jQuery,
-
-				$list = $('#filelist'),
-
-				ratio = window.devicePixelRatio || 1,
-
-				thumbnailWidth = 100 * ratio,
-
-				thumbnailHeight = 100 * ratio,
-
-				uploader;
-
-			var uploader = WebUploader.create({
-
-				auto: true,
-
-				swf: '/static/default/wap/other/Uploader.swf',
-
-				server: '<{:U("public/upload",array("model"=>"life"))}>',
-
-				pick: '#filepicker',
-
-				accept: {
-
-					title: 'Images',
-
-					extensions: 'gif,jpg,jpeg,bmp,png',
-
-					mimeTypes: 'image/*'
-
-				}
-
-			});
-
-
-
-			uploader.on( 'fileQueued', function( file ) {
-
-				var $li = $('<div id="' + file.id + '" class="file-item thumbnail"><img></div>'),
-
-					$img = $li.find('img');
-
-					$list.append( $li );
-
-				uploader.makeThumb( file, function( error, src ) {
-
-					if ( error ) {
-
-						$img.replaceWith('<span>不能预览</span>');
-
-						return;
-
-					}
-
-					$img.attr( 'src', src );
-
-				}, thumbnailWidth, thumbnailHeight );
-
-			});
-
-			
-
-			uploader.on( 'uploadSuccess', function( file,response ) {
-
-				$( '#'+file.id ).addClass('upload-state-done');
-
-				var pic = response['_raw'];
-
-				var str = '<input type="hidden" name="photo[]" value="' + pic + '" />';
-
-				$("#uploader").append(str);
-
-			});
-
-
-
-			uploader.on( 'uploadError', function( file ) {
-
-				var $li = $( '#'+file.id ),
-
-					$error = $li.find('div.error');
-
-				if ( !$error.length ) {
-
-					$error = $('<div class="error"></div>').appendTo( $li );
-
-				}
-
-
-
-				$error.text('上传失败');
-
-			});
-
-		});	
-
-
-
-	</script>
+	
 
 
 

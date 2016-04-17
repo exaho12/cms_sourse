@@ -1,5 +1,12 @@
 <include file="public:header" /> 
 <include file="public:top"/>
+<script type="text/javascript" src="/themes/default/Pchome/statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+
+
+<style>
+.goods_sjcpDwBox {height: 195px;}
+.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+</style>
 <div class="nav">
     <div class="navList">
         <ul>
@@ -186,23 +193,30 @@
                             <hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
                             <p class="nearbuy_cpLiPf"><span style="cursor: pointer;" title="<{$shops[$item['shop_id']]['addr']}>" class="left"><em></em><{:bao_msubstr($shops[$item['shop_id']]['addr'],0,16,false)}></span><span class="right"><a class="sy_hottjJd" target="_blank" href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" ><if condition="$item['bg_date'] elt $today">立即抢购<else/>即将开抢</if></a></span></p>
                             <div class="sy_sjcpBq"><if condition="$item['freebook'] eq 1"><span class="sy_sjcpBq1">免预约</span></if><if condition="$item['is_new'] eq 1"><span class="sy_sjcpBq2">新单</span></if><if condition="$item['is_hot'] eq 1"><span class="sy_sjcpBq3">热门</span></if><if condition="$item['is_chose'] eq 1"><span class="sy_sjcpBq4">精选</span></if></div>
-                            <!--
+                      
                             <div class="sy_sjcpLiDw">
                                 <div class="sy_sjcpDwBox goods_sjcpDwBox">
-                                    <div class="sy_sjcpDwNr">
-                                        <p>此商家已有<span><{$shops[$item['shop_id']]['fans_num']}></span>个粉丝</p>
-                                        <div class="sy_sjcpwx"><img src="<{$item.wei_pic}>" width="135" height="139" /></div>
-                                        <div class="sy_sjcpCz">
-                                            <a class="radius3 sy_sjcpCzA" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">商家<em>&nbsp;</em></a>
-                                            <a class="radius3 sy_sjcpCzA" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>#tuan">抢购<em>&nbsp;</em></a>
-                                            <a class="radius3 sy_sjcpCzA" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>#mendian">门店<em>&nbsp;</em></a>
-                                            <a class="radius3 sy_sjcpCzA" href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>#map"><em>&nbsp;</em></a>
-                                        </div>
+                                    
+                               <script type="text/javascript">
+                                $(function () {
+                                    var str = "<{$host}><{:U('mobile/tuan/detail',array('tuan_id'=>$item['tuan_id']))}>";
+                                    $("#code_<{$item.tuan_id}>").empty();
+                                    $('#code_<{$item.tuan_id}>').qrcode(str);
+                                })
+                               </script>
+                               <div class="sy_sjcpDwNr" style="padding-top:15px;">
+                                <if condition="!empty($item['mobile_fan'])">
+                                <p>手机下单立减 <span style="color:#F00; font-size:16px; font-weight:bold"><{$item['mobile_fan']}></span>元</p>
+                                <else/>
+                                <p>扫描二维码购买</p>
+                                </if>
+                                 
+                          <a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>"><div class="sy_sjcpwx"  id="code_<{$item.tuan_id}>"></div></a>
                                     </div>
                                     <div class="sy_sjcpDwBg">&nbsp;</div>
                                 </div>
                             </div>
-                            -->
+                           
                         </div>
                     </li>
                 </foreach>
@@ -213,7 +227,7 @@
         </div>
     </div>
     <div class="right zy_content_r">
-        <div class="nearbuy_wx"><img src="__TMPL__statics/images/nearwx_03.jpg" width="200" height="320" /></div>
+       
         <div class="nearbuy_hotCp">
             <div class="nearbuy_hotCpT">
                 <div class="left">热卖排行</div>

@@ -1,247 +1,430 @@
-
 <include  file='public:header'/>
+<style>
+
+body{background:#F1F1F1;}
+.comiis_19ditu_bg{width:100%;margin:0 auto 10px;padding:5px 0 0 5px;overflow: hidden;}		
+.comiis_19forum{margin:0 5px 5px 0;float:left;width:210px;height:200px;background:#fff;overflow: hidden;}		
+.comiis_19forum .comiis_19forum_div{margin:10px;}
+.comiis_19forum .comiis_19forum_title{height:53px;position:relative;}
+.comiis_19forum .comiis_19forum_icon{width:48px;height:48px;position:absolute;top:0;right:0px;background:url(comiis_ico.gif) no-repeat 0 top;border-radius:5px;}
+.comiis_19forum .comiis_19forum_title h2{height:26px;overflow:hidden;}
+.comiis_19forum .comiis_19forum_title h2 a{color:#666;;font:100 22px/24px "Microsoft Yahei","SimHei";text-decoration:none;}
+.comiis_19forum .comiis_19forum_title em{color:#999;display:block;line-height:24px;height:24px;overflow: hidden;font-style: normal;}
+.comiis_19forum .comiis_19forum_list{height:130px;color:#999;overflow:hidden;}
+.comiis_19forum .comiis_19forum_list a{}
+.comiis_19forum .comiis_19forum_list h3{line-height:22px;width:100%;margin-right:3px;float:left;height:22px;font-size:14px;overflow:hidden;font-weight:400;    color: #666;}
+.comiis_19forum .comiis_19forum_list h3 a{font-size:12px;color: #666;}
+.comiis_19forum_style1{width:377px}
+.comiis_19forum_style1 .comiis_19forum_div{width:166px;height:142px;float:left;display:inline;}
+.comiis_19forum_style1 .comiis_19forum_rightad{width:186px;height:162px;float:right;display:inline;overflow:hidden;}
+.comiis_19forum_style2{height:333px;}
+.comiis_19forum_style2 .comiis_19forum_div{width:166px;height:142px;}
+.comiis_19forum_style2 .comiis_19forum_bottomad{width:186px;height:164px;overflow:hidden;padding-top:5px;}
+.comiis_19forum_style3{width:377px;height:333px;}
+.comiis_19forum_style3 .comiis_19forum_div{width:357px;height:142px;}
+.comiis_19forum_style3 .comiis_19forum_bottomad{width:377px;height:164px;overflow:hidden;padding-top:5px;}
+.comiis_19forum_style3 .comiis_19forum_topad{position:absolute;top:0;right:50px;width:150px;height:48px;overflow:hidden;}
+.comiis_19forum_style3 .comiis_19forum_list h3{width:86px;margin-right:3px;}
+.comiis_19forum_top{border-top:#fff 2px solid;zoom:1;}
+.comiis_hover .comiis_19forum_icon{background-position:0 bottom;}
+.comiis_hover{box-shadow:0 0 6px rgba(50,50,50,0.3);}
+.comiis_19ditu_bg .comiis_19forum .comiis_ad{padding:6px 8px 8px;}
+.comiis_19ditu980 .comiis_19ditu_bg {width:975px;}
+.comiis_19ditu980 .comiis_19forum{width:190px;}
+.comiis_19ditu980 .comiis_19forum .comiis_19forum_list h3{width:82px;}
+.red{ color:#F00 !important}
+.mainBt ul span{ background:#F00; color:#FFF; padding:5px 15px; margin-right:40px;}
+</style>
 <div class="mainBt">
     <ul>
         <li class="li1">首页</li>
-        <li class="li2">网站运行状态</li>
+        <li class="li2">后台首页</li>
+        <li class="li2 li3">待办事项</li>
+        <if condition="$warning['is_ip'] eq 1">
+            <if condition="!empty($admin['username'])">
+           	  <span style="float:right">尊敬的&nbsp;<{$admin.username}>&nbsp;您上次登录IP跟本次登录IP地址不一致，建议您立即修改密码！</span> 
+            </if>
+		</if>  
     </ul>
 </div>
+
+
 <div class="main-jsgl main-sc">
-    <div class="jsglNr">
+<div class="comiis_19ditu ">
+<ul class="comiis_19ditu_bg cl masonry" style="position: relative; height: 1014px;">
 
-        <div class="selectNr" style="margin-top: 0px; border-top:none;">
-            <div class="left">
-                <a>欢迎您：<{$admin.username}>（<{$admin.role_name}>）</a>
-                <a>上次登录地址：<{$ad.last_ip}></a>
-                <a>更新到<{$v}></a>
-                <a>php版本：<{:phpversion()}></a>
-
-            </div>
-            <div class="right">
-               
-                <div class="clear"></div>
-            </div>
-            <div class="clear"></div>
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="">系统概况</a></h2>
+            <em>欢迎：<{$admin.username}>（<{$admin.role_name}>）</em>
         </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="##">1：上次登录地址：<{$ad.last_ip}></a></h3>
+            <h3><a href="##">2：更新到<{$v}></a></h3>
+            <h3><a href="##">3：php版本：<{:phpversion()}></a></h3>
+            <h3><a href="http://www.fengmiyuanma.com/list-83.html">4：点击查看今日更新</a></h3>
+            <h3><a href="http://www.fengmiyuanma.com/list-87.html">5：更多精品源码下载</a></h3>
+            <h3><a href="http://www.fengmiyuanma.com/list-93.html">5：不会？点击看教程</a></h3>
 
-            <div class="selectNr selectNr2">
-                <div class="left">
-                    <div class="seleK">
-                       
-                    </div>
-
-                </div>
-                <div class="right">
-                  
-                </div>
-
-        <div class="clear"></div>
+            </div>
     </div>
+</div>
+</li>
 
-    <style>
-	.gray{background-color: #F8F8F8; color:#F00 }
-	.main-jsgl .jsglNr table tr td .gray{ color:#F00 }
-	.main-jsgl .jsglNr table tr td .dot{ color:#F00 }
-	.main-jsgl .jsglNr table tr td .dot1{ background: #F00;}
-	</style>
-        <div class="tableBox">
-            <table bordercolor="#e1e6eb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
-                <tr>
-                    <td class="w50">ID</td>
-                    <td>项目</td>
-                    <td>总数量</td>
-                    <td class="gray">今日数量</td>
-                    <td>操作</td>
-
-                </tr>
-            
-            
-            		 <tr>
-                        <td>1</td>
-                        <td>会员数量</td>
-                        <td><{$counts.users}></td>
-                        <td class="gray">今日新增<a class="dot">(<{$counts.totay_user}>)</a>个会员</td>
-                        <td><a href="<{:U('user/index')}>" class="remberBtn ">详情</a></td>
-                    </tr>
-                     <tr>
-                        <td>2</td>
-                        <td>商家数量</td>
-                        <td><{$counts.shops}></td>
-                        <td class="gray">
-                        今日入驻商家<a class="dot">(<{$counts.totay_shop}>)</a>家
-                        待审核<a href="<{:U('shop/apply')}>"   class="dot">(<{$counts.totay_shop_audit}>)</a>条
-                        待认领<a href="<{:U('shop/recognition')}>" class="dot">(<{$counts.shoprecognition}>)</a>家
-                        </td>
-
-                       
-
-                        <td>
-                        <if condition="$counts['totay_shop_audit'] gt 0">
-                        <a href="<{:U('shop/apply')}>"  class="remberBtn dot1">审核</a>
-                        <else/>
-                        </if>
-                        <a href="<{:U('shop/index')}>" class="remberBtn ">详情</a>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>3</td>
-                        <td>网站订单数量</td>
-                        <td>商：<{$counts.order}>，外：<{$counts.order_waimai}>，团：<{$counts.order_tuan}></td>
-                        <td class="gray">
-                        今日商城<a href="<{:U('order/index')}>"  class="dot">(<{$counts.totay_order}>)</a>单
-                        今日外卖<a href="<{:U('eleorder/index')}>"  class="dot">(<{$counts.totay_order_waimai}>)</a>单
-                        今日团购<a href="<{:U('tuanorder/index')}>"  class="dot">(<{$counts.totay_order_tuan}>)</a>单
-                        <br/><!--下面是退款的-->
-                        商城退款<a href="<{:U('order/index')}>"  class="dot">(<{$counts.order_tui}>)</a>笔
-                        外卖退款<a href="<{:U('eleorder/index')}>"  class="dot">(<{$counts.order_waimai_tui}>)</a>笔
-                       
-                        </td>
-                        <td>
-                        <if condition="$counts['totay_order'] gt 0">
-                        <a href="<{:U('order/index')}>" class="remberBtn ">商城</a>
-                        <else/>
-                        </if>
-                        <if condition="$counts['totay_order_waimai'] gt 0">
-                        <a href="<{:U('eleorder/index')}>" class="remberBtn ">外卖</a>
-                        <else/>
-                        </if>
-                        <if condition="$counts['totay_order_tuan'] gt 0">
-                        <a href="<{:U('tuanorder/index')}>" class="remberBtn ">团购</a>
-                        <else/>
-                        </if>
-                        
-                        
-                        
-                        </td>
-                    </tr>
-                    
-                     <tr>
-                        <td>4</td>
-                        <td>会员充值数</td>
-                        <td><{$counts.totay_gold}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.totay_gold}>)</a>人充值</td>
-                        <td><a href="<{:U('usermoneylogs/index')}>" class="remberBtn ">详情</a></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>家政服务预约</td>
-                        <td><{$counts.jiazheng}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.totay_jiazheng}>)</a>人预约
-                        其中<a class="dot">(<{$counts.totay_jiazheng_queren}>)</a>人需要确认</td>
-                        <td>
-                        <if condition="$counts['totay_jiazheng_queren'] gt 0">
-                        <a href="<{:U('housework/index')}>"  class="remberBtn dot1">家政确认</a>
-                        <else/>
-                        </if>
-                        
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>优惠劵下载</td>
-                        <td><{$counts.coupon}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.today_coupon}>)</a>次下载</td>
-                        <td><a href="<{:U('coupondownload/index')}>" class="remberBtn ">详情</a></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>点评数量</td>
-                        <td>
-                        商家：<{$counts.dianping}>
-                        商城：<{$counts.dianping_goods}>
-                        抢购：<{$counts.dianping_tuan}>
-                        外卖：<{$counts.dianping_waimai}>
-                        </td>
-                        <td class="gray">
-                        今日商家<a href="<{:U('shopdianping/index')}>"  class="dot">(<{$counts.totay_dianping}>)</a>
-                        今日商城<a href="#"  class="dot">(<{$counts.totay_dianping_goods}>)</a>
-                        今日团购<a href="<{:U('tuandianping/index')}>"  class="dot">(<{$counts.totay_dianping_tuan}>)</a>
-                        今日外卖<a href="#"  class="dot">(<{$counts.totay_dianping_waimai}>)</a>
-                      
-                        <td>
-                        <if condition="$counts['totay_dianping'] gt 0">
-                        <a href="<{:U('shopdianping/index')}>" class="remberBtn ">商家点评</a>
-                        <else/>
-                        </if>
-                        <if condition="$counts['totay_dianping_tuan'] gt 0">
-                        <a href="<{:U('tuandianping/index')}>" class="remberBtn ">团购点评</a>
-                        <else/>
-                        </if>
-                       
-                        </td>
-                    </tr>
-                    
-                     <tr>
-                        <td>8</td>
-                        <td>帖子数量</td>
-                        <td><{$counts.post}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.totay_post}>)</a>篇新帖
-                        待审核<a href="<{:U('post/index')}>"   class="dot">(<{$counts.totay_post_audit}>)</a>条
-                        </td>
-                        <td>
-                        <if condition="$counts['totay_post_audit'] gt 0">
-                        <a href="<{:U('post/index')}>"  class="remberBtn dot1">审核</a>
-                        <else/>
-                        </if>
-                        <a href="<{:U('post/index')}>" class="remberBtn ">详情</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>分类信息数量</td>
-                        <td><{$counts.life}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.totay_life}>)</a>条分类信息
-                        
-                        待审核<a href="<{:U('life/index')}>"   class="dot">(<{$counts.totay_life_audit}>)</a>条
-                        </td>
-                        <td>
-                        <if condition="$counts['totay_life_audit'] gt 0">
-                        <a href="<{:U('life/index')}>"  class="remberBtn dot1">审核</a>
-                        <else/>
-                        </if>
-                        <a href="<{:U('life/index')}>" class="remberBtn ">详情</a>
-                        </td>
-                    </tr>
-                    <!--家政预约-->
-                    <tr>
-                        <td>10</td>
-                        <td>网站预约</td>
-                        <td><{$counts.yuyue}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.today_yuyue}>)</a>人预约</td>
-                        <td><a href="<{:U('shopyuyue/index')}>" class="remberBtn ">预约详情</a></td>
-                    </tr>
-                    
-                     <tr>
-                        <td>11</td>
-                        <td>网站缴费</td>
-                        <td><{$counts.bill}></td>
-                        <td class="gray">今日<a class="dot">(<{$counts.totay_bill}>)</a>条分类信息
-                        
-                        待审核<a href="<{:U('bill/billorder')}>"   class="dot">(<{$counts.totay_bill_audit}>)</a>条
-                        </td>
-                        <td>
-                        <if condition="$counts['totay_bill_audit'] gt 0">
-                        <a href="<{:U('bill/billorder')}>"  class="remberBtn dot1">确认</a>
-                        <else/>
-                        </if>
-                        <a href="<{:U('bill/billorder')}>" class="remberBtn ">退款</a>
-                        </td>
-                    </tr>
-                    
-           
-            </table>
-            <{$page}>
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('user/index')}>">会员数据</a></h2>
+            <em>总：<{$counts.users}>个会员</em>
         </div>
-        <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
-            <div class="left">
-               <a href="http://www.fengmiyuanma.com/list-83.html"  class="remberBtn ">点击获取更新</a>
-               <a href="http://www.fengmiyuanma.com/list-83.html"  class="remberBtn ">使用教程</a>
-               <a href="http://www.fengmiyuanma.com/list-87.html"  class="remberBtn ">免费下载精品源码</a>
-               <a href="http://www.baocms.com" target="_blank"  class="remberBtn ">正式运营购买正版授权</a>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('user/index')}>" class="dot">1：今日新增<a class="red"><{$counts.totay_user}></a>个会员</a></h3>
+            <h3><a href="<{:U('user/index')}>">2：已有<{$counts.user_moblie}>人验证手机号</a></h3>
+            <h3><a href="<{:U('user/index')}>">3：已有<{$counts.user_email}>人绑定邮箱</a></h3>
+            <h3><a href="<{:U('user/index')}>">4：qq注册<{$counts.user_qq}>人.</a></h3>
+            <h3><a href="<{:U('user/index')}>">5：微信登录<{$counts.user_weixin}>人.</a></h3>
+            <h3><a href="<{:U('user/index')}>">6：微博注册<{$counts.user_weibo}>人.</h3>
+
+ 
             </div>
-        </div>
+    </div>
+</div>
+</li>
 
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="#">资金统计</a></h2>
+            <em>会员总资金<{:round($counts['money_and']/100,2)}>元</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('usermoneylogs/index')}>">1：今日<a class="red"><{$counts['moneylogs']}></a>次资金流动</a></h3>
+            <h3><a href="<{:U('usermoneylogs/index')}>">2：会员总资金<{:round($counts['money_and']/100,2)}>元</a></h3>
+            <h3><a href="<{:U('usermoneylogs/index')}>">3：会员总积分<{$counts['money_integral']}>分</a></h3>
+            <h3><a href="<{:U('usercash/index')}>">4：总提现<{:round($counts['money_cash']/100,2)}>元</a></h3>
+            <h3><a href="<{:U('usercash/index')}>">5：提现成功<{:round($counts['money_cash_ok']/100,2)}>元</a></h3>
+            <h3><a href="<{:U('usercash/index')}>">6：今日提现<a class="red"><{:round($counts['money_cash_day']/100,2)}></a>元，<a class="red"><{$counts['money_cash_audit']}></a>人待审</a></h3>
+            </div>
+    </div>
+</div>
+
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('shop/index')}>">商家数据</a></h2>
+            <em>共<{$counts.shops}>个商家</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="##">1：今日<a class="red"><{$counts.totay_shop}></a>商家申请入驻</a></h3>
+            <h3><a href="<{:U('shop/apply')}>">2：待审核<a class="red"><{$counts.totay_shop_audit}></a>个商家</a></h3>
+            <h3><a href="<{:U('shop/recognition')}>">3：待认领<a class="red"><{$counts.shoprecognition}></a>个商家</a></h3>
+            <h3><a href="<{:U('audit/index')}>">4：已有<{$counts.shop_audit}>商家已认证</a></h3>
+            <h3><a href="<{:U('weidian/index')}>">5：有<{$counts.shop_weidian}>微店,待审核<a class="red"><{$counts.shop_weidian_audit}></a></a></h3>
+
+            </div>
+    </div>
+</div>
+</li>
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('goods/index')}>">商城数据</a></h2>
+            <em>共有<{$counts['goods']}>个商品</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('goods/index')}>">1：共有<{$counts['goods']}>个商品</a></h3>
+            <h3><a href="<{:U('goods/index')}>">2：今日新增<a class="red"><{$counts['goods_day']}></a>个，待审核<a class="red"><{$counts['goods_audit']}></a>个</a></h3>
+            <h3><a href="<{:U('order/index')}>">3：订单<{$counts['order']}>个，今日<a class="red"><{$counts['order_day']}></a>个</a></h3>
+            <h3><a href="<{:U('order/index')}>">4：商城退款申请：<a class="red"><{$counts.order_tui}></a>笔</a></h3>
+            <h3><a href="<{:U('malldianping/index')}>">5：商城共：<{$counts.dianping_goods}>条点评</a></h3>
+            <h3><a href="<{:U('malldianping/index')}>">6：今日商城点评：<a class="red"><{$counts.totay_dianping_goods}></a>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('tuan/index')}>">抢购数据</a></h2>
+            <em>共有<{$counts.tuan}>个抢购</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('tuan/index')}>">1：共有<{$counts.tuan}>个抢购</a></h3>
+            <h3><a href="<{:U('tuan/index')}>">2：今日上单<a class="red"><{$counts.tuan_day}></a>个，待审核<a class="red"><{$counts.tuan_audit}></a>个</a></h3>
+            <h3><a href="<{:U('tuanorder/index')}>">3：订单<{$counts.order_tuan}>个，今日<a class="red"><{$counts.totay_order_tuan}></a>个</a></h3>
+            <h3><a href="<{:U('tuancode/index')}>">4：还有<a class="red"><{$counts.tuan_code_used}></a>抢购劵待验证</a></h3>
+            <h3><a href="<{:U('uandianping/index')}>">5：团购共<{$counts.dianping_tuan}>条点评</a></h3>
+            <h3><a href="<{:U('uandianping/index')}>">6：今日团购点评<a class="red"><{$counts.totay_dianping_tuan}></a>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('ele/index')}>">外卖数据</a></h2>
+            <em>共有<{$counts.ele}>个外卖商家</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('ele/index')}>">1：共有<{$counts.eleproduct}>个菜品</a></h3>
+            <h3><a href="<{:U('ele/index')}>">2：今日上单<a class="red"><{$counts.eleproduct_day}></a>个，待审核<a class="red"><{$counts.eleproduct_audit}></a>个</a></h3>
+            <h3><a href="<{:U('eleorder/index')}>">3：总订单<{$counts.order_waimai}>笔，今日外卖：<a class="red"><{$counts.totay_order_waimai}></a>单</a></h3>
+            <h3><a href="<{:U('eleorder/index')}>">4：外卖退款申请<a class="red"><{$counts.order_waimai_tui}></a>笔</a></h3>
+            <h3><a href="<{:U('eleorder/index')}>">5：外卖总点评<{$counts.dianping_waimai}></a></h3>
+            <h3><a href="<{:U('eleorder/index')}>">6：今日外卖点评<a class="red"><{$counts.totay_dianping_waimai}></a>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('shopdingyuyue/index')}>">订座数据</a></h2>
+            <em>共有<{$counts.shop_ding}>个订座商家</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('shopdingyuyue/index')}>">1：共有<{$counts.shop_ding}>个订座商家</a></h3>
+            <h3><a href="<{:U('shopdingyuyue/index')}>">2：共有<{$counts.shop_ding_room}>个包厢</a></h3>
+            <h3><a href="<{:U('shopdingyuyue/index')}>">3：一共<{$counts.shop_ding_yuyue}>人预约，今日<a class="red"><{$counts.shop_ding_yuyue_day}></a>人预约订座</a></h3>
+            <h3><a href="<{:U('dingdianping/index')}>">4：订座点评<{$counts.shop_ding_dianping}>笔</a></h3>
+            <h3><a href="<{:U('dingdianping/index')}>">5：今日订座点评<a class="red"><{$counts.shop_ding_dianping_day}></a>笔</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('delivery/index')}>">物流快递</a></h2>
+            <em>共有<{$counts.delivery}>个配送员</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('delivery/index')}>">1：共有<{$counts.delivery_order}>单子</a></h3>
+            <h3><a href="<{:U('delivery/index')}>">2：还有<{$counts.delivery_order_day_qiang}>单等待配送</a></h3>
+            <h3><a href="<{:U('express/index')}>">3：今日配送中<a class="red"><{$counts.delivery_order_day_zhong}></a>单</a></h3>
+            <h3><a href="<{:U('express/index')}>">4：今日配已完成<a class="red"><{$counts.delivery_order_day_ok}></a>单</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+
+</li>
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('coupon/index')}>">优惠劵下载</a></h2>
+            <em>共：<{$counts.coupon}>单</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('coupon/index')}>">1：网站共<{$counts.coupon}>单优惠劵</a></h3>
+            <h3><a href="<{:U('coupon/index')}>">2：今日新增<a class="red"><{$counts.coupon_day}></a>单，<a class="red"><{$counts.coupon_audit}></a>待审</a></h3>
+            <h3><a href="<{:U('coupon/index')}>">3：优惠劵总下载<{$counts.coupon_download}>次</a></h3>
+            <h3><a href="<{:U('coupondownload/index')}>">4：今日下载优惠劵<a class="red"><{$counts.coupon_download_day}></a>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="#">点评数量</a></h2>
+            <em>
+            点：<{$counts.dianping}>
+            商：<{$counts.dianping_goods}>
+            团：<{$counts.dianping_tuan}>
+            外：<{$counts.dianping_waimai}>
+            </em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('shopdianping/index')}>">1：今日商家点评<a class="red"><{$counts.totay_dianping}></a>次</a></h3>
+            <h3><a href="<{:U('malldianping/index')}>">2：今日商城点评：<a class="red"><{$counts.totay_dianping_goods}></a>次</a></h3>
+            <h3><a href="<{:U('tuandianping/index')}>">3：今日团购点评：<a class="red"><{$counts.totay_dianping_tuan}></a>次</a></h3>
+            <h3><a href="<{:U('eledianping/index')}>">4：今日外卖点评：<a class="red"><{$counts.totay_dianping_waimai}></a>次</a></h3>
+            <h3><a href="<{:U('dingdianping/index')}>">5：今日订座点评：<a class="red"><{$counts.shop_ding_dianping_day}></a>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('post/index')}>">贴吧数据</a></h2>
+            <em>总：<{$counts.post}>篇帖子</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('post/index')}>">1：今日新帖：<a class="red"><{$counts.totay_post}></a>篇</a></h3>
+            <h3><a href="<{:U('post/index')}>">2：待审核帖子：<{$counts.post_audit}>篇</a></h3>
+            <h3><a href="<{:U('post/index')}>">3：贴吧总回复：<{$counts.post_reply}>条,今日回复<a class="red"><{$counts.totay_post_reply}></a></a></h3>
+            <h3><a href="<{:U('post/index')}>">4：待审核的总回复<{$counts.totay_post_reply_audit}>条</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('life/index')}>">分类信息数据</a></h2>
+            <em>总：<{$counts.life}>条分类信息</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('life/index')}>">1：总：<{$counts.life}>条，<{$counts.life_audit}>待审核</a></h3>
+            <h3><a href="<{:U('life/index')}>">2：今日<a class="red"><{$counts.totay_life}></a>条分类信息</a></h3>
+            <h3><a href="<{:U('life/index')}>">3：分类信息总浏览<{$counts.life_views}>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('community/index')}>">小区数据</a></h2>
+            <em>总<{$counts.community}>个小区</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('community/index')}>">1：总<{$counts.community}>个小区</a></h3>
+            <h3><a href="<{:U('communityposts/index')}>">2：总有<{$counts.community_bbs}>篇帖子，<a class="red"><{$counts.community_bbs_audit}></a>篇待审核</a></h3>
+            <h3><a href="<{:U('feedback/index')}>">3：小区报修<{$counts.community_feedback}>条</a></h3>
+            <h3><a href="<{:U('convenientphone/index')}>">4：小区便民电话<{$counts.community_phone}>条</a></h3>
+            <h3><a href="<{:U('communitynews/index')}>">5：共<{$counts.community_news}>条通，知今日发送<a class="red"><{$counts.community_news_day}></条></a></h3>
+            <h3><a href="<{:U('usermoneylogs/index')}>">6：还有<a class="red"><{:round($counts['community_order']/100,2)}></a>元物业费未缴</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('village/index')}>">社区村镇</a></h2>
+            <em>总<{$counts.village}>个社区</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('village/index')}>">1：共有社区<{$counts.village}>个。</a></h3>
+            <h3><a href="<{:U('village/index')}>">2：共有村镇贴吧<{$counts.village_bbs}>个</a></h3>
+            <h3><a href="<{:U('village/index')}>">3：共有村镇回复<{$counts.village_reply}>条</a></h3>
+            <h3><a href="<{:U('village/index')}>">4：共有村镇意见反馈<{$counts.village_suggestion}>条</a></h3>
+            <h3><a href="<{:U('village/index')}>">5：共<{$counts.villagejoin}>人加入村镇</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('article/index')}>">自媒体</a></h2>
+            <em>总<{$counts.article}>篇文章</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('article/index')}>">1：共<{$counts.article}>篇文章。</a></h3>
+            <h3><a href="<{:U('article/index')}>">2：今日<a class="red"><{$counts.article_day}></a>篇文章，<a class="red"><{$counts.article_audit}></a>篇待审核</a></h3>
+            <h3><a href="<{:U('article/index')}>">3：总文章回复<{$counts.article_reply}>次，点赞<{$counts.article_zan}>次</a></h3>
+            <h3><a href="<{:U('article/index')}>">4：总文章浏览<{$counts.article_vies}>次</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('housework/index')}>">家政服务</a></h2>
+            <em>总<{$counts.houseworksetting}>个家政</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('housework/index')}>">1：共有<{$counts.houseworksetting}>个家政。</a></h3>
+            <h3><a href="<{:U('housework/index')}>">2：今日<a class="red"><{$counts.totay_jiazheng}></a>人预约</a></h3>
+            <h3><a href="<{:U('housework/index')}>">3：需要确认预约<a class="red"><{$counts.totay_jiazheng_queren}></a>人</a></h3>
+            <h3><a href="<{:U('housework/index')}>">4：家政点评<{$counts.lifeservice_dianping}></a></h3>
+			<h3><a href="<{:U('housework/index')}>">5：今日家政点评<a class="red"><{$counts.totay_lifeservice_dianping}></a></a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+<li class="comiis_19forum comiis_19forum_style0 masonry-brick">
+<div class="comiis_19forum_top comiis_19forum_id1">
+    <div class="comiis_19forum_div">
+        <div class="comiis_19forum_title">
+            <span class="comiis_19forum_icon"></span>
+            <h2><a href="<{:U('bill/billorder')}>">网站缴费</a></h2>
+            <em>总<{$counts.bill}>个缴费项目</em>
+        </div>
+            <div class="comiis_19forum_list">
+            <h3><a href="<{:U('bill/billorder')}>">1：共<{$counts.bill}>个缴费项目。</a></h3>
+            <h3><a href="<{:U('bill/billorder')}>">2：今日缴费<a class="red"><{$counts.totay_bill}></a>条</a></h3>
+            <h3><a href="<{:U('bill/billorder')}>">3：待审核<{$counts.totay_bill_audit}>条</a></h3>
+            </div>
+    </div>
+</div>
+</li>
+
+
+
+
+</ul>
+<div class="cl"></div>
 </div>
 </div>
+
+ 
+
 <include  file='public:footer'/> 

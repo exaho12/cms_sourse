@@ -23,70 +23,69 @@
         </if>
         <if condition="$st eq 2">
             <div class="tgdd_nr">
-                <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-                    <tr class="tgdd_nrt">
-                        <th>抢购订单</th>
-                        <th>抢购标题</th>
-                        <th>抢购图片</th>
-                        <th>商家</th>
-                        <th>评分</th>
-                        <th>评价</th>
-                        <th>生效日期</th>
-                        <th>点评日期</th>
-                    </tr>
-                    <volist name="list" id="var" key="index">
-                   
-                        <tr class="tgdd_nrt">
-                 
-                            <td><{$var.order_id}></td>
-                            <td><{$tuans[$var['tuan_id']]['title']}></td>
-                            <td>
-                                <a class="myInfor_sx"  target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$tuans[$var['tuan_id']]['photo']}>"  width="70" style=" margin-top:5px;"/></a>
-                            </td>
-                            <td>
-                                <a  class="myInfor_sx" title="<{$shops[$var['shop_id']]['shop_name']}>" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>">
-                                    <{$shops[$var['shop_id']]['shop_name']}>
-                                </a>
-                            </td>
-                            <td width="150">
-                                <div class="jq_star_show" style="" rel="<{$var['score']*10}>"></div>
-                            </td>
-                            <td>
-                            <a class="tips" rel="<{$var.contents}>" style="color: #fff; background: #1ca290; padding: 0px 5px; margin-left: 10px; display: inline-block;  height: 20px; line-height: 20px;" href="javascript:void(0)">查看评价</a>
-                            </td>
-                            <td>
-                                <{$var.show_date}>
-                            </td>
-                            <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
-                            
-                        </tr>
-                       
-                        
-                        <if condition="!empty($var['reply'])">
-                            <tr class="tgdd_nrb">
-                                <td  class="tgdd_hui1">点评回复(reply)：</td>
-                                <td colspan="7" align="left" class="tgdd_hui"><{$var.reply}></td>
-                            </tr>
-                        </if>
-                        
-                        <if condition="$var['pichave'] eq 1">
-                            <tr class="tgdd_nrb">
-                               <td  class="tgdd_hui1">点评图片(images)：</td>
-                                <td colspan="7"  class="tgdd_hui">
-                            <foreach name="pics" item="item">
-                                <if condition="$var['order_id'] eq $item['order_id']">
-                                    <img class="tgdd_pic" src="__ROOT__/attachs/<{$item.pic}>" width="70" height="50"  style=" margin-top:5px;"/>
-                                </if>
-                            </foreach>
-                            </td>
-                       
-                            </tr>
-                        </if>
-                       
-                       
-                    </volist>
-                    
-                </table>
+                 <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">编号</td>
+            <td width="20%">用户</td>
+            <td width="5%">评分</td>
+            <td width="5%">平均花费</td>
+            <td width="30%">评价时间</td>
+            <td width="20%">评价IP</td>
+            <td width="10%">生效日期</td>
+    </table>
+    
+    <volist name="list" id="var" key="index">
+    <table class="dianping" width="100%" border="0">
+      <tr class="tr_dianping_1">
+        <td class="td_dianping_1"><{$var.dianping_id}></td>
+        <td class="td_dianping_2"><{$users[$var['user_id']]['nickname']}>(ID:<{$var.user_id}>)</td>
+        <td class="td_dianping_3"><{$var.score}></td>
+        <td class="td_dianping_4"><{$var.cost}></td>
+        <td class="td_dianping_5"><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+        <td class="td_dianping_6"><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+        <td class="td_dianping_7"><{$var.show_date}></td>
+      </tr>
+      <tr class="tr_dianping_2">
+        
+        <td class="td_dianping_12" colspan="2">
+        
+        
+         <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a  target="_blank"  href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>" class="index__pic___TScfk" >
+        <img src="__ROOT__/attachs/<{$tuans[$var['tuan_id']]['photo']}>" ><span></span></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>" target="_blank" ><span ></span><span><{$tuans[$var['tuan_id']]['title']}></span><span ></span></a><span></span><span></span></p>
+            <span></span>
+            <p></p>
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="td_dianping_9" colspan="3">
+        
+        
+        点评内容：<{$var.contents}>
+        	<br/><br/>
+            <if condition="$var['pichave'] eq 1">
+             <foreach name="pics" item="item">
+             <if condition="$var['order_id'] eq $item['order_id']">
+             <a target="_blank" href="__ROOT__/attachs/<{$item['pic']}>"><img src="__ROOT__/attachs/<{$item['pic']}>" width="60"/></a>
+              </if>
+             </foreach>
+          </if>
+        
+        </td>
+        <td class="td_dianping_10" colspan="2"><if condition="!empty($var['reply'])"><span style="color:#F00">商家回复：<{$var.reply}></span><else/>商家无回复</if></td>
+      </tr>
+      
+      
+      
+    </table>
+     </volist>
+    <br/>
                 <div class="x"><{$page}></div>
             </div>
             <else/>

@@ -17,8 +17,14 @@ protected $Lifeservicecates = array();
         $this->assign('cat',$cat);
         $linkArr['cat'] = $cat;
 		$id = (int)$this->_param('id');
+		
+		$order = $this->_param('order','htmlspecialchars');
+        $this->assign('order', $order);
+        $linkArr['order'] = $order;
+		
+		
 		$this->assign('nextpage', LinkTo('lifeservice/loaddata',$linkArr, array('t' => NOW_TIME, 'p' => '0000')));
-		 $this->assign('linkArr',$linkArr);
+		$this->assign('linkArr',$linkArr);
         $this->display(); // 输出模板
 		
 
@@ -39,7 +45,7 @@ protected $Lifeservicecates = array();
         }
 		
 		//排序重写
-	    $orderby = '';
+	    $order = $this->_param('order','htmlspecialchars');
         switch ($order) {
 			
             case 2:

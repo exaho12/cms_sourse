@@ -1,0 +1,116 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			员工验证中心
+		</div>
+	<div class="top-signed">
+		<a href="<{:U('passport/logout')}>"><i class="icon-sign-out"></i></a>
+	</div>
+</header>
+
+<div class="container">
+		<div class="line detail-base">
+			<div class="x4">
+				<div class="pic">
+					<img src="__ROOT__/attachs/<{$SHOP.logo}>">			
+                </div>
+			</div>
+			<div class="x8">
+				<h1>欢迎您：<{$worker.name}> </h1>
+				<p>您管理的店铺：<{$SHOP.shop_name}></p>
+                <p class="text-small">您的电话：<{$worker.mobile}></p>
+                <p class="text-small">您的职务：<{$worker.work}></p>
+			</div>
+			
+		</div>
+       </div>
+<div class="blank-10 bg"></div>
+<div class="panel-list">
+	<ul>
+
+<if condition="$worker['tuan'] eq 1">
+<li>
+	<a href="<{:U('worker/tuan/used')}>"><span class="icon-tags"></span>抢购劵验证
+    <font>
+        <if condition="$counts['tuan_order_code_is_used'] gt 0">
+        待消费<{$counts['tuan_order_code_is_used']}>人，
+        </if>
+        <if condition="$counts['tuan'] gt 0">
+        共<{$counts['tuan']}>单
+        </if>
+        <if condition="$counts['tuan_audit'] gt 0">
+        ，待审核<b><{$counts['tuan_audit']}></b>单
+        </if>
+    </font>
+    <i class="icon-angle-right"></i></a>
+</li>
+</if>
+<if condition="$worker['coupon'] eq 1">
+<li>
+    <a href="<{:U('worker/coupon/index')}>"><span class="icon-key"></span>优惠劵验证
+        <if condition="$counts['coupon_is_used'] gt 0">
+        <font>待核销<b><{$counts['coupon_is_used']}></b>人</font>
+        </if>
+    <i class="icon-angle-right"></i></a>
+</li>
+</if>
+<if condition="$worker['is_job'] eq 1">
+<li>
+    <a href="<{:U('worker/nearwork/index')}>"><span class="icon-github"></span>人才招聘中心
+        <font>
+            <if condition="$counts['work'] gt 0">
+            <{$counts['work']}>条招聘
+            </if>
+            <if condition="$counts['work_audit'] gt 0">
+            ，<b><{$counts['work_audit']}></b>条待审核
+            </if>
+        </font>
+    <i class="icon-angle-right"></i></a>
+</li>
+</if>
+
+<if condition="$worker['is_yuyue'] eq 1">
+<li><a href="<{:U('yuyue/index')}>"><span class="icon-phone-square"></span>预约管理
+<font>
+<if condition="$counts['shopyuyue_one'] gt 0">
+<{$counts['shopyuyue_one']}>条预约
+</if>
+<if condition="$counts['shopyuyue_eight'] gt 0">
+，<b><{$counts['shopyuyue_eight']}></b>条待确认
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+</if>
+
+
+<if condition="$worker['is_news'] eq 1">
+<li><a href="<{:U('news/index')}>"><span class="icon-newspaper-o"></span>文章管理
+<font>
+<if condition="$counts['news'] gt 0">
+<{$counts['news']}>篇文章
+</if>
+<if condition="$counts['news_autit'] gt 0">
+，<b><{$counts['news_autit']}></b>篇待审核
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+</if>
+
+
+
+<if condition="$worker['is_dianping'] eq 1">
+<li><a href="<{:U('worker/dianping/index')}>"><span class="icon-random"></span>商家点评管理<i class="icon-angle-right"></i></a></li>
+</if>
+
+<div class="blank-10 bg"></div>
+<li><a href="<{:U('worker/passport/logout')}>"><span class="icon-sign-out"></span>注销登录<i class="icon-angle-right"></i></a></li>
+
+	</ul>
+</div>
+
+
+<include  file='public:footer'/>
+

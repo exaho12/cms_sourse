@@ -20,36 +20,76 @@
             </form>
         </div>
         <div class="tgdd_nr">
-            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-                <tr class="tgdd_nrt">
-                    <th colspan="3">商品</th>
-                    <th>单价（元）</th>
-                    <th>数量</th>
-                    <th>总价</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-                <foreach name="list" item="order">
-                <php>
-                $shifu = $order['total_price'];
-                </php>
-                    <tr class="tgdd_nrBh">
-                        <td colspan="2" style="text-align: left; text-indent: 20px;">
-                            订单号：<{$order['order_id']}> 
-                            供应：<{$shops[$order['shop_id']]['shop_name']}>
-                        </td>
-                        <td colspan="4" style="text-align: left; text-indent: 20px;">
-                            收货地址：<{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}>、
-                            <{$business[$addrs[$order['addr_id']]['business_id']]['business_name']}>、
-                            <{$addrs[$order['addr_id']]['addr']}>
-                            <{$addrs[$order['addr_id']]['name']}>
-                            <{$addrs[$order['addr_id']]['mobile']}> 
-                            <if condition="$order['is_daofu']==1"> <font color="red"> （货到付款）</font></if>
-                        </td>
-                        <td width="80">
-                            <eq name="order.is_daofu" value="0">
-                            <eq name="order.status" value="0">
-                            <a class="myInfor_sx myInfor_sx_fk" href="<{:U('pchome/mall/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
+  
+  <div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="26%">商品详情</td>
+            <td width="10%">单价</td>
+            <td width="5%">数量</td>
+            <td width="9%">总价</td>
+            <td width="15%">状态</td>
+            <td width="20%">实付金额</td>
+            <td width="15%">评价</td>
+     </table>
+     <div class="blank-10"></div>
+     
+           
+                
+<foreach name="list" item="order">  
+
+
+              
+  <table  class="tuan_table1"  width="100%" border="0">
+  <tr class="tr_left_2">
+    <td class="left10" colspan="4">
+    订单ID：<span class="mallorder_jg"><{$order.order_id}></span>
+    <span class="td_top_1">交易时间：<{$order.create_time|date='Y-m-d H:i:s',###}>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <foreach name="shops" item="shop">
+    <volist name="goods" id="good" key="index">
+    <if condition="($good['shop_id'] eq $shop['shop_id']) AND ($good['order_id'] eq $order['order_id'])">  
+    <table  class="tuan_table2" width="100%" border="0">
+      <tr class="tr_left_1">
+      
+        <td class="left1">
+        <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a  target="_blank"  href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" class="index__pic___TScfk" ><img src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']}>" ><span></span></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" target="_blank" ><span ></span><span><{$products[$good['goods_id']]['title']}></span><span ></span></a><span></span><span></span></p>
+            <span></span>
+            <p><a href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" style="margin-right:8px;" target="_blank" <img src="https://img.alicdn.com/tps/i4/T1BCidFrNlXXaSQP_X-16-16.png" ></a>
+</p>
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2">￥<{:round($good['price']/100,2)}></td>
+        <td class="left3"><{$good['num']}></td>
+        <td class="left4">￥<{:round($good['total_price']/100,2)}></td>
+        <td class="left5"> <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
+			<{$goodtypes[$good['status']]}>
+            </if></td>
+      </tr>
+     
+    </table>
+    </if>
+   </volist>
+  </foreach>
+    
+    </td>
+    <td class="left7" width="15%">
+    
+     <eq name="order.is_daofu" value="0">
+                   <eq name="order.status" value="0">
+                   <a class="myInfor_sx myInfor_sx_fk" href="<{:U('pchome/mall/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
                     <else />
                     <{$types[$order['status']]}>
                     </eq>
@@ -60,77 +100,65 @@
                     <{$types[$order['status']]}>
                     </eq>
                     </eq>
-                    </td>
-                    <td width="80">
-                    <if condition="$order['is_daofu']==0"><!--如果不是货到付款-->
-                    
-                        <if condition="$order['status']==0">
-                                <a mini='confirm' class="tgdd_del" href="<{:U('order/goodsdel',array('order_id'=>$order['order_id']))}>">
-                                    <font color="red">取消订单</font>
-                                </a>
-                        </if>
-                        <if condition="$order['status']==2">
-                                <a mini='confirm' class="tgdd_del" href="<{:U('order/goodsshou',array('order_id'=>$order['order_id']))}>">
-                                    <font color="red">确认已收货</font>
-                                </a>
-                         </if>
-                         
-                         <if condition="$order['status']==8">
-                                <if condition="$order['is_dianping']==0">
-                                <a class="tgdd_del" href="<{:U('order/dianping',array('order_id'=>$order['order_id']))}>">
-                                    <font color="red">点评</font>
-                                </a>
-                                <else/>
-                                <a>已点评</a>
-                                </if>
-                         </if>
-                      <else/><!--如果是货到付款-->
-                      
-                      <if condition="$order['status']==0">
-                                <a mini='confirm' class="tgdd_del" href="<{:U('order/goodsdel',array('order_id'=>$order['order_id']))}>">
-                                    <font color="red">取消订单</font>
-                                </a>
-                        </if>
-                        <if condition="$order['status']==2">
-                                <a mini='confirm' class="tgdd_del" href="<{:U('order/daofu_goodsshou',array('order_id'=>$order['order_id']))}>">
-                                    <font color="#2bb8aa">确认已到货</font>
-                                </a>
-                         </if>
-                         
-                         <if condition="$order['status']==3">
-                                <if condition="$order['is_dianping']==0">
-                                <a class="tgdd_del" href="<{:U('order/dianping',array('order_id'=>$order['order_id']))}>">
-                                    <font color="red">点评</font>
-                                </a>
-                                <else/>
-                                <a>已点评</a>
-                                </if>
-                         </if>
-                      
-                      </if>   
-                     
-                     
-                     
-                    </td>
-                    </tr>
-                    <foreach name="shops" item="shop">
-                        <volist name="goods" id="good" key="index">
+       <eq name="order.is_mobile" value="1"><br/><img src="/themes/default/Shangjia/statics/images/mobile.png" /></eq>              
+     </td>
+    <td class="left8" width="20%">
+    <span>实付金额：<{:round($order['need_pay']/100,2)}></span><br/>
+    
+      <if condition="$order['mobile_fan'] gt 0">
+      手机优惠：<{:round($order['mobile_fan']/100,2)}>元
+      </if>
+      <br/>
+      <if condition="$order['use_integral'] gt 0">
+      使用积分：<{$order['use_integral']}> <br/>
+      抵扣现金：<{:round($order['use_integral']/100,2)}>元
+      </if>           
 
-                            <if condition="($good['shop_id'] eq $shop['shop_id']) AND ($good['order_id'] eq $order['order_id'])">    
-                                <tr class="tgdd_nrC">
-                                    <td class="tgdd_nrCtd"><img style="margin: 0px auto;" src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']|default='default.jpg'}>" width="100" height="75"/></td>
-                                    <td colspan="2" class="tgdd_nrCtd"><{$products[$good['goods_id']]['title']}></td>
-                                    <td class="tgdd_nrCtd" id="price-color">￥<{:round($good['price']/100,2)}></td>
-                                    <td class="tgdd_nrCtd"><{$good.num}></td>
-                                    <td class="tgdd_nrCtd" id="price-color">实付款￥<{:round($shifu/100,2)}></td>
-                                    <td class="tgdd_nrCtd id="price-color""></td>
-                                    <td class="tgdd_nrCtd">&nbsp;</td>
-                                </tr>
-                            </if>
-                        </volist>
-                    </foreach>
-                </foreach>
-            </table>
+    </td>
+    <td class="left9" width="15%">
+    
+      <if condition="$order['is_daofu']==0"><!--如果不是货到付款-->
+        <if condition="$order['status']==0">
+        <a mini='confirm' href="<{:U('order/goodsdel',array('order_id'=>$order['order_id']))}>">取消订单</a>
+        </if>
+        <if condition="$order['status']==2">
+        <a mini='confirm'href="<{:U('order/goodsshou',array('order_id'=>$order['order_id']))}>">确认已收货</a>
+        </if>
+                         
+        <if condition="$order['status']==8">
+        <if condition="$order['is_dianping']==0">
+        <a href="<{:U('order/dianping',array('order_id'=>$order['order_id']))}>">点评</a>
+        <else/>
+        <a>已点评</a>
+        </if>
+        </if>
+        <else/><!--如果是货到付款-->
+        <if condition="$order['status']==0">
+        <a mini='confirm' href="<{:U('order/goodsdel',array('order_id'=>$order['order_id']))}>">取消订单</a>
+        </if>
+        <if condition="$order['status']==2">
+        <a mini='confirm' href="<{:U('order/daofu_goodsshou',array('order_id'=>$order['order_id']))}>">确认已到货</a>
+        </if>
+                         
+        <if condition="$order['status']==3">
+        <if condition="$order['is_dianping']==0">
+        <a href="<{:U('order/dianping',array('order_id'=>$order['order_id']))}>">点评</a>
+        <else/>
+        <a>已点评</a>
+        </if>
+        </if>
+     </if> 
+     <br/>  
+     <a href="<{:U('order/details',array('order_id'=>$order['order_id']))}>">订单详情</a>
+    </td>
+  </tr>
+ 
+</table>
+<br/>
+</foreach>
+
+
+            
             <div class="x"><{$page}></div>
         </div>
     </div>

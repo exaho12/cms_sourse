@@ -1,5 +1,17 @@
 <php>$seo_title = $detail['title'];</php>
 <include file='public:header'/>   
+
+<style>
+.top-fixed { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0))!important;position: absolute;border: none;}
+.is_renzheng{background: #33b095;
+    padding: 0 3px;
+    color: #fff !important;
+    font-size: 12px;
+    margin-right: 5px;
+    height: 16px;
+    line-height: 16px;
+    margin-top: 3px;}
+</style>
 <script src="/static/default/wap/other/roll.js"></script>
 
 	<header class="top-fixed bg-yellow bg-inverse">
@@ -59,8 +71,8 @@
 		</div>
 	</div>
 			<div class="title">
-				<h1><{:msubstr($detail['title'],0,20)}></h1>
-				<p><{:msubstr($detail['intro'],0,40)}></p>
+				<h1><{:bao_msubstr($detail['title'],0,24)}></h1>
+				<p><{:bao_msubstr($detail['intro'],0,46)}></p>
 			</div>	
 		</div>
 </div>            
@@ -87,21 +99,34 @@
 			<div class="detail-row bb">
 				<div class="item-price">
                   
-					<p class="price">特卖价：&yen; <{:round($detail['mall_price']/100,2)}></p>                  
+					<p class="price">特卖价：&yen; <{:round($detail['mall_price']/100,2)}> &nbsp; 
+                    <span style="font-size:12px; color:#CCC">原价：<del>&yen; <{:round($detail['price']/100,2)}></del>
+                    <{:round($detail['mall_price']/$detail['price']*10,1)}>折</span>
+                    </p>  
+                                    
                     <div class="x6">
-					<p class="discout">已经在原价基础上打<{:round($detail['mall_price']/$detail['price']*10,1)}>折</p>
+                    <if condition="!empty($detail['use_integral'])">
+                    <p class="discout">可使用积分： <a class="spxq_qgsnum"> <{$detail['use_integral']}> </a></p>
+                    <else/>
+                    <p class="discout">暂不可使用积分</p>
+                    </if>
                     </div>
+                    
                     <div class="x6">
 					<p class="text-gray">销量 <{$detail['sold_num']}></p>
                     </div>
                     
                     
 					<div class="x6">
-                    <span class="text-gray">原价：<del>&yen; <{:round($detail['price']/100,2)}></del></span>
+                    <if condition="!empty($detail['mobile_fan'])">
+                    <span class="text-gray">手机下单省<{:round($detail['mobile_fan']/100,2)}>元</span>
+                    <else/>
+                    <span class="text-gray">购物有优惠哦</span>
+                    </if>
                 	</div>
                     
                     <div class="x6">
-                    <span class="text-gray">库存：<{$detail['num']}></span></span>
+                    <span class="text-gray">库存：<{$detail['num']}> </span></span>
                 	</div>
                         
                     <p class="sprice">
@@ -123,7 +148,7 @@
        </div>
 		<div class="blank-10 bg"></div>
         
-       <div class="tuan-detail">
+       <div class="tuan-detail2">
        <div class="line status">
 			<div class="x6">
 				<span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span>
@@ -144,7 +169,15 @@
 					 <a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><img src="__ROOT__/attachs/<{$shop.photo}>" /></a>
 				</div>
 				<div class="shop-name">
-					<h2><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a></h2>
+					<h2><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a>
+                     <php>
+                    $shopids = D('Shop')->where('shop_id ='.$detail['shop_id'])->find();
+                    $is_renzheng = $shopids['is_renzheng'];
+                    </php>
+                    <if condition="$is_renzheng eq 1"><em class="is_renzheng">已认证</em></if>
+                    
+                    
+                    </h2>
 					<span class="ui-starbar"><span style="width:<{:round($shop['score']*2,2)}>%"></span></span>
 				</div>
 			</div>

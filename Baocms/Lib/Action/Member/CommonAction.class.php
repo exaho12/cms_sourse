@@ -92,6 +92,9 @@ class CommonAction extends Action {
         $this->assign('cartnum', (int) array_sum($goods));
 
 		//购物车结束
+		
+		$mapssss = array('status' => 4,'closed'=>0);
+		$this->assign('navigations',$navigations = D('Navigation') ->where($mapssss)->order(array('orderby' => 'asc'))->select());
         //模版的选择
 
         $this->getTemplateTheme();
@@ -106,7 +109,10 @@ class CommonAction extends Action {
 		$this->assign('open_billboard',$open_billboard = $this->_CONFIG['operation']['billboard']); //榜单
 		$this->assign('open_market',$open_market = $this->_CONFIG['operation']['market']); //卖场
 		$this->assign('open_express',$open_express = $this->_CONFIG['operation']['express']); //快递
+		$this->assign('color',$color = $this->_CONFIG['other']['color']);
 		
+		$this->assign('shop_gold',$shop_gold = D('Shop')-> where(array('user_id' => $this->uid))-> find());//查询此会员是否是商家
+
 		$web_close = $this->_CONFIG['site']['web_close'];
 		$web_close_title = $this->_CONFIG['site']['web_close_title'];
 		if($web_close==0) {

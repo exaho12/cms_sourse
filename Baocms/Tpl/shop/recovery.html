@@ -7,7 +7,7 @@
     </ul>
 </div>
 <div class="main-jsgl main-sc">
-    <p class="attention" style="color:#F00; font-weight:bold;"><span>注意：</span>这个删除后商家数据就彻底删除了，请谨慎操作！删除后无法恢复！操作前必须备份数据库，否则后果自负！删除后会员就可以重新添加商家啦~</p>
+    <p class="attention"><span>注意：</span>这个删除后商家数据就彻底删除了，请谨慎操作！删除后无法恢复！操作前必须备份数据库，否则后果自负！删除后会员就可以重新添加商家啦~</p>
     <div class="jsglNr">
         <div class="selectNr" style="margin-top: 0px; border-top:none;">
             <div class="left">
@@ -25,7 +25,8 @@
             </div>
             <div class="clear"></div>
         </div>
-        <form method="post" action="<{:U('shop/index')}>">
+
+        <form method="post" action="<{:U('shop/recovery')}>">
             <div class="selectNr selectNr2">
                 <div class="left">
                     <div class="seleK">
@@ -35,10 +36,11 @@
                                 <option value="0">请选择...</option>
                                 <foreach name="cates" item="var">
                                     <eq name="var.parent_id" value="0">
-                                    <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                    <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$cate_id">selected="selected"</eq> ><{$var.cate_name}></option>               
                                     <foreach name="cates" item="var2">
                                         <eq name="var2.parent_id" value="$var.cate_id">
                                         <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$cate_id">selected="selected"</eq> >&nbsp;&nbsp;<{$var2.cate_name}></option>
+
                                         </eq>
                                     </foreach>
                                     </eq>
@@ -49,7 +51,6 @@
                             <span>区域：</span>
                              <select name="city_id" id="city_id"  class="select w100"></select>
                             <select name="area_id" id="area_id"  class="select w100"></select>
-                     
                         </label>
                 <script src="<{:U('app/datas/cityarea')}>"></script>
                 <script>
@@ -68,6 +69,7 @@
                         }
                         $("#area_id").html(area_str);
                     }
+
                     $(document).ready(function(){
                         var city_str = '<option value="0">请选择.....</option>';
                         for(a in cityareas.city){
@@ -96,6 +98,7 @@
                 <div class="right">
                     <input type="submit" value="   搜索"  class="inptButton" />
                 </div>
+
         </form>
         <div class="clear"></div>
     </div>
@@ -105,35 +108,38 @@
                 <tr>
                     <td class="w50"><input type="checkbox" class="checkAll" rel="shop_id" /></td>
                     <td class="w50">ID</td>
-                    <td>管理者(UID)</td>
-                    <td>分类</td>
-                    <td>所在区域商圈</td>
-                    <td>商铺名称</td>
-                    <td>商铺标签</td>
+                    <td>管理者(电话)</td>
+                    <td>商铺名称(区域商圈)</td>
+                    <td>分类(商铺标签)</td>
                     <td>商铺LOGO</td>
-                    <td>店铺电话</td>
                     <td>入住时间</td>
-                    <td>操作</td>
+                    <td class="w200">操作</td>
                 </tr>
                 <foreach name="list" item="var">
                     <tr>
                         <td><input class="child_shop_id" type="checkbox" name="shop_id[]" value="<{$var.shop_id}>" /></td>
                         <td><{$var.shop_id}></td>
-                        <td><{$users[$var['user_id']]['account']}>(<{$var.user_id}>)</td>
-                        <td><{$cates[$var['cate_id']]['cate_name']}></td>
-                        <td><{$citys[$var['city_id']]['name']}>-<{$areas[$var['area_id']]['area_name']}>-<{$business[$var['business_id']]['business_name']}></td>
-                        <td><{$var.shop_name}></td>
-                        <td><{$var.tags}></td>
-                        <td><img src="__ROOT__/attachs/<{$var.logo}>" class="w80" /></td>
-                        <td><{$var.tel}></td>
+                        <td>
+                        ID：<{$users[$var['user_id']]['account']}>(<{$var.user_id}>)<br/>
+                        电话：<{$var.tel}>
+                        </td>
+                        <td>
+                        名称：<{$var.shop_name}><br/>
+                        城市：<{$citys[$var['city_id']]['name']}>-<{$areas[$var['area_id']]['area_name']}>-<{$business[$var['business_id']]['business_name']}>
+                        </td>
+                        <td>
+                       分类：<{$cates[$var['cate_id']]['cate_name']}><br/>
+                       tag: <{$var.tags}>
+                        </td>
+                        <td><img style="padding:2px; height:60px; width:60px;" src="__ROOT__/attachs/<{$var.logo}>" /></td>
+                        
                     <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
-                    <td>
-                    
-                  
-                    <{:BA('shop/recovery2',array("shop_id"=>$var["shop_id"]),'恢复','act','remberBtn')}>
-                    <{:BA('shop/edit',array("shop_id"=>$var["shop_id"]),'编辑','','remberBtn')}>
-                    <{:BA('shop/delete2',array("shop_id"=>$var["shop_id"]),'删除','act','remberBtn')}>
-                    <a target="_blank" class="remberBtn" href="<{:U('shop/login',array('shop_id'=>$var['shop_id']))}>">管理</a>
+                    <td class="w150">
+                                 
+					<{:BA('shop/recovery2',array("shop_id"=>$var["shop_id"]),'恢复','act','remberBtn_small')}>
+                    <{:BA('shop/edit',array("shop_id"=>$var["shop_id"]),'编辑','','remberBtn_small')}>
+                    <{:BA('shop/delete2',array("shop_id"=>$var["shop_id"]),'删除','act','remberBtn_small')}>
+                    <a target="_blank" class="remberBtn_small" href="<{:U('shop/login',array('shop_id'=>$var['shop_id']))}>">管理</a>
                     </td>
                     </tr>
                 </foreach>
@@ -142,13 +148,15 @@
         </div>
         <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
             <div class="left">
-                <{:BA('shop/delete2','','批量删除！必须备份数据库！','list',' a2')}>
-                <{:BA('shop/recovery2','','批量恢复','list',' a1')}>
+                <{:BA('shop/delete','','批量删除','list',' a2')}>
             </div>
         </div>
     </form>
 </div>
 </div>
 <include  file='public:footer'/>  
+
+
+
 
 

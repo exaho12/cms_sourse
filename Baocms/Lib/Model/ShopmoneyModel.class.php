@@ -29,7 +29,7 @@ class ShopmoneyModel extends CommonModel{
         return $datas;
     }
     
-    public function  sum($bg_date,$end_date){
+    public function  sum2($bg_date,$end_date){
         $bg_time =  (int) strtotime($bg_date.' 00:00:00');
         $end_time = (int) strtotime($end_date.' 23:59:59');
         return $this->query("SELECT  shop_id,sum(money) as money from ".$this->getTableName()." where  create_time >= '{$bg_time}' AND  create_time <='{$end_time}' group by shop_id ");
@@ -78,6 +78,7 @@ class ShopmoneyModel extends CommonModel{
         }
         //echo $sql;
         $data = $this->query($sql);
+
         return $data;
     }
     
@@ -105,26 +106,28 @@ class ShopmoneyModel extends CommonModel{
      
     }
     
-    public function tjday($day = '',$shop_id = '',$start,$num){
+    public function tjday($day = '',$shop_id = '',$city_id = '',$start,$num){
         $sql = "";
         $day = $day ? str_replace('-', '', $day): '';
         $start = (int)$start;
         $num = (int)$num;
         $shop_id = (int)$shop_id;
+		$city_id = (int)$city_id;
+		
 
         if($day && $shop_id){
-            $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d') as m,shop_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m%d') = '{$day}' and shop_id='{$shop_id}' group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id order by FROM_UNIXTIME(create_time,'%Y%m%d') desc  limit {$start},{$num} ";         
+            $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d') as m,shop_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m%d') = '{$day}' and shop_id='{$shop_id}' and city_id='{$city_id}' group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id order by FROM_UNIXTIME(create_time,'%Y%m%d') desc  limit {$start},{$num} ";         
         }else{
             if($day){
                 $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d') as m,shop_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m%d') = '{$day}'  group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id  order by FROM_UNIXTIME(create_time,'%Y%m%d') desc   limit {$start},{$num}  ";         
 
             }elseif($shop_id){
-                $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d')  as m,shop_id  FROM ".$this->getTableName()." where shop_id='{$shop_id}'   group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id  order by FROM_UNIXTIME(create_time,'%Y%m%d') desc   limit {$start},{$num} ";         
+                $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d')  as m,shop_id  FROM ".$this->getTableName()." where shop_id='{$shop_id}'    and city_id='{$city_id}' group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id  order by FROM_UNIXTIME(create_time,'%Y%m%d') desc   limit {$start},{$num} ";         
             }else{
                 $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m%d')  as m,shop_id  FROM ".$this->getTableName()."    group  by  FROM_UNIXTIME(create_time,'%Y%m%d'),shop_id  order by FROM_UNIXTIME(create_time,'%Y%m%d') desc  limit {$start},{$num}  ";         
             }
         }
-        //echo $sql;
+
         $data = $this->query($sql);
         return $data;
     }

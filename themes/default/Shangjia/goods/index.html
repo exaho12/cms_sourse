@@ -18,12 +18,16 @@
     </form>
     <div class="tuanfabu_tab">
         <ul>
-            <li class="tuanfabu_tabli on"><a href="<{:U('goods/index')}>">商城商品</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/index')}>">卖出商品</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/wait')}>">付款订单</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/wait2')}>">货到付款</a></li>
+            <if condition="$ding['is_pei'] neq 0">
+            <li class="tuanfabu_tabli on"><a href="<{:U('goods/index')}>">出售中商品</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/index')}>">全部订单列表</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/wait')}>">已付款订单</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/wait2')}>">货到付款订单</a></li>
             <li class="tuanfabu_tabli"><a href="<{:U('order/picks')}>">捡货单</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/delivery')}>">发货管理</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/delivery')}>">待确认订单</a></li>
+            <else/>
+            <li class="tuanfabu_tabli "><a href="<{:U('order/delivery')}>">待确认订单</a></li>
+            </if>
         </ul>
     </div> 
     <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">

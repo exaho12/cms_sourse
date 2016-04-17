@@ -1,0 +1,54 @@
+<include file="public:header_Query"/>
+<style>
+    html, body{
+        padding:0;
+        margin:0;
+        position:relative;
+        /*background:url(../img/body.jpg);*/
+        /*background-repeat:repeat;*/
+        color:#fff;
+        letter-spacing:1px;
+        font-family:Georgia, "Times New Roman", Times, serif;
+    }
+</style>
+<body class="bodys">
+<div id="container">
+
+    <form action="__SELF__" method="post">
+        <div style="margin-left:2%;color:#f00">微信订单号和商户订单号选少填一个，微信订单号优先：</div>
+        <br/>
+
+        <div style="margin-left:2%;">微信订单号：</div>
+        <br/>
+        <input type="text" style="width:96%;height:35px;margin-left:2%;" name="transaction_id"/><br/><br/>
+
+        <div style="margin-left:2%;">商户订单号：</div>
+        <br/>
+        <input type="text" style="width:96%;height:35px;margin-left:2%;" name="out_trade_no"/><br/><br/>
+
+        <div align="center">
+            <input type="submit" value="查询"
+                   style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
+                   type="button" onclick="callpay()"/>
+        </div>
+    </form>
+    <table class="zebra" id="zebras">
+        <caption>查询账单</caption>
+        <thead>
+        <tr>
+            <volist name="list" id="vo">
+                <th><{$key}></th>
+            </volist>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <volist name="list" id="vo">
+                <td><{$vo}></td>
+            </volist>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+

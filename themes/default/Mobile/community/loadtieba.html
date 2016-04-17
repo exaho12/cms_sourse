@@ -2,10 +2,17 @@
 	<li class="tie-item">
 		<div class="item-head">
 			<span class="avatar">
-				<img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='avatar.jpg'}>" />
+            
+            <!--手机贴吧头像调用-->
+            <?php if(strstr($users[$item['user_id']]['face'],"http")){ ?>
+            <img  src="<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }else{ ?>
+            <img  src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
+
 			</span>
 			<span class="info">
-				<em><{$users[$item['user_id']]['nickname']}>&nbsp;(<{$$item.create_time|date="Y-m-d",###}>)</em><br/>
+				<em><{$users[$item['user_id']]['nickname']}>&nbsp;(<{$item.create_time|date="Y-m-d",###}>)</em><br/>
                 <em><{:msubstr($item['title'],0,15)}></em>
 			</span>
 		

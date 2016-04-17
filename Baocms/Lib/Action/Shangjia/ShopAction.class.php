@@ -90,6 +90,34 @@ class ShopAction extends CommonAction {
             $this->display();
         }
     }
+	
+	//其他设置
+	 public function service() {
+		 $obj = D('Shop');
+		 if (!$detail = $obj->find($this->shop_id)) {
+             $this->baoError('请选择要编辑的商家');
+          }
+		 if ($detail['shop_id'] != $this->shop_id){
+             $this->baoError('请不要非法操作');
+          }
+			
+        if ($this->isPost()) {
+            $data = $this->checkFields($this->_post('data', false), array('apiKey', 'mKey', 'partner', 'machine_code','service'));
+            $data['apiKey'] = htmlspecialchars($data['apiKey']);
+            $data['mKey'] = htmlspecialchars($data['mKey']);
+            $data['partner'] = htmlspecialchars($data['partner']);
+			$data['machine_code'] = htmlspecialchars($data['machine_code']);
+			$data['service'] = ($data['service']);
+            $data['shop_id'] = $this->shop_id;
+            if (false !== $obj->save($data)) {
+                $this->baoSuccess('更新成功', U('shop/service'));
+            }
+            $this->baoError('操作失败');
+        } else {
+			$this->assign('detail', $detail);
+            $this->display();
+        }
+    }
     
 
 }

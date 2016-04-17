@@ -29,27 +29,8 @@
 <div class="blank-10 bg"></div>
 <div class="panel-list">
 	<ul>
-		<li>
-			<a href="javascript:;">
-				订餐名称
-				<em><{$products[$item['product_id']]['product_name']}></em>
-			</a>
-		</li>
-		<li>
-			<a href="javascript:;">
-				<{$item.num}>
-				<em>x￥<{:round($products[$item['product_id']]['price']/100,2)}>=￥<{:round($item['total_price']/100,2)}></em>
-			</a>
-		</li>
-        <if condition="!empty($detail['new_money'])">
-		<li><a href="javascript:;">新单立减：<em><{:round($detail['new_money']/100,2)}></em></a></li>
-        </if>
-        
-        <if condition="!empty($detail['fan_money'])">
-		<li><a href="javascript:;">下单返利：<em><{:round($detail['fan_money']/100,2)}></em></a></li>
-        </if>
-        
-        
+		
+      
 		<li>
 			<a href="javascript:;">
 				付款方式：
@@ -68,12 +49,7 @@
 				<em><{$citys[$addr['city_id']]['name']}>&nbsp;<{$areas[$addr['area_id']]['area_name']}>&nbsp;<{$bizs[$addr['business_id']]['business_name']}>&nbsp;<{$addr['addr']}></em>
 			</a>
 		</li>
-        <li>
-			<a href="javascript:;">
-				下单时间：
-				<em><{$detail.single_time|date='Y-m-d H:i',###}></em>
-			</a>
-		</li>
+       
 	</ul>
 </div>
 

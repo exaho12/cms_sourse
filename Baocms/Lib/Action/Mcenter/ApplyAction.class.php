@@ -1,6 +1,10 @@
 <?php 
 
 class ApplyAction extends CommonAction{
+	
+	private $create_fields = array('city_id','area_id','business_id','logo','cate_id', 'tel', 'logo', 'photo', 'shop_name', 'contact', 'details', 'business_time', 'area_id', 'addr', 'lng', 'lat','recognition');
+	
+	
 public function index() {
         if (empty($this->uid)) {
             header("Location:" . U('passport/login'));
@@ -11,6 +15,8 @@ public function index() {
             $this->error('您已经拥有一家店铺了！', U('store/index/index'));
         }
         if ($this->isPost()) {
+			
+				
             $data = $this->createCheck();
             $obj = D('Shop');
             $details = $this->_post('details', 'htmlspecialchars');
@@ -58,21 +64,47 @@ public function index() {
     }
 
     private function createCheck() {
-        $data = $this->checkFields($this->_post('data', false), array('cate_id', 'tel', 'logo', 'photo', 'shop_name', 'contact', 'details', 'business_time', 'area_id', 'addr', 'lng', 'lat'));
+		$data = $this->checkFields($this->_post('data', false), $this->create_fields);
+		
+		$data['photo'] = htmlspecialchars($data['photo']);
+        if (empty($data['photo'])) {
+            $this->niuMsg('请上传缩略图');
+        }
+        if (!isImage($data['photo'])) {
+            $this->niuMsg('缩略图格式不正确');
+        }
+		
+		
         $data['shop_name'] = htmlspecialchars($data['shop_name']);
         if (empty($data['shop_name'])) {
             $this->niuMsg('店铺名称不能为空');
         }
+		
+		
+		$data['cate_id'] = (int) $data['cate_id'];
+        if (empty($data['cate_id'])) {
+            $this->niuMsg('分类不能为空', 2000, true);
+        }
+        $data['city_id'] = (int) $data['city_id'];
+        if (empty($data['city_id'])) {
+            $this->niuMsg('城市不能为空', 2000, true);
+        }
+        $data['area_id'] = (int) $data['area_id'];
+        if (empty($data['area_id'])) {
+            $this->niuMsg('地区不能为空', 2000, true);
+        }
+        $data['business_id'] = (int) $data['business_id'];
+        if (empty($data['business_id'])) {
+            $this->niuMsg('商圈不能为空', 2000, true);
+        }
+		
+		
         $data['lng'] = htmlspecialchars($data['lng']);
         $data['lat'] = htmlspecialchars($data['lat']);
         if (empty($data['lng']) || empty($data['lat'])) {
             $this->niuMsg('店铺坐标需要设置');
         }
-        $data['cate_id'] = (int) $data['cate_id'];
-        $data['area_id'] = (int) $data['area_id'];
-        if (empty($data['area_id'])) {
-            $this->niuMsg('地区不能为空');
-        }
+		
         $data['contact'] = htmlspecialchars($data['contact']);
         if (empty($data['contact'])) {
             $this->niuMsg('联系人不能为空');
@@ -90,11 +122,11 @@ public function index() {
         }
         $data['tel'] = htmlspecialchars($data['tel']);
         if (empty($data['tel'])) {
-            $this->niuMsg('联系方式不能为空');
+            $this->niuMsg('电话不能为空');
         }
 
         if (!isPhone($data['tel']) && !isMobile($data['tel'])) {
-            $this->niuMsg('联系方式格式不正确');
+            $this->niuMsg('电话应该为13位手机号码');
         }
         if (isMobile($data['tel'])) {
             $data['phone'] = $data['tel'];
@@ -103,6 +135,7 @@ public function index() {
         if (!empty($detail)) {
             $this->niuMsg('您已经是商家了');
         }
+		$data['recognition'] = 1;
         $data['user_id'] = $this->uid;
         $data['create_time'] = NOW_TIME;
         $data['create_ip'] = get_client_ip();

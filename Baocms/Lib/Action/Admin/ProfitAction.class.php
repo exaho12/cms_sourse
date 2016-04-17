@@ -1,8 +1,5 @@
 <?php
-/**
- * By Dicky QQ:25941/8511978
- * Website: dz.25941.cn
- */
+/*rollback目前分成管理还有很大问题，价格应该按照结算价格计算，因为系统没调试好，暂时用网站售价计算好了后期修改*/
 class ProfitAction extends CommonAction
 {
     public function order()
@@ -240,24 +237,59 @@ class ProfitAction extends CommonAction
         if (!$order) {
             $this->baoError('您要撤消分成的订单不存在！');
         }
+		 
         elseif ($order['is_separate'] == 1) {
             $userModel = D('Users');
             $userProfitModel = D('Userprofitlogs');
             $profit_rate1 = (int)$this->_CONFIG['site']['profit_rate1'];
+			
+			
+			if ($order_type === 1) {//如果是商城找到分成比例
+            $ordergoods_ids = D('Ordergoods') -> where('order_id ='.$order['order_id']) -> find();
+			$goods_ids = D('Goods') -> where('goods_id ='.$ordergoods_ids['goods_id']) -> find();
+			$profit_rate1_rollback = $goods_ids['profit_rate1'];
+			$profit_rate2_rollback = $goods_ids['profit_rate2'];
+			$profit_rate3_rollback = $goods_ids['profit_rate3'];
+            }
+			
+			if ($order_type === 0) {//如果是团购,找到分成比例
+			$tuan_ids = D('Tuan') -> where('tuan_id ='.$order['tuan_id']) -> find();
+			$profit_rate1_rollback = $tuan_ids['profit_rate1'];
+			$profit_rate2_rollback = $tuan_ids['profit_rate2'];
+			$profit_rate3_rollback = $tuan_ids['profit_rate3'];
+            }
+
+			
             if ($order['fuid1']) {
-                $money1 = round($profit_rate1 * $order['total_price'] / 100);
+				if(!empty($profit_rate1)){
+					$money1 = round($profit_rate1 * $order['total_price'] / 100);//这一步有问题,不应该按照原价计算，后期修改
+					}else{
+					$money1 = round($profit_rate1_rollback * $order['total_price'] / 100);//这一步有问题，不应该按照原价计算，后期修改		
+				}
                 if ($money1 > 0) {
                     $info1 = '分成被管理员取消，' . $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money1 / 100, 2);
                     $fuser1 = $userModel->find($order['fuid1']);
+					
                     if ($fuser1) {
+						
                         $userModel->addMoney($order['fuid1'], -$money1, $info1);
                         $userProfitModel->save(array('is_separate' => 2), array('where' => array('order_id' => $order_id, 'order_type' => $order_type, 'user_id' => $order['fuid1'])));
                     }
                 }
             }
+			
+			
             $profit_rate2 = (int)$this->_CONFIG['site']['profit_rate2'];
             if ($order['fuid2']) {
-                $money2 = round($profit_rate2 * $order['total_price'] / 100);
+				
+				if(!empty($profit_rate2)){
+					$money2 = round($profit_rate2 * $order['total_price'] / 100);//这一步有问题
+					}else{
+					$money2 = round($profit_rate2_rollback * $order['total_price'] / 100);//这一步有问题，不应该按照原价计算，后期修改		
+				}
+
+				
+				
                 if ($money2 > 0) {
                     $info2 = '分成被管理员取消，' . $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money2 / 100, 2);
                     $fuser2 = $userModel->find($order['fuid2']);
@@ -269,8 +301,15 @@ class ProfitAction extends CommonAction
             }
             $profit_rate3 = (int)$this->_CONFIG['site']['profit_rate3'];
             if ($order['fuid3']) {
-                $money3 = round($profit_rate3 * $order['total_price'] / 100);
-                if ($money3 > 0) {
+				
+				if(!empty($profit_rate2)){
+					$money3 = round($profit_rate3 * $order['total_price'] / 100);//这一步有问题
+					}else{
+					$money3 = round($profit_rate3_rollback * $order['total_price'] / 100);//这一步有问题，不应该按照原价计算，后期修改		
+				}
+				
+        				
+   if ($money3 > 0) {
                     $info3 = '分成被管理员取消，' . $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money3 / 100, 2);
                     $fuser3 = $userModel->find($order['fuid3']);
                     if ($fuser3) {
@@ -284,7 +323,8 @@ class ProfitAction extends CommonAction
         else {
             $this->baoError('对不起，此订单已处理过！');
         }
-        $this->baoSuccess('操作成功', $url);
+		
+        $this->baoSuccess('操作成功1', $url);
     }
 
     public function user() {

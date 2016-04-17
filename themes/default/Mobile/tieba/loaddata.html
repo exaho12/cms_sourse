@@ -2,7 +2,16 @@
 	<li class="tie-item">
 		<div class="item-head line">
 			<span class="avatar x2">
-				<img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            
+            <!--手机贴吧-->
+            <?php if(strstr($users[$item['user_id']]['face'],"http")){ ?>
+            <img src="<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }else{ ?>
+            <img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
+            
+            
+				
 			</span>
 			<span class="info x10">
 				<em><{$users[$item['user_id']]['nickname']}></em>

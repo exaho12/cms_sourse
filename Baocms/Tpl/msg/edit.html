@@ -28,7 +28,68 @@
                             </foreach>
                         </select>
                     </td>
-                </tr><tr>
+                </tr>
+                
+                
+                 <tr>
+                    <td class="lfTdBt">通知分站管理员：</td>
+                    <td class="rgTdBt">
+                        
+                        <select name="data[city_id]" id="city_id" style="float: left;" class="seleFl w210"></select>
+                        <code> 给分站管理员发消息时候请勾选城市，否则分站管理员无法收到信息</code>
+
+                    </td>
+                </tr>
+                 <script src="<{:U('app/datas/cityarea')}>"></script>
+                <script>
+                    var city_id = <?php echo (int)$detail['city_id'];?>;
+                    var area_id = <?php echo (int)$detail['area_id'];?>;
+                    function changeCity(cid){
+                        var area_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.area){
+                           if(cityareas.area[a].city_id ==cid){
+                                if(area_id == cityareas.area[a].area_id){
+                                    area_str += '<option selected="selected" value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }else{
+                                     area_str += '<option value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }  
+                            }
+                        }
+                        $("#area_id").html(area_str);
+                    }
+                    $(document).ready(function(){
+                        var city_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.city){
+                           if(city_id == cityareas.city[a].city_id){
+                               city_str += '<option selected="selected" value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }else{
+                                city_str += '<option value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }  
+                        }
+                        $("#city_id").html(city_str);
+                        if(city_id){
+                            changeCity(city_id);
+                        }
+                        $("#city_id").change(function(){
+                            city_id = $(this).val();
+                            changeCity($(this).val());
+                        });
+                        
+                        $("#area_id").change(function () {
+                            var url = '<{:U("business/child",array("area_id"=>"0000"))}>';
+                            if ($(this).val() > 0) {
+                                var url2 = url.replace('0000', $(this).val());
+                                $.get(url2, function (data) {
+                                    $("#business_id").html(data);
+                                }, 'html');
+                            }
+
+                        });
+                    });
+                </script>
+                
+                
+                <tr>
                     <td class="lfTdBt">标题：</td>
                     <td class="rgTdBt"><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="manageInput w200" />
 
@@ -62,6 +123,18 @@
                         focus: false
                     });
                 </script>
+                
+                
+               <tr>
+                    <td class="lfTdBt">是否只发给分站管理员：</td>
+                    <td class="rgTdBt">
+                  <input type="radio" name="data[is_fenzhan]" value="1" <if condition="$detail[is_fenzhan] eq 1">checked="checked"</if> />是
+				  <input type="radio" name="data[is_fenzhan]" value="0" <if condition="$detail[is_fenzhan] eq 0">checked="checked"</if> />不是
+                  <code>如果是只发给分站管理员，请选择是，否则选择不是</code>
+                    </td>
+               </tr>
+       
+       
             </table>
             <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>
         </form>

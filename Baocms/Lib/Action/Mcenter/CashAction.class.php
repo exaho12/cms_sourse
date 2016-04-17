@@ -11,11 +11,40 @@ class CashAction extends CommonAction {
 
     public function index() {
         $Users = D('Users');
+		
+		$shop = D('Shop')->where(array('user_id' => $this->uid))->find();
+		
+		    if($shop == ''){
+				$cash_money = $this->_CONFIG['cash']['user'];
+				$cash_money_big = $this->_CONFIG['cash']['user_big'];
+			}elseif($shop['is_renzheng'] == 0){
+				$cash_money = $this->_CONFIG['cash']['shop'];
+				$cash_money_big = $this->_CONFIG['cash']['shop_big'];
+			}elseif($shop['is_renzheng'] == 1){
+				$cash_money = $this->_CONFIG['cash']['renzheng_shop'];
+				$cash_money_big = $this->_CONFIG['cash']['renzheng_shop_big'];
+			}else{
+				$cash_money = $this->_CONFIG['cash']['user'];	
+				$cash_money_big = $this->_CONFIG['cash']['user_big'];
+			}
+		
+		
+		
         if (IS_POST) {
             $money = abs((int) $_POST['money']);
             if ($money == 0) {
                 $this->niuMsg('提现金额不能为0');
             }
+			
+			if ($money < $cash_money){
+                $this->niuMsg('提现金额小于最低提现额度');
+            }
+			
+			if ($money > $cash_money_big){
+                $this->niuMsg('您单笔最多能提现'.$cash_money_big.'元');
+            }
+			
+			
             $money *= 100;
             if ($money > $this->member['money'] || $this->member['money'] == 0) {
                 $this->niuMsg('余额不足，无法提现');
@@ -35,6 +64,7 @@ class CashAction extends CommonAction {
             $arr = array();
             $arr['user_id'] = $this->uid;
             $arr['money'] = $money;
+			$arr['type'] = user;
             $arr['addtime'] = NOW_TIME;
             $arr['account'] = $this->member['account'];
             $arr['bank_name'] = $data['bank_name'];
@@ -49,6 +79,8 @@ class CashAction extends CommonAction {
         } else {
             $this->assign('info',D('Usersex')->getUserex($this->uid));
             $this->assign('money', $this->member['money'] / 100);
+			  $this->assign('cash_money', $cash_money);
+			$this->assign('cash_money_big', $cash_money_big);
             $this->display();
         }
     }
@@ -60,7 +92,7 @@ class CashAction extends CommonAction {
     public function cashlogloaddata() {
         $Userscash = D('Userscash');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('user_id' => $this->uid);
+        $map = array('user_id' => $this->uid,'type'=>user);
         $count = $Userscash->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
@@ -70,6 +102,7 @@ class CashAction extends CommonAction {
             die('0');
         }
         $list = $Userscash->where($map)->order(array('cash_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+		
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
         $this->display(); // 输出模板

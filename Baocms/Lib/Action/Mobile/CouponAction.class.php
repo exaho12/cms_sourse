@@ -205,12 +205,25 @@ class CouponAction extends CommonAction {
         if (D('Coupondownload')->add($data)) {
             D('Coupon')->updateCount($coupon_id, 'downloads');
             D('Coupon')->updateCount($coupon_id,'num',-1);
-            D('Sms')->sendSms('sms_coupon_downloads', $this->member['mobile'], array(
-                'coupon_title' => $detail['title'],
-                'shop_name' => $shop['shop_name'],
-                'code' => $code,
-                'expire_date' => $detail['expire_date'],
-            ));
+			
+			//如果开启大鱼
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_dytz', $this->member['mobile'], array(
+			 	    'sitename'=>$this->_CONFIG['site']['sitename'], 
+                    'coupon_title' => $detail['title'],
+                    'shop_name' => $shop['shop_name'],
+                    'code' => $code,
+                    'expire_date' => $detail['expire_date'],
+                ));
+            }else{
+                D('Sms')->sendSms('sms_coupon_downloads', $this->member['mobile'], array(
+                    'coupon_title' => $detail['title'],
+                    'shop_name' => $shop['shop_name'],
+                    'code' => $code,
+                    'expire_date' => $detail['expire_date'],
+                ));
+            }
+		
             $this->success('恭喜您下载成功！', U('mcenter/coupon/index'));
         }
         $this->error('下载失败！');

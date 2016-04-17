@@ -19,9 +19,18 @@ class OrderAction extends CommonAction {
     
     public function index(){
         $this->check_weidian();
-        $Ordergoods = D('Ordergoods');
+        if(empty($this->shop['is_pei'])){
+            $this->error('您签订的是由配送员配送！您管理不了订单！');
+        }
+        $Order = D('Order');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('shop_id' => $this->shop_id);
+        $map = array('closed' => 0, 'shop_id'=>  $this->shop_id);
+        $keyword = $this->_param('keyword', 'htmlspecialchars');
+        if ($keyword) {
+            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
+            $this->assign('keyword', $keyword);
+        }
+
         if (($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
             $bg_time = strtotime($bg_date);
             $end_time = strtotime($end_date);
@@ -40,27 +49,38 @@ class OrderAction extends CommonAction {
                 $map['create_time'] = array('ELT', $end_time);
             }
         }
-
-        if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
-            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
-            $this->assign('keyword', $keyword);
-        }
         
-        $count = $Ordergoods->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 15); // 实例化分页类 传入总记录数和每页显示的记录数
+        // var_dump($map);die();
+        $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
+        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $Ordergoods->where($map)->order(array('id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
-        $goods_ids = array();
-        $order_ids = array();
-        foreach($list as $val){
-            $goods_ids[$val['goods_id']] = $val['goods_id'];
+        $list = $Order->where($map)->order(array('create_time' => 'DESC'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        //print_r($Order->getLastSql());
+        $user_ids = $order_ids  = $addr_ids = array();
+        foreach ($list as $key => $val) {
+            $user_ids[$val['user_id']] = $val['user_id'];
             $order_ids[$val['order_id']] = $val['order_id'];
+            $addr_ids[$val['addr_id']] = $val['addr_id'];
+ 
         }
-        $this->assign('orders',D('Order')->itemsByIds($order_ids));
-        $this->assign('goods',D('Goods')->itemsByIds($goods_ids));
-        $this->assign('types',D('Ordergoods')->getType());
+        if (!empty($order_ids)) {
+            $goods = D('Ordergoods')->where(array('order_id' => array('IN', $order_ids)))->select();
+            $goods_ids = array();
+            foreach ($goods as $val) {
+                $goods_ids[$val['goods_id']] = $val['goods_id'];
+            }
+            $this->assign('goods', $goods);
+            $this->assign('products', D('Goods')->itemsByIds($goods_ids));
+        }
+        $this->assign('addrs', D('Useraddr')->itemsByIds($addr_ids));
+        $this->assign('areas', D('Area')->fetchAll());
+        $this->assign('business', D('Business')->fetchAll());
+        $this->assign('users', D('Users')->itemsByIds($user_ids));
+        $this->assign('types', D('Order')->getType());
+        $this->assign('goodtypes', D('Ordergoods')->getType());
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
+        $this->assign('picks', session('order'));
         $this->display(); // 输出模板
     }
     
@@ -101,7 +121,7 @@ class OrderAction extends CommonAction {
         $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $Order->where($map)->order(array('order_id' => 'asc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $list = $Order->where($map)->order(array('create_time' => 'DESC'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
         //print_r($Order->getLastSql());
         $user_ids = $order_ids  = $addr_ids = array();
         foreach ($list as $key => $val) {

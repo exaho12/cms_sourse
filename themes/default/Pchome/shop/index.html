@@ -69,7 +69,13 @@
                                 <a class="sjsy_ljzx sjsy_ljzx2" rel="<{:U('shop/yuyue',array('shop_id'=>$item['shop_id']))}>" data="<{$item.shop_name}>"  href="javascript:void(0);">预约商家</a>
                             </div>
                             <div class="left sjsy_sjLi_c">
-                                <div class="shangjia_t"><span class="sj_name"><a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></span>人均：<span class="sjsy_xf">￥<{$details[$item['shop_id']]['price']}></span> 评分：<span class="sjsy_xf"><{:round($item['score']/10,1)}></span></div>
+                                <div class="shangjia_t"><span class="sj_name">
+                                
+                                <a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a>&nbsp;&nbsp;
+                                <if condition="$item['is_renzheng'] eq 1">
+                                <span class="sjsy_xf" style="background-color:#F00; color:#fff; font-size:12px; padding:1px 5px;">已通过资质认证</span>
+                                </if> &nbsp;&nbsp;
+                                </span>人均：<span class="sjsy_xf">￥<{$details[$item['shop_id']]['price']}></span> 评分：<span class="sjsy_xf"><{:round($item['score']/10,1)}></span></div>
                                 <p class="sjsy_sjP">地址：<{$item.addr}></p>
                                 <php>
                                     $tags = $item['tags'];

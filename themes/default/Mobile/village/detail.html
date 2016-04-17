@@ -1,4 +1,5 @@
-<include file='public:header'/>    
+<include file='public:header'/>   
+ 
 	<script src="/static/default/wap/other/roll.js"></script>
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
@@ -8,7 +9,7 @@
 			<{$detail.name}>
 		</div>
 		<div class="top-share">
-			<a href="<{:U('village/index',array('change'=>1))}>" id="cate-btn">切换</a>
+			<i class="icon-reorder"></i><a href="<{:U('village/index',array('change'=>1))}>" id="cate-btn">切换</a>
 		</div>
 	</header>
 
@@ -18,7 +19,7 @@
             
 #wrap{position: relative;padding: 10px;overflow: hidden;}
 #gradient{width: 100%;height: 35px;background: url() repeat-x;position: absolute;bottom: 0;left: 0;}
-#read-more{padding: 5px;border-top: 4px double #ddd;background: #fff;color: #333;}
+#read-more{padding: 5px;border-top:1px dashed #ddd;background: #fff;color: #333; margin-top: 10px;}
 #read-more a{padding-right: 22px;background: url() no-repeat 100% 50%;font-weight: bold;text-decoration: none;}
 #read-more a: hover{color: #000;}
 </style>
@@ -50,10 +51,58 @@
 	}
 });
             </script>
-            <div class="xiaoqu-nav line" style="width: 100%;height: 270px"  >	<img  style="width:100%;height: 100%" src="__ROOT__/attachs/<{$detail[pic]}>" alt="<{$detail.name}>" /></div>
-        <div class="cite-title padding border-bottom">
+           
+           
+           
+<div class="tuan-detail">
+<div class="line banner">	
+
+ 
+    <div id="focus" class="focus">
+		<div class="hd"><ul></ul></div>
+		<div class="bd">
+			<ul><li><a href="javascript:void(0);"><img src="__ROOT__/attachs/<{$detail[pic]}>" /></a></li>
+			</ul>
+		</div>
+	</div>
+    
+    
+			<div class="title">
+				<h1><{:bao_msubstr($detail['name'],0,10)}>
+                <php>
+                $count = D('Villagejoin')->where(array('village_id' => $detail['village_id']))->count();
+               </php>
+              <a style="color:#FFF; font-size:12px;">(<{:bao_msubstr($detail['name'],0,10)}>有社员<{$count}>人)</a>
+                </h1>
+				<p><a style="color:#FFF; font-size:12px;" href="<{:U('village/gps',array('village_id'=>$detail['village_id']))}>"><{$detail.addr}> &nbsp;<i class="icon icon-send"></i> </a>
+                
+                
+                </p>
+			</div>	
+		</div>
+</div>            
+            
+  
+	<script type="text/javascript">
+		TouchSlide({ 
+			slideCell:"#focus",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"left", 
+			autoPlay:true,//自动播放
+			autoPage:true, //自动分页
+			switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+		});
+	</script>
+
+	<!--小区广告结束-->           
+           
+           
+           
+           
+<div class="cite-title padding border-bottom">
      
-          <div class="blank-10 bg"></div>
+          
 		<h5><i class="icon-building"></i>  社区/村介绍</h5>
 	</div>
         <div  style="text-align: center" >
@@ -64,20 +113,15 @@
           <div id="read-more"></div>
         </div>
     <div class="blank-10 bg"></div>
-        <div class="cite-title padding border-bottom">
-		<h5><i class="icon-bullhorn"></i> 入驻社区村</h5>
-                <a href="<{:U('village/joinvillage',array('village_id'=>$detail['village_id']))}>">
-					<eq name="village_join" value="0">立即入驻<else/>取消入驻</eq>
-                </a>
-	</div>        
-            <div class="cite-title padding border-bottom">
-		<h5><i class="icon-building"></i>  社区/村工作人员</h5>
+        
+    <div class="cite-title padding border-bottom">
+		<h5><i class="icon-users"></i>  社区/村工作人员</h5>
                 <a href="<{:U('village/workerslist',array('village_id'=>$detail['village_id']))}>">+ 更多</a>
 	</div>
         <div class="xiaoqu-nav line" style="font-size:7px" >
             <foreach name="worker" item="var">
            <div class="x3 border-right"   >
-           <img src="__ROOT__/attachs/<{$var.photo}>" /> <br/>
+           <img style="margin-top:5px;" src="__ROOT__/attachs/<{$var.photo}>" /> <br/>
          
               姓名：<{$var.name}><br/>
                   职务：<{$var.job}>  
@@ -85,9 +129,13 @@
                 </foreach>
         </div>
 	
-	<div class="blank-10 bg"></div>
+	</div>
+    <div class="blank-10 bg"></div>
+    
+ <!--意见反馈-->
+    
         <div class="cite-title padding border-bottom">
-		<h5><i class="icon-bullhorn"></i> 社区/村意见反馈</h5>
+		<h5><i class="icon-calendar-minus-o"></i> 社区/村意见反馈</h5>
                 <a href="<{:U('village/suggestion',array('village_id'=>$detail['village_id'],'type'=>'1'))}>">+ 意见反馈</a>
 	</div>
 	<div class="text-list">
@@ -99,20 +147,9 @@
 			</foreach>
 		</ul>
 	</div>
-         <div class="cite-title padding border-bottom">
-		<h5><i class="icon-bullhorn"></i> 社区/村联系电话：</h5>
-                <a href="tel:<{$detail.tel}> "><{$detail.tel}> 
-				</a> 
-			
-	</div>
-        <div class="cite-title padding border-bottom">
-		<h5><i class="icon-bullhorn"></i> 社区/村地址</h5>
-                <div class="x6 border-right text-center" style="float:right">
-                    <a href="<{:U('village/gps',array('village_id'=>$detail['village_id']))}>"><i class="icon icon-send"></i> 导航到这去</a>
-				</div>
-              
-	</div>
-        <div class="text-list" style="height:40px;word-wrap:break-word;overflow:hidden; margin-left: 10px;"><{$detail.addr}></div>
+    
+    
+       
         
 	<div class="cite-title padding border-bottom">
 		<h5><i class="icon-bullhorn"></i> 社区/村通知</h5>
@@ -129,7 +166,7 @@
 	</div>
 	<div class="blank-10 bg"></div>
         <div class="cite-title padding border-bottom">
-        	<h5><i class="icon-bullhorn"></i> 社区/村活动展示</h5>
+        	<h5><i class="icon-desktop"></i> 社区/村活动展示</h5>
                 <a href="<{:U('village/noticelist',array('village_id'=>$detail['village_id'],'type'=>'2'))}>">+ 更多</a>
 	</div>
 	<div class="text-list">
@@ -145,7 +182,7 @@
 		
 	<div class="cite-title padding border-bottom">
 		<h5><i class="icon-phone"></i>  便民电话</h5>
-		<a href="<{:U('village/together',array('village_id'=>$detail['village_id']))}>">+ 合作&更多</a>
+		
 	</div>
 	<div class="text-list">
 		<ul>
@@ -197,7 +234,7 @@
                       	<div class="x3 border-right">
 							<a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>">
 								<img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>">
-                                                                <p><font size="-5"><{$item.shop_name}></font></p>
+                                <p><font size="-5"><{:bao_msubstr($item['shop_name'],0,5)}></font></p>
 							</a>
 					</div>
                         <php>}</php>
@@ -242,6 +279,8 @@
 		
 
 	<div class="blank-10 bg"></div>
+   <!--村镇贴吧-->
+    <if condition="$detail['is_bbs'] eq 1">
 	<div class="cite-title padding border-bottom">
 		<h5><i class="icon-comments"></i> 社区/村贴吧</h5>
 		<a href="<{:U('village/tieba',array('village_id'=>$detail['village_id']))}>">+ 进入</a>
@@ -255,5 +294,7 @@
 </foreach>
 		</ul>
 	</div>
+    </if>
+    
 
 <include  file='public:footer'/>    

@@ -1,0 +1,147 @@
+@charset "utf-8";
+.bottom_box {
+	width: 100%;
+	position: relative;
+	height: 1200px;
+}
+.bottom_box .leftMenu {
+	background: none repeat scroll 0 0 #e6e6e6;
+	border-right: 1px solid #ccc;
+	box-shadow: 1px 1px 1px #fff;
+	left: 0;
+	/*min-height: 900px;*/
+	padding-top: 10px;
+	text-align: center;
+	top: 0;
+	z-index: 5;
+	position: absolute;
+	width: 220px;
+	height: 100%;
+}
+
+.bottom_box .leftMenu .menuClik {
+	padding: 10px;
+	overflow: hidden;
+	height: auto;
+	width: 200px;
+}
+.bottom_box .leftMenu .menuClik .left {
+	display: block;
+	font-family: "宋体";
+	font-size: 14px;
+	color: #FFF;
+	height: 32px;
+	width: 62px;
+	background-color: #1f7ac8;
+	margin-right: 12px;
+	line-height: 32px;
+	background-image: url(../images/ico_03.png);
+	background-repeat: no-repeat;
+	background-position: 8px center;
+	text-align: left;
+	padding-left: 32px;
+	cursor: pointer;
+}
+.bottom_box .leftMenu .menuClik .center {
+	display: block;
+	font-family: "宋体";
+	font-size: 14px;
+	color: #FFF;
+	height: 32px;
+	width: 62px;
+	background-color: #009944;
+	line-height: 32px;
+	text-align: center;
+	background-image: url(../images/ico_05.png);
+	background-repeat: no-repeat;
+	background-position: 8px center;
+	text-align: left;
+	padding-left: 32px;
+	cursor: pointer;
+}
+.bottom_box .leftMenu .leftMenu_ul {
+	display: block;
+	width: 218px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #dbdbdb;
+	border-bottom-color: #dbdbdb;
+	border-left-color: #dbdbdb;
+	position: relative;
+	height: auto;
+}
+.bottom_box .leftMenu .leftMenu_ul .leftMenu_li {
+	height: auto;
+	background-image: url(../images/left_x_09.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	font-size: 14px;
+	line-height: 45px;
+	color: #307bcb;
+	text-align: left;
+	position: relative;
+	font-family: "宋体";
+	width: 218px;
+	display: block;
+	z-index: 0;
+}
+.leftMenu_li .leftMenu_a {
+	display: block;
+	background-image: url(../images/leftico_13.png);
+	background-repeat: no-repeat;
+	background-position: 188px center;
+	color: #307bcb;
+	position: relative;
+	padding-left: 60px;
+}
+.leftNav2 {
+	width: 198px;
+	height:auto;
+	/*position: absolute;
+	z-index: 2;
+	left: 0px;
+	top: 45px;*/
+	background-color: #FFF;
+        padding: 10px; 
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #dbdbdb;
+	display:none;
+}
+.leftNav2 li {
+	font-family: "宋体";
+	font-size: 14px;
+	line-height: 30px;
+	color: #545454;
+}
+.leftNav2 li a {
+        text-indent: 50px;
+	color: #545454;
+        width: 198px;
+        display: block;
+}
+
+	
+.curHover {
+	color: #ff5a00 !important;
+}
+.currents {
+	background-image: url(../images/leftico_on_13.png) !important;
+}
+.current{
+    height: 28px;
+    line-height: 28px;
+    padding: 0px 10px;
+    background: #ff5a00;
+    color: #fff !important;
+    border-radius: 3px;
+    border: 1px solid #ff5a00;
+}
+.rightMenu {
+	margin-left: 220px;
+	height: 100%;
+}

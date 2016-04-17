@@ -31,7 +31,7 @@
                         <td class="w50"><input type="checkbox" class="checkAll" rel="msg_id" /></td>
                         <td class="w50">ID</td>
                         <td>用户</td>
-                        <td>类型</td>
+                        <td>类型/城市</td>
                         <td>标题</td>
                         <td>描述</td>
                         <td>外链地址</td>
@@ -43,7 +43,7 @@
                             <td><input class="child_msg_id" type="checkbox" name="msg_id[]" value="<{$var.msg_id}>" /></td>
                             <td><{$var.msg_id}></td>
                             <td><{$var.user_id}></td>
-                            <td><{$types[$var['type']]}></td>
+                            <td><{$types[$var['type']]}><if condition="!empty($citys[$var['city_id']]['name'])"><a style="color:#F00">/<{$citys[$var['city_id']]['name']}></a></if></td>
                             <td><{$var.title}></td>
                             <td><{$var.intro}></td>
                             <td><{$var.link_url}></td>

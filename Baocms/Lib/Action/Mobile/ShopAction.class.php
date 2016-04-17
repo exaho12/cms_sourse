@@ -5,6 +5,15 @@
  */
 
 class ShopAction extends CommonAction {
+	
+	public function _initialize() {
+        parent::_initialize();
+        $this->lifecate    = D('Lifecate')->fetchAll();
+        $this->lifechannel = D('Lifecate')->getChannelMeans();
+        $this->assign('lifecate', $this->lifecate);
+        $this->assign('channel',  $this->lifechannel);
+    }
+	
 
     public function index() {
         $cat = (int) $this->_param('cat');
@@ -383,29 +392,60 @@ class ShopAction extends CommonAction {
             $data['shop_id'] = (int) $shop_id;
             $data['code'] = $obj->getCode();
             if ($obj->add($data)) {
-                D('Sms')->sendSms('sms_shop_yuyue', $data['mobile'], array(
-                    'shop_name' => $detail['shop_name'],
-                    'shop_tel' => $detail['tel'],
-                    'shop_addr' => $detail['addr'],
-                    'code' => $data['code']
-                ));
-				
-							
+				//通知用户
+               if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                    D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yydy', $data['mobile'], array(
+                        'sitename'=>$this->_CONFIG['site']['sitename'], 
+                        'shop_name' => $detail['shop_name'],
+                        'shop_tel' => $detail['tel'],
+                        'shop_addr' => $detail['addr'],
+                        'code' => $data['code']
+                        ));
+                }else{
+                    D('Sms')->sendSms('sms_shop_yuyue', $data['mobile'], array(
+                        'shop_name' => $detail['shop_name'],
+                        'shop_tel' => $detail['tel'],
+                        'shop_addr' => $detail['addr'],
+                        'code' => $data['code']
+                    ));
+                }
+
 				//预约通知商家功能开始
-				if(!empty($sj_mobile)){
-                D('Sms')->sendSms('sms_shangjia_yuyue',$sj_mobile,array('name'=>$data['name'],'content'=>$data['content'],'yuyue_time'=>$data['yuyue_time'],'mobile'=>$data['mobile'],'number'=>$data['number'],'yuyue_date'=>$data['yuyue_date']));
+			   if(!empty($sj_mobile)){
+               if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                     D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yycd', $sj_mobile, array(
+                            'sitename'=>$this->_CONFIG['site']['sitename'], 
+                            'name'=>$data['name'],
+                            'content'=>$data['content'],
+                            'yuyue_time'=>$data['yuyue_time'],
+                            'mobile'=>$data['mobile'],
+                            'number'=>$data['number'],
+                            'yuyue_date'=>$data['yuyue_date']
+                            ));
+                    }else{
+                        D('Sms')->sendSms('sms_shangjia_yuyue',$sj_mobile,array(
+                            'name'=>$data['name'],
+                            'content'=>$data['content'],
+                            'yuyue_time'=>$data['yuyue_time'],
+                            'mobile'=>$data['mobile'],
+                            'number'=>$data['number'],
+                            'yuyue_date'=>$data['yuyue_date']
+                        ));
+                    }
 				  }
                 //预约通知商家功能结束
               //邮件功能
               if(!empty($sj_email)){
-                 D('Email')->sendMail('email_yuyue', $sj_email, '邮件标题', array('name'=>$data['name'],'content'=>$data['content'],'yuyue_time'=>$data['yuyue_time'],'mobile'=>$data['mobile'],'number'=>$data['number'],'yuyue_date'=>$data['yuyue_date']));
+                 D('Email')->sendMail('email_yuyue', $sj_email, '邮件标题', array(
+					 'name'=>$data['name'],
+					 'content'=>$data['content'],
+					 'yuyue_time'=>$data['yuyue_time'],
+					 'mobile'=>$data['mobile'],
+					 'number'=>$data['number'],
+					 'yuyue_date'=>$data['yuyue_date'
+				 ]));
                 } //邮件功能
-				
-				
-				//更新了商家的预约人数
                 D('Shop')->updateCount($shop_id, 'yuyue_total');
-				
-				
                 $this->niuMsg('预约成功！', U('mcenter/yuyue/index'));
             }
             $this->niuMsg('操作失败！');
@@ -452,25 +492,12 @@ class ShopAction extends CommonAction {
 	
 	//增加分店开始
 	public function shop() {
-		
-		
-		
-		
-		
-		
-		
-		
         $shop_id = (int) $this->_get('shop_id');
         $branch_id = (int) $this->_get('branch_id');
         $branch = D('Shopbranch')->where(array('shop_id'=>$shop_id,'closed'=>0,'audit'=>1))->select();
         if (empty($shop_id) && empty($branch_id)) {
             $this->error('该商家不存在');
         }
-		
-		
-		
-		
-		
         $Shopdianping = D('Shopdianping');
         import('ORG.Util.Page'); // 导入分页类
         if (empty($branch_id)) {
@@ -660,6 +687,91 @@ class ShopAction extends CommonAction {
 		$thumb = unserialize($detail['thumb']);
         $this->assign('thumb', $thumb);
         $this->assign('detail', $detail);
+        $this->display();
+
+    }
+	
+	public function life() {
+        $shop_id = (int) $this->_get('shop_id');
+        if (!$detail = D('Shop')->find($shop_id)) {
+            $this->error('没有该商家');
+            die;
+        }
+        if ($detail['closed']) {
+            $this->error('该商家已经被删除');
+            die;
+        }
+        $this->assign('nextpage', LinkTo('shop/lifeload', array('shop_id' => $shop_id, 't' => NOW_TIME, 'p' => '0000')));
+        $this->assign('detail', $detail);
+        $this->display();
+
+    }
+	public function lifeload() {
+		$shop_id = (int) $this->_get('shop_id');
+        if (!$detail = D('Shop')->find($shop_id)) {
+            $this->error('没有该商家');
+            die;
+        }
+		
+        $Life = D('Life');
+        import('ORG.Util.Page'); // 导入分页类
+		$map = array('audit' => 1,'city_id'=>$this->city_id,'user_id'=>$detail['user_id'],);
+        $count = $Life->where($map)->count(); // 查询满足要求的总记录数 
+        $Page = new Page($count, 25); // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show(); // 分页显示输出
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
+        }
+        $list = $Life->where($map)->order(array('top_date' => 'desc', 'last_time' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+	
+        $this->assign('list', $list); // 赋值数据集
+        $this->assign('page', $show); // 赋值分页输出
+		$this->display();
+    }
+	
+	public function news() {
+        $shop_id = (int) $this->_get('shop_id');
+        if (!$detail = D('Shop')->find($shop_id)) {
+            $this->error('没有该商家');
+            die;
+        }
+        if ($detail['closed']) {
+            $this->error('该商家已经被删除');
+            die;
+        }
+        $this->assign('nextpage', LinkTo('shop/newsload', array('shop_id' => $shop_id, 't' => NOW_TIME, 'p' => '0000')));
+        $this->assign('detail', $detail);
+        $this->display();
+
+    }
+	
+	public function newsload() {
+        $shop_id = (int) $this->_get('shop_id');
+        if (!$detail = D('Shop')->find($shop_id)) {
+            $this->error('没有该商家');
+            die;
+        }
+        if ($detail['closed']) {
+            $this->error('该商家已经被删除');
+            die;
+        }
+        $article = D('Article');
+        import('ORG.Util.Page'); // 导入分页类
+		$map = array('audit' => 1,'city_id'=>$this->city_id,'shop_id'=>$shop_id,);
+	
+        $count = $article->where($map)->count(); // 查询满足要求的总记录数 
+        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show(); // 分页显示输出
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
+        }
+        $list = $article->where($map)->order(array('create_time' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $this->assign('list', $list); // 赋值数据集
+        $this->assign('page', $show); // 赋值分页输出
         $this->display();
 
     }

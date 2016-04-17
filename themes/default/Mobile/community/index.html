@@ -1,4 +1,4 @@
-<include file='public:header'/>    
+<include file='public:headnear'/>     
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
 			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
@@ -10,7 +10,16 @@
 			<a href="javascript:void(0);" id="cate-btn"><i class="icon-bars"></i></a>
 		</div>
 	</header>
-	
+    
+<!--定位开始-
+<div class="line">
+		<div class="blank-10"></div>
+		<div class="padding">
+			<i class="icon-map-marker"></i> <span id="local-addr"></span> (<a href="javascript:reset();" class="text-gray" id="local-reset">重新定位</a>)
+		</div>
+	</div>
+
+<!--定位结束-->	
     <div class="serch-bar-mask" id="cate_menu" style="display:none;top:50px;">
 		<div class="serch-bar-mask-list">
 			<ul>
@@ -60,5 +69,72 @@
 			loaddata('<{$nextpage}>', $("#xiaoqu-list"), true);
 		});
     </script>
+    
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qfbt1AS4SZZvfZvSXE0A1Mx2"></script>
+	<script>
+		$(document).ready(function () {
+			TouchSlide({ 
+				slideCell:"#focus",
+				titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+				mainCell:".bd", 
+				effect:"left", 
+				autoPlay:false,//自动播放
+				autoPage:true, //自动分页
+			});
+			reset();
+			$("#search-btn").click(function(){
+				if($(".top-search").css("display")=='block'){
+					$(".top-search").hide();
+					$(".top-title").show(200);
+				}
+				else{
+					$(".top-search").show();
+					$(".top-title").hide(200);
+				}
+			});
+			
+		});	
+   
+	function reset() {
+		var addr = $("#local-addr").html();
+		$("#local-addr").html("定位中……");
+			// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			lat=r.point.lat;
+			lng=r.point.lng;
+			getlat(lng,lat);
+			//alert('您的位置：'+lng+','+lat);
+			$("#addr").html(lng+','+lat);
+		}
+		else {
+			//alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+		
+		}
+		function getlat(lng,lat){
+	//alert('开始获取');
+	var map = new BMap.Map("allmap"); 
+	var point = new BMap.Point(lng,lat);
+	map.centerAndZoom(point,12);
+	var geoc = new BMap.Geocoder();    
+	var pt = point;
+	geoc.getLocation(pt, function(rs){
+			var addComp = rs.addressComponents;
+			//alert(addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+			$("#local-addr").html(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+		});        
+		}
+		 
+	</script>
+    
 		
 <include file="public:footer"/>

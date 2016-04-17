@@ -1,0 +1,17 @@
+<foreach name="list" item="item">
+  <li class="line">	
+    <div class="x3"><img src="__ROOT__/attachs/<{$item.photo}>"></div>
+		<div class="x6">	
+			<h5><{:bao_msubstr($item['title'],0,22,false)}></h5>
+            <php>$left = $item['price'] - $item['join']; $tt = round($item['join']/$item['price']*100,2);</php>
+            <div class="yiyuan_progres"><span class="yiyuan_progres_bar" style="width:<{$tt}>%;"></span></div>
+			<p class="addr"><{$item.join}>已参与</p>
+            <p class="addr">剩余 <{$left}>次 <eq name="item.type" value="1"><a class="button button-big bg-dot float-right" style="border-radius:0px;">一元专区</a></eq> </p>
+		</div>
+        <div class="x3">
+        <p class="addr"></p>
+        <a href="<{:U('cloud/detail',array('goods_id'=>$item['goods_id']))}>" class="button button-small bg-yellow float-right">立即夺宝</a>
+        </div>
+  </li>
+<div class="blank-10 bg"></div>
+</foreach>

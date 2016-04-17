@@ -6,7 +6,7 @@
 .work-list div{font-size:12px;color:#999;}
 .work-list em{color:#f60;}
 
-.tab-box .hd{height:40px;line-height:40px;font-size:16px;background:#F3F3F3; border-top:2px solid #CECECE;}
+.tab-box .hd{height:40px;line-height:40px;font-size:16px;background:#F3F3F3; ;}
 .tab-box .hd ul{overflow:hidden;padding:0;list-style:none;}
 .tab-box .hd ul li{float:left;color:#515151;width:50%;text-align:center;height:40px;border-bottom:2px solid #eee;}
 .tab-box .hd ul .on{border-bottom:2px solid #E9553B;color:#E9553B;}

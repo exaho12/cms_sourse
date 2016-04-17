@@ -7,30 +7,37 @@
 			余额充值
 		</div>
 	<div class="top-signed">
-		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+		<include file="public:message"/>
 	</div>
 </header>
 
+ <!-- 筛选TAB -->
+<style>ul{ padding-left:0px;}</style>
+<ul id="shangjia_tab">
+		<li style="width:33.3333333367%;"><a href="<{:U('mcenter/money/index')}>"  class="on">余额充值</a></li>
+        <li style="width:33.3333333367%;"><a href="<{:U('mcenter/cash/index')}>" >申请提现</a></li>
+        <li style="width:33.3333333367%;"><a href="<{:U('mcenter/logs/moneylogs')}>" >日志管理</a></li>
+</ul>
+
+<div class="blank-40 bg"></div>
 <!-- 筛选TAB -->
 <div class="line tab-bar">
 	<div class="button-toolbar">
 		<div class="button-group">
 			<a class="block button bg-dot active" href="<{:U('money/index')}>">余额充值</a>
 			<a class="block button" href="<{:U('money/recharge')}>">代金券充值</a>
-			<a class="block button" href="<{:U('money/gold')}>">金块充值</a>
 		</div>
 	</div>
 </div>
 
 
-<form method="post" action="<{:U('money/moneypay')}>"  >
-<div class="line padding border-bottom">
-    <span class="x3">充值金额</span>
+<form method="post" action="<{:U('money/moneypay')}>">
+<div class="line padding">
+    <span class="x3">充值金额：</span>
 	<span class="x9">
 		<input class="text-input" type="text" name="money" placeholder="请输入充值金额" />
 	</span>
 </div>
-<div class="blank-10 bg"></div>
 <ul id="pay-method" class="pay-method">
 	<foreach name="payment" item="var">
 	<if condition="$var['code'] neq 'money'">

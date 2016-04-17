@@ -3,7 +3,15 @@
 <volist name="list" id="item">
 <li>	
 <a class="item line" href="#">
-		<div class="x3"><img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='avatar.jpg'}>"></div>
+		<div class="x3">
+        
+          <!--手机贴吧头像调用-->
+            <?php if(strstr($users[$item['user_id']]['face'],"http")){ ?>
+            <img  src="<{$users[$item['user_id']]['face']}>" />
+            <?php }else{ ?>
+            <img  src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
+        </div>
 		<div class="x9">
 				<h5>姓名：<{$users[$item['user_id']]['nickname']}></h5>				
                 <p class="des-star">

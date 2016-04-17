@@ -9,8 +9,8 @@
 
 class MsgAction extends CommonAction {
 
-    private $create_fields = array('user_id', 'type', 'title', 'intro', 'link_url', 'create_time', 'create_ip', 'details');
-    private $edit_fields = array('user_id', 'type', 'title', 'intro', 'link_url', 'details');
+    private $create_fields = array('city_id','user_id', 'type', 'title', 'intro', 'link_url', 'create_time', 'create_ip', 'details','is_fenzhan');
+    private $edit_fields = array('city_id','user_id', 'type', 'title', 'intro', 'link_url', 'details','is_fenzhan');
 
     public function index() {
         $Msg = D('Msg');
@@ -26,7 +26,7 @@ class MsgAction extends CommonAction {
         $list = $Msg->where($map)->order(array('msg_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
-
+		$this->assign('citys', D('City')->fetchAll());
         $this->assign('types', $Msg->getType());
         $this->display(); // 输出模板
     }
@@ -48,7 +48,7 @@ class MsgAction extends CommonAction {
     private function createCheck() {
         $data = $this->checkFields($this->_post('data', false), $this->create_fields);
         $data['user_id'] = (int) $data['user_id'];
-       
+        $data['city_id'] = (int) $data['city_id'];
         $data['type'] = htmlspecialchars($data['type']);
         if (empty($data['type'])) {
             $this->baoError('类型不能为空');
@@ -73,6 +73,7 @@ class MsgAction extends CommonAction {
         if ($words = D('Sensitive')->checkWords($data['details'])) {
             $this->baoError('详细内容含有敏感词：' . $words);
         }
+		$data['is_fenzhan'] = (int) $data['is_fenzhan'];
         return $data;
     }
 
@@ -103,7 +104,7 @@ class MsgAction extends CommonAction {
     private function editCheck() {
         $data = $this->checkFields($this->_post('data', false), $this->edit_fields);
         $data['user_id'] = (int) $data['user_id'];
-        
+        $data['city_id'] = (int) $data['city_id'];
         $data['type'] = htmlspecialchars($data['type']);
         if (empty($data['type'])) {
             $this->baoError('类型不能为空');
@@ -124,6 +125,7 @@ class MsgAction extends CommonAction {
         if ($words = D('Sensitive')->checkWords($data['details'])) {
             $this->baoError('详细内容含有敏感词：' . $words);
         }
+		$data['is_fenzhan'] = (int) $data['is_fenzhan'];
         return $data;
     }
 

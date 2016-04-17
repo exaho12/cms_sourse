@@ -7,16 +7,35 @@
 			系统通知
 		</div>
 	<div class="top-signed">
-		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+		<include file="public:message"/>
 	</div>
 </header>
 
-<foreach name="msgs" item="item">
-<a class="line padding border-bottom" href="<{:U('/mcenter/message/msgshow',array('msg_id'=>$item['msg_id']))}>">
-	<h5><{$item.title}></h5>
-	<p class="text-gray text-small"><{$item.intro}></p>
-</a>
-</foreach>
+
+<style>
+ul { padding-left: 0px !important;}
+</style>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 50%;"><a href="<{:LinkTo('mcenter/message/index')}>"  class="on">网站通知</a></li>
+        <li style="width: 50%;"><a href="<{:LinkTo('mobile/message/index')}>" >小区信息</a></li>
+</ul>
+
+
+<div class="list-media-x" id="list-media">
+	<ul></ul>
+</div>	
+
+    
+<script>
+	$(document).ready(function () {	 
+		loaddata('<{:U("mcenter/message/load",array("t"=>$nowtime,"p"=>"0000"))}>', $("#list-media ul"), true);
+	});
+</script>
+
+
+
+
 
 
 <include file='public:footer'/>

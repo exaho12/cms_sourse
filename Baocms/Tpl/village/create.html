@@ -90,7 +90,7 @@
                         <div style="width: 300px;height: 100px; float: left;">
                             <img id="pic_img" width="80" height="80" src="__ROOT__/attachs/<{$detail.pic|default='default.jpg'}>" />                        
                             <a href="<{:U('setting/attachs')}>">缩略图设置</a>
-                            建议尺寸:<{$config.attachs.xiaoqu.thumb}>
+                            建议尺寸:<{$CONFIG.attachs.village.thumb}>
                         </div>
                         <script>  
 						  $("#logo_file").uploadify({
@@ -159,6 +159,17 @@
                         focus: false
                     });
         </script>
+        
+         <tr>
+                    <td class="lfTdBt">是否开启贴吧：</td>
+                    <td class="rgTdBt">
+                       <input type="radio" name="data[is_bbs]" value="1"/>开启
+				<input type="radio" name="data[is_bbs]" value="0"  checked="checked" />不开启
+               <code>默认不开启，一般没必要开启</code>
+                    </td>
+                </tr>
+                
+                
             </table>
         </div>
         <div class="smtQr"><input type="submit" value="确认添加" class="smtQrIpt" /></div>

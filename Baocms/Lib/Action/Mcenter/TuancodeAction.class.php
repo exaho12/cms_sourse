@@ -3,10 +3,9 @@
 class TuancodeAction extends CommonAction {
 
     public function codeloading() {
-
         $Tuancode = D('Tuancode');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('user_id' => $this->uid); //这里只显示 实物
+        $map = array('user_id' => $this->uid,'closed'=>0); //这里只显示 实物
 
         $aready = (int) $this->_param('aready');
 
@@ -123,29 +122,33 @@ class TuancodeAction extends CommonAction {
              }
 			
 			$users = D('Users')->find($this->uid);
-			$mobile = $users['mobile'];//用户手机
 			$list = $obj->find($code_id);
 			$code = $list['code'];//团购劵密码
 			$price = round($list['price']/100);//团购价格
-			$user = $users['nickname'];//用户姓名
 			$shop_ids = $list['shop_id'];
 			$shop = D('Shop')->find($shop_ids);
-			$shop_name = $shop['shop_name'];//商家名字
 		
 			
 			if(!empty($mobile)){
-				 D('Sms')->sendSms('sms_tuancode',$mobile,array(
-					 'user'=>$user,
-					 'code'=>$code,
-					 'price'=>$price,
-					 'shop_name'=>$shop_name
-				 ));
-				}else{
-					$this->error('您还没绑定手机！', U('tuancode/index'));
+				if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+						D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_tgdx', $users['mobile'], array(
+							'sitename'=>$this->_CONFIG['site']['sitename'], 
+							'code'=>$code, 
+							'nickname' => $users['nickname'], 
+							'tuan' => $shop['shop_name']//应该不对，暂时先用
+							));
+					}else{
+						 D('Sms')->sendSms('sms_tuancode',$mobile,array(
+						 'user'=>$users['nickname'],
+						 'code'=>$code,
+						 'price'=>$price,
+						 'shop_name'=>$shop['shop_name']
+					   ));
+					}
 			}
 				
 			$obj->save(array('code_id' => $code_id, 'is_sms' => 1));
-			$this->success('短信已成功发送到您手机！', U('tuancode/index'));
+			$this->niuMsg('短信已成功发送到您手机！', U('tuancode/index'));
 			
 			}else{
 				$this->error('操作失败');
@@ -153,5 +156,29 @@ class TuancodeAction extends CommonAction {
         
     }
 	
+	
+	public function delete($code_id) {
+        $code_id = (int) $code_id;
+
+		
+        if ($detail = D('Tuancode')->find($code_id)) {
+            if ($detail['user_id'] != $this->uid) {
+				$this->ajaxReturn(array('status'=>'error','msg'=>'非法操作！'));
+            }
+			
+		    if ($detial['status'] == 1) {
+				$this->ajaxReturn(array('status'=>'error','msg'=>'该抢购券暂时不能删除！'));
+            }
+            if ($detial['status'] == 0) {
+                if ($detial['is_used'] == 0) {
+                    $this->ajaxReturn(array('status'=>'error','msg'=>'该抢购券暂时不能删除！'));
+                }
+            }
+            if (D('Tuancode')->save(array('code_id' => $code_id, 'closed' => 1))) {
+				$this->ajaxReturn(array('status'=>'success','msg'=>'删除成功', U('tuancode/index')));
+            }
+        }
+        $this->ajaxReturn(array('status'=>'error','msg'=>'操作失败'));
+    }
 
 }

@@ -1,0 +1,41 @@
+.index-header{height:180px;background:url("../../img/cun/cun_shouy.png") no-repeat;background-size:cover;overflow:hidden;background-position:center center;padding:10px 0;position:relative;}
+
+.ui-body{height:60px;}
+.tool{float:right;color:#fff;padding-right:10px;}
+.index-header .search{width:85%;height:50px;overflow:hidden;position:absolute;top:1px;left:5%;}
+.index-header .search .ui-searchbar-wrap{background:none;}
+.index-header .search .ui-searchbar{height:34px;line-height:34px;background:transparent;border:1px solid #fff;color:#fff;}
+.index-header .search .ui-searchbar-cancel{font-size:14px;color:#fff;}
+.index-header .search .ui-searchbar .ui-icon-search{font-size:40px;color:#fff;font-weight:normal;}
+
+.biaoti{float:left;padding-right:10px;}
+
+.index-guide{background:#fff;}
+.index-guide a{display:block;width:100%;overflow:hidden;}
+.index-guide img{width:100%;}
+
+.xiangzhen{margin-top:10px;}
+.xiangzhen .box-hd{background:#fff;height:50px;line-height:50px;border-top:1px solid #eee;}
+.xiangzhen .box-hd i{font-size:20px;}
+.xiangzhen .box-bd{background:#fff;padding:10px 0;font-size:12px;padding:10px 0;border-top:1px solid #eee;border-bottom:1px solid #eee;}
+.xiangzhen .box-bd .ui-scroller {width:auto;overflow:hidden;}
+.xiangzhen .box-bd ul{width:780px;height:90px;}
+.xiangzhen .box-bd .x-item{float:left;width:120px;margin:0 5px;position:relative;float:left;}
+.xiangzhen .box-bd .x-item img{width:120px;height:90px;}
+.xiangzhen .box-bd .x-item .round{width:70px;height:70px;background:rgba(255,255,255,0.6);border-radius:50%;position:absolute;left:25px;top:10px;text-align:center;}
+.xiangzhen .box-bd .x-item .round h4{margin-top:25px;font-size:16px;font-weight:bold;color:#333;}
+
+.ui-right-imgtb{float:left;color:#404040;padding-bottom:10px;font-adweight:bold;font-family: "Microsoft YaHei" ! important;font-size:16px;}
+.index-banner{background:#f4f4f4;padding:10px 0;}
+.  img{width:100%;}
+
+.index-header .searchs{width:70%;height:50px;overflow:hidden;position:absolute;bottom:1px;left:15%;right:15%;}
+.index-header .searchs .ui-searchbar-wrap{background:none;}
+.index-header .searchs .ui-searchbar{height:34px;line-height:34px;background:transparent;border:1px solid #fff;color:#fff;}
+.index-header .searchs .ui-searchbar-cancel{font-size:14px;color:#fff;}
+.index-header .searchs .ui-searchbar .ui-icon-search{font-size:40px;color:#fff;font-weight:normal;}
+
+.index-nav{text-align:center;background:#fff;}
+.index-nav a{display:block;padding:15px 0;font-size:12px;color:#666;}
+.index-nav img{width:45px;}
+.index-nav td{border-color:#f4f4f4!important;}

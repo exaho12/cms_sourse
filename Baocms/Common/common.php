@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 function array_comparison($v1, $v2) { //比较数组
     if ($v1 === $v2) {
@@ -8,6 +8,43 @@ function array_comparison($v1, $v2) { //比较数组
         return 1;
     } else {
         return -1;
+    }
+}
+
+
+function AppLink($url='',$vars='',$backurl='',$backvars=''){
+    if(!is_app()){
+        return U($url,$vars);
+    } else {
+        $openurl = U($url,$vars);
+        if(!empty($backurl)){
+            $back_url = U($backurl,$backvars);
+            return  'javascript:getNewWebView(\''.$openurl.'\',\''.$back_url.'\');';
+        } 
+        return  'javascript:getNewWebView(\''.$openurl.'\');';
+    }
+}
+
+function is_app(){
+     //return true;
+     return strpos($_SERVER['HTTP_USER_AGENT'], 'BaoCmsApp');
+}
+
+function is_android(){
+    //return true;
+     return strpos($_SERVER['HTTP_USER_AGENT'], 'BaoCmsAppAndroid');
+}
+
+function AppJump(){
+    if(!is_app()){
+       header("Location:" . U('mobile/passport/login'));die;
+    }else{
+        if(is_android()){
+             echo  '<script type="text/javascript" language="javascript"> window.jsObj.goLogin();</script>';die;
+        }else{
+              echo  '<script>goload();</script>';die;
+        }
+        
     }
 }
 
@@ -1120,3 +1157,173 @@ function format_bytes($size, $delimiter = '') {
     for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
     return round($size, 2) . $delimiter . $units[$i];
 }
+
+/**
+     * +----------------------------------------------------------
+     * Export Excel | 2013.08.23
+     * +----------------------------------------------------------
+     * @param $expTitle     string File name
+     *                      +----------------------------------------------------------
+     * @param $expCellName  array  Column name
+     *                      +----------------------------------------------------------
+     * @param $expTableData array  Table data
+     *                      +----------------------------------------------------------
+     */
+    function exportExcel($expTitle, $expCellName, $expTableData, $expType = 'excel')
+    {
+        vendor("PHPExcel.PHPExcel");
+        $xlsTitle = iconv('utf-8', 'gbk', $expTitle);//文件名称
+        $fileName = date('YmdHis');//or $xlsTitle 文件名称可根据自己情况设定
+        $cellNum = count($expCellName);
+        $dataNum = count($expTableData);
+        $objPHPExcel = new PHPExcel();
+
+        $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ');
+        $objPHPExcel->getActiveSheet(0)->mergeCells('A1:' . $cellName[$cellNum - 1] . '1');//合并单元格
+
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', $expTitle . '  导出时间:' . date('Y-m-d H:i:s'));
+        $objPHPExcel->getActiveSheet(0)->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFill()->getStartColor()->setARGB('d22222');
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setName('Candara');
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+        for ($i = 0; $i < $cellNum; $i++) {
+//                $objPHPExcel->setActiveSheetIndex( 0 )->setCellValue( $cellName[$i] . '2' , $expCellName[$i][1] );
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cellName[$i] . '2', $expCellName[$i]);
+        }
+        for ($i = 0; $i < $dataNum; $i++) {
+            for ($j = 0; $j < $cellNum; $j++) {
+//                    $objPHPExcel->getActiveSheet( 0 )->setCellValue( $cellName[$j] . ( $i + 3 ) , $expTableData[$i][$expCellName[$j][0]] );
+                $objPHPExcel->getActiveSheet(0)->setCellValue($cellName[$j] . ($i + 3), $expTableData[$i][$j]);
+            }
+        }
+        ob_clean();// 清空（擦掉）输出缓冲区ob_end_clean();
+        if ($expType == 'excel') {
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type:application/force-download");
+            header("Content-Type:application/octet-stream");
+            header("Content-Type:application/download");
+            header("Content-Transfer-Encoding:binary");
+            header('Content-type:application/vnd.ms-excel;charset=utf-8;name="' . $xlsTitle . '.xls"');
+            header("Content-Disposition:attachment;filename=$fileName.xls");//attachment新窗口打印inline本窗口打印
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        } elseif ($expType == 'pdf') {
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type:application/force-download");
+            header("Content-Type: application/pdf");
+            header("Content-Type:application/octet-stream");
+            header("Content-Type:application/download");
+            header("Content-Disposition:attachment;filename=$fileName.pdf");
+            header("Content-Transfer-Encoding:binary");
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
+        }
+
+        $objWriter->save('php://output');
+        exit;
+    }
+
+    /**
+     * +----------------------------------------------------------
+     * Import Excel | 2013.08.23
+     * +----------------------------------------------------------
+     * @param  $file   upload file $_FILES
+     *                 +----------------------------------------------------------
+     * @return array   array("error","message")
+     *                 +----------------------------------------------------------
+     */
+    function importExecl($file)
+    {
+        if (!file_exists($file)) {
+            return array("error" => 0, 'message' => 'file not found!');
+        }
+        Vendor("PHPExcel.PHPExcel.IOFactory");
+        $objReader = PHPExcel_IOFactory::createReader('Excel5');
+        try {
+            $PHPReader = $objReader->load($file);
+        } catch (Exception $e) {
+        }
+        if (!isset($PHPReader)) return array("error" => 0, 'message' => 'read error!');
+        $allWorksheets = $PHPReader->getAllSheets();
+        $i = 0;
+        foreach ($allWorksheets as $objWorksheet) {
+            $sheetname = $objWorksheet->getTitle();
+            $allRow = $objWorksheet->getHighestRow();//how many rows
+            $highestColumn = $objWorksheet->getHighestColumn();//how many columns
+            $allColumn = PHPExcel_Cell::columnIndexFromString($highestColumn);
+            $array[$i]["Title"] = $sheetname;
+            $array[$i]["Cols"] = $allColumn;
+            $array[$i]["Rows"] = $allRow;
+            $arr = array();
+            $isMergeCell = array();
+            foreach ($objWorksheet->getMergeCells() as $cells) {//merge cells
+                foreach (PHPExcel_Cell::extractAllCellReferencesInRange($cells) as $cellReference) {
+                    $isMergeCell[$cellReference] = true;
+                }
+            }
+            for ($currentRow = 1; $currentRow <= $allRow; $currentRow++) {
+                $row = array();
+                for ($currentColumn = 0; $currentColumn < $allColumn; $currentColumn++) {
+                    ;
+                    $cell = $objWorksheet->getCellByColumnAndRow($currentColumn, $currentRow);
+                    $afCol = PHPExcel_Cell::stringFromColumnIndex($currentColumn + 1);
+                    $bfCol = PHPExcel_Cell::stringFromColumnIndex($currentColumn - 1);
+                    $col = PHPExcel_Cell::stringFromColumnIndex($currentColumn);
+                    $address = $col . $currentRow;
+                    $value = $objWorksheet->getCell($address)->getValue();
+                    if (substr($value, 0, 1) == '=') {
+                        return array("error" => 0, 'message' => 'can not use the formula!');
+                        exit;
+                    }
+                    if ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NUMERIC) {
+                        $cellstyleformat = $cell->getParent()->getStyle($cell->getCoordinate())->getNumberFormat();
+                        $formatcode = $cellstyleformat->getFormatCode();
+                        if (preg_match('/^([$[A-Z]*-[0-9A-F]*])*[hmsdy]/i', $formatcode)) {
+                            $value = gmdate("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($value));
+                        } else {
+                            $value = PHPExcel_Style_NumberFormat::toFormattedString($value, $formatcode);
+                        }
+                    }
+                    $temp = '';
+                    if ($isMergeCell[$col . $currentRow] && $isMergeCell[$afCol . $currentRow] && !empty($value)) {
+                        $temp = $value;
+                    } elseif ($isMergeCell[$col . $currentRow] && $isMergeCell[$col . ($currentRow - 1)] && empty($value)) {
+                        $value = $arr[$currentRow - 1][$currentColumn];
+                    } elseif ($isMergeCell[$col . $currentRow] && $isMergeCell[$bfCol . $currentRow] && empty($value)) {
+                        $value = $temp;
+                    }
+                    $row[$currentColumn] = $value;
+                }
+                $arr[$currentRow] = $row;
+            }
+            $array[$i]["Content"] = $arr;
+            $i++;
+        }
+        spl_autoload_register(array('Think', 'autoload'));//must, resolve ThinkPHP and PHPExcel conflicts
+        unset($objWorksheet);
+        unset($PHPReader);
+        unset($PHPExcel);
+        unlink($file);
+
+        return array("error" => 1, "data" => $array);
+    }
+
+
+    function getcwdOL()
+    {
+        $total = $_SERVER[PHP_SELF];
+        $file = explode("/", $total);
+        $file = $file[sizeof($file) - 1];
+
+        return substr($total, 0, strlen($total) - strlen($file) - 1);
+    }
+
+    function getSiteUrl()
+    {
+        $host = $_SERVER[SERVER_NAME];
+        $port = ($_SERVER[SERVER_PORT] == "80") ? "" : ":$_SERVER[SERVER_PORT]";
+
+        return "http://" . $host . $port . getcwdOL();
+    }

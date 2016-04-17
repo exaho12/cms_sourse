@@ -1,5 +1,6 @@
 <include file="public:header" /> 
 <include file="public:top"/>
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script>
 <script type="text/javascript" language="javascript" src="__PUBLIC__/js/layer/layer.js"></script>
 <script>
     $(function () {
@@ -17,6 +18,13 @@
         });
     });
 </script>
+
+<style>
+/*部分样式重写*/
+.zy_content { padding-top: 0px;}
+.spxq_xqgm_l h3 {margin-bottom: 1px; }
+.spxq_xqgm_l .spxq_xqjj { margin-bottom: 10px;}
+</style>
 <div class="nav">
     <div class="navList">
         <!--<div class="navListBg">&nbsp;</div>-->
@@ -40,20 +48,14 @@
             <li class="jq_spxq_xqBt2"><code rel="spxq_xqBt2">购买须知</code><em></em></li>
             <li class="jq_spxq_xqBt3"><code rel="spxq_xqBt3">本单详情</code><em></em></li>
             <li class="jq_spxq_xqBt4"><code rel="spxq_xqBt4">商家介绍</code><em></em></li>
-            <li class="jq_spxq_xqBt5"><code rel="spxq_xqBt5">用户评价</code><em></em></li>
+            <li class="jq_spxq_xqBt5"><code rel="spxq_xqBt5">用户评价(<{$counts}>)</code><em></em></li>
         </ul>
         <div style="float:right;">
-        
-<if condition="$detail['bg_date'] gt $today">
-<a style="height:31px; line-height:31px;font-size:16px;width:100px;margin-top:3px;" class="spxq_qgjjKq" href="javascript:void(0);">即将开始</a>
-<else/>
-<if condition="$detail.num lt 1 ">
-<a style="height:31px; line-height:31px;font-size:16px;width:100px;margin-top:3px;" class="spxq_qgjjKq" href="javascript:void(0);">卖光了</a>
-<else />
-<a style="height:31px; line-height:31px;font-size:16px;width:100px;margin-top:3px;" mini='tuan' rel="jq_num" class="spxq_qgjjKq spxq_qgjjLq" href="<{:U('tuan/buy',array('tuan_id'=>$detail['tuan_id']))}>">立即抢购</a>
-</if>
-</if>
-        
+        <if condition="$detail.num lt 1 ">
+       <a style="height:31px; line-height:31px;font-size:16px;width:100px;margin-top:3px;"class="spxq_qgjjKq ">卖光了</a>
+        <else/>
+       <a style="height:31px; line-height:31px;font-size:16px;width:100px;margin-top:3px;" mini='tuan' rel="jq_num" class="spxq_qgjjKq spxq_qgjjLq" href="<{:U('tuan/buy',array('tuan_id'=>$detail['tuan_id']))}>">立即抢购</a>
+       </if>
         
         
         
@@ -150,7 +152,7 @@
                     <div class="spxq_qgjgk"><span class="detail_spxq_qg_tit">抢购价</span><span class="spxq_qgjg"><small>￥</small><b><{$detail['tuan_price']}></b><del>￥<{$detail['price']}></del></span><span class="spxq_qgjgz"><{$discount}>折</span></div>
                     <div class="spxq_qgjgk">
                         <span class="spxq_qgps">已售<span class="spxq_qgsnum"><{$detail['sold_num']}></span></span>
-                        <span class="spxq_qgps"><{$totalnum}>人已评价</span>
+                        <span class="spxq_qgps"><{$counts}>人已评价</span>
                         <span class="spxq_qgps"><span class="spxq_qgpstarBg"><span class="spxq_qgpstar  spxq_qgpstar<{$shop.score}>">&nbsp;</span></span><span class="spxq_qgsnum"><{:round($shop['score']/10,1)}></span>分</span>
                     </div>
                     <php>
@@ -251,7 +253,14 @@
                         </script>
                         <else/>
                         <div class="spxq_qgjgk">
-                             <span class="detail_spxq_qg_tit">有效期</span><span>截止到<{$detail.end_date}></span>
+                             <span class="detail_spxq_qg_tit">有效期</span><span>截止到<{$detail.end_date}>
+                             
+                             
+                            <if condition="!empty($detail['use_integral'])">
+                            &nbsp;&nbsp;&nbsp;&nbsp;可使用积分：<{$detail['use_integral']}> &nbsp;抵现：<a style="color:#F00"><{:round($detail['use_integral']/100,2)}></a>元</span>
+                            </if>
+                             
+                             </span>
                         </div>
                     </if>
                     <if condition="!empty($tao_arr)">
@@ -289,30 +298,58 @@
                     <div class="spxq_qgjgk spxq_qgjgkBt">
                         <div class="spxq_qgjjAn">
                         
-                        <if condition="$detail['bg_date'] gt $today">
-                            <a class="spxq_qgjjKq" href="javascript:void(0);">即将开抢</a>
-                            <else/>
+                        <if condition="$detail['bg_date'] gt $today"><a class="spxq_qgjjKq" href="javascript:void(0);">即将开抢</a>
+                        
+                        <else/>
                             <if condition="$detail.num lt 1 ">
-                            <a class="spxq_qgjjKq" href="javascript:void(0);">卖光了</a>
-                            <else />
+                            <a class="spxq_qgjjKq">卖光了</a>
+                            <else/>
                             <a mini='tuan' rel="jq_num" class="spxq_qgjjKq spxq_qgjjLq" href="<{:U('tuan/buy',array('tuan_id'=>$detail['tuan_id']))}>">立即抢购</a>
                             </if>
                         </if>
                         
+                        <a class="spxq_qgjjKk" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">进店看看</a>
                         
-                        
-                        
-                        <a class="spxq_qgjjKk" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">进店看看</a></div>
+                        </div>
                     </div>
                     <div class="spxq_qgtck"><span class=" detail_spxq_qg_tit">服务</span><span><a class="spxq_qgFw" href="javascript:void(0);"><em>&nbsp;</em>随时退</a><a class="spxq_qgFw" href="javascript:void(0);"><em>&nbsp;</em>过期退</a><a class="spxq_qgFw" href="javascript:void(0);"><em>&nbsp;</em>真实评价</a></span></div>
                 </div>
             </div>
         </div>
         <div class="right spxq_xqgm_r">
-            <div class="spxq_qgwx"><img src="<{$ex['wei_pic']}>" width="120" height="120" />
+        
+        
+            <div class="spxq_qgwx"> 
+			<script type="text/javascript">
+				$(function () {
+					var str = "<{$host}><{:U('mobile/tuan/detail',array('tuan_id'=>$detail['tuan_id']))}>";
+					$("#code_<{$detail.tuan_id}>").empty();
+					$('#code_<{$detail.tuan_id}>').qrcode(str);
+				})
+			   </script>
+               
+               <style>.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px; background: #fff; }</style>
+           
+            
+				<a href="<{:U('tuan/detail',array('tuan_id'=>$detail['tuan_id']))}>"><div class="sy_sjcpwx"  id="code_<{$detail.tuan_id}>"></div></a>
                 <p>扫描商家微信</p>
-                <p>轻松购享优惠</p>
+				<if condition="!empty($detail['mobile_fan'])">
+                <p>手机下单立减 <span style="color:#F00; font-size:16px; font-weight:bold"><{$detail['mobile_fan']}></span> 元</p>
+				<else/>
+                <p>手机购物更便捷</p>
+                </if>
+                <br/>
+                <p><{$shop['shop_name']}></p>
+               <br/>
+                <if condition="$shop['is_renzheng'] eq 1">
+                    <span class="spxq_qgjgz" style="background:#33b095">已认证</span>
+                </if>
+
             </div>
+            
+            
+            
+            
             <div class="share bdsharebuttonbox spxq_qgFx" data-tag="share_1"><eq name="shop.favo" value="0"><a mini='act' class="spxq_qgFxA" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>"><em>&nbsp;</em>收藏本店</a><else/><a class="spxq_qgFxA" href="javascript:void(0);"><em>&nbsp;</em>已收藏</a></eq><a class="spxq_qgFxA" data-cmd="more" href="javascript:void(0);"><em>&nbsp;</em>分享到</a></div>
             <script>window._bd_share_config = {share: [{"tag": "share_1", 'bdCustomStyle': '__TMPL__statics/empty.css'}]};
                 with (document)
@@ -327,7 +364,7 @@
                     <li><code rel="spxq_xqBt2">购买须知</code><em></em></li>
                     <li><code rel="spxq_xqBt3">本单详情</code><em></em></li>
                     <li><code rel="spxq_xqBt4">商家介绍</code><em></em></li>
-                    <li><code rel="spxq_xqBt5">用户评价</code><em></em></li>
+                    <li><code rel="spxq_xqBt5">用户评价(<{$counts}>)</code><em></em></li>
                 </ul>
             </div>
             <div class="spxq_xqBt1">
@@ -470,7 +507,7 @@
                 var totalpage, pagesize, cpage, count, curcount, outstr, total;
                 total = "<{$count}>";
                 cpage = 1;
-                totalpage = "<{$totalnum}>";
+                totalpage = "<{$counts}>";
                 pagesize = 5;
                 outstr = "";
                 function gotopage(target) {
@@ -504,7 +541,7 @@
             </div>
             <div class="spxq_xqBt5">
                 <div class="spxq_xqBt">
-                    <div class="left">用户评价</div>
+                    <div class="left">用户评价(<{$counts}>)</div>
                     <div class="right spxq_xqBt_r">我买过本单，<a class="spxq_pjAn" href="<{:U('member/order/noindex')}>">我要评价</a></div>
                 </div>
                 <div class="spxq_xqNr">
@@ -512,12 +549,25 @@
                         <foreach name="list" item="var">
                             <li class="spxq_pjList">
                                 <div class="left spxq_pjList_l">
-                                    <div class="spxq_pjTx"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" width="50" height="50" /></div>
+                                    <div class="spxq_pjTx">
+                                    
+                                    
+                            <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+                            <img  width="50" height="50"  src="<{$users[$var['user_id']]['face']}>" />
+                            <?php }else{ ?>
+                            <img  width="50" height="50"   src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+                            <?php }?>
+                                  
+                                    </div>
                                     <p class="spxq_pjYh"><{$users[$var['user_id']]['nickname']}></p>
                                     <p style="text-align:center"><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
                                 </div>
                                 <div class="left spxq_pjList_r">
-                                    <div><span class="spxq_qgpstarBg"><span class="spxq_qgpstar">&nbsp;</span></span><span class="spxq_pjTime"><{$var.create_time|date='Y-m-d',###}></span></div>
+                                    <div><span class="spxq_qgpstarBg">
+                                    
+                                 <span class="spxq_qgpstarBg"><span class="spxq_qgpstar  spxq_qgpstar<{:round($var['score']*10,2)}>">&nbsp;</span></span>
+                                    
+                                    <span class="spxq_pjTime"><{$var.create_time|date='Y-m-d',###}></span></div>
                                     <p class="spxq_pjP"><{$var.contents}></p>
                                     <ul class="spxq_pjUl">
                                         <foreach name="pics" item="pic">
@@ -537,7 +587,7 @@
             </div>
         </div>
         <div class="right zy_content_r">
-            <div class="nearbuy_wx"><img src="__PUBLIC__/img/nearwx_03.jpg" width="200" height="320" /></div>
+            
             <div class="nearbuy_hotCp">
                 <div class="nearbuy_hotCpT">
                     <div class="left">猜你喜欢</div>

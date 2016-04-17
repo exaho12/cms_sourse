@@ -119,3 +119,43 @@
 .send-form .icon{float:left;width:10%;text-align:center;color:#999;height:50px;line-height:60px;overflow:hidden;font-size:16px;}
 .send-form .line-input{border:none;float:left;background:#FFF;height:50px;width:90%;padding-top:12px;overflow:hidden;}
 .send-form .text-select {border: none;float: left;background: #FFF;height: 50px;width: 90%;padding-top: 12px;overflow: hidden;}
+
+
+/* 信息列表 */
+.life-list {list-style:none;padding:0;}
+.life-list li{background:#FFF;padding:10px;border-bottom:thin solid #eee;}
+.life-list .flex{-webkit-box-flex:1;}
+/* 带图 */
+.mod-1 a{display:-webkit-box;-webkit-box-orient:horizontal;}
+.mod-1 h4{height:20px;line-height:20px;font-size:14px;overflow:hidden;margin:0;}
+.mod-1 a{color:#003040;}
+.mod-1 p{color:#999;font-size:12px;overflow:hidden;height:20px;margin:0;margin-top:3px;}
+.mod-1 em{color:#f60;font-size:18px;float:left;vertical-align:bottom;height:20px;}
+.mod-1 i{color:#f60;font-size:12px;float:left;font-style:normal;margin-top:3px;}
+.mod-1 .pic{width:80px;height:70px;margin-right:10px;}
+.mod-1 span{float:right;width:16px;height:16px;line-height:16px;text-align:center;color:#FFF;background:#F60;margin:2px;}
+/* 不带 */
+.mod-2 {display:-webkit-box;-webkit-box-orient:horizontal;position:relative;}
+.mod-2 h4{height:20px;line-height:20px;font-size:14px;overflow:hidden;margin:0;}
+.mod-2 h4 span{width:16px;height:16px;line-height:16px;text-align:center;color:#FFF;background:#F60;margin:2px;}
+.mod-2 a{color:#003040;}
+.mod-2 p{color:#999;font-size:12px;overflow:hidden;height:20px;margin:0;margin-top:3px;}
+.mod-2 .tel{width:50px;height:60px;right:5px;position:absolute;}
+.mod-2 .tel a{display:block;width:50px;height:50px;line-height:50px;text-align:center;border:1px solid #eee;border-radius:50px;background:#FAF5F5;}
+.mod-2 .tel span{margin:11px;}
+.mod-2 .tel .icon{font-size:20px;color:#0AE;}
+
+/* 新闻 */
+.list-media-x ul{padding:0;list-style:none}
+.list-media-x li{border-top:thin solid #eee}
+.list-media-x p{margin:0}
+.list-media-x li dt{display:block;padding:5px 10px;overflow: hidden;width:100%;border-bottom:1px #eee solid}
+.list-media-x li dl{display:block;padding:0 10px;height:50px;line-height:350px;width:100%}
+.list-media-x li dl i{float:right;color:#999}
+.list-media-x li dd.zhong{display:block;padding:10px;overflow:hidden;width:100%;}
+.list-media-x li dd.zhong span.album{ font-size:12px; color:#FFF;margin-right: 0px;position:absolute;right:10%;bottom:0;width:45px;height:20px;line-height:20px;text-align:center;background: #06c1ae;}
+.list-media-x li dd.zhong a img{padding-bottom:0}
+.list-media-x li dt a i{font-style:normal;float:right}
+.list-media-x li dt a{font-weight:400;font-size: 12px;}
+.list-media-x li dt span{font-weight:400; font-size:12px;}
+.text-dot1{color:#999}

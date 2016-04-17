@@ -12,12 +12,31 @@ class NewsAction extends CommonAction {
     public function index() {	
 		$keyword = $this->_param('keyword', 'htmlspecialchars');//取得$keyword
         $this->assign('keyword', $keyword);	//赋值给搜索框
-        $cat = (int) $this->_param('cat');
-		$order = (int) $this->_param('order');//加一个参数
-		$linkArr['cat'] = $cat;
+		
+        $cat = ( integer )$this->_param( "cat" );
+        $this->assign( "cat", $cat );
+        $linkArr['cat'] = $cat;
+		
+		$order = $this->_param('order','htmlspecialchars');
+        $this->assign('order', $order);
+        $linkArr['order'] = $order;
+		
 		$cates = D('Articlecate')->fetchAll();
+		$this->assign('cates', $cates);
+		
+		$this->assign('nextpage', LinkTo('news/load',$linkArr, array('cat' => $cat,'t' => NOW_TIME,'keyword' => $keyword,'order' => $order, 'p' => '0000')));
+        $this->assign( "linkArr", $linkArr );
+		$this->display(); // 输出模板
+    }
+	 public function load() {
+		$Article = D('Article');
+        import('ORG.Util.Page'); // 导入分页类
+        $map = array('city_id' => $this->city_id,'closed' => 0,'audit' => 1);
+		
+		$cat = (int) $this->_param('cat');
+        $cates = D('Weidiancate')->fetchAll();
         if ($cates[$cat]) {
-            $catids = D('Articlecate')->getChildren($cat);
+            $catids = D('Weidiancate')->getChildren($cat);
             if (!empty($catids)) {
                 $map['cate_id'] = array('IN', $catids);
             } else {
@@ -26,46 +45,10 @@ class NewsAction extends CommonAction {
             $this->assign('parent_id', $cates[$cat]['parent_id'] == 0 ? $cates[$cat]['cate_id'] : $cates[$cat]['parent_id']);
             $this->seodatas['cate_name'] = $cates[$cat]['cate_name'];
         }
-		
-		
-		
-		//统计今日新的约会数量
-	    $counts = array();
-        $bg_time = strtotime(TODAY);//今日时间，需要统
-	    $counts['article'] = (int) D('Article')->where(array(
-
-						 'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-	  
-			
-	   $this->assign('counts', $counts);
-
-	   $this->assign('countss',D('Article')->where(array('closed'=>0))->count());//总数量
-		
-		
-		
-		
-		$this->assign('nextpage', LinkTo('news/load',$linkArr, array('t' => NOW_TIME,'keyword' => $keyword,'order' => $order, 'p' => '0000')));
         $this->assign('cat', $cat);
-        $this->assign('cates', $cates);
-		$this->assign('linkArr',$linkArr);
+		//微店二级分类结束
 		
-		
-        $this->display(); // 输出模板
-    }
-	 public function load() {
-		$Article = D('Article');
-        import('ORG.Util.Page'); // 导入分页类
-        $map = array('city_id' => $this->city_id,'closed' => 0);
-		if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
-            $map['title'] = array('LIKE', '%' . $keyword . '%');
-        }
-		
-		$linkArr['cat'] = $cat;
-       
-		$order = $this->_param('order', 'htmlspecialchars');
+
         $order = (int) $this->_param('order');
         switch ($order) {
            
@@ -76,7 +59,6 @@ class NewsAction extends CommonAction {
                 $orderby = array('article_id' => 'desc');
                 break;
         }
-
 
         $count = $Article->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 8); // 实例化分页类 传入总记录数和每页显示的记录数

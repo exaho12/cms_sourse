@@ -8,6 +8,8 @@ class VillageAction extends CommonAction {
             $this->detail($community_id);
             die;
         }
+		
+		
         $keyword = $this->_param('keyword', 'htmlspecialchars');
         $this->assign('keyword', $keyword);
      
@@ -65,15 +67,19 @@ class VillageAction extends CommonAction {
 	//社区村介绍
     public function detail($village_id) {
         $community_id = (int) $village_id;
+		
         $community = D('Village');
         if (empty($community_id)) {
-            $this->error('没有该社区村');
+            $this->error('没有该社区村，清理cookie后重新登录');
+			cookie('village_id', null);//没找到就删除cookie
             die;
         }
         if (!$detail = $community->find($community_id)) {
-            $this->error('没有该社区村');
+            $this->error('没有该社区村，清理cookie后重新登录');
+			cookie('village_id', null);//没找到就删除cookie
             die;
         }
+		
         if ($detail['closed']) {
             $this->error('该社区村已经被删除');
             die;
@@ -92,7 +98,7 @@ class VillageAction extends CommonAction {
             $this->assign('phones', D('Convenientphone')->itemsByIds($phone_ids));
         }
         
-         $map = array('village_id' => $community_id, 'hot' => 1);
+         $map = array('village_id' => $community_id, 'hot' => 1,'audit'=>1);
         
         $bbs = D('village_bbs')->where($map)->order(array('create_time'=>'desc'))->limit(0, 5)->select();
         $map = array('village_id' => $community_id, 'type' => 1);
@@ -108,7 +114,7 @@ class VillageAction extends CommonAction {
         $worker = D('village_worker')->where($map)->order("orderby asc")->limit(0, 4)->select();
 		
 		
-	$map = array('closed' => 0, 'audit' => 1, 'city_id' => $this->city_id,'end_date' => array('EGT', TODAY));
+	    $map = array('closed' => 0, 'audit' => 1, 'city_id' => $this->city_id,'end_date' => array('EGT', TODAY));
         $tuan = D('Tuan')->where($map)->limit(10)->select();
         $tuan_num = count($tuan);
         
@@ -171,7 +177,7 @@ class VillageAction extends CommonAction {
 			die;
         }
 
-       $map = array('village_id'=>$community_id);
+        $map = array('village_id'=>$community_id);
         $this->assign('nextpage', LinkTo('village/loadtieba', array('village_id' => $community_id, 't' => NOW_TIME, 'p' => '0000')));
 		$this->assign('detail', $detail);
 		$count['post'] = D('village_bbs') ->where($map)->count();
@@ -201,7 +207,7 @@ class VillageAction extends CommonAction {
 
         $Tieba = D('Village_bbs');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('village_id' => $community_id);
+        $map = array('village_id' => $community_id,'audit'=>1);
 		
         $count = $Tieba->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
@@ -255,7 +261,7 @@ class VillageAction extends CommonAction {
 
         $Tieba = D('Village_bbs');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('village_id' => $community_id);
+        $map = array('village_id' => $community_id,'audit'=>1);
 		
         $count = $Tieba->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
@@ -299,6 +305,13 @@ class VillageAction extends CommonAction {
             $this->error('您查看的内容不存在！');
             die;
         }
+		
+        if ($tie['audit'] == 0) {
+            $this->error('您查看的内容不存在！');
+            die;
+        }
+		
+		
         $community = D('Village');
         if (empty($tie['village_id'])) {
             $this->error('没有该社区村');
@@ -315,7 +328,7 @@ class VillageAction extends CommonAction {
         }
         
         D('Village_bbs')->updateCount($post_id, 'view_num');
-	$this->assign('puser', $puser);
+    	$this->assign('puser', $puser);
 	//$this->assign('cate', $cate);
         $this->assign('detail', $detail);
 		$this->assign('tie', $tie);
@@ -350,7 +363,7 @@ class VillageAction extends CommonAction {
 		$post_id = (int) $this->_param('post_id');
         $Postreply = D('Villagebbsreplys');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('post_id' => $post_id);
+        $map = array('post_id' => $post_id,'audit'=>1);
         $count = $Postreply->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
@@ -392,11 +405,7 @@ class VillageAction extends CommonAction {
 		if (empty($this->uid)) {
 			$this->error('登录后才能发帖！', U('passport/login'));
 		}
-		
-	//	$count = D('Communityusers')->where(array('community_id' => $community_id , user_id => $this->uid))->count();
-      //  if ( $count == 0) {
-        //    $this->error('您还没有入驻了该社区村！');
-      //  }
+
 		
         if ($this->isPost()) {
             $data = $this->postCheck();
@@ -406,6 +415,7 @@ class VillageAction extends CommonAction {
 			$data['username'] = $this->member['nickname'];
 			$data['user_id'] = $this->uid;
 			$data['village_id'] = $detail['village_id'];
+			$data['audit'] = 0;
 			$last = $obj->add($data);
             if ($last) {
                
@@ -455,6 +465,7 @@ class VillageAction extends CommonAction {
         if ($this->isPost()) {
             $data = $this->checkReply();
             $data['post_id'] = $post_id;
+			$data['audit'] = 0;
             $data['create_time'] = NOW_TIME;
             $data['create_ip'] = get_client_ip();
             $obj = D('Villagebbsreplys');
@@ -485,63 +496,7 @@ class VillageAction extends CommonAction {
         return $data;
     }
 	
-	
 
-	
-	//入驻社区村
-//    //public function join() {
-//        if (empty($this->uid)) {
-//           $this->error('登录后才能发帖！', U('passport/login'));
-//        }
-//		$community_id = (int) $this->_get('community_id');
-//        if (!$detail = D('Community')->find($community_id)) {
-//            $this->error('没有该社区村');
-//        }
-//        if ($detail['closed']) {
-//            $this->error('该社区村已经被删除');
-//        }
-//		$count = D('Communityusers')->where(array('community_id' => $community_id , 'user_id' => $this->uid))->count();
-//        if ( $count > 0) {
-//            $this->error('您已经入驻了该社区村！');
-//        }
-//        $data = array(
-//            'community_id' => $community_id,
-//            'user_id' => $this->uid,
-//        );
-//        if (D('Communityusers')->add($data)) {
-//            $this->error('欢迎您加入'.$detail['name'].'社区村！', U('community/detail', array('community_id' => $community_id)));
-//        }
-//        $this->error('加入'.$detail['name'].'失败！');
-//    }
-//	
-//	//退出社区村
-//    public function out() {
-//        if (empty($this->uid)) {
-//             $this->error('登录后才能发帖！', U('passport/login'));
-//        }
-//		$community_id = (int) $this->_get('community_id');
-//        if (!$detail = D('Community')->find($community_id)) {
-//            $this->error('没有该社区村');
-//        }
-//        if ($detail['closed']) {
-//            $this->error('该社区村已经被删除');
-//        }
-//		$count = D('Communityusers')->where(array('community_id' => $community_id , user_id => $this->uid))->count();
-//        if ( $count == 0) {
-//            $this->error('您还没有入驻了该社区村！');
-//        }
-//        $map = array(
-//            'community_id' => $community_id,
-//            'user_id' => $this->uid,
-//        );
-//
-//        if (D('Communityusers')->where($map)->delete()) {
-//            $this->error('您已经退出'.$detail['name'].'社区村！', U('community/detail', array('community_id' => $community_id)));
-//        }
-//        $this->error('退出'.$detail['name'].'失败！');
-//    }
-//	
-//	
 	//意见反馈
     public function suggestion($village_id) {
       //  if (empty($this->uid)) {

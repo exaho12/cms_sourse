@@ -140,10 +140,12 @@ protected $Activitycates = array();
             $this->baoError('暂时没有该服务类型');//查询不到
         }
 		//取出商家的邮箱
-		$shopsss=D('Shop')->find($shops);
-		$shopsss_user=$shopsss['user_id'];
-		$shangjias_email=D('Users')->find($shopsss_user);
-		$shangjia_email=$shangjias_email['email'];
+		$shopsss = D('Shop')->find($shops);
+		$shopsss_user = $shopsss['user_id'];
+		$shangjias_email = D('Users')->find($shopsss_user);
+		$shangjia_email = $shangjias_email['email'];
+		$shangjia_user_id = $shangjias_email['user_id'];//商家ID
+		
 		$data['id'] = $id;
 		$data['user_id'] = (int) $this->uid;
 		
@@ -177,14 +179,50 @@ protected $Activitycates = array();
 	
 			//邮件通知管理员
 			$lifeservice = $this->_CONFIG['site']['config_email'];			
-			D('Email')->sendMail('email_lifeservice_yuyue', $lifeservice, '你好，管理员：有客户预约家政服务了！', array('name'=>$data['name'],'date'=>$data['date'],'time'=>$data['time'],'addr'=>$data['addr'],'tel'=>$data['tel'],'contents'=>$data['contents']));
+			D('Email')->sendMail('email_lifeservice_yuyue', $lifeservice, '你好，管理员：有客户预约家政服务了！', array(
+				'name'=>$data['name'],
+				'date'=>$data['date'],
+				'time'=>$data['time'],
+				'addr'=>$data['addr'],
+				'tel'=>$data['tel'],
+				'contents'=>$data['contents']
+			));
 			//邮件通知商家
-			
-			
 
 			if(!empty($shangjia_email)){		
-			D('Email')->sendMail('email_sj_lifeservice_yuyue', $shangjia_email, '尊敬的商家，有客户预约家政服务了！', array('name'=>$data['name'],'date'=>$data['date'],'time'=>$data['time'],'addr'=>$data['addr'],'tel'=>$data['tel'],'contents'=>$data['contents']));
+			D('Email')->sendMail('email_sj_lifeservice_yuyue', $shangjia_email, '尊敬的商家，有客户预约家政服务了！', array(
+				'name'=>$data['name'],
+				'date'=>$data['date'],
+				'time'=>$data['time'],
+				'addr'=>$data['addr'],
+				'tel'=>$data['tel'],
+				'contents'=>$data['contents']
+				));
 			}
+			
+			
+		 //====================家政预约成功微信通知商家=========================
+            $tuan     = D('Tuan')->find($order['tuan_id']);
+            $uaddr = D('UserAddr') -> where('user_id ='.$order['user_id']) -> find();
+            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+			
+            $_data_yuyue = array(//整体变更
+                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/tuan/detail/order_id/".$order_id.".html",
+                'topcolor'  =>  '#F55555',
+                'first'     =>  '亲,您预约成功了！',
+                'remark'    =>  '更多信息,请登录http://'.$_SERVER['HTTP_HOST'].'！感谢您的惠顾！',
+				'name'     =>  $data['name'],//预约人姓名时间
+                'date'     =>  $data['date'],//预约人时间
+                'tel' =>  $tuan['tel'],//预约人电话号码
+                'contents' =>  $tuan['contents']//预约人详细内容
+            );
+            $order_data = Wxmesg::yuyue($_data_yuyue);
+            $return   = Wxmesg::net($shangjia_user_id, 'OPENTM202297666', $order_yuyue);//传值，一个是商家的USER_ID
+
+            //====================家政预约微信同事结束==============================
+			
+			
+			
             $this->baoSuccess('恭喜您预约家政服务成功！网站会推荐给您最优秀的阿姨帮忙！', U('lifeservice/index'));
         }
         $this->baoError('服务器繁忙');

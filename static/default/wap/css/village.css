@@ -8,6 +8,37 @@
 .xiaoqu-list h5{margin-bottom:5px;}
 .xiaoqu-list p{height:20px;line-height:20px;margin:0;color:#999;font-size:12px;overflow:hidden;}
 
+.tuan-detail .banner{width:100%;position:relative;}
+.tuan-detail .banner img{width:100%;}
+.tuan-detail .title{position:absolute;bottom:0;padding:10px;color:#FFF;background:rgba(0,0,0,0.5);width:100%;}
+.tuan-detail .title h1{font-size:18px;height:20px;line-height:20px;}
+.tuan-detail .title p{height:20px;line-height:20px;font-size:12px;overflow:hidden;margin:5px 0 0 0;}
+.tuan-detail .price{padding:20px 10px 10px 10px;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}
+.tuan-detail .price em{font-size:30px;font-weight:bold;margin-right:5px;}
+.tuan-detail .price del{color:#999;margin-left:20px;}
+.tuan-detail .button{text-align:center;}
+.tuan-detail .info{padding:10px;}
+.tuan-detail .status{padding:10px;color:#999;}
+.tuan-detail .ui-starbar{margin-top:5px;}
+.tuan-detail .shop{padding:10px;}
+.tuan-detail .shop .tel{font-size:40px;width:100%;display:block;text-align:center;}
+.tuan-detail .shop h2{font-size:16px;}
+.tuan-detail .shop p{font-size:12px;color:#999;margin:5px 0 0 0;width:90%;overflow:hidden;height:20px;}
+.tuan-detail hr{margin:0;}
+.tuan-detail .intro h2{height:40px;line-height:40px;font-size:16px;padding:0 10px;border-bottom:thin solid #DDD;}
+.tuan-detail .intro .container{padding:10px;}
+.tuan-detail .intro .container *{max-width:100%;}
+/*幻灯图片*/
+.focus{ width:100%;margin:0 auto; position:relative; overflow:hidden;   }
+.focus .hd{ width:100%; height:11px; position:absolute; z-index:1;top:5px; text-align:center;  }
+.focus .hd ul{ display:inline-block; height:10px; padding:3px 5px; background-color:rgba(171, 171, 171, 0.7);-webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; font-size:0; vertical-align:top;}
+.focus .hd ul li{display:inline-block; width:5px; height:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; background:#8C8C8C; margin:0 5px; vertical-align:top; overflow:hidden;   }
+.focus .hd ul .on{ background:#FE6C9C;  }
+.focus .bd{position:relative; z-index:0; }
+.focus .bd li img{width:100%;max-height:180px;background:url(images/loading.gif) center center no-repeat;  }
+.focus .bd li a{ -webkit-tap-highlight-color:rgba(0, 0, 0, 0); }
+
+
 /*广告幻灯*/
 .xiaoqu-roll{width:100%;position:relative;}
 .xiaoqu-roll ul{padding:0;list-style:none;}

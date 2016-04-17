@@ -202,10 +202,9 @@
     background: #fff;
     border-radius: 0.13rem;
     margin-right: 0.6rem;
-	margin-top:0.255rem;
+	margin-top:0.055rem;
 }
 footer {
-    height: 2.5rem;
     border-top: 0px #CCC solid;
     position: fixed;
     bottom: 0;

@@ -1,26 +1,29 @@
 <?php
-
 /*
  * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
  * 作者：baocms团队
  * 官网：www.taobao.com
  * 邮件: youge@baocms.com  QQ 800026911
  */
-
-class MemberAction extends CommonAction {
-
-    public function goods() {
+class MemberAction extends CommonAction
+{
+    public function goods()
+    {
         $this->display();
     }
-
-    public function goodsloaddata() {
+    public function goodsloaddata()
+    {
         $Order = D('Order');
-        import('ORG.Util.Page'); // 导入分页类
+        import('ORG.Util.Page');
+        // 导入分页类
         $map = array('closed' => 0, 'user_id' => $this->uid);
         // var_dump($map);die();
-        $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $Order->where($map)->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -50,15 +53,17 @@ class MemberAction extends CommonAction {
         $this->assign('users', D('Users')->itemsByIds($user_ids));
         $this->assign('types', D('Order')->getType());
         $this->assign('goodtypes', D('Ordergoods')->getType());
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
+        $this->display();
     }
-
-    public function orderdel($order_id = 0) {
+    public function orderdel($order_id = 0)
+    {
         if (is_numeric($order_id) && ($order_id = (int) $order_id)) {
             $obj = D('Order');
-            if (!$detial = $obj->find($order_id)) {
+            if (!($detial = $obj->find($order_id))) {
                 $this->error('该订单不存在');
             }
             if ($detial['user_id'] != $this->uid) {
@@ -67,15 +72,14 @@ class MemberAction extends CommonAction {
             if ($detial['status'] != 0) {
                 $this->error('该订单暂时不能删除');
             }
-
             $obj->save(array('order_id' => $order_id, 'closed' => 1));
             $this->success('删除成功！', U('goods/index'));
         } else {
             $this->error('请选择要删除的订单');
         }
     }
-
-    protected function ele_success($message, $detail) {
+    protected function ele_success($message, $detail)
+    {
         $order_id = $detail['order_id'];
         $eleorder = D('Eleorder')->find($order_id);
         $detail['single_time'] = $eleorder['create_time'];
@@ -99,8 +103,8 @@ class MemberAction extends CommonAction {
         $this->assign('paytype', D('Payment')->getPayments());
         $this->display('ele');
     }
-
-    protected function goods_success($message, $detail) {
+    protected function goods_success($message, $detail)
+    {
         $order_ids = array();
         if (!empty($detail['order_id'])) {
             $order_ids[] = $detail['order_id'];
@@ -128,55 +132,58 @@ class MemberAction extends CommonAction {
         $this->assign('paytype', D('Payment')->getPayments());
         $this->display('goods');
     }
-
-    public function detail($order_id) {
+    public function detail($order_id)
+    {
         $dingorder = D('Shopdingorder');
         $dingyuyue = D('Shopdingyuyue');
         $dingmenu = D('Shopdingmenu');
-        if (!$order = $dingorder->where('order_id = ' . $order_id)->find()) {
+        if (!($order = $dingorder->where('order_id = ' . $order_id)->find())) {
             $this->baoError('该订单不存在');
-        } else if (!$yuyue = $dingyuyue->where('ding_id = ' . $order['ding_id'])->find()) {
-            $this->baoError('该订单不存在');
-        } else if ($yuyue['user_id'] != $this->uid) {
-            $this->error('非法操作2');
         } else {
-            $arr = $dingorder->get_detail($this->shop_id, $order, $yuyue);
-            $menu = $dingmenu->shop_menu($this->shop_id);
-            $this->assign('yuyue', $yuyue);
-            $this->assign('order', $order);
-            $this->assign('order_id', $order_id);
-            $this->assign('arr', $arr);
-            $this->assign('menu', $menu);
-            $this->display();
+            if (!($yuyue = $dingyuyue->where('ding_id = ' . $order['ding_id'])->find())) {
+                $this->baoError('该订单不存在');
+            } else {
+                if ($yuyue['user_id'] != $this->uid) {
+                    $this->error('非法操作2');
+                } else {
+                    $arr = $dingorder->get_detail($this->shop_id, $order, $yuyue);
+                    $menu = $dingmenu->shop_menu($this->shop_id);
+                    $this->assign('yuyue', $yuyue);
+                    $this->assign('order', $order);
+                    $this->assign('order_id', $order_id);
+                    $this->assign('arr', $arr);
+                    $this->assign('menu', $menu);
+                    $this->display();
+                }
+            }
         }
     }
-
-    protected function ding_success($message, $detail) {
+    protected function ding_success($message, $detail)
+    {
         $dingorder = D('Shopdingorder');
         $dingyuyue = D('Shopdingyuyue');
         $dingmenu = D('Shopdingmenu');
-
-        if (!$order = $dingorder->where('order_id = ' . $detail['order_id'])->find()) {
+        if (!($order = $dingorder->where('order_id = ' . $detail['order_id'])->find())) {
             $this->error('该订单不存在');
-        } else if (!$yuyue = $dingyuyue->where('ding_id = ' . $order['ding_id'])->find()) {
-            $this->error('该订单不存在');
-        } /*else if ($yuyue['user_id'] != $this->shop_id) {
-            $this->error('非法操作2');
-        } 这后期修改*/else {
-            $arr = $dingorder->get_detail($yuyue['shop_id'], $order, $yuyue);
-            $menu = $dingmenu->shop_menu($yuyue['shop_id']);
-            $this->assign('yuyue', $yuyue);
-            $this->assign('order', $order);
-            $this->assign('order_id', $detail['order_id']);
-            $this->assign('arr', $arr);
-            $this->assign('menu', $menu);
-            $this->assign('message', $message);
-            $this->assign('paytype', D('Payment')->getPayments());
-            $this->display('ding');
+        } else {
+            if (!($yuyue = $dingyuyue->where('ding_id = ' . $order['ding_id'])->find())) {
+                $this->error('该订单不存在');
+            } else {
+                $arr = $dingorder->get_detail($yuyue['shop_id'], $order, $yuyue);
+                $menu = $dingmenu->shop_menu($yuyue['shop_id']);
+                $this->assign('yuyue', $yuyue);
+                $this->assign('order', $order);
+                $this->assign('order_id', $detail['order_id']);
+                $this->assign('arr', $arr);
+                $this->assign('menu', $menu);
+                $this->assign('message', $message);
+                $this->assign('paytype', D('Payment')->getPayments());
+                $this->display('ding');
+            }
         }
     }
-
-    protected function other_success($message, $detail) {
+    protected function other_success($message, $detail)
+    {
         $tuanorder = D('Tuanorder')->find($detail['order_id']);
         if (!empty($tuanorder['branch_id'])) {
             $branch = D('Shopbranch')->find($tuanorder['branch_id']);
@@ -185,7 +192,6 @@ class MemberAction extends CommonAction {
             $shop = D('Shop')->find($tuanorder['shop_id']);
             $addr = $shop['addr'];
         }
-
         $this->assign('addr', $addr);
         $tuans = D('Tuan')->find($tuanorder['tuan_id']);
         $this->assign('tuans', $tuans);
@@ -195,48 +201,39 @@ class MemberAction extends CommonAction {
         $this->assign('paytype', D('Payment')->getPayments());
         $this->display('other');
     }
-
-    public function pay() {
+    public function pay()
+    {
         $logs_id = (int) $this->_get('logs_id');
         if (empty($logs_id)) {
             $this->error('没有有效的支付');
         }
-       // if (!D('Lock')->lock($this->uid)) { //上锁
-           // $this->error('服务器繁忙，1分钟后再试');
+        // if (!D('Lock')->lock($this->uid)) { //上锁
+        // $this->error('服务器繁忙，1分钟后再试');
         //}
-        if (!$detail = D('Paymentlogs')->find($logs_id)) {
-           // D('Lock')->unlock();
+        if (!($detail = D('Paymentlogs')->find($logs_id))) {
+            // D('Lock')->unlock();
             $this->error('没有有效的支付');
         }
         if ($detail['code'] != 'money') {
-           // D('Lock')->unlock();
+            // D('Lock')->unlock();
             $this->error('没有有效的支付');
         }
         $member = D('Users')->find($this->uid);
         if ($detail['is_paid']) {
-           // D('Lock')->unlock();
+            // D('Lock')->unlock();
             $this->error('没有有效的支付');
         }
         if ($member['money'] < $detail['need_pay']) {
-          //  D('Lock')->unlock();
+            //  D('Lock')->unlock();
             $this->error('很抱歉您的账户余额不足', U('mcenter/money/index'));
         }
-
         $member['money'] -= $detail['need_pay'];
-
         if (D('Users')->save(array('user_id' => $this->uid, 'money' => $member['money']))) {
-            D('Usermoneylogs')->add(array(
-                'user_id' => $this->uid,
-                'money' => -$detail['need_pay'],
-                'create_time' => NOW_TIME,
-                'create_ip' => get_client_ip(),
-                'intro' => '余额支付' . $logs_id,
-            ));
+            D('Usermoneylogs')->add(array('user_id' => $this->uid, 'money' => -$detail['need_pay'], 'create_time' => NOW_TIME, 'create_ip' => get_client_ip(), 'intro' => '余额支付' . $logs_id));
             D('Payment')->logsPaid($logs_id);
         }
-      //  D('Lock')->unlock();
+        //  D('Lock')->unlock();
         if ($detail['type'] == 'ele') {
-			
             $this->ele_success('恭喜您支付成功啦！', $detail);
         } elseif ($detail['type'] == 'ding') {
             $this->ding_success('恭喜您支付成功啦！', $detail);
@@ -244,19 +241,18 @@ class MemberAction extends CommonAction {
             $this->goods_success('恭喜您支付成功啦！', $detail);
         } elseif ($detail['type'] == 'gold' || $detail['type'] == 'money') {
             $this->success('恭喜您充值成功', U('member/index/index'));
-            die();
+            die;
         } else {
             $this->other_success('恭喜您支付成功啦！', $detail);
         }
     }
-
-    public function apply() {
+    public function apply()
+    {
         if (empty($this->uid)) {
-            header("Location:" . U('passport/login'));
+            header('Location:' . U('passport/login'));
             die;
         }
         if (D('Shop')->find(array('where' => array('user_id' => $this->uid)))) {
-
             $this->error('您已经拥有一家店铺了！', U('shangjia/index/index'));
         }
         if ($this->isPost()) {
@@ -266,13 +262,7 @@ class MemberAction extends CommonAction {
             if ($words = D('Sensitive')->checkWords($details)) {
                 $this->error('商家介绍含有敏感词：' . $words);
             }
-
-            $ex = array(
-                'details' => $details,
-                'near' => $data['near'],
-                'price' => $data['price'],
-                'business_time' => $data['business_time'],
-            );
+            $ex = array('details' => $details, 'near' => $data['near'], 'price' => $data['price'], 'business_time' => $data['business_time']);
             unset($data['near'], $data['price'], $data['business_time']);
             if ($shop_id = $obj->add($data)) {
                 $wei_pic = D('Weixin')->getCode($shop_id, 1);
@@ -292,21 +282,17 @@ class MemberAction extends CommonAction {
                 $map['business_id'] = $business_id;
                 $this->assign('business_id', $business_id);
             }
-
             $this->assign('business', D('Business')->fetchAll());
             $this->assign('lat', $lat);
             $this->assign('lng', $lng);
             $areas = D('Area')->fetchAll();
-
             $this->assign('cates', D('Shopcate')->fetchAll());
-
             $this->assign('areas', $areas);
-
             $this->display();
         }
     }
-
-    private function createCheck() {
+    private function createCheck()
+    {
         $data = $this->checkFields($this->_post('data', false), array('cate_id', 'tel', 'logo', 'photo', 'shop_name', 'contact', 'details', 'business_time', 'area_id', 'addr', 'lng', 'lat'));
         $data['shop_name'] = htmlspecialchars($data['shop_name']);
         if (empty($data['shop_name'])) {
@@ -325,7 +311,8 @@ class MemberAction extends CommonAction {
         $data['contact'] = htmlspecialchars($data['contact']);
         if (empty($data['contact'])) {
             $this->error('联系人不能为空');
-        }$data['business_time'] = htmlspecialchars($data['business_time']);
+        }
+        $data['business_time'] = htmlspecialchars($data['business_time']);
         if (empty($data['business_time'])) {
             $this->error('营业时间不能为空');
         }
@@ -343,7 +330,6 @@ class MemberAction extends CommonAction {
         if (empty($data['tel'])) {
             $this->error('联系方式不能为空');
         }
-
         if (!isPhone($data['tel']) && !isMobile($data['tel'])) {
             $this->error('联系方式格式不正确');
         }
@@ -359,10 +345,10 @@ class MemberAction extends CommonAction {
         $data['create_ip'] = get_client_ip();
         return $data;
     }
-
-    public function dianping($shop_id) {
+    public function dianping($shop_id)
+    {
         $shop_id = (int) $shop_id;
-        if (!$detail = D('Shop')->find($shop_id)) {
+        if (!($detail = D('Shop')->find($shop_id))) {
             $this->baoError('该商家不存在');
         }
         $cates = D('Shopcate')->fetchAll();
@@ -371,14 +357,11 @@ class MemberAction extends CommonAction {
         if ($this->isPost()) {
             $data = $this->checkFields($this->_post('data', false), array('score', 'd1', 'd2', 'd3', 'cost', 'contents'));
             $data['user_id'] = $this->uid;
-
             $data['shop_id'] = $shop_id;
-
             $data['score'] = (int) $data['score'];
             if ($data['score'] <= 0 || $data['score'] > 5) {
                 $this->baoError('请选择评分');
             }
-
             $data['d1'] = (int) $data['d1'];
             if (empty($data['d1'])) {
                 $this->baoError($cate['d1'] . '评分不能为空');
@@ -400,96 +383,80 @@ class MemberAction extends CommonAction {
             if ($data['d3'] > 5 || $data['d3'] < 1) {
                 $this->baoError($cate['d3'] . '评分不能为空');
             }
-
             $data['cost'] = (int) $data['cost'];
             $data['contents'] = htmlspecialchars($data['contents']);
             if (empty($data['contents'])) {
                 $this->baoError('不说点什么么');
             }
             $data['create_time'] = NOW_TIME;
-            $data['show_date'] = date('Y-m-d', NOW_TIME); //15天后显示 --> 立刻显示
+            $data['show_date'] = date('Y-m-d', NOW_TIME);
+            //15天后显示 --> 立刻显示
             $data['create_ip'] = get_client_ip();
             $obj = D('Shopdianping');
             if ($dianping_id = $obj->add($data)) {
                 $photos = $this->_post('photos', false);
                 $local = array();
                 foreach ($photos as $val) {
-                    if (isImage($val))
+                    if (isImage($val)) {
                         $local[] = $val;
+                    }
                 }
-                if (!empty($local))
+                if (!empty($local)) {
                     D('Shopdianpingpics')->upload($dianping_id, $data['shop_id'], $local);
+                }
                 D('Shop')->updateCount($shop_id, 'score_num');
                 D('Users')->updateCount($this->uid, 'ping_num');
                 D('Shopdianping')->updateScore($shop_id);
                 $this->baoSuccess('评价成功', U('shop/detail', array('shop_id' => $shop_id)));
             }
             $this->baoError('操作失败！');
-        }else {
+        } else {
             $this->assign('detail', $detail);
             $this->display();
         }
     }
-
-    public function index() {
-		if (empty($this->uid)) {
-            header("Location: " . U('mobile/passport/login'));
+    public function index()
+    {
+        if (empty($this->uid)) {
+            header('Location: ' . U('mobile/passport/login'));
             die;
         }
-		//增加开始
-		$this->assign('order', D('Tuanorder')->where(array('user_id' => $this->uid))->count());
-        $this->assign('code', D('Tuancode')->where(array('user_id' => $this->uid, 'is_used' => 0,'status'=>0))->count());
-        $this->assign('goods_order',D('Order')->where(array('user_id'=>$this->uid))->count());
-        $this->assign('ele_order',D('Eleorder')->where(array('user_id'=>$this->uid))->count());
-        $this->assign('coupon',D('Coupondownload')->where(array('user_id'=>$this->uid,'is_used'=>0))->count());
-        $this->assign('hd',D('Huodong')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());
-		$this->assign('xiaoqu',D('Community')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());
-		$this->assign('tieba',D('Post')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());
-		$this->assign('lipin',D('Integralexchange')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());
-		$this->assign('tongzhi',D('Msg')->where(array('user_id'=>$this->uid))->count());
-		$this->assign('yuehui',D('Usermessage')->where(array('user_id'=>$this->uid))->count());
-		//统计同城信息
-		$this->assign('life',D('Life')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());
-		$this->assign('shop_yuyue',D('Shopyuyue')->where(array('user_id'=>$this->uid,'closed'=>0,'used'=>0))->count());
-		//增加结束
-		//检测是否有店铺
-		$is_shop = D('Shop')->find(array('where' => array('user_id' => $this->uid)));
-		$is_shop_name=$is_shop['shop_name']; 
+        //增加开始
+        $this->assign('order', D('Tuanorder')->where(array('user_id' => $this->uid))->count());
+        $this->assign('code', D('Tuancode')->where(array('user_id' => $this->uid, 'is_used' => 0, 'status' => 0))->count());
+        $this->assign('goods_order', D('Order')->where(array('user_id' => $this->uid))->count());
+        $this->assign('ele_order', D('Eleorder')->where(array('user_id' => $this->uid))->count());
+        $this->assign('coupon', D('Coupondownload')->where(array('user_id' => $this->uid, 'is_used' => 0))->count());
+        $this->assign('hd', D('Huodong')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        $this->assign('xiaoqu', D('Community')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        $this->assign('tieba', D('Post')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        $this->assign('lipin', D('Integralexchange')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        $this->assign('tongzhi', D('Msg')->where(array('user_id' => $this->uid))->count());
+        $this->assign('yuehui', D('Usermessage')->where(array('user_id' => $this->uid))->count());
+        //统计同城信息
+        $this->assign('life', D('Life')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        $this->assign('shop_yuyue', D('Shopyuyue')->where(array('user_id' => $this->uid, 'closed' => 0, 'used' => 0))->count());
+        //增加结束
+        //检测是否有店铺
+        $is_shop = D('Shop')->find(array('where' => array('user_id' => $this->uid)));
+        $is_shop_name = $is_shop['shop_name'];
         $this->assign('is_shop_name', $is_shop_name);
-		$this->assign('is_shop', $is_shop);
-
-
+        $this->assign('is_shop', $is_shop);
         //统计今日新的约会数量
-	    $counts = array();
-        $bg_time = strtotime(TODAY);//今日时间，需要统计其他的下面写。
-	    $counts['yuhui'] = (int) D('Huodong')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-		$counts['tieba'] = (int) D('Post')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();		
-				
-
-	   $this->assign('counts', $counts);
-
-
-
-
-		
+        $counts = array();
+        $bg_time = strtotime(TODAY);
+        //今日时间，需要统计其他的下面写。
+        $counts['yuhui'] = (int) D('Huodong')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $counts['tieba'] = (int) D('Post')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $this->assign('counts', $counts);
         $this->assign('user_id', $this->uid);
         $sf = D('ShopFavorites');
         $rsf = $sf->where('user_id =' . $this->uid)->count();
         $this->assign('rsf', $rsf);
         $this->display();
     }
-
-    public function password() {
+    public function password()
+    {
         if ($this->isPost()) {
             $oldpwd = $this->_post('oldpwd', 'htmlspecialchars');
             if (empty($oldpwd)) {
@@ -515,30 +482,27 @@ class MemberAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function weixin() {
+    public function weixin()
+    {
         $code_id = $this->_get('code_id');
-        if (!$detail = D('Tuancode')->find($code_id)) {
+        if (!($detail = D('Tuancode')->find($code_id))) {
             $this->error('没有该抢购券');
         }
         if ($detail['user_id'] != $this->uid) {
-            $this->error("抢购券不存在！");
+            $this->error('抢购券不存在！');
         }
         if ($detail['status'] != 0 || $detail['is_used'] != 0) {
             $this->error('该抢购券属于不可消费的状态');
         }
-
         $url = U('weixin/index', array('code_id' => $code_id, 't' => NOW_TIME, 'sign' => md5($code_id . C('AUTH_KEY') . NOW_TIME)));
-
         $token = 'tuancode_' . $code_id;
-
         $file = baoQrCode($token, $url);
         $this->assign('file', $file);
         $this->assign('detail', $detail);
         $this->display();
     }
-
-    public function refund($code_id) {
+    public function refund($code_id)
+    {
         $code_id = (int) $code_id;
         if ($detail = D('Tuancode')->find($code_id)) {
             if ($detail['user_id'] != $this->uid) {
@@ -553,12 +517,12 @@ class MemberAction extends CommonAction {
         }
         $this->error('操作失败');
     }
-
-    public function looks() {
+    public function looks()
+    {
         $this->display();
     }
-
-    public function looksloading() {
+    public function looksloading()
+    {
         $Userslook = D('Userslook');
         import('ORG.Util.Page');
         $map = array('user_id' => $this->uid);
@@ -592,13 +556,12 @@ class MemberAction extends CommonAction {
         $this->assign('page', $show);
         $this->display();
     }
-
-    public function mycoupon() {
-
+    public function mycoupon()
+    {
         $this->display();
     }
-
-    public function couponloading() {
+    public function couponloading()
+    {
         $Coupondownloads = D('Coupondownload');
         import('ORG.Util.Page');
         $map = array('user_id' => $this->uid);
@@ -623,13 +586,13 @@ class MemberAction extends CommonAction {
         $this->assign('page', $show);
         $this->display();
     }
-
-    public function coupondel($download_id) {
+    public function coupondel($download_id)
+    {
         $download_id = (int) $download_id;
         if (empty($download_id)) {
             $this->error('该优惠券不存在');
         }
-        if (!$detail = D('Coupondownload')->find($download_id)) {
+        if (!($detail = D('Coupondownload')->find($download_id))) {
             $this->error('该优惠券不存在');
         }
         if ($detail['user_id'] != $this->uid) {
@@ -638,12 +601,12 @@ class MemberAction extends CommonAction {
         D('Coupondownload')->delete($download_id);
         $this->success('删除成功！', U('member/mycoupon'));
     }
-
-    public function favorites() {
+    public function favorites()
+    {
         $this->display();
     }
-
-    public function favoritesloading() {
+    public function favoritesloading()
+    {
         $Shopfavorites = D('Shopfavorites');
         import('ORG.Util.Page');
         $map = array('user_id' => $this->uid);
@@ -655,7 +618,6 @@ class MemberAction extends CommonAction {
         if ($Page->totalPages < $p) {
             die('0');
         }
-
         $list = $Shopfavorites->where($map)->order('favorites_id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
         $shop_ids = array();
         foreach ($list as $k => $val) {
@@ -678,19 +640,23 @@ class MemberAction extends CommonAction {
         $this->assign('page', $show);
         $this->display();
     }
-
-    public function myexchange() {
+    public function myexchange()
+    {
         $this->display();
     }
-
     //积分兑换记录
-    public function exchangeloading() {
+    public function exchangeloading()
+    {
         $Integralexchange = D('Integralexchange');
-        import('ORG.Util.Page'); // 导入分页类
+        import('ORG.Util.Page');
+        // 导入分页类
         $map = array('user_id' => $this->uid);
-        $count = $Integralexchange->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 25); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $Integralexchange->where($map)->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 25);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -709,21 +675,28 @@ class MemberAction extends CommonAction {
         $this->assign('goods', D('Integralgoods')->itemsByIds($good_ids));
         //var_dump(D('Integralgoods')->itemsByIds($good_ids));
         $this->assign('addrs', D('Useraddr')->itemsByIds($addr_ids));
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
+        $this->display();
     }
-
-    public function codeloading() {
+    public function codeloading()
+    {
         $Tuancode = D('Tuancode');
-        import('ORG.Util.Page'); // 导入分页类
-        $map = array('user_id' => $this->uid); //这里只显示 实物
+        import('ORG.Util.Page');
+        // 导入分页类
+        $map = array('user_id' => $this->uid);
+        //这里只显示 实物
         if ($order_id = (int) $this->_get('order_id')) {
             $map['order_id'] = $order_id;
         }
-        $count = $Tuancode->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $Tuancode->where($map)->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -735,47 +708,47 @@ class MemberAction extends CommonAction {
             $tuan_ids[$val['tuan_id']] = $val['tuan_id'];
         }
         $this->assign('tuans', D('Tuan')->itemsByIds($tuan_ids));
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
+        $this->display();
     }
-
-    public function Tuancode() {
-
-        $this->display(); // 输出模板
+    public function Tuancode()
+    {
+        $this->display();
     }
-
-    public function mobile() {
+    public function mobile()
+    {
         if (!empty($this->member['mobile'])) {
-            $this->success("恭喜您！您的手机已经绑定，可以正常购物！");
+            $this->success('恭喜您！您的手机已经绑定，可以正常购物！');
         }
         if ($this->isPost()) {
             $mobile = $this->_post('mobile');
             $yzm = $this->_post('yzm');
-            if (empty($mobile) || empty($yzm))
+            if (empty($mobile) || empty($yzm)) {
                 $this->error('请填写正确的手机及手机收到的验证码！');
+            }
             $s_mobile = session('mobile');
             $s_code = session('code');
-            if ($mobile != $s_mobile)
+            if ($mobile != $s_mobile) {
                 $this->error('手机号码和收取验证码的手机号不一致！');
-            if ($yzm != $s_code)
+            }
+            if ($yzm != $s_code) {
                 $this->error('验证码不正确');
-            $data = array(
-                'user_id' => $this->uid,
-                'mobile' => $mobile
-            );
+            }
+            $data = array('user_id' => $this->uid, 'mobile' => $mobile);
             if (D('Users')->save($data)) {
                 D('Users')->integral($this->uid, 'mobile');
                 $this->success('恭喜您通过手机认证', U('member/mobile'));
             }
             $this->error('更新数据失败！');
         } else {
-
             $this->display();
         }
     }
-
-    public function sendsms() {
+    public function sendsms()
+    {
         $mobile = $this->_post('mobile');
         if (isMobile($mobile)) {
             session('mobile', $mobile);
@@ -784,21 +757,36 @@ class MemberAction extends CommonAction {
                 $randstring = rand_string(6, 1);
                 session('code', $randstring);
             }
-            D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+			//如果开启大鱼，用大鱼
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yzm', $mobile, array(
+                    'sitename' => $this->_CONFIG['site']['sitename'],
+                    'code' => $randstring
+                ));
+            }else{
+                D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));//短信宝
+            }
+			
+			
         }
     }
-
-    public function usercard() {
+    public function usercard()
+    {
         $this->display();
     }
-
-    public function cardloading() {
+    public function cardloading()
+    {
         $Usercard = D('Usercard');
-        import('ORG.Util.Page'); // 导入分页类
-        $map = array('user_id' => $this->uid); //这里只显示 实物
-        $count = $Usercard->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        import('ORG.Util.Page');
+        // 导入分页类
+        $map = array('user_id' => $this->uid);
+        //这里只显示 实物
+        $count = $Usercard->where($map)->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -810,7 +798,6 @@ class MemberAction extends CommonAction {
         foreach ($list as $k => $val) {
             $list[$k] = $Usercard->_format($val);
             $cards_ids[$val['card_id']] = $val['card_id'];
-
             if (!empty($val['shop_id'])) {
                 $shop_ids[$val['shop_id']] = $val['shop_id'];
                 $user_ids[$val['user_id']] = $val['user_id'];
@@ -821,16 +808,17 @@ class MemberAction extends CommonAction {
             $this->assign('shop_name', $shop['shop_name']);
             $this->assign('shop_id', $shop_id);
         }
-
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
         $this->assign('users', D('Users')->itemsByIds($user_ids));
         $this->assign('shops', D('Shop')->itemsByIds($shop_ids));
         $this->assign('shopdetails', D('Shopdetails')->itemsByIds($shop_ids));
-        $this->display(); // 输出模板
+        $this->display();
     }
-
-    private function addressCheck() {
+    private function addressCheck()
+    {
         $data = $this->checkFields($this->_post('data', false), array('addr_id', 'area_id', 'business_id', 'name', 'mobile', 'addr'));
         $data['name'] = htmlspecialchars($data['name']);
         if (empty($data['name'])) {
@@ -858,9 +846,8 @@ class MemberAction extends CommonAction {
         }
         return $data;
     }
-
-    public function addressadd() {
-
+    public function addressadd()
+    {
         if ($this->isPost()) {
             $data = $this->addressCheck();
             $obj = D('Useraddr');
@@ -877,32 +864,31 @@ class MemberAction extends CommonAction {
                 $backurl = U('member/index');
             }
             $this->assign('backurl', $backurl);
-
             $this->assign('areas', D('Area')->fetchAll());
             $this->assign('business', D('Business')->fetchAll());
             $this->display();
         }
     }
-
-    public function child($area_id = 0) {
+    public function child($area_id = 0)
+    {
         $datas = D('Business')->fetchAll();
         $str = '<option value="0">请选择</option>';
         foreach ($datas as $val) {
             if ($val['area_id'] == $area_id) {
-                $str.='<option value="' . $val['business_id'] . '">' . $val['business_name'] . '</option>';
+                $str .= '<option value="' . $val['business_id'] . '">' . $val['business_name'] . '</option>';
             }
         }
         echo $str;
         die;
     }
-
-    public function money() {
-
+    public function money()
+    {
         $this->assign('payment', D('Payment')->getPayments());
         $this->display();
     }
-
-    public function moneypay() { //后期优化
+    public function moneypay()
+    {
+        //后期优化
         $money = (int) ($this->_post('money') * 100);
         $code = $this->_post('code', 'htmlspecialchars');
         if ($money <= 0) {
@@ -914,46 +900,42 @@ class MemberAction extends CommonAction {
             $this->error('该支付方式不存在');
             die;
         }
-        $logs = array(
-            'user_id' => $this->uid,
-            'type' => 'money',
-            'code' => $code,
-            'order_id' => 0,
-            'need_pay' => $money,
-            'create_time' => NOW_TIME,
-            'create_ip' => get_client_ip(),
-        );
+        $logs = array('user_id' => $this->uid, 'type' => 'money', 'code' => $code, 'order_id' => 0, 'need_pay' => $money, 'create_time' => NOW_TIME, 'create_ip' => get_client_ip());
         $logs['log_id'] = D('Paymentlogs')->add($logs);
-
         $this->assign('button', D('Payment')->getCode($logs));
         $this->assign('money', $money);
         $this->display();
     }
-
-    public function hdmobile() {
-        $this->display(); // 输出模板;
+    public function hdmobile()
+    {
+        $this->display();
     }
-
-    public function hdloaddata() {
+    public function hdloaddata()
+    {
         $huodong = D('Huodong');
-        import('ORG.Util.Page'); // 导入分页类
+        import('ORG.Util.Page');
+        // 导入分页类
         $map = array('closed' => 0, 'user_id' => $this->uid);
-        $count = $huodong->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
-
+        $count = $huodong->where($map)->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
             die('0');
         }
         $list = $huodong->where($map)->limit($Page->firstRow . ',' . $Page->listRows)->select();
-
         $huodongsign = D('Huodongsign');
         $maps = array('user_id' => $this->uid);
-        $counts = $huodongsign->where($maps)->count(); // 查询满足要求的总记录数 
-        $Pages = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $shows = $Pages->show(); // 分页显示输出
+        $counts = $huodongsign->where($maps)->count();
+        // 查询满足要求的总记录数
+        $Pages = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $shows = $Pages->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Pages->totalPages < $p) {
@@ -968,23 +950,24 @@ class MemberAction extends CommonAction {
         }
         $this->assign('huodong', D('Huodong')->itemsByIds($huodong_ids));
         $getHuoCate = D('Huodong')->getHuoCate();
-
         $this->assign('getHuoCate', $getHuoCate);
         $getPeopleCate = D('Huodong')->getPeopleCate();
         $this->assign('getPeopleCate', $getPeopleCate);
-
-        $this->assign('lists', $lists); // 赋值数据集
-        $this->assign('pages', $shows); // 赋值分页输出
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('lists', $lists);
+        // 赋值数据集
+        $this->assign('pages', $shows);
+        // 赋值分页输出
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
+        $this->display();
     }
-
-    public function hdfabu() {
+    public function hdfabu()
+    {
         if (empty($this->uid)) {
             $this->error('登录状态失效!', U('passport/login'));
         }
-
         if ($this->isPost()) {
             $data = $this->fabuCheck();
             $obj = D('Huodong');
@@ -1000,13 +983,12 @@ class MemberAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function fabuCheck() {
+    public function fabuCheck()
+    {
         $data = $this->checkFields($this->_post('data', false), array('title', 'addr', 'intro', 'sex', 'photo', 'cate_id', 'time'));
         $data['user_id'] = $this->uid;
         $data['cate_id'] = (int) $data['cate_id'];
         $data['sex'] = (int) $data['sex'];
-
         $data['title'] = trim(htmlspecialchars($data['title']));
         if (empty($data['title'])) {
             $this->error('活动标题不能为空！');
@@ -1027,16 +1009,16 @@ class MemberAction extends CommonAction {
         $data['create_ip'] = get_client_ip();
         return $data;
     }
-
-    public function join_people() {
+    public function join_people()
+    {
         $huodong_id = (int) $this->_param('huodong_id');
         $this->assign('nextpage', LinkTo('member/join_loaddata', array('t' => NOW_TIME, 'huodong_id' => $huodong_id, 'p' => '0000')));
-        $this->display(); // 输出模板
+        $this->display();
     }
-
-    public function join_loaddata() {
+    public function join_loaddata()
+    {
         $huodong_id = (int) $this->_param('huodong_id');
-        if (!$detail = D('Huodong')->find($huodong_id)) {
+        if (!($detail = D('Huodong')->find($huodong_id))) {
             $this->error('活动不存在');
         }
         if ($detail['audit'] != 1 || $detail['closed'] != 0) {
@@ -1046,92 +1028,69 @@ class MemberAction extends CommonAction {
             $this->error('请不要查看别人的活动报名');
         }
         $huodongsign = D('Huodongsign');
-
-        import('ORG.Util.Page'); // 导入分页类
-        $count = $huodongsign->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        import('ORG.Util.Page');
+        // 导入分页类
+        $count = $huodongsign->count();
+        // 查询满足要求的总记录数
+        $Page = new Page($count, 10);
+        // 实例化分页类 传入总记录数和每页显示的记录数
+        $show = $Page->show();
+        // 分页显示输出
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
             die('0');
         }
         $list = $huodongsign->where(array('huodong_id' => $huodong_id))->limit($Page->firstRow . ',' . $Page->listRows)->select();
-        $this->assign('list', $list); // 赋值数据集
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('list', $list);
+        // 赋值数据集
+        $this->assign('page', $show);
+        // 赋值分页输出
+        $this->display();
     }
-	
-	public function xiaoxizhongxin() {
-
-		$msg = D('Msg');
-		//用户收到的总通知
-		$msg_common = $msg->where(array('is_used' => 0))->count();
-        $msg_qita = $msg->where(array('user_id'=>$this->uid,'is_used' => 0))->count();
+    public function xiaoxizhongxin()
+    {
+        $msg = D('Msg');
+        //用户收到的总通知
+        $msg_common = $msg->where(array('is_used' => 0,'is_fenzhan'=>0))->count();
+        $msg_qita = $msg->where(array('user_id' => $this->uid, 'is_used' => 0,'is_fenzhan'=>0))->count();
         $this->assign('msg_common', $msg_common);
-		$this->assign('msg_qita', $msg_qita);
-		
-
-
+        $this->assign('msg_qita', $msg_qita);
         $message = D('Message');
         $message = $message->where('user_id =' . $this->uid)->count();
         $this->assign('message', $message);
-
-		//p($message);die;
-		
-		//统计今日新的约会数量
-	    $counts = array();
-        $bg_time = strtotime(TODAY);//今日时间，需要统计其他的下面写。
-	    $counts['message_xiaoqu'] = (int) D('Message')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-		$counts['mesg'] = (int) D('Msg')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-	   $this->assign('counts', $counts);
-		
-		
+        //p($message);die;
+        //统计今日新的约会数量
+        $counts = array();
+        $bg_time = strtotime(TODAY);
+        //今日时间，需要统计其他的下面写。
+        $counts['message_xiaoqu'] = (int) D('Message')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $counts['mesg'] = (int) D('Msg')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $this->assign('counts', $counts);
         $this->display();
     }
-	public function zijinguanli() {
+    public function zijinguanli()
+    {
         $this->display();
     }
-	public function xiaoqu() {
-		$this->assign('community',D('Community')->where(array('user_id'=>$this->uid,'closed'=>0,'audit'=>1))->count());//加入的小区
-		$this->assign('feedback',D('Feedback')->where(array('user_id'=>$this->uid,'closed'=>0))->count());//报修数量
-		$this->assign('communityorder',D('Communityorder')->where(array('user_id'=>$this->uid))->count());//账单
-		$this->assign('tieba',D('Communityposts')->where(array('user_id'=>$this->uid))->count());//账单
-		
-		//统计今日新的数量
-	    $counts = array();
-        $bg_time = strtotime(TODAY);//今日时间，需要统计其他的下面写。
-	    $counts['feedback_today'] = (int) D('Feedback')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-		$counts['communityorder_today'] = (int) D('Communityorder')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-		$counts['tieba_today'] = (int) D('Communityposts')->where(array(
-						'user_id' => $this->user_id,
-						'create_time' => array(
-							array('ELT', NOW_TIME),
-							array('EGT', $bg_time),
-				)))->count();
-				
-	   $this->assign('counts', $counts);  	   
+    public function xiaoqu()
+    {
+        $this->assign('community', D('Community')->where(array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1))->count());
+        //加入的小区
+        $this->assign('feedback', D('Feedback')->where(array('user_id' => $this->uid, 'closed' => 0))->count());
+        //报修数量
+        $this->assign('communityorder', D('Communityorder')->where(array('user_id' => $this->uid))->count());
+        //账单
+        $this->assign('tieba', D('Communityposts')->where(array('user_id' => $this->uid))->count());
+        //账单
+        //统计今日新的数量
+        $counts = array();
+        $bg_time = strtotime(TODAY);
+        //今日时间，需要统计其他的下面写。
+        $counts['feedback_today'] = (int) D('Feedback')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $counts['communityorder_today'] = (int) D('Communityorder')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $counts['tieba_today'] = (int) D('Communityposts')->where(array('user_id' => $this->user_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count();
+        $this->assign('counts', $counts);
         $this->display();
     }
-
 }

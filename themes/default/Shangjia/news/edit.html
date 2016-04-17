@@ -18,9 +18,56 @@
             <tr>
                 <td width="120"><p class="tuanfabu_t"><em>·</em>标题：</p></td>
                 <td><div class="tuanfabu_nr">
-                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+                <input type="text" name="data[title]" value="<{$detail.title|default=''}>" style="width: 500px;" class="tuanfabu_int tuanfabu_intw2"  />
                 </div></td>
             </tr>
+            
+            
+            <tr>
+                    <td width="120"><p class="tuanfabu_t">选择文章分类：</p></td>
+                    <td><div class="tuanfabu_nr">
+                            <select id="cate_id" name="data[cate_id]" class="tuanfabu_int tuanfabu_intw2">
+                                 <foreach name="cates" item="var">
+                                    <eq name="var.parent_id" value="0">
+                                    <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var.cate_name}></option>                
+                                    <foreach name="cates" item="var2">
+                                        <eq name="var2.parent_id" value="$var.cate_id">
+                                        <option value="<{$var2.cate_id}>"  <eq name="var2.cate_id" value="$detail.cate_id">selected="selected"</eq> > ---<{$var2.cate_name}></option>
+                                        
+                                         <foreach name="cates" item="var3">
+                                        <eq name="var3.parent_id" value="$var2.cate_id">
+                                        <option value="<{$var3.cate_id}>"  <eq name="var3.cate_id" value="$detail.cate_id">selected="selected"</eq> > ---------<{$var3.cate_name}></option>
+                                        </eq>
+                                    </foreach>
+                                        
+                                        
+                                        
+                                        
+                                        </eq>
+                                    </foreach>
+                                    </eq>
+                                </foreach>
+                            </select>
+                         <code>必选哦</code></div></td>
+                </tr>
+                
+                
+          
+                   
+           <tr>
+                <td width="120"><p class="tuanfabu_t"><em>·</em>文章关键字：</p></td>
+                <td><div class="tuanfabu_nr">
+                <input type="text" name="data[keywords]]" value="<{$detail.keywords|default=''}>" style="width: 300px;" class="tuanfabu_int tuanfabu_intw2"  />
+               <code>多个关键字用,逗号【英文输入状态下】分隔</code> </div></td>
+            </tr>    
+                
+           <tr>
+                <td><p class="tuanfabu_t">文章简介：</p></td>
+                <td><div class="tuanfabu_nr">
+                <textarea name="data[profiles]" cols="60" rows="4"><{$detail.profiles|default=''}></textarea>
+                </div></td>
+            </tr>
+            
             <tr>
                 <td><p class="tuanfabu_t"><em>·</em>缩略图：</p></td>
                 <td><div class="tuanfabu_nr">

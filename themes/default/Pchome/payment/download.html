@@ -1,0 +1,81 @@
+<include file="public:header_Query"/>
+
+<script src="__TMPL__statics/css/table_zebra/zebra.js"></script>
+
+<body class="bodys">
+<div id="container">
+    <form action="#" method="post">
+        <div style="margin-left:2%;">对账日期：</div>
+        <br/>
+        <span style="margin-left: 3%;font-family:微软雅黑;color:rgb(147,146,146);font-size:16px">单日：</span>
+        <input id='datepicker-example1' type="text" style="width:200px;height:25px;margin-left:20%;" name="bill_date"
+               value=""/><br/><br/>
+        <span style="margin-left: 3%;font-family:微软雅黑;color:rgb(147,146,146);font-size:16px">时间段：</span>
+        <input id='datepicker-example2-start' type="text" style="width:200px;height:25px;margin-left: 12%"
+               name="bill_date1"
+               value=""/>
+        <span style="margin-left: 3%;font-family:微软雅黑;color:rgb(147,146,146);font-size:16px">到：</span>
+        <input id='datepicker-example2-end' type="text" style="width:200px;height:25px;" name="bill_date2"
+               value=""/><br/><br/>
+
+        <div style="margin-left:2%;">账单类型：</div>
+        <br/>
+        <select style="width:15%;height:35px;margin-left:3%;" name="bill_type">
+            <option value="ALL">所有订单信息</option>
+            <option value="SUCCESS">成功支付的订单</option>
+            <option value="REFUND">退款订单</option>
+            <option value="REVOKED">撤销的订单</option>
+        </select><br/><br/>
+        <div align="center">
+            <input type="radio" name="expType" value="" checked="checked" />查询(仅查看)
+            <input type="radio" name="expType" value="excel" />导出excel
+            <input type="radio" name="expType" value="pdf" />导出pdf
+            <br/><br/>
+        </div>
+
+        <div align="center">
+
+            <input type="submit" value="点击执行"
+                   style="width:120px; height:35px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;"
+                   type="button" onclick="callpay()"/>
+        </div>
+    </form>
+   
+    <table class="zebra" id="zebras">
+        <caption>微信支付下载对账单</caption>
+        <thead>
+        <tr>
+            <volist name="title" id="vo">
+                <th><{$vo}></th>
+            </volist>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <volist name="tail" id="vo">
+                <td><{$vo}></td>
+            </volist>
+        </tr>
+        <tr>
+            <volist name="tails" id="vo">
+                <td><{$vo}></td>
+            </volist>
+        </tr>
+        </tfoot>
+
+        <tbody>
+
+        <volist name="arr" id="vo">
+            <tr>
+                <volist name="vo" id="v">
+
+                    <td><{$v}></td>
+                </volist>
+            </tr>
+        </volist>
+        </tbody>
+
+    </table>
+</div>
+</body>
+

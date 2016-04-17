@@ -28,57 +28,120 @@
             </form>
         </div>
         <div class="tgdd_nr">
-            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-                <tr class="tgdd_nrt">
-                    <th>抢购订单</th>
-                    <th>数量</th>
-                    <th>总价</th>
-                    <th>使用积分</th>
-                    <th>RMB</th>
-                    <th>订单状态</th>
-                    <th>操作</th>
-                </tr>
-                <volist name="list" id="var">
-                    <tr class="tgdd_nrBh">
-                        <td colspan="7" style="text-align:left;">订单编号：<span class="tgdd_bh"><{$var.order_id}></span></td>
-                    </tr>
-                    <tr class="tgdd_nrC">
-                        <td style="text-align:left;" width="335px"><div class="tgdd_tw">
-                                <div class="left"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><img src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>" width="81" height="60" /></a></div>
-                                <div class="lef"><a class="myInfor_sx" target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>"><{$tuan[$var['tuan_id']]['title']}></a><p>有效期至：<{$tuan[$var['tuan_id']]['fail_date']}></p><p>商家：<a class="myInfor_sx" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$var['shop_id']))}>"><{$shops[$var['shop_id']]['shop_name']|default='本站'}></a></p></div>
-                            </div></td>
-                        <td class="tgdd_nrCtd"><{$var.num}></td>
-                        <td class="tgdd_nrCtd" id="price-color">&yen;<{:round($var['total_price']/100,2)}></td>
-                        <td class="tgdd_nrCtd"><{$var.use_integral}></td>
-                        <td class="tgdd_nrCtd" id="price-color">&yen;<{:round($var['need_pay']/100,2)}></td>
-                        <td class="tgdd_nrCtd">
-                            <eq name="var.status" value="0">                               
-                                <a class="myInfor_sx myInfor_sx_fk" target="_blank" href="<{:U('pchome/tuan/pay',array('order_id'=>$var['order_id']))}>">去付款</a>
-                            <else />
-                                <eq name="var.status" value="-1">       
-                                    到店付
-                                <else />
-                                	<php>
-                                    	$tc = D('TuanCode');
-                                        $rtc = $tc -> where('order_id ='.$var['order_id']) -> find();
-                                    </php>
-                                    <eq name="rtc.is_used" value="1">
-                                            <a class="myInfor_sx myInfor_sx_fk" href="javascript:void(0)">已完成</a>
-                                            <if condition="$dianping[$var['order_id']]['order_id'] eq null">
-                                                <a class="myInfor_sx" href="<{:U('dianping/tuandianping',array('order_id'=>$var['order_id']))}>">点评</a>     
-                                            <else/>
-                                                <a class="myInfor_sx myInfor_sx_fk" href="javascript:void(0)">已评价</a>
-                                            </if>
-                                        <else/>
-                                           已付款  未消费
-                                    </eq>
-                                </eq>
-                            </eq>
-                        </td>
-                        <td align="center"><a mini='confirm' class="tgdd_del red" href="<{:U('order/delete',array('order_id'=>$var['order_id']))}>">删除</a></td>
-                    </tr>
-                </volist>
-            </table> 
+        
+        <div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="33%">抢购订单</td>
+            <td width="9%">数量</td>
+            <td width="8%">总价</td>
+            <td width="15%">实际支付</td>
+            <td width="20%">订单状态</td>
+            <td width="15%">操作</td>
+     </table>
+     <div class="blank-10"></div>
+  <volist name="list" id="var">   
+  <table class="tuan_table1" width="100%" border="0">
+  <tbody><tr class="tr_left_2">
+    <td class="left10" colspan="4">
+    订单ID：<span class="mallorder_jg"><{$var.order_id}></span>
+    <span class="td_top_1">交易时间：<{$var.create_time|date='Y-m-d H:i:s',###}>   </span></td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <table class="tuan_table2" width="100%" border="0">
+      <tbody><tr class="tr_left_1">
+      
+        <td class="left1">
+        <!--商品展示开始-->
+        <div class="index__production___yfP3y">
+        <a target="_blank" href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>" class="index__pic___TScfk"><img src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>"><span></span></a>
+        <div class="index__infos___A6XLq">
+            <p><a href="<{:U('pchome/tuan/detail',array('tuan_id'=>$var['tuan_id']))}>" target="_blank"><span></span><span><{$tuan[$var['tuan_id']]['title']}></span><span></span></a><span></span><span></span></p>
+            <span></span>
+            <p>有效期至：<{$tuan[$var['tuan_id']]['fail_date']}></p>
+
+            <php>
+            $code_ids = D('TuanCode') -> where('order_id ='.$var['order_id']) -> find();
+            $code = $code_ids['code'];
+            </php>
+            <if condition="!empty($code)">
+            <p>抢购劵：<a style="color:#fd8f52"><{$code}></p>
+            </p>
+            </if>
+
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2"><{$var.num}></td>
+        <td class="left3">&yen;<{:round($var['total_price']/100,2)}></td>
+        <td class="left5"> </td>
+      </tr>
+     
+    </tbody></table>    
+    </td>
+    <td class="left7" width="15%">
+    实际支付：&yen;<{:round($var['need_pay']/100,2)}><br/>
+    <if condition="$var['mobile_fan'] gt 0">
+    手机立减：<span class="text-dot"><{:round($var['mobile_fan']/100,2)}>元<br/>
+    </if>
+                        
+    <if condition="$var['use_integral'] gt 0">
+    使用积分：<{$var.use_integral}> &nbsp;&nbsp;<br/>
+    抵现：&yen; <{:round($var['use_integral']/100,2)}> 元
+    </if>
+                           
+             
+     </td>
+    <td class="left8" width="20%">
+   <eq name="var.status" value="0">                               
+        <a class="myInfor_sx myInfor_sx_fk" target="_blank" href="<{:U('pchome/tuan/pay',array('order_id'=>$var['order_id']))}>">去付款</a>
+        <else />
+        <eq name="var.status" value="-1">       
+        到店付
+    <else />
+        <php>
+        $tc = D('TuanCode');
+        $rtc = $tc -> where('order_id ='.$var['order_id']) -> find();
+        </php>
+        
+    <eq name="rtc.is_used" value="1">
+        <a>已完成</a>
+            <if condition="$dianping[$var['order_id']]['order_id'] eq null">
+            	<a href="<{:U('dianping/tuandianping',array('order_id'=>$var['order_id']))}>">点评</a>     
+            	<else/>
+           	 <a href="javascript:void(0)">已评价</a>
+            </if>
+        <else/>
+        已付款  未消费
+        	</eq>
+        </eq>
+    </eq>
+    
+     <br>
+     <if condition="$var['mobile_fan'] gt 0"><img src="/themes/default/Shangjia/statics/images/mobile.png"></if>       
+
+    </td>
+    <td class="left9" width="15%">
+    <eq name="var.status" value="0"> 
+    <a mini='confirm' href="<{:U('order/delete',array('order_id'=>$var['order_id']))}>">取消订单</a>
+    </eq>
+    <br> 
+    <a href="<{:U('order/detail',array('order_id'=>$var['order_id']))}>">订单详情</a>
+    </td>
+  </tr>
+ 
+</tbody>
+</table>
+<br> 
+</volist>
+ 
+
+     
             <div class="x"><{$page}></div>
         </div>
     </div>

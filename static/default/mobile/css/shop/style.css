@@ -1,0 +1,46 @@
+.header-search {background: #fff;border-bottom: 1px solid #eee;}
+.header-search .ui-searchbar-wrap{width:90%;margin-left:30px;}
+.header-search .ui-searchbar{border-radius:0!important;}
+
+.filter-sec{height:40px;line-height:40px;background:#fff;text-align:center;border-bottom:1px solid #eee;}
+.filter-sec li{position:relative;}
+.filter-sec b{position:absolute;right:0;border-right:1px solid #eee;height:18px;top:13px;}
+.filter-sec i{display:inline-block;}
+.filter-sec li.on{color:#f60;}
+.filter-sec-list{display:none;}
+.filter-sec-list a{display:block;width:100%;}
+.filter-sec-list li.on a{color:#f60;}
+
+
+
+.shop-list .list-item{margin-top:10px;border-bottom:1px solid #eee;background: #fff; }
+.shop-list .list-item .item-info{overflow: hidden;padding:10px;border-bottom:1px solid #eee;border-top: 1px solid #eee;}
+.shop-list .list-item .item-info .info-img{float:left;}
+.shop-list .list-item .item-info .info-img img{width:40px;height:40px;}
+.shop-list .list-item .item-info .info-des{float: left;margin-left:10px;}
+.shop-list .list-list li {position:relative;}
+.shop-list .list-list li .ui-grid-trisect-img{padding-top:100%;}
+.shop-list .list-list li .price{position: absolute;bottom:2px;right: 2px;padding:1px 5px;background: rgba(0,0,0,0.4);color:#fff;font-size:10px; }
+
+
+.detail-photo{position: relative;}
+.detail-photo::before{content:"";display:block;padding-top:51.5625%;}
+.detail-photo .shop-banner{position: absolute;left: 0;top: 0;width: 100%;height: 100%;}
+.detail-photo .shop-logo{position: absolute;bottom: 0;left: 50%;width: 50px;height: 50px;border: 2px solid #EEE;border-radius:50%;-webkit-transform: translate(-50%,50%);transform: translate(-50%,50%);}
+.detail-info{overflow: hidden;background: #fff;}
+.detail-service{overflow: hidden;text-align: center;background: #fff;font-size: 11px;line-height: 18px;color: #999;}
+.detail-service span{display: inline-block;padding-left: 19px;margin-right: 10px;}
+.detail-service .icon-assure{background: url(../../img/shop/icon-assure.png) no-repeat left center;background-size: 16px;}
+.detail-service .icon-sevenday{background: url(../../img/shop/icon-sevenday.png) no-repeat left center;background-size: 16px;}
+.detail-service .icon-deposit{background: url(../../img/shop/icon-deposit.png) no-repeat left center;background-size: 16px;}
+.detail-details{line-height:25px;background:#fff;color:#999;font-size:12px;padding-top:15px;padding-bottom:15px;}
+.item-list{margin:5px -5px -5px 0;overflow: hidden;}
+.item-list .list-item{float: left;width: 50%;box-sizing: border-box;border-right: 5px solid #f1f3f6;background: #fff;padding-bottom: 5px;margin-bottom: 5px;}
+.item-list .list-item .item-img{position:relative;display: block;}
+.item-list .list-item .item-img::before{content: "";display: block;padding-top: 100%;}
+.item-list .list-item .item-img img{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
+.item-list .list-item .item-img .sale-volume{position: absolute;left: 0;bottom: 0;padding: 0 .8em;font-size: 11px;line-height: 20px;color: #FFF;background-color: rgba(0,0,0,.4);}
+.item-list .list-item .item-title{margin: 10px;font-size: 15px;line-height: 18px;height: 18px;overflow: hidden;color: #222;}
+.item-list .list-item .item-price{margin: 10px;line-height: 17px;}
+.item-list .list-item .item-price .price-current{font-size: 14px;line-height: 1px;color: #222;margin-right: 6px;}
+.item-list .list-item .item-price .price-old{font-size: 12px;line-height: 1px;color: #999;margin-right: 6px;}

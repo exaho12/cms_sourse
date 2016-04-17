@@ -8,16 +8,12 @@
 			优惠券验证
 		</div>
 		<div class="top-share">
-			<a href="javascript:void(0);" id="cate-btn">+</a>
+        <a href="<{:U('store/coupon/create')}>" class="top-addr icon-plus"> 优惠劵</a>
 		</div>
 	</header>
 
-<style>
-.sh_prompt_infor_box {
-    position: relative;
-    background-color: #fafafa;
-    padding: 0.9rem 0.35rem 0.04rem 0.8rem;
-}
+
+
 </style>
 	<script>
 	$(function(){
@@ -31,23 +27,21 @@
 		});
 	});
 </script>
-	
-	<div class="xiaoqu-search">
-	<div class="sh_prompt_infor_box">
-    	<p>每个里面输入一个！可以验证优惠券哦</p>
-        <div class="sh_prompt_infor_closs"></div>
-    </div>
-	</div>
 
-    
-    
+<style>
+ul { padding-left: 0px;}
+.sh_buy_tab_box{ margin-top:3rem;}
+</style>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width:33.3333367%;"><a href="<{:U('coupon/sale')}>">优惠劵列表</a></li>
+        <li style="width:33.3333367%;"><a href="<{:U('coupon/download')}>">优惠劵下载</a></li>
+        <li style="width:33.3333367%;"><a href="<{:U('coupon/index')}>" class="on">优惠劵验证</a></li>
+</ul	
 
-    
- <div class="blank-20"></div>   
+ 
+ <div class="blank-10 bg"></div>   
 
-			
-		
-    
   <form method="post" action="<{:U('Coupon/index')}>">
     <div class="sh_buy_tab_box">
     	<div class="sh_buy_content">
@@ -70,12 +64,14 @@
         </div>
     </div>
     </form>
-    
   </ul>
 
-<div class="blank-20"></div> 	
+
+
+
 
 <script>
+
 var code_num = 1;
 $(document).ready(function (e) {
 	$(document).on('click', '.sh_buy_add_int_del', function () {
@@ -92,14 +88,26 @@ $(document).ready(function (e) {
 		$('form').submit()
 	});
 });
+
 </script>
+
         
+
         
+
+
+
+
+
 
 
 
 
 		
+
 <include file="public:footer"/>
+
+
+
 
 

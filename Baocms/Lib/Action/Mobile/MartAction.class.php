@@ -6,7 +6,7 @@ class MartAction extends CommonAction{
     public function _initialize(){
         parent::_initialize();
         $this->_cart = $this->getcart();
-        $cates = d( "Weidiancate" )->fetchAll();
+        $cates = D( "Weidiancate" )->fetchAll();
         $this->assign( "cates", $cates );
     }
 	
@@ -32,7 +32,7 @@ class MartAction extends CommonAction{
 	
     public function getcart( ){
         $id = ( integer )$this->_param( "id" );
-        $wd = d( "WeidianDetails" )->find( $id );
+        $wd = D( "WeidianDetails" )->find( $id );
         $cart = ( array )json_decode( $_COOKIE['mall'] );
         $carts = array( );
         foreach ( $cart as $kk => $vv ){
@@ -49,7 +49,7 @@ class MartAction extends CommonAction{
             $ids[$val['goods_id']] = $val['goods_id'];
             $nums[$val['goods_id']] = $val['num'];
         }
-        $goods = d( "Goods" )->itemsByIds( $ids );
+        $goods = D( "Goods" )->itemsByIds( $ids );
         foreach ( $goods as $k => $val ){
             $goods[$k]['cart_num'] = $nums[$val['goods_id']];
             $goods[$k]['total_price'] = $nums[$val['goods_id']] * $val['mall_price'];
@@ -61,6 +61,12 @@ class MartAction extends CommonAction{
         $cat = ( integer )$this->_param( "cat" );
         $this->assign( "cat", $cat );
         $linkArr['cat'] = $cat;
+		
+		$order = $this->_param('order','htmlspecialchars');
+        $this->assign('order', $order);
+        $linkArr['order'] = $order;
+		
+		
         $this->assign( "nextpage", linkto( "mart/loaddata", $linkArr, array("t" => NOW_TIME,"p" => "0000")));
         $this->assign( "linkArr", $linkArr );
         $this->display( );
@@ -105,6 +111,19 @@ class MartAction extends CommonAction{
         if ( $Page->totalPages < $p ){
             exit( "0" );
         }
+		
+	    //排序重写
+	    $order = $this->_param('order','htmlspecialchars');
+        switch ($order) {
+			
+            case 2:
+                $orderby = array('views' => 'desc');
+                break;
+            default:
+                 $orderby = array('yuyue_num' => 'desc');
+                break;
+        }
+		 
         $list = $weidian->order( "(ABS(lng - '".$lng."') +  ABS(lat - '{$lat}') ) asc" )->where( $map )->limit( $Page->firstRow.",".$Page->listRows )->select( );
         foreach ( $list as $k => $val ){
             $list[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
@@ -113,7 +132,7 @@ class MartAction extends CommonAction{
         foreach ( $list as $key => $v ){
             $shop_ids[$v['shop_id']] = $v['shop_id'];
         }
-        $shopdetails = d( "Shopdetails" )->itemsByIds( $shop_ids );
+        $shopdetails = D( "Shopdetails" )->itemsByIds( $shop_ids );
         foreach ( $list as $k => $val ){
             $list[$k]['price'] = $shopdetails[$val['shop_id']]['price'];
         }
@@ -125,8 +144,8 @@ class MartAction extends CommonAction{
 
     public function lists( ){
         $id = ( integer )$this->_get( "id" );
-        $wd = d( "WeidianDetails" )->find( $id );
-        if ( !( $detail = d( "WeidianDetails" )->find( $id ) ) ) {
+        $wd = D( "WeidianDetails" )->find( $id );
+        if ( !( $detail = D( "WeidianDetails" )->find( $id ) ) ) {
             $this->error( "没有该微店商家" );
             exit( );
         }
@@ -134,8 +153,8 @@ class MartAction extends CommonAction{
             $this->error( "没有该微店商家" );
             exit( );
         }
-        $autocates = d( "Goodsshopcate" )->order( array("orderby" => "asc") )->where( array("shop_id" => $wd['shop_id']))->select( );
-        $Goods = d( "Goods" );
+        $autocates = D( "Goodsshopcate" )->order( array("orderby" => "asc") )->where( array("shop_id" => $wd['shop_id']))->select( );
+        $Goods = D( "Goods" );
         $map = array("closed" => 0,"audit" => 1,"city_id" => $this->city_id,"shop_id" => $wd['shop_id'],"end_date" => array("EGT",TODAY));
         $list = $Goods->order( array( "sold_num" => "desc", "goods_id" => "desc" ) )->where( $map )->select( );
         foreach ( $list as $k => $val ){
@@ -149,7 +168,7 @@ class MartAction extends CommonAction{
 
     public function detail( $goods_id ){
         $goods_id = ( integer )$goods_id;
-        $detail = d( "Goods" )->find( $goods_id );
+        $detail = D( "Goods" )->find( $goods_id );
         $this->assign( "detail", $detail );
         $this->display( );
     }
@@ -159,7 +178,7 @@ class MartAction extends CommonAction{
         if ( empty( $id ) ){
             $this->error( "参数不正确" );
         }
-        $detail = d( "WeidianDetails" )->find( $id );
+        $detail = D( "WeidianDetails" )->find( $id );
         if ( empty( $detail ) ){
             $this->error( "微店不存在" );
         }
@@ -213,14 +232,19 @@ class MartAction extends CommonAction{
             $price = $val['mall_price'] * $num[$val['goods_id']];
             $js_price = $val['settlement_price'] * $num[$val['goods_id']];
             $mobile_fan = $val['mobile_fan'] * $num[$val['goods_id']];
-            $m_price = $val['mall_price'] * $num[$val['goods_id']] - $val['mobile_fan'] * $num[$val['goods_id']];
+            //可使用积分
+            $m_price = $price - $mobile_fan ;//已经减去积分抵现金了，如果不开启则去掉- $use_integral
+			//修改结束
             $tprice += $m_price;
+			$canuserintegral = $val['use_integral'] * $num[$val['goods_id']];//可使用积分
             $ordergoods[$val['shop_id']][] = array(
                 "goods_id" => $val['goods_id'],
                 "shop_id" => $val['shop_id'],
                 "num" => $num[$val['goods_id']],
                 "price" => $val['mall_price'],
                 "total_price" => $price,
+				'can_use_integral' => $canuserintegral,//增加的
+				'is_mobile' => 1,//识别是否手机订
                 "mobile_fan" => $mobile_fan,
                 "js_price" => $js_price,
                 "create_time" => NOW_TIME,
@@ -234,6 +258,8 @@ class MartAction extends CommonAction{
             "create_time" => NOW_TIME,
             "create_ip" => $ip,
             "total_price" => $total_price,
+			'can_use_integral' => $canuserintegral,//增加的
+			'is_mobile' => 1,//识别是否手机订
             "mobile_fan" => $mm_price
         );
         $order_ids = array( );
@@ -246,7 +272,7 @@ class MartAction extends CommonAction{
                 $order_ids[] = $order_id;
                 foreach ( $val as $k1 => $val1 ){
                     $val1['order_id'] = $order_id;
-                    d( "Ordergoods" )->add( $val1 );
+                    D( "Ordergoods" )->add( $val1 );
                 }
             }
         }
@@ -264,16 +290,16 @@ class MartAction extends CommonAction{
                 "create_ip" => get_client_ip( ),
                 "is_paid" => 0
             );
-            $logs['log_id'] = d( "Paymentlogs" )->add( $logs );
+            $logs['log_id'] = D( "Paymentlogs" )->add( $logs );
 			
 			
-            header( "Location:".u( "mart/paycode", array("log_id" => $logs['log_id'] ) ) );
+            header( "Location:".U( "mart/paycode", array("log_id" => $logs['log_id'] ) ) );
 			
 			
             exit( );
         }
 		
-        header( "Location:".u( "mart/pay", array("order_id" => $order_id ) ) );exit( );
+        header( "Location:".U( "mart/pay", array("order_id" => $order_id ) ) );exit( );
     }
 
     public function paycode( ){
@@ -288,20 +314,20 @@ class MartAction extends CommonAction{
             $this->error( "没有有效的支付记录！" );
         }
         $order_ids = explode( ",", $detail['order_ids'] );
-        $ordergood = d( "Ordergoods" )->where( array("order_id" => array( "IN",$order_ids)) )->select( );
+        $ordergood = D( "Ordergoods" )->where( array("order_id" => array( "IN",$order_ids)) )->select( );
         $goods_id = $shop_ids = array( );
         foreach ( $ordergood as $k => $val )
         {
             $goods_id[$val['goods_id']] = $val['goods_id'];
             $shop_ids[$val['shop_id']] = $val['shop_id'];
         }
-        $this->assign( "goods", d( "Goods" )->itemsByIds( $goods_id ) );
-        $this->assign( "shops", d( "Shop" )->itemsByIds( $shop_ids ) );
+        $this->assign( "goods", D( "Goods" )->itemsByIds( $goods_id ) );
+        $this->assign( "shops", D( "Shop" )->itemsByIds( $shop_ids ) );
         $this->assign( "ordergoods", $ordergood );
-        $this->assign( "useraddr", d( "Useraddr" )->where( array(
+        $this->assign( "useraddr", D( "Useraddr" )->where( array(
             "user_id" => $this->uid
         ) )->limit( )->select( ) );
-        $this->assign( "payment", d( "Payment" )->getPayments( ) );
+        $this->assign( "payment", D( "Payment" )->getPayments( ) );
         $this->assign( "logs", $detail );
         $this->display( );
     }
@@ -313,23 +339,23 @@ class MartAction extends CommonAction{
         }
         $this->check_mobile( );
         $order_id = ( integer )$this->_get( "order_id" );
-        $order = d( "Order" )->find( $order_id );
+        $order = D( "Order" )->find( $order_id );
         if ( empty( $order ) || $order['status'] != 0 || $order['user_id'] != $this->uid ){
             $this->error( "该订单不存在" );
             exit( );
         }
-        $ordergood = d( "Ordergoods" )->where( array("order_id" => $order_id) )->select( );
+        $ordergood = D( "Ordergoods" )->where( array("order_id" => $order_id) )->select( );
         $goods_id = $shop_ids = array( );
         foreach ( $ordergood as $k => $val ){
             $goods_id[$val['goods_id']] = $val['goods_id'];
             $shop_ids[$val['shop_id']] = $val['shop_id'];
         }
-        $this->assign( "goods", d( "Goods" )->itemsByIds( $goods_id ) );
-        $this->assign( "shops", d( "Shop" )->itemsByIds( $shop_ids ) );
+        $this->assign( "goods", D( "Goods" )->itemsByIds( $goods_id ) );
+        $this->assign( "shops", D( "Shop" )->itemsByIds( $shop_ids ) );
         $this->assign( "ordergoods", $ordergood );
-        $this->assign( "useraddr", d( "Useraddr" )->where( array("user_id" => $this->uid) )->limit( )->select( ) );
+        $this->assign( "useraddr", D( "Useraddr" )->where( array("user_id" => $this->uid) )->limit( )->select( ) );
         $this->assign( "order", $order );
-        $this->assign( "payment", d( "Payment" )->getPayments( TRUE ) );
+        $this->assign( "payment", D( "Payment" )->getPayments( TRUE ) );
         $this->display( );
     }
 
@@ -338,7 +364,7 @@ class MartAction extends CommonAction{
         if ( empty( $log_id ) ){
             $this->error( "没有有效支付记录！" );
         }
-        if ( !( $detail = d( "Paymentlogs" )->find( $log_id ) ) ){
+        if ( !( $detail = D( "Paymentlogs" )->find( $log_id ) ) ){
             $this->error( "没有有效的支付记录！" );
         }
         if ( $detail['is_paid'] != 0 || empty( $detail['order_ids'] ) || !empty( $detail['order_id'] ) && empty( $detail['need_pay'] ) ){
@@ -354,12 +380,12 @@ class MartAction extends CommonAction{
             $this->error( "请选择支付方式！" );
         }
         if ( $code == "wait" ){
-            d( "Order" )->save( array( "is_daofu" => 1 ), array("where" => array("order_id" => array("IN", $order_ids))) );
-            d( "Ordergoods" )->save( array("is_daofu" => 1 ), array( "where" => array( "order_id" => array( "IN",$order_ids ) ) ) );
-            d( "Payment" )->mallSold( $order_ids );
-            d( "Payment" )->mallPeisong( array( $order_ids), 1 );
-            d( "Sms" )->mallTZshop( $order_ids );
-            $this->success( "恭喜您下单成功！", u( "mcenter/goods/index" ) );
+            D( "Order" )->save( array( "is_daofu" => 1 ), array("where" => array("order_id" => array("IN", $order_ids))) );
+            D( "Ordergoods" )->save( array("is_daofu" => 1 ), array( "where" => array( "order_id" => array( "IN",$order_ids ) ) ) );
+            D( "Payment" )->mallSold( $order_ids );
+            D( "Payment" )->mallPeisong( array( $order_ids), 1 );
+            D( "Sms" )->mallTZshop( $order_ids );
+            $this->success( "恭喜您下单成功！", U( "mcenter/goods/index" ) );
         }
         else{
             $payment = d( "Payment" )->checkPayment( $code );
@@ -367,36 +393,36 @@ class MartAction extends CommonAction{
                 $this->error( "该支付方式不存在" );
             }
             $detail['code'] = $code;
-            d( "Paymentlogs" )->save( $detail );
+            D( "Paymentlogs" )->save( $detail );
 			
-            header( "Location:".u( "cart/combine", array("log_id" => $detail['log_id']) ) );
+            header( "Location:".U( "cart/combine", array("log_id" => $detail['log_id']) ) );
         }
     }
 
     public function combine( ){
         if ( empty( $this->uid ) ){
-            header( "Location:".u( "passport/login" ) );
+            header( "Location:".U( "passport/login" ) );
             exit( );
         }
         $log_id = ( integer )$this->_get( "log_id" );
-        if ( !( $detail = d( "Paymentlogs" )->find( $log_id ) ) ){
+        if ( !( $detail = D( "Paymentlogs" )->find( $log_id ) ) ){
             $this->error( "没有有效的支付记录！" );
         }
         if ( $detail['is_paid'] != 0 || empty( $detail['order_ids'] ) || !empty( $detail['order_id'] ) && empty( $detail['need_pay'] ) ){
             $this->error( "没有有效的支付记录！" );
         }
-        $this->assign( "button", d( "Payment" )->getCode( $detail ) );
+        $this->assign( "button", D( "Payment" )->getCode( $detail ) );
         $this->assign( "logs", $detail );
         $this->display( );
     }
 
     public function pay2( ){
         if ( empty( $this->uid ) ){
-            header( "Location:".u( "passport/login" ) );
+            header( "Location:".U( "passport/login" ) );
             exit( );
         }
         $order_id = ( integer )$this->_get( "order_id" );
-        $order = d( "Order" )->find( $order_id );
+        $order = D( "Order" )->find( $order_id );
         if ( empty( $order ) || $order['status'] != 0 || $order['user_id'] != $this->uid ){
             $this->error( "该订单不存在" );
         }
@@ -404,23 +430,23 @@ class MartAction extends CommonAction{
         if ( empty( $addr_id ) ){
             $this->error( "请选择一个要配送的地址！" );
         }
-        d( "Order" )->save( array("addr_id" => $addr_id,"order_id" => $order_id) );
+        D( "Order" )->save( array("addr_id" => $addr_id,"order_id" => $order_id) );
         if ( !( $code = $this->_post( "code" ) ) ){
             $this->error( "请选择支付方式！" );
         }
-        $ua = d( "UserAddr" );
+        $ua = D( "UserAddr" );
         $uaddr = $ua->where( array(
             "addr_id" => $order['addr_id']
         ) )->find( );
         if ( $code == "wait" ){
-            d( "Order" )->save( array("order_id" => $order_id,"is_daofu" => 1) );
-            d( "Ordergoods" )->save( array("is_daofu" => 1), array("where" => array("order_id" => $order_id)) );
-            d( "Payment" )->mallSold( $order_id );
-            d( "Payment" )->mallPeisong( array($order_id ), 1 );
-            $goods_ids = d( "Ordergoods" )->where( "order_id=".$order_id )->getField( "goods_id", TRUE );
+            D( "Order" )->save( array("order_id" => $order_id,"is_daofu" => 1) );
+            D( "Ordergoods" )->save( array("is_daofu" => 1), array("where" => array("order_id" => $order_id)) );
+            D( "Payment" )->mallSold( $order_id );
+            D( "Payment" )->mallPeisong( array($order_id ), 1 );
+            $goods_ids = D( "Ordergoods" )->where( "order_id=".$order_id )->getField( "goods_id", TRUE );
             $goods_ids = implode( ",", $goods_ids );
             $map = array("goods_id" => array("in",$goods_ids) );
-            $goods_name = d( "Goods" )->where( $map )->getField( "title", TRUE );
+            $goods_name = D( "Goods" )->where( $map )->getField( "title", TRUE );
             $goods_name = implode( ",", $goods_name );
             include_once( "Baocms/Lib/Net/Wxmesg.class.php" );
             $notice_data = array(
@@ -432,16 +458,16 @@ class MartAction extends CommonAction{
                 "info" => $goods_name
             );
             $notice_data = Wxmesg::notice( $notice_data );
-            Wxmesg::net( $this->uid, "OPENTM206930158", $notice_data );
+            Wxmesg::net( $this->uid, "OPENTM202297555", $notice_data );
             $this->success( "恭喜您下单成功！", u( "mcenter/goods/index" ) );
         }
         else{
-            $payment = d( "Payment" )->checkPayment( $code );
+            $payment = D( "Payment" )->checkPayment( $code );
             if ( empty( $payment ) ){
                 $this->error( "该支付方式不存在" );
             }
-            $logs = d( "Paymentlogs" )->getLogsByOrderId( "goods", $order_id );
-            $need_pay = d( "Order" )->useIntegral( $this->uid, array( $order_id) );
+            $logs = D( "Paymentlogs" )->getLogsByOrderId( "goods", $order_id );
+            $need_pay = D( "Order" )->useIntegral( $this->uid, array( $order_id) );
             if ( empty( $logs ) ){
                 $logs = array(
                     "type" => "goods",
@@ -458,12 +484,12 @@ class MartAction extends CommonAction{
             else{
                 $logs['need_pay'] = $need_pay;
                 $logs['code'] = $code;
-                d( "Paymentlogs" )->save( $logs );
+                D( "Paymentlogs" )->save( $logs );
             }
-            $goods_ids = d( "Ordergoods" )->where( "order_id=".$order_id )->getField( "goods_id", TRUE );
+            $goods_ids = D( "Ordergoods" )->where( "order_id=".$order_id )->getField( "goods_id", TRUE );
             $goods_ids = implode( ",", $goods_ids );
             $map = array("goods_id" => array( "in",$goods_ids));
-            $goods_name = d( "Goods" )->where( $map )->getField( "title", TRUE );
+            $goods_name = D( "Goods" )->where( $map )->getField( "title", TRUE );
             $goods_name = implode( ",", $goods_name );
             include_once( "Baocms/Lib/Net/Wxmesg.class.php" );
             $notice_data = array(
@@ -475,10 +501,10 @@ class MartAction extends CommonAction{
                 "info" => $goods_name
             );
             $notice_data = Wxmesg::notice( $notice_data );
-            Wxmesg::net( $this->uid, "OPENTM206930158", $notice_data );
+            Wxmesg::net( $this->uid, "OPENTM202297555", $notice_data );
 			
 			
-            header( "Location:".u( "mart/payment", array(
+            header( "Location:".U( "mart/payment", array(
                 "order_id" => $order_id
             ) ) );
 			
@@ -489,28 +515,28 @@ class MartAction extends CommonAction{
 
     public function payment( $order_id ) {
         if ( empty( $this->uid ) ){
-            header( "Location:".u( "passport/login" ) );
+            header( "Location:".U( "passport/login" ) );
             exit( );
         }
         $order_id = ( integer )$this->_get( "order_id" );
-        $order = d( "Order" )->find( $order_id );
+        $order = D( "Order" )->find( $order_id );
         if ( empty( $order ) || $order['status'] != 0 || $order['user_id'] != $this->uid ){
             $this->error( "该订单不存在" );
             exit( );
         }
-        $logs = d( "Paymentlogs" )->getLogsByOrderId( "goods", $order_id );
+        $logs = D( "Paymentlogs" )->getLogsByOrderId( "goods", $order_id );
         if ( empty( $logs ) ){
             $this->error( "没有有效的支付记录！" );
             exit( );
         }
-        $this->assign( "button", d( "Payment" )->getCode( $logs ) );
+        $this->assign( "button", D( "Payment" )->getCode( $logs ) );
         $this->assign( "order", $order );
         $this->display( );
     }
 
     public function shopdetail( ){
         $id = ( integer )$this->_param( "id" );
-        if ( !( $wshop = d( "WeidianDetails" )->find( $id ) ) ){
+        if ( !( $wshop = D( "WeidianDetails" )->find( $id ) ) ){
             $this->error( "没有该微店商家" );
             exit( );
         }
@@ -518,7 +544,7 @@ class MartAction extends CommonAction{
             $this->error( "该微店商家不存在" );
             exit( );
         }
-        if ( !( $detail = d( "Shop" )->find( $wshop['shop_id'] ) ) ){
+        if ( !( $detail = D( "Shop" )->find( $wshop['shop_id'] ) ) ){
             $this->error( "没有该商家" );
             exit( );
         }
@@ -528,13 +554,13 @@ class MartAction extends CommonAction{
         }
         $this->assign( "wshop", $wshop );
         $this->assign( "detail", $detail );
-        $this->assign( "ex", d( "Shopdetails" )->find( $wshop['shop_id'] ) );
+        $this->assign( "ex", D( "Shopdetails" )->find( $wshop['shop_id'] ) );
         $this->display( );
     }
 
     public function dianping( ){
         $id = ( integer )$this->_param( "id" );
-        if ( !( $wshop = d( "WeidianDetails" )->find( $id ) ) ){
+        if ( !( $wshop = D( "WeidianDetails" )->find( $id ) ) ){
             $this->error( "没有该微店商家" );
             exit( );
         }
@@ -542,7 +568,7 @@ class MartAction extends CommonAction{
             $this->error( "该微店商家不存在" );
             exit( );
         }
-        if ( !( $detail = d( "Shop" )->find( $wshop['shop_id'] ) ) ){
+        if ( !( $detail = D( "Shop" )->find( $wshop['shop_id'] ) ) ){
             $this->error( "没有该商家" );
             exit( );
         }
@@ -557,19 +583,19 @@ class MartAction extends CommonAction{
 
     public function dianpingloading( ){
         $id = ( integer )$this->_get( "id" );
-        if ( !( $wshop = d( "WeidianDetails" )->find( $id ) ) ){
+        if ( !( $wshop = D( "WeidianDetails" )->find( $id ) ) ){
             exit( "0" );
         }
         if ( $wshop['closed'] != 0 || $wshop['audit'] != 1 ){
             exit( "0" );
         }
-        if ( !( $detail = d( "Shop" )->find( $wshop['shop_id'] ) ) ){
+        if ( !( $detail = D( "Shop" )->find( $wshop['shop_id'] ) ) ){
             exit( "0" );
         }
         if ( $detail['closed'] != 0 || $detail['audit'] != 1 ){
             exit( "0" );
         }
-        $shopdianping = d( "Shopdianping" );
+        $shopdianping = D( "Shopdianping" );
         import( "ORG.Util.Page" );
         $map = array("closed" => 0,"shop_id" => $detail['shop_id'],"show_date" => array("ELT",TODAY ));
         $count = $shopdianping->where( $map )->count( );
@@ -590,10 +616,10 @@ class MartAction extends CommonAction{
             $dianping_ids[$val['dianping_id']] = $val['dianping_id'];
         }
         if ( !empty( $user_ids ) ) {
-            $this->assign( "users", d( "Users" )->itemsByIds( $user_ids ) );
+            $this->assign( "users", D( "Users" )->itemsByIds( $user_ids ) );
         }
         if ( !empty( $dianping_ids ) ){
-            $this->assign( "pics", d( "Shopdianpingpics" )->where( array("dianping_id" => array("IN", $dianping_ids) ) )->select( ) );
+            $this->assign( "pics", D( "Shopdianpingpics" )->where( array("dianping_id" => array("IN", $dianping_ids) ) )->select( ) );
         }
         $this->assign( "totalnum", $count );
         $this->assign( "list", $list );

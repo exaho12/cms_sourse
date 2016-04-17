@@ -7,11 +7,11 @@
 			我的团购券
 		</div>
 	<div class="top-signed">
-		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+		<include file="public:message"/>
 	</div>
 </header>
-<div class="panel-list">
-	<ul><li><a href="javascript:;">消费码：<em><{$detail['code']}></em></a></li></ul>
+<div class="panel-list" style="background: #FBFBFB;">
+	<ul><li><a href="javascript:;">消费码：<em style="font-size:16px; font-weight:bold; color:#F00 "><{$detail['code']}></em></a></li></ul>
 </div>
 
  <div class="container">           
@@ -32,9 +32,9 @@
                 $order = $code_ids['order_id'];
                </php> 
                   
-              <a class="button text-green" href="<{:U('mcenter/tuan/detail',array('order_id'=>$order))}>">订单详情</a>  
+              <a class="button  bg-blue" href="<{:U('mcenter/tuan/detail',array('order_id'=>$order))}>">订单详情</a>  
               <if condition="$detail['is_sms'] eq 0">      
-              <a class="button bg-dot" href="<{:U('mcenter/tuancode/sms',array('code_id'=>$detail['code_id']))}>">发送到手机</a> 
+              <a  target="x-frame"  class="button bg-dot" href="<{:U('mcenter/tuancode/sms',array('code_id'=>$detail['code_id']))}>">发送到手机</a> 
               <else/>
               <a class="button bg-gray" href="Javascript: void(0)">已发送</a>
               </if>

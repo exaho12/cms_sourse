@@ -3,26 +3,31 @@
 		<div class="x12">
 			<p>
 				<a class="title" href="<{:U('mobile/tieba/detail',array('post_id'=>$item['post_id']))}>">
-					<{:bao_Msubstr($item['title'],0,40,true )}>
+					<{:bao_Msubstr($item['title'],0,46,true )}>
 				</a>
 			</p>
 			<p class="text-gray">发布时间：<{$item.create_time|date='H:i',###}></p>
-			<p class="text-gray">作者：<{$users[$item['user_id']]['nickname']}>&nbsp;&nbsp;分类：999</p>
-
+			<p class="text-gray">作者：<{$users[$item['user_id']]['nickname']}>&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <php>
+            $cate = D('Sharecate')->find($item['cate_id']);
+            </php>
+            分类：<{$cate['cate_name']}></p>
 		</div>
 	</div>
 	<div class="line padding">
-		<span class="x2"><em class="text-dot"><{$item.reply_num}></em>回复</span>
-		<span class="x3">点击：<{$item.views}></span>
-        <span class="x5">状态：
+		<span class="x2"><i class="icon-comments" style="color:#999"></i><em class="text-dot"> <{$item.reply_num}></em></span>
+		<span class="x3"><i class="icon-thumbs-up" style="color:#999"></i> <{$item.views}></span>
+        <span class="x7 text-right">
         <if condition="$item[audit] eq 0">
-        <a class="button button-small bg-blue">未审核</a>
+        <a class="button button-small bg-gray">未审核</a>
         <else/>
         <a class="button button-small bg-dot">已审核</a>
+        <a href="javascript:void(0);" rel="<{$item.post_id}>" class="jquery-delete button button-small bg-dot">删除</a>
         </if>
         </span>
-		<span class="x2 text-right">
-        <a href="javascript:void(0);" rel="<{$item.post_id}>" class="jquery-delete button button-small bg-dot">删除</a>
+        
 	</div>
 	<div class="blank-10 bg"></div>
 </foreach>
+

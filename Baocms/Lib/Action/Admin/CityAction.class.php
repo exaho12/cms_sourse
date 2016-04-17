@@ -3,14 +3,14 @@
 /*
  * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
  * 作者：baocms团队
- * 官网：www.taobao.com
+ * 官网：www.baocms.com
  * 邮件: youge@baocms.com  QQ 800026911
  */
 
 class CityAction extends CommonAction {
 
-    private $create_fields = array('name', 'pinyin', 'is_open', 'lng', 'lat','orderby','first_letter');
-    private $edit_fields = array('name', 'pinyin', 'is_open', 'lng', 'lat','orderby','first_letter');
+    private $create_fields = array('name', 'pinyin', 'is_open', 'lng', 'lat','orderby','theme','first_letter');
+    private $edit_fields = array('name', 'pinyin', 'is_open', 'lng', 'lat','orderby','theme','first_letter');
 
     public function index() {
         $City = D('City');
@@ -42,6 +42,7 @@ class CityAction extends CommonAction {
             }
             $this->baoError('操作失败！');
         } else {
+            $this->assign('themes',D('Template')->fetchAll());
             $this->display();
         }
     }
@@ -59,6 +60,7 @@ class CityAction extends CommonAction {
         $data['lng'] = htmlspecialchars($data['lng']);
         $data['lat'] = htmlspecialchars($data['lat']);
         $data['first_letter'] = htmlspecialchars($data['first_letter']);
+        $data['theme'] = htmlspecialchars($data['theme']);
         $data['orderby'] = (int)($data['orderby']);
         return $data;
     }
@@ -79,6 +81,7 @@ class CityAction extends CommonAction {
                 $this->baoError('操作失败');
             } else {
                 $this->assign('detail', $detail);
+                $this->assign('themes',D('Template')->fetchAll());
                 $this->display();
             }
         } else {
@@ -100,6 +103,7 @@ class CityAction extends CommonAction {
         $data['lat'] = htmlspecialchars($data['lat']);
         $data['first_letter'] = htmlspecialchars($data['first_letter']);
         $data['orderby'] = (int)($data['orderby']);
+        $data['theme'] = htmlspecialchars($data['theme']);
         return $data;
     }
 

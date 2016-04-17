@@ -2,6 +2,10 @@
 <script src="/static/default/wap/other/cookie.js"></script>
 <script src="/static/default/wap/js/elecart.js"></script>
 <script src="/static/default/wap/js/dialog.js"></script>
+<!--左侧可滑动特效-->
+<script src="/static/default/wap/js/diyScroll.js"></script>
+<script src="/static/default/wap/js/jquery.easing.min.js"></script>
+<script src="/static/default/wap/js/function.js"></script>
 
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
@@ -81,7 +85,7 @@
    
    <div id="ele" class="page-center-box mt10">
     <div class="frame-set-left">
-        <ul>
+        <ul style="margin-top:1.2rem;">
             <li class="active" rel="all"><a href="javascript:void(0);">全部分类</a></li>
             <foreach name="autocates" item="item">
                 <li rel="cate_<{$item.cate_id}>"><a href="javascript:void(0);"><{$item.cate_name}></a></li>
@@ -94,14 +98,15 @@
                 <div class="eleList_box">
                     <foreach name="list" item="var">
                         
-                        <div class="list-box cate_<{$var.cate_id}>">
+                        <div class="list-box cate_<{$var.shopcate_id}>">
                         <php>$save = $var['price'] - $var['mall_price'];</php>
                             <div class="list-img">
                                 <img src="__ROOT__/attachs/<{$var.photo}>">
                             </div>
+                            
                             <div class="list-content">
-                                <p class="overflow_clear"><{$var.title}></p>
-                                <p class="overflow_clear">下单立减<{:round($save/100,2)}>元</p>
+                                <p class="overflow_clear" onclick="location='<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>'"><{$var.title}></p>
+                                <p class="overflow_clear">下单立减<{:round($var['mobile_fan']/100,2)}>元</p>
                                 <p class="price fontcl1"><{:round($var['mall_price']/100,2)}>元<del><{:round($var['price']/100,2)}>元</del></p>
                                 <div class="num-input">
                                     <div class="btn" val="<{:round($var['mall_price']/100,2)}>" gid="<{$var.goods_id}>" onclick="dec(this);">-</div>
@@ -162,6 +167,25 @@
         $("#num").text(count);
         $("#total_price").html(totalprice);
     }();
+	
+	//左侧可滑动特效
+	$(".frame-set-left:eq(0)").Frame({type:[0,0],background:"#efefef",color:"#999999",topfunc:"history.go(0)",botfunc:"",id:"left_Scroll",ScrollWidth:1});
+	$(function(){
+		if(PhoneType()=='Android'){
+			setTimeout(function(){$(".frame-set-left:eq(0) .left_Scroll_to_top").css({marginTop:-50});},100);
+		}
+	});
+	
+	
+	/*
+	$(".frame-set-right:eq(0)").Frame({type:[0,0],background:"#efefef",color:"#999999",topfunc:"history.go(0)",botfunc:"",id:"left_Scroll",ScrollWidth:1});
+	$(function(){
+		if(PhoneType()=='Android'){
+			setTimeout(function(){$(".frame-set-right:eq(0) .left_Scroll_to_top").css({marginTop:-50});},100);
+		}
+	});*/
+	
+	
 </script>
 	</body>
 </div>

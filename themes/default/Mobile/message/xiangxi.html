@@ -15,7 +15,18 @@ body { background: #e9f0f5;}
 	<div class="detail-list">
 		<ul>
 			<li class="line">
-				<div class="x2"><img class="radius-big avatar" src="__ROOT__/attachs/<{$user[face]|default='avatar.jpg'}>"></div>
+				<div class="x2">
+                
+            <!--手机贴吧头像调用-->
+            <?php if(strstr($user[face],"http")){ ?>
+            <img  class="radius-big avatar"  src="<{$user[face]}>" />
+            <?php }else{ ?>
+            <img class="radius-big avatar"   src="__ROOT__/attachs/<{$user[face]|default='default.jpg'}>" />
+            <?php }?>
+                </div>
+                
+                
+                
 				<div class="x10">
 					<div class="chat-ta">
 						<{$detail['content']}>

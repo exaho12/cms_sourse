@@ -2,8 +2,7 @@
 		<li class="line tuan-card">
 			<div class="x8">
 				<div class="card-l">
-					<span class="name"><em>优惠券</em></span>
-					<p><{:bao_Msubstr($coupon[$item['coupon_id']]['title'],0,16,false)}></p>
+					<p>名称：<{:bao_Msubstr($coupon[$item['coupon_id']]['title'],0,16,false)}></p>
 					<p>密码：<em class="text-yellow margin-right"><{$item.code}></i></em>
                        <if condition="($item['is_used'] eq 0) or ($coupon[$item['coupon_id']]['expire_date'] lt $today) ">
 					   <if condition="$item['is_used'] eq 1">已使用<else/><span class="text-green">未使用</span></if>

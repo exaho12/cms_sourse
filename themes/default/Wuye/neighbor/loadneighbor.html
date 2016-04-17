@@ -1,7 +1,13 @@
 <volist name="list" id="item">
 	<li class="line">
 		<div class="x2">
-			<img src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='avatar.jpg'}>" />
+        
+         <!--手机贴吧头像调用-->
+            <?php if(strstr($users[$item['user_id']]['face'],"http")){ ?>
+            <img  src="<{$users[$item['user_id']]['face']}>" />
+            <?php }else{ ?>
+            <img  src="__ROOT__/attachs/<{$users[$item['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
 		</div>
 		<div class="x10">
 			<p class="text-right"><{$users[$item['user_id']]['nickname']}></p>

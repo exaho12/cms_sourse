@@ -15,6 +15,25 @@ class IndexAction extends CommonAction {
         $this->assign('types', $this->type);
 		$this->goodscates = D('Goodscate')->fetchAll();
         $this->assign('goodscates', $this->goodscates);
+		//分类信息
+		$this->cates = D('Lifecate')->fetchAll();
+        $this->assign('cates', $this->cates);
+		$this->assign('channelmeans', D('Lifecate')->getChannelMeans());
+		//商城分类
+		$this->goodscate = D('Goodscate')->fetchAll();
+        $this->assign('goodscate', $this->goodscate);
+		
+		//商家
+		$this->shopcates = D('Shopcate')->fetchAll();
+        $this->assign('shopcates', $this->shopcates);
+		
+		//新闻
+		$this->articlecates = D('Articlecate')->fetchAll();
+        $this->assign('articlecates', $this->articlecates);
+		//家政
+		$this->lifeservicecates = D('Housekeepingcate')->fetchAll();
+        $this->assign('lifeservicecates', $this->lifeservicecates);
+		
     }
 
     public function index() {

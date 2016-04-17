@@ -93,12 +93,12 @@
                         <div style="width: 300px;height: 100px; float: left;">
                             <img id="pic_img" width="80" height="80" src="__ROOT__/attachs/<{$detail.pic|default='default.jpg'}>" />                        
                             <a href="<{:U('setting/attachs')}>">缩略图设置</a>
-                            建议尺寸:<{$config.attachs.xiaoqu.thumb}>
+                            建议尺寸:<{$CONFIG.attachs.village.thumb}>
                         </div>
                         <script>  
 						  $("#logo_file").uploadify({
 							'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
-							'uploader': '<{:U("public/uploadify",array("model"=>"xiaoqu"))}>',
+							'uploader': '<{:U("public/uploadify",array("model"=>"village"))}>',
 							'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
 							'buttonText': '上传小区图片',
 							'fileTypeExts': '*.gif;*.jpg;*.png',
@@ -165,6 +165,16 @@
                         focus: false
                     });
         </script>
+        
+        
+       <tr>
+             <td class="lfTdBt">是否开启贴吧：</td>
+              <td class="rgTdBt">
+                  <input type="radio" name="data[is_bbs]" value="1" <if condition="$detail[is_bbs] eq 1">checked="checked"</if> />开启
+				<input type="radio" name="data[is_bbs]" value="0" <if condition="$detail[is_bbs] eq 0">checked="checked"</if> />不开启
+                <code>默认不开启，一般都没必要开启</code>
+                    </td>
+       </tr>
             </table>
         </div>
         <div class="smtQr"><input type="submit" value="确认编辑" class="smtQrIpt" /></div>

@@ -1,7 +1,7 @@
 <?php
 class WorkerAction extends CommonAction {
 
-	private $edit_fields = array('user_id', 'name', 'tel', 'mobile', 'qq', 'weixin', 'work', 'addr', 'tuan', 'coupon', 'yuyue');
+	private $edit_fields = array('user_id', 'name', 'tel', 'mobile', 'qq', 'weixin', 'work', 'addr', 'tuan', 'coupon', 'yuyue', 'is_job','is_mall', 'is_ding', 'is_dianping', 'is_yuyue','is_life','is_news');
 	
     public function index() {
         $Shopworker = D('Shopworker');
@@ -26,22 +26,29 @@ class WorkerAction extends CommonAction {
         if ($this->isPost()) {
             $data = $this->editCheck(); //这里和 编辑的字段差不多
 			$user_id = intval($data['user_id']);
+			
 			$user = D('Users')->find($user_id);
 			if(empty($user)){
 				$this->baoError('没有找到该用户信息'.$data['user_id']);
 			}
+			
+			$shops = $user = D('Shop')->where(array('user_id'=>$user['user_id']))->find();
+			if(!empty($shops)){
+				$this->baoError('该人员有管理的店铺，不能添加为分店员工');
+			}
+			
+			
 			$worker = $user = D('Shopworker')->where(array('user_id'=>$user['user_id']))->find();
 			if(!empty($worker) && $worker['status'] !=0 ){
 				$this->baoError('该人员已经属于其他公司了！');
 			}
+			
 			$worker = array();
 			$worker = $user = D('Shopworker')->where(array('user_id'=>$user['user_id'],'shop_id'=>$this->shop_id))->find();
 			if(!empty($worker)){
 				$this->baoError('你已经添加了该员工，不能重复添加！');
 			}
 		
-			
-			
             $data['status'] = 0;
             $obj = D('Shopworker');
 			$result = $obj->add($data);
@@ -84,7 +91,7 @@ class WorkerAction extends CommonAction {
             $data = $this->editCheck();
             $data['worker_id'] = $worker_id;
             if (false !== $obj->save($data)) {
-                $this->baoSuccess('操作成功', U('worker/edit', array('worker_id' => $worker_id)));
+                $this->baoSuccess('操作成功', U('worker/index', array('worker_id' => $worker_id)));
             }
             $this->baoError('操作失败');
         } else {

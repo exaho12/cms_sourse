@@ -1,16 +1,11 @@
-<php>$seo_title = $news[title]; </php>
+
 <include file='public:header'/>    
-<link rel="stylesheet" href="/static/default/wap/css/community.css">
-<link rel="stylesheet" href="/static/default/wap/css/wuye.css">
-	<script src="/static/default/wap/other/roll.js"></script>
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
-			<a class="top-addr" href="<{:U('feedback/index')}>">
-            
-            <i class="icon-angle-left"></i></a>
+			<a class="top-addr" href="<{:U('wuye/feedback/index')}>"><i class="icon-angle-left"></i></a>
 		</div>
 		<div class="top-title">
-			问题详情
+			报修详情
 		</div>
 	</header>
 	
@@ -18,43 +13,19 @@
 		<div class="blank-20"></div>
 		<h4 class="text-center"><{$detail.title}></h4>
 		<p class="text-center border-bottom padding text-small text-gray">
-			<span>发布时间：<{$detail.create_time|date='Y-m-d H:i:s',###}></span>
+			<span>时间：<{$detail.create_time|date='Y-m-d',###}></span>
+			<span class="margin-left">浏览：<{$detail[views]}></span>
 		</p>
         
-		<div class="padding">
+        <div class="padding border-bottom">
 			<{$detail.details}>
 		</div>
         
-        <if condition="$detail['reply'] eq null">
-         <p class="text-center border-bottom padding text-small text-gray">
-			<span>您还未回复！点击下面按钮回复。</span>
-		</p>
         
-        <else/>
-        
-        <p class="text-center border-bottom padding text-small text-gray">
-			<span>回复时间：<{$detail.reply_time|date='Y-m-d H:i:s',###}></span>
-		</p>
-        
-        <div class="padding">
-			<{$detail.reply}>
-		</div>
-        
-        </if>
-        
-	</div>
-    
-<div class="line tab-bar">
-	<div class="button-toolbar">
-		<div class="button-group">
-        
-        <if condition="$detail['reply'] eq null">
-        <a class="block button bg-dot active" href="<{:U('feedback/reply',array('feed_id'=>$detail['feed_id']))}>">回复</a>
-        <else/>
-		<a class="block button bg-gray active" href="javascript:void(0);">已回复</a>
-       </if>     
+		<div class="padding">
+			<span style="color:#F00">物业回复:<{$detail.reply}></span>
 		</div>
 	</div>
-</div>
+
 	
 <include  file='public:footer'/>

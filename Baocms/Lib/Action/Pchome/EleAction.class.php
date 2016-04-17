@@ -403,8 +403,20 @@ class EleAction extends CommonAction {
 
                 $dv->add($dv_data);
             }
-            D('Sms')->mallTZshop($order_id);
+			//大鱼通知商家短信其实没必要
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_dcdx', $this->member['mobile'], array(
+                    'sitename'=>$this->_CONFIG['site']['sitename'], 
+                    "nickname" => $this->member['nickname'],
+                    "shopname" => $shops['shop_name']
 
+                ));
+            }else{
+                D('Sms')->sendSms( "sms_ele", $this->member['mobile'], array(
+                    "nickname" => $this->member['nickname'],
+                    "shopname" => $shops['shop_name']
+                ) );
+            }
 
             $product_ids  = D('Eleorderproduct')->where("order_id=".$order['order_id'])->getField('product_id',true);
             $product_ids  = implode(',', $product_ids);
@@ -423,7 +435,7 @@ class EleAction extends CommonAction {
                 'info'    => $product_name
             );
             $notice_data = Wxmesg::notice($notice_data);
-            Wxmesg::net($this->uid, 'OPENTM206930158', $notice_data);
+            Wxmesg::net($this->uid, 'OPENTM202297555', $notice_data);
             /*微信订单通知消息-结束*/
             //====================微信支付通知==============================
 
@@ -471,7 +483,7 @@ class EleAction extends CommonAction {
                 'info'    => $product_name
             );
             $notice_data = Wxmesg::notice($notice_data);
-            Wxmesg::net($this->uid, 'OPENTM206930158', $notice_data);
+            Wxmesg::net($this->uid, 'OPENTM202297555', $notice_data);
             /*微信订单通知消息-结束*/
             //====================微信支付通知==============================
             $this->ajaxReturn(array('status' => 'success', 'msg' => '选择支付方式成功！下面请进行支付！', 'url' => U('payment/payment', array('log_id' => $logs['log_id']))));

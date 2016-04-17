@@ -9,7 +9,7 @@
 
 class NewsAction extends CommonAction {
 
-    private $edit_fields = array('title', 'photo', 'details');
+    private $edit_fields = array('title', 'photo', 'details', 'cate_id', 'keywords', 'profiles');
 
     public function index() {
         $Shopnews = D('Shopnews');
@@ -30,10 +30,32 @@ class NewsAction extends CommonAction {
     }
 
     public function create() {
+		
         if ($this->isPost()) {
             $data = $this->editCheck(); //这里和 编辑的字段差不多
             $data['create_time'] = NOW_TIME;
             $data['create_ip'] = get_client_ip();
+	
+			
+			$articles = array(
+				  'shop_id' => $this->shop_id, 
+				  'cate_id' => $data['cate_id'],
+				  'city' => $data['cate_id'],
+				  'city_id' => $data['city_id'],
+				  'area_id' => $data['area_id'],
+				  'source' => $data['source'],
+				  'title' =>  $data['title'],
+				  'keywords' =>  $data['keywords'],
+				  'profiles' =>  $data['profiles'],
+				  'photo' =>  $data['photo'], 
+				  'details' =>  $data['details'],
+				  'audit' => 0,
+				  'create_time' => NOW_TIME, 
+				  'create_ip' => get_client_ip()
+			  );
+            $articles['article_id'] = D('Article')->add($articles);
+		
+			
             $obj = D('Shopnews');
             if ($news_id = $obj->add($data)) {
                 D('Shopfavorites')->save(array('last_news_id'=>$news_id),array('where'=>array( //更新粉丝表里面的动态
@@ -41,8 +63,10 @@ class NewsAction extends CommonAction {
                 )));
                 $this->baoSuccess('添加成功', U('news/index'));
             }
+		    
             $this->baoError('操作失败！');
         } else {
+			$this->assign('cates', D('Articlecate')->fetchAll());
             $this->display();
         }
     }
@@ -62,10 +86,11 @@ class NewsAction extends CommonAction {
             $data = $this->editCheck();
             $data['news_id'] = $news_id;
             if (false !== $obj->save($data)) {
-                $this->baoSuccess('操作成功', U('news/edit', array('news_id' => $news_id)));
+                $this->baoSuccess('操作成功', U('news/index'));
             }
             $this->baoError('操作失败');
         } else {
+			$this->assign('cates', D('Articlecate')->fetchAll());
             $this->assign('detail', $detail);
             $this->display();
         }
@@ -73,12 +98,33 @@ class NewsAction extends CommonAction {
 
     private function editCheck() {
         $data = $this->checkFields($this->_post('data', false), $this->edit_fields);
+		$shop = D('Shop')->where(array('shop_id' => $this->shop_id))->find();
+		
         $data['shop_id'] = $this->shop_id;
-        $data['cate_id'] = $this->shop['cate_id'];
+		$data['city_id'] = $shop['city_id'];
+		$data['area_id'] = $shop['area_id'];
+		$data['source'] = $shop['shop_name'];
+		$data['cate_id'] = (int) $data['cate_id'];
+        if (empty($data['cate_id'])) {
+            $this->baoError('分类不能为空');
+        }
+		
         $data['title'] = htmlspecialchars($data['title']);
         if (empty($data['title'])) {
             $this->baoError('标题不能为空');
-        } $data['photo'] = htmlspecialchars($data['photo']);
+        } 
+		
+		$data['keywords'] = htmlspecialchars($data['keywords']);
+		
+		$data['profiles'] = SecurityEditorHtml($data['profiles']);
+        if (empty($data['profiles'])) {
+            $this->baoError('简介不能为空');
+        }
+        if($words = D('Sensitive')->checkWords($data['profiles'])){
+            $this->baoError('简介内容含有敏感词：'.$words);
+        }
+		
+		$data['photo'] = htmlspecialchars($data['photo']);
         if (!empty($data['photo']) && !isImage($data['photo'])) {
             $this->baoError('缩略图格式不正确');
         } $data['details'] = SecurityEditorHtml($data['details']);

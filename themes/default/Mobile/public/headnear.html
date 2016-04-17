@@ -19,7 +19,7 @@
         <script src="__TMPL__statics/js/baocms.js?v=20150801"></script>
         
 		<script>
-            function bd_encrypt(gg_lat, gg_lon)   // 百度地图测距偏差 问题修复
+            function bd_encrypt(gg_lat, gg_lon)   
             {
 			    var x_pi = 3.14159265358979324 * 3000.0 / 180.0;  
                 var  x = gg_lon;
@@ -36,7 +36,7 @@
 							if(data!=''){
 								$("#local-addr").html(data);
 							}else{
-								$("#local-addr").html("暂时没有获取到定位信息！");
+								$("#local-addr").html("鏆傛椂娌¤幏鍙栧埌浣嶇疆淇℃伅");
 							}
 						}, 'html');
 					}

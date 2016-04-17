@@ -100,18 +100,44 @@
 		<if condition="!empty($cate['text3'])">
 		<span><{$cate.text3}><em><{$detail.text3|default='暂无'}></em></span>
 		</if>
+        <if condition="!empty($cate['select1'])">
+		<span><{$cate.select1}><em><{$attrs['select1'][$detail['select1']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select2'])">
+		<span><{$cate.select2}><em><{$attrs['select2'][$detail['select2']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select3'])">
+		<span><{$cate.select3}><em><{$attrs['select3'][$detail['select3']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select4'])">
+		<span><{$cate.select4}><em><{$attrs['select4'][$detail['select4']]['attr_name']|default='暂无'}></em></span>
+		</if>
+        <if condition="!empty($cate['select5'])">
+		<span><{$cate.select5}><em><{$attrs['select5'][$detail['select5']]['attr_name']|default='attr_name'}></em></span>
+		</if>
 		<span>所在区域<em><{$areas[$detail['area_id']]['area_name']}>/<{$business[$detail['business_id']]['business_name']}></em></span>
-		<span>所在地址<em><{$detail.addr}></em></span>
+		<span>具体地址<em><{$detail.addr}></em></span>
 	</div>
-	<div class="itr-col">
-		<h5>相关描述</h5>
-		<{$ex.details}>
-	</div>
+    
+    
+    
+    <div class="global">
+        <div class="line banner">	
+            <h5>相关描述</h5>
+            <div id="focus" class="global_focus">
+             <{$ex.details}>       
+            </div>
+        </div>
+    </div>
+
+    
+    
 </div>
 <div class="detail-ft">
 	<div class="mob-col">
 		<p>
-			<span><{$detail.mobile}></span> (<{$detail.contact}>)
+			手机:<span><{$detail.mobile}></span>	qq:<span><{$detail.qq}></span> (<{$detail.contact}>)
+
 			<eq name="detail.is_shop" value="1">
 			<span class="mui-badge mui-badge-primary">商家</span>
 			<else />

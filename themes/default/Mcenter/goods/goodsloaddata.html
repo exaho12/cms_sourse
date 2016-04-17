@@ -1,7 +1,6 @@
 <foreach name="list" item="order">
-<foreach name="shops" item="shop">
-<li class="line ">
 
+<li class="line ">
         <dt>
         <a class="x4">订单编号：<{$order.order_id}></a>
         <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$shops[$order['shop_id']]['shop_id']))}>">  
@@ -17,20 +16,50 @@
             <div class="x8">
                 <p><a href="<{:U('goods/detail',array('order_id'=>$order['order_id']))}>"><{$products[$good['goods_id']]['title']}> </a></p>
                 <p class="text-small">
-                    <span class="text-dot1 margin-right">属性：</p>
-                <p class="text-small">
                     <span class="text-dot1 margin-right">小计：<span class="text-dot">￥<{:round($good['price']/100,2)}> x <{$good.num}> = <{:round($good['total_price']/100,2)}> 元</span></span>
                 </p>
+                
+            <p class="text-small">
+            <if condition="$good['mobile_fan'] gt 0">
+		    <span class="text-dot1 margin-right">手机下单立减：<span class="text-dot"><{:round($good['mobile_fan']/100,2)}>元</span>
+            </if>
+			</p>
+                
+                <php> $pcl_totle = $good[num]*$products[$good['goods_id']]['use_integral']; </php>
+                <if condition="$order['status'] gt 0">
+	                <if condition="$order['use_integral'] gt 0">
+	                <p class="text-small">
+	                    <span class="text-dot1 margin-right">使用积分：<span class="text-dot"><{$pcl_totle}> 抵现：<{:round($pcl_totle/100,2)}>元</span></span>
+	                </p>
+	                </if>	              
+                </if>
+                <if condition="$order['status'] eq 0">           
+	                <if condition="$order['can_use_integral'] gt 0">
+	                <p class="text-small">
+	                    <span class="text-dot1 margin-right">使用积分：<span class="text-dot"><{$pcl_totle}> 抵现：<{:round($pcl_totle/100,2)}>元</span></span>
+	                </p>
+	                </if>	               
+                	</if>
+         
           </div>
          </dd>
          </if>
 		</foreach>
-         
+
          
          <dt>
              <div class="x12">
-             <span class="margin-right">商品合计费用：￥<{:round($order['total_price']/100,2)}>元</span>
-             <span>运费：￥<{:round($order['total_express']/100,2)}>元</span>
+             <span class="margin-right">实际支付：￥<{:round($order['need_pay']/100,2)}>元</span>
+             
+             <span>运费：
+             <if condition="$order['total_express'] eq 0">
+             免邮
+             <else/>
+             ￥<{:round($order['total_express']/100,2)}>元
+             </if>
+             
+             
+             </span>
              </div>
          </dt>   
 			
@@ -92,6 +121,8 @@
       
       </dl>
     </li>
+    <div class="blank-10 bg"></div>
+
+
 </foreach>
-<div class="blank-10 bg"></div>
-</foreach>
+

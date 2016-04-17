@@ -39,7 +39,7 @@
             <if condition="empty($MEMBER)"><p class="locaTopDl">想查看之前保存位置的附近抢购。请<a href="<{:U('passport/login')}>">登录</a></p></if>
         </div>
         <div class="right locaTop_r"><span>微信扫一扫，<br />随时随地查看附近抢购</span>
-            <img src="__PUBLIC__/img/wx.png" width="81" height="81" /></div>
+            <img src="__ROOT__/attachs/<{$CONFIG.site.wxcode}>" width="81" height="81" /></div>
     </div>
     <div class="locaNr">
         <div class="left locaNr_l">
@@ -71,30 +71,29 @@
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                 <div id="allmap" style="width: 845px; height:560px;"></div>
                 <script type="text/javascript">
-                                        // 百度地图API功能
-                                        var map = new BMap.Map("allmap");
-                                        var addr = null;
-                                        var lng = "<{$city['lng']}>";
-                                        var lat = "<{$city['lat']}>";
-                                        if (!lng && !lat) {
-                                            map.centerAndZoom("<{$city_name}>");
-                                            var point = new BMap.Point(117.260852, 31.825717);
-                                        } else {
-                                            map.centerAndZoom(new BMap.Point(lng, lat), 15);
-                                            var point = new BMap.Point(lng, lat);
-                                        }
-                                        map.centerAndZoom(point, 15);
-                                        function showPoint(e) {
-                                            map.clearOverlays();
-                                            map.centerAndZoom(e.point, 16);
-                                            var market = new BMap.Marker(e.point);
-                                            map.addOverlay(market);
-
-                                            var circle = new BMap.Circle(e.point, 500, {fillColor: "#2fbdaa;", strokeWeight: 1, fillOpacity: 0.3, strokeOpacity: 0.3});
-                                            map.addOverlay(circle);
-                                            var local = new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});
-
-                                            local.searchNearby(e.point, 500);
+                                // 百度地图API功能
+                                var map = new BMap.Map("allmap");
+                                var addr = null;
+                                var lng = "<{$CONFIG['site']['lng']}>";
+                                var lat = "<{$CONFIG['site']['lat']}>";
+                                if (!lng && !lat) {
+                                    map.centerAndZoom("<{$city}>");
+                                    var point = new BMap.Point(117.260852, 31.825717);
+                                } else {
+                                    map.centerAndZoom(new BMap.Point(lng, lat), 15);
+                                    var point = new BMap.Point(lng, lat);
+                                }
+                                map.centerAndZoom(point, 15);
+                                var marker = new BMap.Marker(point);  // 创建标注
+                                map.clearOverlays();
+                                //map.addOverlay(marker);              // 将标注添加到地图中
+                                //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                                function showPoint(e) {
+                                    var p = new BMap.Point(e.point.lng, e.point.lat);
+                                    var mk = new BMap.Marker(p);
+                                    map.clearOverlays();
+                                    //removeOverlay(overlay:Overlay);
+                                    map.addOverlay(mk);
                                     //mk.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                                     var geoc = new BMap.Geocoder();
                                     geoc.getLocation(p, function (rs) {

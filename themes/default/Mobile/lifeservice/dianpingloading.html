@@ -3,7 +3,12 @@
 <div class="item">	
 	<div class="line">
 		<div class="x2">
-        	<img class="pic" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>">
+        	<!--如果头像中有-->
+            <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+            <img class="pic"  src="<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+            <?php }else{ ?>
+            <img class="pic" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>">
+            <?php }?>
         </div>
         
 		<div class="x10">
@@ -13,7 +18,7 @@
 			<p class="intro ui-starbar" ><span style="width:<{$stars}>%"></span></p><span class="intro intro1 float-right "><{$var.create_time|date='Y-m-d H:i',###}></span>
 			<p class="info7 x12" >
 				<volist name="pics" id="pic" key="index"> 
-                <eq name="pic.dianping_id" value="$var['dianping_id']"> 
+                <eq name="pic.id" value="$var['id']"> 
                     <div class="pics" class="ac" onclick="liclick(this);" href="javascript:;">
                         <img style="width:60px; height:50px;float:left;padding-right:5px"  url="__ROOT__/attachs/<{$pic.pic|default='default.jpg'}>" src="__ROOT__/attachs/<{$pic.pic|default='default.jpg'}>" >
                     </div>

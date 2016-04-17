@@ -19,7 +19,17 @@
 		<div class="tie-item">
 			<div class="item-head">
 				<span class="avatar">
-					<img src="__ROOT__/attachs/<{$puser['face']|default='avatar.jpg'}>" />
+                
+                 <!--手机贴吧头像调用-->
+            <?php if(strstr($puser['face'],"http")){ ?>
+            <img  src="<{$puser['face']}>" />
+            <?php }else{ ?>
+            <img  src="__ROOT__/attachs/<{$puser['face']|default='default.jpg'}>" />
+            <?php }?>
+                    
+                    
+                    
+                    
 				</span>
 				<span class="info">
 					<em><{$puser['nickname']}></em>

@@ -263,6 +263,7 @@ class TuancodeAction extends CommonAction{
                 if(D('Tuancode')->save(array('code_id'=>$code_id,'status'=>2))){ //将内容变成
                     $obj = D('Users');
                     if($detail['real_money'] >0){
+						
                         $obj->addMoney($detail['user_id'],$detail['real_money'],'抢购券退款:'.$detail['code']);
                     }
                     if($detail['real_integral'] >0){
@@ -282,6 +283,7 @@ class TuancodeAction extends CommonAction{
                         if(D('Tuancode')->save(array('code_id'=>$id,'status'=>2))){ //将内容变成
 
                             if($detail['real_money'] >0){
+							
                                 $obj->addMoney($detail['user_id'],$detail['real_money'],'抢购券退款:'.$detail['code']);
                             }
                             if($detail['real_integral'] >0){
@@ -294,7 +296,7 @@ class TuancodeAction extends CommonAction{
             
         }
 		
-		 $where['tuan_id'] = $detail['tuan_id'];
+	   $where['tuan_id'] = $detail['tuan_id'];
        $tuan_num = D("Tuanorder")->where($where)->getField("num");
        D("Tuan")->where($where)->setInc("num",$tuan_num);  // 修复退款后增加库存
          $this->baoSuccess('退款成功！', U('Tuancode/refund'));

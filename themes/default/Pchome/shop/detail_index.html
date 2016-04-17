@@ -51,7 +51,18 @@
 					<volist name="list" id="var">
 					<li class="media media-x">
 						<a class="float-left" href="<{:U('blog/index',array('user_id'=>$var['user_id']))}>">
-							<img class="txt-big radius-circle bg-green border-green reply-avatar" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='avatar.jpg'}>" alt="<{$users[$var['user_id']]['nickname']}>" />
+                        
+                        
+                          <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+                            <img  class="txt-big radius-circle bg-green border-green reply-avatar"  src="<{$users[$var['user_id']]['face']}>" />
+                            <?php }else{ ?>
+                            <img  class="txt-big radius-circle bg-green border-green reply-avatar"  src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+                            <?php }?>
+                            
+                          
+                            
+                            
+                            
 							<p><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
 						</a>
 						<div class="media-body">
@@ -250,22 +261,7 @@
              <php>}</php>
 				
 					<div class="blank-10"></div>
-					<div class="shop-index-fans">
-						<h2><strong class="txt radius-circle bg-yellow"><i class="icon-user"></i></strong> Ta的粉丝</h2>
-						<div class="blank-10"></div>
-						<ul class="line">
-							<foreach name="fav" item="item">
-								<li class="x3">
-									<div class="media">
-										<a href="<{:U('blog/index',array('user_id'=>$item['user_id']))}>">
-											<img src="__ROOT__/attachs/<{$fans[$item['user_id']]['face']|default='avatar.jpg'}>" class="radius">
-										</a>
-										<div class="media-body"><{$fans[$item['user_id']]['nickname']}></div>
-									</div>
-								</li>
-							</foreach>
-						</ul>
-					</div>
+					
 				</div>
 			</div>
 		</div>

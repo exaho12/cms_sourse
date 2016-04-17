@@ -1,0 +1,11 @@
+.login-third-title{height:40px;line-height:40px;text-align:center;margin-top:20px;}
+.login-third-title h5{font-size:12px;color:#999;}
+.login-third-title hr{height:1px;border:none;border-top:1px solid #eee;margin-top:20px;}
+
+.login-third{text-align:center;margin:20px 0;}
+.login-third a{display:block;float:left;width:46px;height:46px;text-align:center;line-height:44px;border-radius:50%;border:1px solid #f4f4f4;background:#fff;margin:0 5px;}
+.login-third i{font-size:26px;}
+.login-third .login-third-list{width:180px;;margin:0 auto;}
+.login-third i.fa-qq{color:#32CCFE;}
+.login-third i.fa-weibo{color:#EF5350;}
+.login-third i.fa-weixin{color:#7CB342;}

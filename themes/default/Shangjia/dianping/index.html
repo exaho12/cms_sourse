@@ -19,67 +19,75 @@
             <li class="tuanfabu_tabli"><a href="<{:U('dianping/ding')}>">订座点评</a></li>
         </ul>
     </div> 
-    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr style="background-color:#eee;">
-            <td>编号</td>
-            <td>用户</td>
-            <td>评分</td>
-            <td>平均花费</td>
-            <td>评价时间</td>
-            <td>评价IP</td>
-            <td>生效日期</td>
-            <td style=" border-right: solid 1px #e1e6eb;" >操作</td>
-        </tr>
-        <foreach name="list" item="var">
-            <tr  style="background-color: #F9F9F9;">
-                <td style="width: 100px;"><{$var.dianping_id}></td>
-                <td><{$users[$var['user_id']]['nickname']}>(ID:<{$var.user_id}>)</td>
-                <td><{$var.score}></td>
-                <td><{$var.cost}></td>
-                <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
-                <td><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
-                <td><{$var.show_date}></td>
-                <td style=" border-right: solid 1px #e1e6eb;" >
-            <if condition="empty($var['reply'])">
-                <a mini="load" h="400" w="500" href="<{:U('dianping/reply',array('dianping_id'=>$var['dianping_id']))}>">回复</a>
-            </if>
-            </td>   
-            </tr>
-            <tr>
-                <td>
-                    <h1>评价</h1>
-                </td>
-                <td colspan="8" class="html_contents" style="text-align: left;">
-                    <{$var.contents}>
-                </td>
-            </tr>
-            <if condition="!empty($var['reply'])">
-                <tr>
-                    <td>
-                        <h1  style=" color:#F00; font-weight:bold;">商家回复：</h1>
-                    </td>
-                    <td colspan="8"  style="text-align: left;color:#F00; font-weight:bold;" class="html_contents" >
-                        <{$var.reply}>
-                    </td>
-                </tr>
-            </if>
-            
-            <if condition="!empty($var['pichave'])">
-                <tr>
-                    <td>
-                        <h1>图片</h1>
-                    </td>
-                    <td colspan="8"  style="text-align: left;" class="html_contents">
-                        <foreach name="pics" item="item">
-                            <if condition="$var['dianping_id'] eq $item['dianping_id']">
-                                <img src="__ROOT__/attachs/<{$item['pic']}>" width="120" height="80"/>
-                            </if>
-                        </foreach>
-                    </td>
-                </tr>
-            </if>
-        </foreach>
+    
+      <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="10%">编号</td>
+            <td width="20%">用户</td>
+            <td width="5%">评分</td>
+            <td width="5%">平均花费</td>
+            <td width="30%">评价时间</td>
+            <td width="20%">评价IP</td>
+            <td width="10%">生效日期</td>
     </table>
+    
+    <foreach name="list" item="var">
+    <table class="dianping" width="100%" border="0">
+      <tr class="tr_dianping_1">
+        <td class="td_dianping_1"><{$var.dianping_id}></td>
+        <td class="td_dianping_2"><{$users[$var['user_id']]['nickname']}>(ID:<{$var.user_id}>)</td>
+        <td class="td_dianping_3"><{$var.score}></td>
+        <td class="td_dianping_4"><{$var.cost}></td>
+        <td class="td_dianping_5"><{$var.create_time|date='Y-m-d H:i:s',###}></td>
+        <td class="td_dianping_6"><{$var.create_ip}>(来自<{$var.create_ip_area}>)</td>
+        <td class="td_dianping_7"><{$var.show_date}></td>
+      </tr>
+      <tr class="tr_dianping_2">
+        
+        <td class="td_dianping_12" colspan="2">
+        
+        <php>
+        $shop = D('Shop') -> where('shop_id ='.$var['shop_id']) -> find();
+        </php> 
+         <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a  target="_blank"  href="<{:U('pchome/shop/detail',array('shop_id'=>$shop['shop_id']))}>" class="index__pic___TScfk" >
+        <img src="__ROOT__/attachs/<{$shop['photo']}>" ><span></span></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a href="<{:U('pchome/shop/detail',array('shop_id'=>$shop['shop_id']))}>" target="_blank" ><span ></span><span><{$shop['shop_name']}></span><span ></span></a><span></span><span></span></p>
+            <span></span>
+            <p></p>
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="td_dianping_9" colspan="3">
+        
+        
+        点评内容：<{$var.contents}>
+        	<br/><br/>
+            <if condition="!empty($var['pichave'])">
+             <foreach name="pics" item="item">
+             <if condition="$var['order_id'] eq $item['order_id']"> 
+             <a target="_blank" href="__ROOT__/attachs/<{$item['pic']}>"><img src="__ROOT__/attachs/<{$item['pic']}>" width="60"/></a>
+              </if>
+             </foreach>
+          </if>
+        
+        </td>
+        <td class="td_dianping_10" colspan="2"><if condition="!empty($var['reply'])"><span style="color:#F00">商家回复：<{$var.reply}></span><else/><a mini="load" h="400" w="500"  class="td_btn" href="<{:U('dianping/reply',array('dianping_id'=>$var['dianping_id']))}>">点击回复</a></if></td>
+      </tr>
+      
+      
+      
+    </table>
+     </foreach>
+    <br/>
+    
+    
+  
     <{$page}>
 </div>
 <include  file='public:footer'/>

@@ -1,0 +1,19 @@
+<foreach name="list" item="item">
+<php>$tel=explode(',',$item['telephone']);</php>
+    <li>	
+    <a class="item line" href="javascript:void(0);">
+            <div class="x12">
+                    <h5><{$item['name']}></h5>
+                    <p class="des-star">
+                        <span class="ui"><{$item.address}></span>
+                        <!--<span class="float-right"><{$item.d}></span>-->
+                    </p>
+                    <p class="des-addr">
+                    <if condition="!empty($tel[0])">
+				     <i class="icon-mobile-phone"></i><foreach name="tel" item="var"><em><{$var}></em></foreach>
+					</if>
+                    </p>
+            </div>	
+       </a>
+    </li>
+</foreach>

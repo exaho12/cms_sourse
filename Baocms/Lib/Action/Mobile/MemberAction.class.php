@@ -644,7 +644,15 @@ class MemberAction extends CommonAction {
 				$randstring = rand_string(6, 1);
 				session('code', $randstring);
 			}
-			D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+			//大鱼通知
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yzm', $mobile, array(
+                    'sitename'=>$this->_CONFIG['site']['sitename'], 
+                    'code' => $randstring
+                ));
+            }else{
+                D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));  
+            }
 		}
 	}
 

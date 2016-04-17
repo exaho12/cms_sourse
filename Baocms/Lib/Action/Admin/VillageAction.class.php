@@ -9,9 +9,9 @@
 
 class VillageAction extends CommonAction {
 
-    private $create_fields = array('name', 'addr', 'tel', 'pic','user_id','city_id', 'area_id', 'lng', 'lat', 'orderby','info');
+    private $create_fields = array('name', 'addr', 'tel', 'pic','user_id','city_id', 'area_id', 'lng', 'lat', 'orderby','info','is_bbs');
     private $create_worker_fields = array('name', 'photo', 'village_id', 'job','orderby');
-    private $edit_fields = array('name', 'addr', 'tel', 'pic','user_id','city_id', 'area_id',  'lng', 'lat', 'orderby','info');
+    private $edit_fields = array('name', 'addr', 'tel', 'pic','user_id','city_id', 'area_id',  'lng', 'lat', 'orderby','info','is_bbs');
     private $look = 0;
     protected function _initialize()
 	{
@@ -127,6 +127,46 @@ class VillageAction extends CommonAction {
             $this->baoError('请选择要查看的帖子');
         }
     }
+	
+	
+	 public function bbs_audit($post_id = 0) {
+			if (is_numeric($post_id) && ($post_id = (int) $post_id)) {
+				$obj = D('Village_bbs');
+				$detail = $obj->find($post_id);
+				$obj->save(array('post_id' => $post_id, 'audit' => 1));
+				$this->baoSuccess('审核社区帖子成功！', U('village/bbs', array('village_id' => $detail['village_id'])));
+			} else {
+				$post_id = $this->_post('post_id', false);
+				if (is_array($post_id)) {
+					$obj = D('Village_bbs');
+					$detail = $obj->find($post_id);
+					foreach ($post_id as $id) {
+						$obj->save(array('post_id' => $id, 'audit' => 1));
+					}
+					$this->baoSuccess('批量审核成功！', U('village/bbs', array('village_id' => $detail['village_id'])));
+				}
+				$this->baoError('请选择要审核社区的帖子');
+			}
+		}
+		
+		public function bbs_replys_audit($reply_id = 0) {
+			if (is_numeric($reply_id) && ($reply_id = (int) $reply_id)) {
+				$obj = D('Villagebbsreplys');
+				$obj->save(array('reply_id' => $reply_id, 'audit' => 1));
+				$this->baoSuccess('审回复成功！', U('village/bbs_view', array('post_id' => $reply_id)));
+			} else {
+				$reply_id = $this->_post('reply_id', false);
+				if (is_array($reply_id)) {
+					$obj = D('Villagebbsreplys');
+					foreach ($reply_id as $id) {
+						$obj->save(array('reply_id' => $id, 'audit' => 1));
+					}
+					$this->baoSuccess('批量审核成功！', U('village/bbs_view', array('post_id' => $reply_id)));
+				}
+				$this->baoError('请选择要审核社区回复');
+			}
+		}
+		
     public function notice() {
         
         $Village = D('Village_notice');
@@ -288,6 +328,7 @@ class VillageAction extends CommonAction {
             } $data['orderby'] = (int) $data['orderby'];
             $data['lng'] = htmlspecialchars($data['lng']);
             $data['lat'] = htmlspecialchars($data['lat']);
+			$data['is_bbs'] = (int) $data['is_bbs'];
             $data['create_time'] = NOW_TIME;
             $data['create_ip'] = get_client_ip();
         }
@@ -493,6 +534,7 @@ class VillageAction extends CommonAction {
         if (empty($data['user_id'])) {
             $this->baoError('管理员不能为空');
         } $data['orderby'] = (int) $data['orderby'];
+		$data['is_bbs'] = (int) $data['is_bbs'];
         $data['lng'] = htmlspecialchars($data['lng']);
         $data['lat'] = htmlspecialchars($data['lat']);
         }

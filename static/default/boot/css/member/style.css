@@ -1,0 +1,20 @@
+body{background:#f5f5f5;}
+.member-logo{margin-top:30px;}
+.member-box{background:#fff;border:1px solid #eee;padding:25px 40px;margin:40px;overflow:hidden;position:relative;}
+.member-box .box-l{width:190px;height:290px;margin-right:50px;float:left;}
+.member-box .box-r{float:left;width:310px;}
+.member-box .r-title{line-height:46px;font-size: 18px;font-weight: 700;border-bottom: 1px solid #DEDEDE;margin-bottom: 18px;text-indent: 2px;}
+.member-box .box-r .r-line{padding: 16px 0px;font-size: 16px;position: relative;}
+.member-box .box-r .r-input{margin-top:20px;}
+.member-box .box-r .r-form input{height:45px;line-height:25px;padding:10px;font-size:16px;border-radius:1px;}
+.member-box .box-r .r-form button{height:45px;line-height:25px;padding:10px;font-size:16px;border-radius:1px;margin-top:20px;}
+
+.member-box .box-l .l-third p{height:20px;line-height:20px;overflow:hidden;font-size:0.9rem;margin:0;}
+.member-box .box-l .l-third a{margin:10px 10px 0 0;background:#eee;width:40px;height:40px;border-radius:50%;text-decoration:none;display:inline-block;text-align:center;line-height:44px;}
+.member-box .box-l .l-third .fa{font-size:26px;color:#f46;}
+.member-box .box-l .l-third .txt:hover .fa{color:#fff;}
+.member-box .box-l .l-third .txt-qq:hover{background:#19B5FE;}
+.member-box .box-l .l-third .txt-weixin:hover{background:#26C281;}
+.member-box .box-l .l-third .txt-weibo:hover{background:#E68364;}
+.member-box .box-l .l-third .txt-back:hover{background:#FFA631;}
+

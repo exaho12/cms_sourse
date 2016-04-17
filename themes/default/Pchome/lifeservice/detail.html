@@ -124,7 +124,18 @@
                         <foreach name="list" item="var">
                             <li class="spxq_pjList">
                                 <div class="left spxq_pjList_l">
-                                    <div class="spxq_pjTx"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" width="50" height="50" /></div>
+                                    <div class="spxq_pjTx">
+                                    
+                             <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+                            <img  width="50" height="50"  src="<{$users[$var['user_id']]['face']}>" />
+                            <?php }else{ ?>
+                            <img  width="50" height="50"   src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+                            <?php }?>
+                            
+                            
+                                    
+                                    
+                                    </div>
                                     <p class="spxq_pjYh"><{$users[$var['user_id']]['nickname']}></p>
                                     <p style="text-align:center"><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
                                 </div>
@@ -168,8 +179,8 @@
                 <p>服务地址</p>
                 <input type="text" name="addr" placeholder="请输入详细服务地址" />
                 <p>联系方式</p>
-                <input type="text" name="name" placeholder="请输入联系人"  value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}> <else/></if>"/>
-                <input type="text" name="tel" placeholder="请输入联系电话" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}> <else/></if>" />
+                <input type="text" name="name" placeholder="请输入联系人"  value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}><else/></if>"/>
+                <input type="text" name="tel" placeholder="请输入联系电话" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}><else/></if>" />
                 <p>更多需求</p>
                 <input type="text" name="contents" placeholder="您可以在这里填写更多需求" />
                  <input type="submit" class="btn" value="立即预约" />

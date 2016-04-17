@@ -1,544 +1,275 @@
 <include file="public:header" /> 
-
-<include file="public:top"/>
-
+<include file="mall:top"/>
 <style type="text/css">
-
     body{overflow-x:hidden;}
-
 </style>
-
 <script type="text/javascript">
-
     $(function () {
-
         $(".address_kind li").each(function (e) {
-
             $(this).mousemove(function () {
-
                 $(".address_kind li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".address_letwo").each(function (i) {
-
                     if (e == i) {
-
                         $(".address_letwo").hide();
-
                         $(this).show();
-
                     }
-
                 });
 
-
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ultwo li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ultwo li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add").each(function (i) {
-
                     if (e == i) {
-
                         $(".add").hide();
-
                         $(this).show();
-
                     }
-
                 });
 
-
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ul2s li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ul2s li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add_2").each(function (i) {
-
                     if (e == i) {
-
                         $(".add_2").hide();
-
                         $(this).show();
-
                     }
-
                 });
 
-
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ulthree li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ulthree li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add_4").each(function (i) {
-
                     if (e == i) {
-
                         $(".add_4").hide();
-
                         $(this).show();
-
                     }
-
                 });
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ul2cs li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ul2cs li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add_3").each(function (i) {
-
                     if (e == i) {
-
                         $(".add_3").hide();
-
                         $(this).show();
-
                     }
-
                 });
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ulfor li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ulfor li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add_5").each(function (i) {
-
                     if (e == i) {
-
                         $(".add_5").hide();
-
                         $(this).show();
-
                     }
-
                 });
-
             });
-
         });
-
     });
 
-
-
     $(function () {
-
         $(".address_ulfive li").each(function (e) {
-
             $(this).click(function () {
-
                 $(".address_ulfive li").removeClass("on");
-
                 $(this).addClass("on");
-
                 $(".add_6").each(function (i) {
-
                     if (e == i) {
-
                         $(".add_6").hide();
-
                         $(this).show();
-
                     }
-
                 });
-
             });
-
         });
-
     });
 
 
-
-
-
     $(function () {
-
         $(".address_ul li").each(function () {
-
             $(this).hover(function () {
-
                 $(this).parent().find("img").hide();
-
                 $(this).find("img").show();
 
-
-
             });
-
         });
-
     });
-
 </script>
-
 <div class="nav">
-
     <div class="navList">
-
         <ul>
-
             <li class="navListAll"><span class="navListAllt">全部购物分类</span></li>
-
-<php>
-$map = array('status' => 4);
-$navigations = D('Navigation');
-$nav = $navigations ->where($map)->order(array('orderby' => 'asc'))->select();
-</php>
-
-<volist name="nav" id="var" key="index" >
-<if condition="($var.parent_id eq 0)"> 
-
-<li class="navLi"><a <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}></a></li>
-</if>
-</volist>
-
+            <li class="navLi"><a <if condition="$ctl eq  'index'"> class="navA  on"<else/>class="navA"</if> title="首页" href="<{:U('index/index')}>" >首页</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'tuan'"> class="navA  on"<else/>class="navA"</if> title="身边抢购" href="<{:U('tuan/nearby')}>" >身边抢购</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'huodong'"> class="navA  on"<else/>class="navA"</if> title="活动" href="<{:U('huodong/index')}>" >活动</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'lifeservice'"> class="navA  on"<else/>class="navA"</if> title="上门服务" href="<{:U('lifeservice/index')}>" >上门服务</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'mall'"> class="navA  on"<else/>class="navA"</if> title="本地商城" href="<{:U('mall/main')}>" >本地商城</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'ele'"> class="navA  on"<else/>class="navA"</if> title="外卖" href="<{:U('ele/index')}>" >外卖</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'ding'"> class="navA  on"<else/>class="navA"</if> title="订座" href="<{:U('ding/index')}>" >订座</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'life'"> class="navA  on"<else/>class="navA"</if> title="同城信息" href="<{:U('life/main')}>" >同城信息</a></li>
+            <li class="navLi"><a <if condition="$ctl eq  'coupon'"> class="navA  on"<else/>class="navA"</if> title="优惠券" href="<{:U('coupon/index')}>" >优惠券</a></li>
         </ul>
-
     </div>
-
 </div>
-
 <div class="top_img"> 
-
     <div class="sy_content1" style="width:1200px; margin: 0px auto;">
-
         <div class="left sy_content1_l" style="position:absolute; top: 0px;">
-
             <include file="mall:nav"/>
-
         </div>
-
     </div>
-
     <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=5" limit="0,1" cache="21600" order="orderby asc">
-
         <a href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="1920" height="420"></a>
-
     </calldata>
-
 </div>
-
 <div class="content">
 
-
-
     <!-- *****************************************优惠专区******************************* -->
-
     <div class="address_5"> <span class="left spanOne">优惠专区</span> <a href="<{:U('mall/index')}>" class="right">更多优惠>></a> </div>
-
     <div class="address_6">
-
         <div class="address_left2">
-
             <div class="address_zuo"> <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=6" limit="0,1" cache="21600" order="orderby asc">
-
                     <a target="_blank" href="<{$item.link_url}>" title="<{$item.title}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="200" height="526"  /></a>
-
                 </calldata> </div>
-
             <div class="address_you" style="border:0px;">
-
                 <calldata mdl="Goods" where="closed=0 AND audit=1 AND end_date EGT '{$today}'" limit="0,6" cache="10800" order="orderby asc">
-
                     <div class="left onSale" style="<php>if($index % 3 == 0){echo 'margin-right:0px;';}</php><php>if($index > 3){echo 'margin-bottom:0px;';}</php>"> <a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="229" height="158" /></a>
-
                         <p style="height:26px; line-height: 26px; overflow: hidden;"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><{:bao_msubstr($item['title'],0,12,false)}></a></p>
-
                         <div class="onSale_1">
-
                             <div class="left">
-
                                 <p class="onSale_p">￥<{:round($item['mall_price']/100,2)}></p>
-
                                 <p style="line-height:14px;"><del>￥<{:round($item['price']/100,2)}></del></p></div>
-
                             <div class="right"> 
-
                                 <!-- <a target="_blank" class="sc_cpList_goshp" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>">
-
                                     <img src="__TMPL__statics/images/tp_33.png" />
-
                                 </a> -->
-
                                 <a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>"><img src="__TMPL__statics/images/tp_33.png"></a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </calldata>
-
             </div>
-
         </div>
-
         <div class="address_right2"> 
-
             <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=7" limit="0,2" cache="21600" order="orderby asc">
-
                 <li><a target="_blank" href="<{$item.link_url}>" title="<{$item.title}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="191" height="248" /></a></li>
-
             </calldata> 
-
         </div>
-
     </div>
-
     <script>
-
         $(document).ready(function () {
-
-
 
             $(".shangcheng_floor").each(function () {
-
                 var ob = $(this).find('.address_ul2 li');
-
                 ob.mouseover(function () {
-
                     var obj = $(this);
-
                     var index = $(this).index();
-
                     ob.removeClass('on');
-
                     obj.addClass('on');
-
                     obj.parent().parent().parent().parent().find(".address_right3").hide();
-
                     obj.parent().parent().parent().parent().find(".address_right3").eq(index).show();
 
-
-
                 });
-
                 $(this).find('.address_ul2 li').eq(0).mouseover();
-
             });
-
         });
-
     </script>
-
     <script type="text/javascript" language="javascript">
 
-
-
         $(document).ready(function () {
-
             var k = '<{$k}>';
-
             $('#ul' + k + ' li').click(function () {
-
                 var num = $(this).attr('num');
-
                 $('#ul' + k + ' li').removeClass('on');
-
                 $(this).addClass('on');
-
                 $(this).parent().parent().parent().parent().find('.address_right3').hide();
-
                 $(this).parent().parent().parent().parent().find('#f' + num).show();
-
             })
-
         })
 
-
-
     </script>
-
     <volist name="channels" id="tt" key="k">
-
         <div class="shangcheng_floor">
-
         <div class="address_7 address_s<{$k}>">
-
             <div class="left"> <span class="left sock"><{$k}>F<{$tt['name']}></span>
-
                 <ul class="address_ul2 left address_ultwo">
-
                     <volist name="tt['cates']" id="item" key="kk">
-
                         <if condition="$kk elt 3">
-
                             <li><a href="javascript:void(0);"><{$item.cate_name}></a></li>
-
                         </if>
-
                     </volist>
-
                 </ul>
-
             </div>
-
             <ul class="address_ul3 right">
-
                 <volist name="tt['cates']" id="item" key="kk">
-
                     <if condition="$kk gt 3">|<a target="_blank" href="<{:U('mall/index',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></if>
-
                 </volist>
-
             </ul>
-
         </div>
-
         <div class="address_8 mallleft<{$k}>">
-
             <div class="address_left3">
-
                 <div>
-
                     <ul>
-
                         <foreach name="tt['cates']" item="item">
-
                             <li><a target="_blank" href="<{:U('mall/index',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
-
                         </foreach>
-
                     </ul>
-
                     <calldata mdl="Ad" where=" closed=0 AND  city_id IN ({$city_ids}) AND site_id='{$tt['ad']}' and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="21600"  order="orderby asc">
-
                         <a href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="199" height="244" /></a>
-
                     </calldata>
-
                 </div>
-
             </div>
-
             <foreach name="goodscate" item="item">
-
                 <eq name="item.parent_id" value="$tt['value']">
-
                 <div class="address_right3 add2" style="border:none;">
-
                     <php>
-
                         $aa =1;
-
                         foreach($goods[$item['cate_id']] as $var){</php>   
 
-
-
                     <div class="left onSale onSale_2" style="<php>if($aa % 4 == 0){echo 'margin-right:0px;';}</php><php>if($aa >4){echo 'margin-bottom:0px;';}</php>"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>"><img src="__ROOT__/attachs/<{$var.photo}>" width="213" height="158" /></a>
-
                         <p style="height:26px; line-height: 26px; overflow: hidden;"><a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>"><{:bao_msubstr($var['title'],0,12,false)}></a></p>
-
                         <div class="onSale_1">
-
                             <div class="left">
-
                                 <p class="onSale_p">￥<{:round($var['mall_price']/100,2)}></p>
-
                                 <p style="line-height:14px;"><del>￥<{:round($var['price']/100,2)}></del></p> </div>
-
                             <div class="right"> 
-
                                 <a target="_blank" href="<{:U('mall/detail',array('goods_id'=>$var['goods_id']))}>"><img src="__TMPL__statics/images/tp_33.png"></a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                     <php>$aa++; }</php>
-
                 </div>
-
                 </eq>
-
             </foreach>
-
         </div>
-
         </div>
-
     </volist>     
-
 </div>
-
 <include file="public:footer"/>

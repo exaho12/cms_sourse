@@ -2,21 +2,19 @@
 	<div class="line padding border-bottom">
 		<div class="x12">
 			<p><a class="title" href="<{:U('express/detail',array('express_id'=>$item['express_id']))}>">标题：<{$item.title}>&nbsp;&nbsp; ID:(<{$item.express_id}>)</a></p>
-            <p>收件人：<{$item.to_name}> &nbsp;&nbsp;|&nbsp;&nbsp;<{$item.to_mobile}>(收)</p>
-            <p>收件人地址：<{$item.to_addr}></p>
-            <p>发布时间：<{$item.create_time|date='Y-m-d H:i:s',###}> </p>
+            <p class="text-gray" style="font-size:12px">收件人：<{$item.to_name}> &nbsp;&nbsp;|&nbsp;&nbsp;<{$item.to_mobile}>(收)</p>
+            <p class="text-gray" style="font-size:12px">收件人地址：<{$item.to_addr}></p>
+            <p class="text-gray" style="font-size:12px">发布时间：<{$item.create_time|date='Y-m-d H:i:s',###}> </p>
 		</div>
 	</div>
-	<div class="line padding">
-		<span class="x8"> 
+	<div class="line padding text-right">
+		<span class="x12"> 
         <a class="button button-small bg-dot" href="<{:U('express/detail',array('express_id'=>$item['express_id']))}>">查看详情</a>
         <a class="button button-small bg-gray" href="<{:U('express/delete',array('express_id'=>$item['express_id']))}>">删除</a>
         <if condition="$item.status eq 0">
         <a class="button button-small bg-dot" href="<{:U('express/edit',array('express_id'=>$item['express_id']))}>">编辑</a>
         </if>
-        </span>
-        
-		<span class="x4 text-right">
+
         <if condition="$item.status eq 0">
         <a class="button button-small bg-gray">未处理</a>
         <elseif condition="$item.status eq 1"/>

@@ -10,19 +10,18 @@
 			<a href="#" id="share-btn"></a>
 		</div>
 	</header>  
+<style>
+#coupon-list{margin-top: 2rem;}
+</style>	
 	
-	
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 50%;"><a href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a></li>
+        <li style="width: 50%;"><a href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>" class="on">评价</a></li>
+</ul>    
     
-    
-      <!-- 筛选TAB -->
-<div class="line tab-bar">
-	<div class="button-toolbar">
-		<div class="button-group">
-			<a class="block button" href="<{:U('ele/detail',array('shop_id'=>$detail['shop_id']))}>">详情</a>
-			<a class="block button  bg-dot active" href="<{:U('ele/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a>
-		</div>
-	</div>
-</div>  
+<script src="/static/default/wap/js/dialog.js"></script>
+<link href="/static/default/wap/css/dianping.css" rel="stylesheet">
 
  <div id="coupon-list" class="coupon-list"></div>
     <script>

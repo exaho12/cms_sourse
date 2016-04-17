@@ -1,6 +1,6 @@
 .index-cate{}
 .index-cate ul{list-style:none;padding:0;}
-.index-cate .cate-name{height:50px;line-height:40px;padding:0 10px;padding-top:10px;background:url("../image/life/cate-tbg.png") repeat-x;}
+.index-cate .cate-name{height:50px;line-height:40px;padding:0 10px;padding-top:10px;}
 .index-cate .cate-name img{margin:10px 0;width:20px;float:left;}
 .index-cate .cate-name span{margin-left:10px;}
 .index-cate .cate-list{padding:10px;overflow:hidden;}
@@ -11,6 +11,7 @@
 .index-cate .cate-more .up{display:none;}
 .index-cate .active .up{display:inline-block;}
 .index-cate .active .down{display:none;}
+
 
 
 /* 信息列表 */
@@ -29,7 +30,7 @@
 /* 不带 */
 .mod-2 {display:-webkit-box;-webkit-box-orient:horizontal;position:relative;}
 .mod-2 h4{height:20px;line-height:20px;font-size:14px;overflow:hidden;margin:0;}
-.mod-2 h4 span{float:right;width:16px;height:16px;line-height:16px;text-align:center;color:#FFF;background:#F60;margin:2px;}
+.mod-2 h4 span{width:16px;height:16px;line-height:16px;text-align:center;color:#FFF;background:#F60;margin:2px;}
 .mod-2 a{color:#003040;}
 .mod-2 p{color:#999;font-size:12px;overflow:hidden;height:20px;margin:0;margin-top:3px;}
 .mod-2 .tel{width:50px;height:60px;right:5px;position:absolute;}

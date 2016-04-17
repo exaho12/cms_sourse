@@ -1,8 +1,7 @@
 <include file="public:header"/>
-2222
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
-			<a class="top-addr" href="<{:U('shop/main')}>"><i class="icon-angle-left"></i></a>
+			<a class="top-addr" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><i class="icon-angle-left"></i></a>
 		</div>
 		<div class="top-title">
 			<{$detail.shop_name}><{$shop.shop_name}>
@@ -12,16 +11,20 @@
 		</div>
 	</header>
 	    
-        
-<!-- 筛选TAB -->
+<style>
+.coupon-list { margin-top:2.6rem;}
+ul{ padding-left:0px;}
+</style>        
 <ul id="shangjia_tab">
-        <li style="width: 25%;"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">首页</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">团购</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>"   class="on">优惠</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a></li>
-    </ul>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">首页</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">团购</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/life',array('shop_id'=>$detail['shop_id']))}>">信息</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>"  class="on">优惠</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/news',array('shop_id'=>$detail['shop_id']))}>">新闻</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a></li>
+</ul>
 
- <div id="coupon-list" class="coupon-list" style="margin-top:20px;"></div>
+ <div id="coupon-list" class="coupon-list"></div>
     <script>
         $(document).ready(function () {
             loaddata('<{$nextpage}>', $("#coupon-list"), true);

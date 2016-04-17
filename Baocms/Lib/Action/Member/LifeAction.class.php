@@ -40,7 +40,7 @@ class LifeAction extends CommonAction {
                 $mday = 27;
                 break;
         }
-        $gold = $mday * $this->_CONFIG['shop']['life']['top'];
+        $gold = $mday * $this->_CONFIG['shop']['life']['top']*100;
         if ($this->member['gold'] < $gold) {
             $this->baoErrorJump('金块余额不足', U('money/gold'));
         }
@@ -109,7 +109,7 @@ class LifeAction extends CommonAction {
                 $mday = 27;
                 break;
         }
-        $gold = $mday * $this->_CONFIG['shop']['life']['urgent'];
+        $gold = $mday * $this->_CONFIG['shop']['life']['urgent']*100;
         if ($this->member['gold'] < $gold) {
             $this->baoErrorJump('金块余额不足', U('member/money/gold'));
         }

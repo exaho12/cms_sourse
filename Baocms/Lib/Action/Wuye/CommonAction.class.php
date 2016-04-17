@@ -132,6 +132,12 @@ class CommonAction extends Action {
         }
         return $data;
     }
+	 protected function niuMsg($message, $jumpUrl = '', $time = 3000) {
+        $str = '<script>';
+        $str .='parent.boxmsg("' . $message . '","' . $jumpUrl .'","'.$time. '");';
+        $str.='</script>';
+        exit($str);
+    }
 
     protected function ipToArea($_ip) {
         return IpToArea($_ip);

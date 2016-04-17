@@ -47,18 +47,18 @@ class BranchAction extends CommonAction {
         if (is_numeric($branch_id) && ($branch_id = (int) $branch_id)) {
             $obj = D('Shopbranch');
             if (!$detail = $obj->find($branch_id)) {
-                $this->error('请选择要删除的分店');
+                $this->ajaxReturn(array('status'=>'error','message'=>'请选择要删除的分店！'));
             }
             if ($detail['closed'] == 1) {
-                $this->error('该分店不存在');
+				$this->ajaxReturn(array('status'=>'error','message'=>'该分店不存在！'));
             }
             if ($detail['shop_id'] != $this->shop_id) {
-                $this->error('请不要试图越权操作其他人的内容');
+				$this->ajaxReturn(array('status'=>'error','message'=>'请不要试图越权操作其他人的内容！'));
             }
             $obj->save(array('branch_id' => $branch_id, 'closed' => 1));
-            $this->success('删除成功！', U('branch/index'));
+			$this->ajaxReturn(array('status'=>'success','msg'=>'删除成功', U('branch/index')));
         } else {
-            $this->error('请选择要删除的分店');
+			$this->ajaxReturn(array('status'=>'error','message'=>'请选择要删除的分店！'));
         }
     }
 	

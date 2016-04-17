@@ -39,9 +39,9 @@ class NearworkAction extends CommonAction {
             $data['create_ip'] = get_client_ip();
             $obj = D('Work');
             if ($obj->add($data)) {
-                $this->Success('招聘发布成功!', U('nearwork/index'));
+                $this->niuMsg('招聘发布成功，请等待审核通过后即可显示!', U('nearwork/index'));
             }
-            $this->Error('招聘发布失败！',U('nearwork/index'));
+            $this->niuMsg('招聘发布失败！',U('nearwork/index'));
         } else {
             $this->display();}
        }
@@ -49,12 +49,13 @@ class NearworkAction extends CommonAction {
     public function edit(){
         $work_id=(int)($_GET['work_id']);
         if(empty($work_id)){
-        $this->baoError('请选择需要编辑的内容操作');
+        $this->error('请选择需要编辑的内容操作');
         }
+		
 	   $obj = D('Work');
        $detail = $obj->find($work_id);
         if(empty($detail) || $detail['shop_id'] != $this->shop_id) {
-            die('请选择需要编辑的内容操作');
+            $this->error('请不要非法操作');
         } 
 	
         if ($this->isPost()) {
@@ -62,7 +63,7 @@ class NearworkAction extends CommonAction {
             $data=$this->editCheck();
             $data['work_id']=$work_id;
             if(false!== $obj->save($data)){
-             $this->success('编辑成功',U('nearwork/index'));}
+             $this->niuMsg('编辑成功',U('nearwork/index'));}
         } else {
             $this->assign('detail', $detail);
 			$this->display();
@@ -79,7 +80,7 @@ class NearworkAction extends CommonAction {
         $data['lat']=$this->shop['lat'];
         $data['title']=htmlspecialchars($data['title']);
         if (empty($data['title'])) {
-            $this->Error('标题不能为空');
+            $this->niuMsg('标题不能为空');
         }
         
         $data['num']=(int)$data['num'];
@@ -87,18 +88,18 @@ class NearworkAction extends CommonAction {
         $data['money2']=(int)$data['money2'];
         $data['work_time']=htmlspecialchars($data['work_time']);
         if(empty($data['work_time'])){
-            $this->Error('工作时间不能为空');            
+            $this->niuMsg('工作时间不能为空');            
         }        
         $data['expir_date']=htmlspecialchars($data['expir_date']);
         if(empty($data['expir_date'])){
-            $this->Error('过期时间不能为空');
+            $this->niuMsg('过期时间不能为空');
         }
         $data['intro']=SecurityEditorHtml($data['intro']);
         if (empty($data['intro'])) {
-            $this->Error('职位描述不能为空');
+            $this->niuMsg('职位描述不能为空');
         }
         if ($words=D('Sensitive')->checkWords($data['intro'])) {
-            $this->Error('职位描述含有敏感词：' . $words);
+            $this->niuMsg('职位描述含有敏感词：' . $words);
         }
         return $data;
     }

@@ -1,0 +1,55 @@
+<include  file='public:header'/><include  file='public:top'/><include  file='public:nav'/>
+<div class="zy_content pagewd">
+    <div class="spxq_loca">
+        <if condition="!empty($catstr)">
+            <if condition="empty($catestr)"><a href="<{:U('tuan/index',array('cat'=>$detail['cate_id']))}>"><{$catstr}></a>&gt;&gt;
+                <else/>
+                <a href="<{:U('tuan/index',array('cat'=>$cat))}>"><{$catstr}></a>&gt;&gt;<a href="<{:U('tuan/index',array('cat'=>$cat,'cate_id'=>$detail['cate_id']))}>"><{$catestr}></a>&gt;&gt;</if>
+        </if>
+        <if condition="!empty($detail['area_id'])"><a href="<{:U('tuan/index',array('area'=>$detail['area_id']))}>"><{$areas[$detail['area_id']]['area_name']}></a>&gt;&gt;</if>
+        <if condition="!empty($detail['business_id'])"><a href="<{:U('tuan/index',array('area'=>$detail['area_id'],'business'=>$detail['business_id']))}>"><{$bizs[$detail['business_id']]['business_name']}></a>&gt;&gt;</if>
+    </div>
+    <div class="zixun zixunXq">
+        <div class="left zixun_l">
+        	<div class="zixunDetail">
+            	<h1><{$detail.title}></h1>
+                <div class="from"><span>发布：<{$shops[$detail['shop_id']]['shop_name']}></span><span><{$detail.create_time|date='Y-m-d',###}></span><span>总浏览：<{$detail.views}></span></div>
+                <div class="nr" >
+                    <div style = "text-align:center;">
+                	<img src="__ROOT__/attachs/<{$detail.photo}>"  style="width:50%;"  />
+                    </div>
+                    <P><{$detail.details}></P>
+                </div>>
+            </div>
+            <div class="zixunRelet">
+            	<h3>相关阅读</h3>
+                <div class="list_box">
+                	<ul>
+                	<calldata mdl="Article" where="article_id!={$detail['article_id']} And cate_id={$detail['cate_id']}" limit="0,4" order="orderby asc" cache="43200">
+                	    <li><a href="<{:U('Sarticle/detail',array('article_id'=>$item['article_id']))}>"><{$item.title}></a></li>
+                    </calldata>
+            	    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="right zixun_r">
+        	<div class="zixun_hot">
+            	<h3>热门资讯</h3>
+                <ul class="list_box">
+            	<calldata mdl="Article" where="article_id!={$detail['article_id']}" order="views desc" limit="0,6" cache="600">
+                	<li class="list">
+                		<div class="left img"><a href="<{:U('Sarticle/detail',array('article_id'=>$item['article_id']))}>"><img src="__ROOT__/attachs/<{$item.photo}>"  width="80" height="80"  /></a></div>
+                        <div class="wz">
+                            <p class="bt overflow_clear"><a href="<{:U('Sarticle/detail',array('article_id'=>$item['article_id']))}>"><{$item.title}></a></p>
+                            <p>时间：<{$item.create_time|date="Y-m-d",###}></p>
+                            <p>浏览：<{$item.views}></p>
+                        </div>
+        	        </li>
+            	</calldata>
+            	</ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<include  file='public:footer'/> 

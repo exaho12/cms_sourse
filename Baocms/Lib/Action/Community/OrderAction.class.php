@@ -50,6 +50,7 @@ class OrderAction extends CommonAction {
             }
         }
         $this->assign('list', $list);
+	
         $this->assign('page', $show); // 赋值分页输出
         $this->display();
     }
@@ -66,6 +67,7 @@ class OrderAction extends CommonAction {
         if ($detail['audit'] != 1 || empty($detail['number'])) {
             $this->error('该业主不符合条件');
         }
+		$community_id = $this->community_id;
         if ($this->isPost()) {
             $data['order_date'] = htmlspecialchars($_POST['order_date']);
             $data['community_id'] = $this->community_id;
@@ -78,6 +80,7 @@ class OrderAction extends CommonAction {
                     foreach ($datas as $k => $val) {
                          D('Communityorderproducts')->add(array(
 								 'order_id' => $order_id, 
+								 'community_id' => $community_id,
 								 'type' => $k,
 								 'money' => $val['money'] * 100, 
 								 'bg_date' => $val['bg_date'], 

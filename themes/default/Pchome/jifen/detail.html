@@ -18,21 +18,7 @@
                     <div class="spxq_qgjgk"><p class="hdxq_p">商家：<{$shop['shop_name']}></p></div>
                     <div class="spxq_qgjgk"><p class="hdxq_p">库存：<if condition="$detail['num'] egt 1">有<else/>无</if><span class="jfxq_kcy">剩余：<{$detail.num}></span></p></div>
                     <div class="hdsy_Licj">
-                    
-                    
-                    
-                        <if condition="$detail['num'] egt 1">
-                        <if condition="empty($MEMBER)">
-                        <a href="<{:U('pchome/passport/login')}>" class="hdsy_LicjA bm_btn">登录兑换</a>
-                        <else/>
-                        <a onclick="javascript:$('.dhPop_mask').show();" class="spxq_qgjjKk">立即兑换</a>
-                        </if>
-                        <else/><a href="javascript:void(0);">兑换完了</a>
-                        </if>
-                        
-                        
-                        
-                        
+                        <if condition="$detail['num'] egt 1"><a onclick="javascript:$('.dhPop_mask').show();" class="spxq_qgjjKk">立即兑换</a><else/><a href="javascript:void(0);">兑换完了</a></if>
                     </div>
                 </div>
             </div>
@@ -42,7 +28,10 @@
                 <p>扫描商家微信</p>
                 <p>轻松购享优惠</p>
             </div>
-            <div class="spxq_qgFx"><a href="" class="spxq_qgFxA"><em>&nbsp;</em>收藏本单</a><a href="" class="spxq_qgFxA"><em>&nbsp;</em>分享到</a></div>
+            <div class="share bdsharebuttonbox spxq_qgFx" data-tag="share_1"><eq name="shop.favo" value="0"><a mini='act' class="spxq_qgFxA" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>"><em>&nbsp;</em>收藏本店</a><else/><a class="spxq_qgFxA" href="javascript:void(0);"><em>&nbsp;</em>已收藏</a></eq><a class="spxq_qgFxA" data-cmd="more" href="javascript:void(0);"><em>&nbsp;</em>分享到</a></div>
+            <script>window._bd_share_config = {share: [{"tag": "share_1", 'bdCustomStyle': '__TMPL__statics/empty.css'}]};
+                with (document)
+                    0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
         </div>
     </div>
     <div class="spxqBox">
@@ -217,11 +206,11 @@
                 </tr>
                 <tr>
                     <td align="right">收货人：</td>
-                    <td><input type="text" name="data[name]" class="dhInput" value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}> <else/></if>" /></td>
+                    <td><input type="text" name="data[name]" class="dhInput" value="" /></td>
                 </tr>
                 <tr>
                     <td align="right">联系电话：</td>
-                    <td><input type="text" name="data[mobile]" class="dhInput" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}> <else/></if>" /></td>
+                    <td><input type="text" name="data[mobile]" class="dhInput" value="" /></td>
                 </tr>
             </tbody>
             <tr>

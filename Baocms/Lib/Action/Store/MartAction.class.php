@@ -19,7 +19,9 @@ class MartAction extends CommonAction {
         $this->assign('autocates', $this->autocates);
 
     }
-
+	
+	
+	
      public function index() {
 
         
@@ -76,35 +78,50 @@ class MartAction extends CommonAction {
     
     
     public function order(){
-        $this->check_weidian();
-        $Ordergoods = D('Ordergoods');
+       $this->check_weidian();
+        if(empty($this->shop['is_pei'])){
+            $this->error('您签订的是由配送员配送！您管理不了订单！');
+        }
+        $Order = D('Order');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('shop_id' => $this->shop_id);
-        if (($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
+        $map = array('closed' => 0, 'shop_id'=>  $this->shop_id);
+     
+     
+       if (strtotime($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && strtotime($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
             $bg_time = strtotime($bg_date);
-            $end_time = strtotime($end_date);
+         	$end_time = strtotime($end_date);
+           
+            if(!empty($bg_time)&&!empty($end_date))
             $map['create_time'] = array(array('ELT', $end_time), array('EGT', $bg_time));
+           
             $this->assign('bg_date', $bg_date);
-            $this->assign('end_date', $end_date);
+            $this->assign('end_date', $end_date);            
+            
         } else {
             if ($bg_date = $this->_param('bg_date', 'htmlspecialchars')) {
                 $bg_time = strtotime($bg_date);
                 $this->assign('bg_date', $bg_date);
+                if(!empty($bg_time))
                 $map['create_time'] = array('EGT', $bg_time);
             }
             if ($end_date = $this->_param('end_date', 'htmlspecialchars')) {
-                $end_time = strtotime($end_date);
-                $this->assign('end_date', $end_date);
-                $map['create_time'] = array('ELT', $end_time);
+              $end_time = strtotime($end_date);
+                if(!empty($end_time))
+	                $map['create_time'] = array('ELT', $end_time);
+	                $this->assign('end_date', $end_date);
+
             }
         }
-
-        if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
-            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
-            $this->assign('keyword', $keyword);
-        }
         
-        if (isset($_GET['st']) || isset($_POST['st'])) {
+        if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
+        	$keyword = intval($keyword);
+        	if(!empty($keyword)){
+            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
+          	$this->assign('keyword', $keyword);}
+        }
+       
+       
+          if (isset($_GET['st']) ||!isset($_POST['st'])) {
             $st = (int) $this->_param('st');
             if ($st != 999) {
                 $map['status'] = $st;
@@ -112,23 +129,43 @@ class MartAction extends CommonAction {
             $this->assign('st', $st);
         } else {
             $this->assign('st', 999);
-        }
+        }     
+       
+       
+       
         
-        $count = $Ordergoods->where($map)->count(); // 查询满足要求的总记录数 
+        // var_dump($map);die();
+        $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $Ordergoods->where($map)->order(array('id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
-        $goods_ids = array();
-        $order_ids = array();
-        foreach($list as $val){
-            $goods_ids[$val['goods_id']] = $val['goods_id'];
+        $list = $Order->where($map)->order(array('create_time' => 'DESC'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        //print_r($Order->getLastSql());
+        $user_ids = $order_ids  = $addr_ids = array();
+        foreach ($list as $key => $val) {
+            $user_ids[$val['user_id']] = $val['user_id'];
             $order_ids[$val['order_id']] = $val['order_id'];
+            $addr_ids[$val['addr_id']] = $val['addr_id'];
+ 
         }
-        $this->assign('orders',D('Order')->itemsByIds($order_ids));
-        $this->assign('goods',D('Goods')->itemsByIds($goods_ids));
-        $this->assign('types',D('Ordergoods')->getType());
+        if (!empty($order_ids)) {
+            $goods = D('Ordergoods')->where(array('order_id' => array('IN', $order_ids)))->select();
+            $goods_ids = array();
+            foreach ($goods as $val) {
+                $goods_ids[$val['goods_id']] = $val['goods_id'];
+            }
+            $this->assign('goods', $goods);
+            $this->assign('products', D('Goods')->itemsByIds($goods_ids));
+        }
+        $this->assign('addrs', D('Useraddr')->itemsByIds($addr_ids));
+		$this->assign('citys', D('City')->fetchAll());
+        $this->assign('areas', D('Area')->fetchAll());
+        $this->assign('business', D('Business')->fetchAll());
+        $this->assign('users', D('Users')->itemsByIds($user_ids));
+        $this->assign('types', D('Order')->getType());
+        $this->assign('goodtypes', D('Ordergoods')->getType());
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
+        $this->assign('picks', session('order'));
         $this->display(); // 输出模板
     }
     
@@ -142,47 +179,48 @@ class MartAction extends CommonAction {
         }
         $Order = D('Order');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('closed' => 0, 'status' => 1,'shop_id'=>  $this->shop_id,'is_shop'=>1);
-        $keyword = $this->_param('keyword', 'htmlspecialchars');
-        if ($keyword) {
-            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
-            $this->assign('keyword', $keyword);
-        }
-
-        if (($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
+        $map = array('closed' => 0, 'status' => 1,'shop_id'=>  $this->shop_id);
+      
+           
+       if (strtotime($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && strtotime($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
             $bg_time = strtotime($bg_date);
-            $end_time = strtotime($end_date);
+         	$end_time = strtotime($end_date);
+           
+            if(!empty($bg_time)&&!empty($end_date))
             $map['create_time'] = array(array('ELT', $end_time), array('EGT', $bg_time));
+           
             $this->assign('bg_date', $bg_date);
-            $this->assign('end_date', $end_date);
+            $this->assign('end_date', $end_date);            
+            
         } else {
             if ($bg_date = $this->_param('bg_date', 'htmlspecialchars')) {
                 $bg_time = strtotime($bg_date);
                 $this->assign('bg_date', $bg_date);
+                if(!empty($bg_time))
                 $map['create_time'] = array('EGT', $bg_time);
             }
             if ($end_date = $this->_param('end_date', 'htmlspecialchars')) {
-                $end_time = strtotime($end_date);
-                $this->assign('end_date', $end_date);
-                $map['create_time'] = array('ELT', $end_time);
+              $end_time = strtotime($end_date);
+                if(!empty($end_time))
+	                $map['create_time'] = array('ELT', $end_time);
+	                $this->assign('end_date', $end_date);
+
             }
         }
         
-         if (isset($_GET['st']) || isset($_POST['st'])) {
-            $st = (int) $this->_param('st');
-            if ($st != 999) {
-                $map['status'] = $st;
-            }
-            $this->assign('st', $st);
-        } else {
-            $this->assign('st', 999);
+        if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
+        	$keyword = intval($keyword);
+        	if(!empty($keyword)){
+            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
+          	$this->assign('keyword', $keyword);}
         }
+       
         
         // var_dump($map);die();
         $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $Order->where($map)->order(array('order_id' => 'asc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $list = $Order->where($map)->order(array('create_time' => 'DESC'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
         //print_r($Order->getLastSql());
         $user_ids = $order_ids  = $addr_ids = array();
         foreach ($list as $key => $val) {
@@ -214,47 +252,51 @@ class MartAction extends CommonAction {
     
     
     public function wait2() {
-        $this->check_weidian();
-          if(empty($this->shop['is_pei'])){
+
+          $this->check_weidian();
+         if(empty($this->shop['is_pei'])){
             $this->error('您签订的是由配送员配送！您管理不了订单！');
         }
         $Order = D('Order');
         import('ORG.Util.Page'); // 导入分页类
-        $map = array('closed' =>0, 'status' =>0, 'is_daofu' =>1,'shop_id'=>$this->shop_id,'is_shop'=>1);
-        $keyword = $this->_param('keyword', 'htmlspecialchars');
-        if($keyword){
-            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
-            $this->assign('keyword', $keyword);
-        }
-
-        if (($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
+        $map = array('closed' =>0, 'status' =>8, 'is_daofu' =>1,'shop_id'=>$this->shop_id);
+   
+         
+       if (strtotime($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && strtotime($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
             $bg_time = strtotime($bg_date);
-            $end_time = strtotime($end_date);
+         	$end_time = strtotime($end_date);
+           
+            if(!empty($bg_time)&&!empty($end_date))
             $map['create_time'] = array(array('ELT', $end_time), array('EGT', $bg_time));
+           
             $this->assign('bg_date', $bg_date);
-            $this->assign('end_date', $end_date);
+            $this->assign('end_date', $end_date);            
+            
         } else {
             if ($bg_date = $this->_param('bg_date', 'htmlspecialchars')) {
                 $bg_time = strtotime($bg_date);
                 $this->assign('bg_date', $bg_date);
+                if(!empty($bg_time))
                 $map['create_time'] = array('EGT', $bg_time);
             }
             if ($end_date = $this->_param('end_date', 'htmlspecialchars')) {
-                $end_time = strtotime($end_date);
-                $this->assign('end_date', $end_date);
-                $map['create_time'] = array('ELT', $end_time);
+              $end_time = strtotime($end_date);
+                if(!empty($end_time))
+	                $map['create_time'] = array('ELT', $end_time);
+	                $this->assign('end_date', $end_date);
+
             }
         }
         
-         if (isset($_GET['st']) || isset($_POST['st'])) {
-            $st = (int) $this->_param('st');
-            if ($st != 999) {
-                $map['status'] = $st;
-            }
-            $this->assign('st', $st);
-        } else {
-            $this->assign('st', 999);
+        if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
+        	$keyword = intval($keyword);
+        	if(!empty($keyword)){
+            $map['order_id'] = array('LIKE', '%' . $keyword . '%');
+          	$this->assign('keyword', $keyword);}
         }
+       
+       
+        
         
         // var_dump($map);die();
         $count = $Order->where($map)->count(); // 查询满足要求的总记录数 
@@ -288,11 +330,44 @@ class MartAction extends CommonAction {
         $this->assign('picks', session('order'));
         $this->display(); // 输出模板
     }
-    
-    
-    
-    
-    
+  
+	
+	 //创建发货
+    public function deliver() {
+        $this->check_weidian();
+		$order_id = (int) $this->_get('order_id');
+		if (!$order_id) {
+            $this->error('参数错误');
+        }else if(!$order = D('Order')->find($order_id)){
+            $this->error('该订单不存在');
+        }else if($order['shop_id'] != $this->shop_id){
+            $this->error('非法操作');
+        }else if(($order['status'] == 2) || ($order['status']==3) || ($order['status']==8)){
+            $this->error('该订单状态不正确，不能发货');
+        }else{
+			$data = array(
+				'admin_id' => 0,//这个暂时不管他了
+				'shop_id' => $this->shop_id,
+				'create_time' => NOW_TIME,
+				'create_ip' => get_client_ip(),
+				//'order_ids' => join(',', $local),
+				'order_ids' => $order_id,
+				'name' => '商户手机创建捡货单' . date('Y-m-d H:i:s'),
+			);
+		    D('Orderpick')->add($data);//单条写入拣货单
+            D('Order')->save(array('status' => 2), array("where" => array('order_id' => $order_id)));//更新Order
+            D('Ordergoods')->save(array('status' => 1), array("where" => array('order_id' => $order_id)));//更新Ordergoods
+			if ($this->_get('wait')) {
+				$this->Success('恭喜您，货到付款发货成功！', U('store/mart/wait2'));
+			} else {
+				$this->Success('恭喜您，一键发货成功！', U('store/mart/wait'));
+			}
+        }		
+        $this->error('发货失败！');
+       
+    }
+	
+
     
 	
 	private function check_weidian(){
@@ -300,11 +375,11 @@ class MartAction extends CommonAction {
         $wd = D('WeidianDetails');
         $wd_res = $wd->where('shop_id ='.($this->shop_id)) -> find();
         if(!$wd_res){
-            $this->error('请用电脑登录，先完善微店资料！');
+            $this->error('错误，请先完善微店资料！正在为你跳转中...', U('goods/weidian'));
         }elseif($wd_res['audit'] == 0){
-            $this->error('您的微店正在审核中，请耐心等待！');
+            $this->error('您的微店正在审核中，请耐心等待！', U('goods/weidian'));
         }elseif($wd_res['audit'] == 2){
-            $this->error('您的微店未通过审核！');
+            $this->error('您的微店未通过审核！', U('goods/weidian'));
         }
         
     }
@@ -396,6 +471,22 @@ class MartAction extends CommonAction {
         }
         
         return $data;
+        
+    }
+	public function delete2($goods_id = 0) {
+            $goods_id = (int) $goods_id;
+            $obj = D('Goods');
+			if (empty($goods_id)) {
+            $this->ajaxReturn(array('status'=>'error','msg'=>'该商品信息不存在！'));
+			}
+			if (!($detail = D('Goods')->find($goods_id))) {
+			$this->ajaxReturn(array('status'=>'error','msg'=>'该商品信息不存在！'));
+			}
+			if ($detail['shop_id'] != $this->shop_id) {
+            $this->ajaxReturn(array('status'=>'error','msg'=>'不要操作别人的商品'));
+       		}
+            $obj->save(array('goods_id' => $goods_id, 'closed' => 1));
+            $this->ajaxReturn(array('status'=>'success','msg'=>'恭喜您删除成功'));
         
     }
     

@@ -1,359 +1,405 @@
-<include file='life:header_life'/> <include file='life:top'/>  
-	<link href="__PUBLIC__/js/uploadify/uploadify.css" type="text/css" rel="stylesheet">
-	<script src="__PUBLIC__/js/uploadify/jquery.uploadify.min.js"></script>
-	<div class="container">
-		<div class="blank-20"></div>
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<div class="content">
 
-		<div class="progress progress-big progress-striped radius">
-			<div class="progress-bar bg-green" style="width:68%;">填写信息</div>
-		</div>
+    <div class="main">
+        <ul class="fbMenu">
+            <li ><code><{$channelmeans[$cate['channel_id']]}>><{$cate.cate_name}></code></li>
+            <li class="cur">2.填写信息</li>
+            <li>完成发布</li>
+        </ul>
+        <div class="fbMain">
+            <h3>基本资料</h3>
+            <form target="baocms_frm" action="<{:U('life/create',array('cat'=>$cate['cate_id']))}>" method="post">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td align="right">标题：</td>
+                        <td><input type="text" name="data[title]" value="<{$detail.title|default=''}>" class="fInput" />
+                        </td>
+                    </tr>
+                    <if condition="!empty($cate['text1'])"> 
+                        <tr>
+                            <td align="right"><{$cate.text1}>：</td>
+                            <td><input type="text" name="data[text1]" value="<{$detail.text1|default=''}>" class="fInput fInput2" />
 
-		<div class="blank-20"></div>
-	
-		<div class="life-post">
-			<form target="x-frame" class="form-auto" action="<{:U('life/create',array('cat'=>$cate['cate_id']))}>" method="post">
-			
-				<div class="line">
-					<div class="x12">
-						<div class="form-group">
-							<div class="label"><label for="title">标题</label></div>
-							<div class="field">
-							  <input type="text" class="input" id="title" name="data[title]" size="50" value="<{$detail.title|default=''}>" placeholder="信息标题" />
-							</div>
-						</div>
-						<if condition="!empty($cate['text1'])"> 
-						<div class="form-group">
-							<div class="label"><label for="text1"><{$cate.text1}></label></div>
-							<div class="field">
-							  <input type="text" class="input" id="text1" name="data[text1]" size="30" value="<{$detail.text1|default=''}>" placeholder="填写<{$cate.text1}>" />
-							</div>
-						</div>
-						</if>
-						<if condition="!empty($cate['text2'])"> 
-						<div class="form-group">
-							<div class="label"><label for="text2"><{$cate.text2}></label></div>
-							<div class="field">
-							  <input type="text" class="input" id="text2" name="data[text2]" size="30" value="<{$detail.text2|default=''}>" placeholder="填写<{$cate.text2}>" />
-							</div>
-						</div>
-						</if>
-						<if condition="!empty($cate['text3'])"> 
-						<div class="form-group">
-							<div class="label"><label for="text2"><{$cate.text3}></label></div>
-							<div class="field">
-							  <input type="text" class="input" id="text3" name="data[text3]" size="30" value="<{$detail.text3|default=''}>" placeholder="填写<{$cate.text3}>" />
-							</div>
-						</div>
-						</if>
-						<if condition="!empty($cate['num1'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="text2"><{$cate.num1}></label>
-								<span class="float-right">单位<{$cate.unit1}></span>
-							</div>
-							<div class="field">
-							  <input type="text" class="input" id="num1" name="data[num1]" size="30" value="<{$detail.num1|default=''}>" placeholder="填写<{$cate.num1}>" />
-							</div>
-						</div>
-						</if>
-						
-						<if condition="!empty($cate['num2'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="text2"><{$cate.num2}></label>
-								<span class="float-right">单位<{$cate.unit2}></span>
-							</div>
-							<div class="field">
-							  <input type="text" class="input" id="num2" name="data[num2]" size="30" value="<{$detail.num2|default=''}>" placeholder="填写<{$cate.num2}>" />
-							</div>
-						</div>
-						</if>
-				
-						<if condition="!empty($cate['select1'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="select1"><{$cate.select1}></label>
-							</div>
-							<div class="field">
-								<select name="data[select1]" class="input">
-									<foreach name="attrs.select1" item="item">
-										<option value="<{$item.attr_id}>" <eq name="detail.select1" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
-									</foreach>
-								</select>
-							</div>
-						</div>
-						</if>
-						
-						<if condition="!empty($cate['select2'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="select2"><{$cate.select2}></label>
-							</div>
-							<div class="field">
-								<select name="data[select2]" class="input">
-									<foreach name="attrs.select2" item="item">
-										<option value="<{$item.attr_id}>" <eq name="detail.select2" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
-									</foreach>
-								</select>
-							</div>
-						</div>
-						</if>
-						
-						<if condition="!empty($cate['select3'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="select3"><{$cate.select3}></label>
-							</div>
-							<div class="field">
-								<select name="data[select3]" class="input">
-									<foreach name="attrs.select3" item="item">
-										<option value="<{$item.attr_id}>" <eq name="detail.select3" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
-									</foreach>
-								</select>
-							</div>
-						</div>
-						</if>
-						
-						<if condition="!empty($cate['select4'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="select4"><{$cate.select4}></label>
-							</div>
-							<div class="field">
-								<select name="data[select4]" class="input">
-									<foreach name="attrs.select4" item="item">
-										<option value="<{$item.attr_id}>" <eq name="detail.select4" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
-									</foreach>
-								</select>
-							</div>
-						</div>
-						</if>
-						
-						<if condition="!empty($cate['select5'])"> 
-						<div class="form-group">
-							<div class="label">
-								<label for="select5"><{$cate.select5}></label>
-							</div>
-							<div class="field">
-								<select name="data[select5]" class="input">
-									<foreach name="attrs.select5" item="item">
-										<option value="<{$item.attr_id}>" <eq name="detail.select5" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
-									</foreach>
-								</select>
-							</div>
-						</div>
-						</if>
-						
-						<div class="form-group">
-							<div class="label">
-								<label for="select5">区域商圈</label>
-							</div>
-							<div class="field">
-								<select name="data[area_id]" id="area_id" class="input">
-									<option value="0">请选择...</option>
-									<foreach name="areas" item="var"><php>if($var['city_id'] == $city_id){</php>
-										<option value="<{$var.area_id}>"  <eq name="var.area_id" value="$detail.area_id">selected="selected"</eq> ><{$var.area_name}></option> <php>}</php>
-									</foreach>   
-								</select>
-								
-								<select name="data[business_id]" id="business_id" class="input">
-									<option value="0">请选择...</option>
-                                    <if condition="!empty($area)">
-									<foreach name="bizs" item="var">
-										<option value="<{$var.business_id}>"  <eq name="var.business_id" value="$detail.business_id">selected="selected"</eq> ><{$var.business_name}></option>
-									</foreach>   
-                                    </if>
-								</select>
-								
-								<script>
-									$(document).ready(function (e) {
-										$("#area_id").change(function () {
-											var url = '<{:U("public/business",array("area_id"=>"0000"))}>';
-											if ($(this).val() > 0) {
-												var url2 = url.replace('0000', $(this).val());
-												$.get(url2, function (data) {
-													$("#business_id").html(data);
-												}, 'html');
-											}
-										});
-									});
-								</script>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="label"><label for="contact">联系人</label></div>
-							<div class="field">
-							  <input type="text" class="input" id="contact"  name="data[contact]" value="<{$detail.contact|default=''}>" placeholder="联系人员" />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="label"><label for="mobile">联系电话</label></div>
-							<div class="field">
-							  <input type="text" class="input" id="mobile"  name="data[mobile]" value="<{$detail.mobile|default=''}>" placeholder="联系电话" />
-							</div>
-						</div>
-					</div>
-					<div class="x12">
+                            </td>
+                        </tr>
+                    </if>
 
-						<div class="form-group">
-							<div class="label"><label for="qq">联系QQ</label></div>
-							<div class="field">
-							  <input type="text" class="input" id="qq"  name="data[qq]" value="<{$detail.qq|default=''}>" placeholder="联系QQ号码" />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="label"><label for="addr">详细地址</label></div>
-							<div class="field">
-							  <input type="text" class="input" id="addr"  name="data[addr]" size="50" value="<{$detail.addr|default=''}>" placeholder="详细地址" />
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="label">
-								<label for="xy">地图定位</label>
-							</div>
-							<div class="field">
-								
-                                
-                                <div class="line padding border-bottom">	
-        <div id="login-input">
-                        <div class="life-infor-float" >
-                             <p class="life-infor-p">所在坐标：点击下面地图可以获取~</p>
-                            <div id="login-input" class="life-infor-float">
-                                <div class="left"><span>经度：</span><input type="text"  value="<{$lng|default=''}>" name="data[lng]" id="data_lng" /></div>
-                                <div class="right"><span>纬度：</span><input type="text" value="<{$lat|default=''}>" name="data[lat]" id="data_lat"/></div>
+                    <if condition="!empty($cate['text2'])"> 
+                        <tr>
+                            <td align="right"><{$cate.text2}>：</td>
+                            <td><input type="text" name="data[text2]" value="<{$detail.text2|default=''}>" class="fInput fInput2" />
+
+                            </td>
+                        </tr>
+                    </if>
+                    <if condition="!empty($cate['text3'])"> 
+                        <tr>
+                            <td align="right"><{$cate.text3}>：</td>
+                            <td><input type="text" name="data[text3]" value="<{$detail.text3|default=''}>" class="fInput fInput2" />
+
+                            </td>
+                        </tr>
+                    </if>
+
+                    <if condition="!empty($cate['num1'])"> 
+                        <tr>
+                            <td align="right"><{$cate.num1}>：</td>
+                            <td><input type="text" name="data[num1]" value="<{$detail.num1|default=''}>" class="fInput fInput2" />
+                                <{$cate.unit1}>
+                            </td>
+                        </tr>
+                    </if>
+
+                    <if condition="!empty($cate['num2'])"> 
+                        <tr>
+                            <td align="right"><{$cate.num2}>：</td>
+                            <td><input type="text" name="data[num2]" value="<{$detail.num2|default=''}>" class="fInput fInput2" />
+                                <{$cate.unit2}>
+                            </td>
+                        </tr>
+                    </if>
+
+                    <if condition="!empty($cate['select1'])"> 
+                        <tr>
+                            <td align="right"><{$cate.select1}>：</td>
+                            <td>
+                                <select name="data[select1]" class="fselect">
+                                    <foreach name="attrs.select1" item="item">
+                                        <option value="<{$item.attr_id}>"  <eq name="detail.select1" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                                    </foreach>                    
+
+                                </select>
+
+                            </td>
+                        </tr> 
+                    </if>
+                    <if condition="!empty($cate['select2'])"> 
+                        <tr>
+                            <td align="right"><{$cate.select2}>：</td>
+                            <td>
+                                <select name="data[select2]" class="fselect">
+                                    <foreach name="attrs.select2" item="item">
+                                        <option value="<{$item.attr_id}>"  <eq name="detail.select2" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                                    </foreach>                    
+
+                                </select>
+
+                            </td>
+                        </tr> 
+                    </if>
+                    <if condition="!empty($cate['select3'])"> 
+                        <tr>
+                            <td align="right"><{$cate.select3}>：</td>
+                            <td>
+                                <select name="data[select3]" class="fselect">
+                                    <foreach name="attrs.select3" item="item">
+                                        <option value="<{$item.attr_id}>"  <eq name="detail.select3" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                                    </foreach>                    
+
+                                </select>
+
+                            </td>
+                        </tr> 
+                    </if>
+
+
+                    <if condition="!empty($cate['select4'])"> 
+                        <tr>
+                            <td align="right"><{$cate.select4}>：</td>
+                            <td>
+                                <select name="data[select4]" class="fselect">
+                                    <foreach name="attrs.select4" item="item">
+                                        <option value="<{$item.attr_id}>"  <eq name="detail.select4" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                                    </foreach>                    
+
+                                </select>
+
+                            </td>
+                        </tr> 
+                    </if>
+
+                    <if condition="!empty($cate['select5'])"> 
+                        <tr>
+                            <td align="right"><{$cate.select5}>：</td>
+                            <td>
+                                <select name="data[select5]" class="fselect">
+                                    <foreach name="attrs.select5" item="item">
+                                        <option value="<{$item.attr_id}>"  <eq name="detail.select5" value="$item.attr_id">selected="selected"</eq>  ><{$item.attr_name}></option>
+                                    </foreach>                    
+
+                                </select>
+
+                            </td>
+                        </tr> 
+                    </if>
+                    <tr>
+                        <td align="right">所在地区：</td>
+                        <td>
+                            <select name="data[city_id]" id="city_id" class="fselect">
+                                <option value="0">请选择...</option>
+                            </select>
+                            <select name="data[area_id]" id="area_id" class="fselect">
+                                <option value="0">请选择...</option>
+                            </select>
+                            <select name="data[business_id]" id="business_id" class="fselect">
+                                <option value="0">请选择...</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <script src="<{:U('app/datas/cab',array('name'=>'cityareas'))}>"></script>
+                    <script>
+                        var city_id = 0;
+                        var area_id = 0;
+                        var business_id = 0;
+                        $(document).ready(function () {
+                            var city_str = ' <option value="0">请选择...</option>';
+                            for (a in cityareas.city) {
+                                if (city_id == cityareas.city[a].city_id) {
+                                    city_str += '<option selected="selected" value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                } else {
+                                    city_str += '<option value="' + cityareas.city[a].city_id + '">' + cityareas.city[a].name + '</option>';
+                                }
+                            }
+                            $("#city_id").html(city_str);
+
+                            $("#city_id").change(function () {
+                                if ($("#city_id").val() > 0) {
+                                    city_id = $("#city_id").val();
+                                    var area_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.area) {
+                                        if (cityareas.area[a].city_id == city_id) {
+                                            if (area_id == cityareas.area[a].area_id) {
+                                                area_str += '<option selected="selected" value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                            } else {
+                                                area_str += '<option value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                            }
+                                        }
+                                    }
+                                    $("#area_id").html(area_str);
+                                    $("#business_id").html('<option value="0">请选择...</option>');
+                                } else {
+                                    $("#area_id").html('<option value="0">请选择...</option>');
+                                    $("#business_id").html('<option value="0">请选择...</option>');
+                                }
+
+                            });
+
+                            if (city_id > 0) {
+                                var area_str = ' <option value="0">请选择...</option>';
+                                for (a in cityareas.area) {
+                                    if (cityareas.area[a].city_id == city_id) {
+                                        if (area_id == cityareas.area[a].area_id) {
+                                            area_str += '<option selected="selected" value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                        } else {
+                                            area_str += '<option value="' + cityareas.area[a].area_id + '">' + cityareas.area[a].area_name + '</option>';
+                                        }
+                                    }
+                                }
+                                $("#area_id").html(area_str);
+                            }
+
+
+                            $("#area_id").change(function () {
+                                if ($("#area_id").val() > 0) {
+                                    area_id = $("#area_id").val();
+                                    var business_str = ' <option value="0">请选择...</option>';
+                                    for (a in cityareas.business) {
+                                        if (cityareas.business[a].area_id == area_id) {
+                                            if (business_id == cityareas.business[a].business_id) {
+                                                business_str += '<option selected="selected" value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                            } else {
+                                                business_str += '<option value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                            }
+                                        }
+                                    }
+                                    $("#business_id").html(business_str);
+                                } else {
+                                    $("#business_id").html('<option value="0">请选择...</option>');
+                                }
+
+                            });
+
+                            if (area_id > 0) {
+                                var business_str = ' <option value="0">请选择...</option>';
+                                for (a in cityareas.business) {
+                                    if (cityareas.business[a].area_id == area_id) {
+                                        if (business_id == cityareas.business[a].business_id) {
+                                            business_str += '<option selected="selected" value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                        } else {
+                                            business_str += '<option value="' + cityareas.business[a].business_id + '">' + cityareas.business[a].business_name + '</option>';
+                                        }
+                                    }
+                                }
+                                $("#business_id").html(business_str);
+                            }
+                            $("#business_id").change(function () {
+                                business_id = $(this).val();
+                            });
+                        });
+                    </script>
+                    <tr>
+                        <td align="right">所在坐标：</td>
+                        <td>
+                            <div class="lt">
+                                <input type="text" name="data[lng]" id="data_lng" value="" class="fselect" />经度
+                                <input type="text" name="data[lat]" id="data_lat" value="" class="fselect" />纬度
                             </div>
-                            <div class="life-infor-float" >
+                    </tr>
+                    <tr>
+                        <td align="地图坐标"></td>
+                        <td class="lt">
+                            <div class="listBox clfx">
                                 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
-                                <div id="allmap" style="width: 100%; height:300px;"></div>
+                                <div id="allmap" style="width: 560px; height:500px;"></div>
                                 <script type="text/javascript">
 
-                                // 百度地图API功能
-                                var map = new BMap.Map("allmap");
-                                map.centerAndZoom(new BMap.Point("<{$lng}>", "<{$lat}>"), 16);
-                                function selectCallBack(id, name, v1, v2) {
-                                    $("#" + id).val(v1);
-                                    $("#" + name).val(v2);
-                                    var point = new BMap.Point(v1, v2);
-                                    var marker = new BMap.Marker(point);  // 创建标注
-                                    map.clearOverlays();
-                                    map.addOverlay(marker);              // 将标注添加到地图中
+                        // 百度地图API功能
+                        var map = new BMap.Map("allmap");
+                        map.centerAndZoom(new BMap.Point("<{$lng}>", "<{$lat}>"), 16);
+                        function selectCallBack(id, name, v1, v2) {
+                            $("#" + id).val(v1);
+                            $("#" + name).val(v2);
+                            var point = new BMap.Point(v1, v2);
+                            var marker = new BMap.Marker(point);  // 创建标注
+                            map.clearOverlays();
+                            map.addOverlay(marker);              // 将标注添加到地图中
 
-                                }
-                                function showInfo(e) {
-                                    selectCallBack('data_lng', 'data_lat', e.point.lng, e.point.lat);
-                                }
-                                map.addEventListener("click", showInfo);
+                        }
+                        function showInfo(e) {
+                            selectCallBack('data_lng', 'data_lat', e.point.lng, e.point.lat);
+                        }
+                        map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+                        map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}));  //右上角，仅包含平移和缩放按钮
+                        map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN}));  //左下角，仅包含平移按钮
+                        map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM}));  //右下角，仅包含缩放按钮
+                        map.addEventListener("click", showInfo);
                                 </script>
                             </div>
-                        </div>
-                    </div>
-                    
-                    
-                    
-							</div>
-						</div>
-			
-			
-					</div>
-				</div>
-			
-			
-			
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right">
+                            <link href="__PUBLIC__/js/uploadify/uploadify.css" type="text/css" rel="stylesheet">
+                            <script src="__PUBLIC__/js/uploadify/jquery.uploadify.min.js"></script>
+
+                            缩略图：
+                        </td>
+                        <td>
+                            <div style="width: 300px;height: 100px; float: left;">
+                                <input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
+                                <input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
+                            </div>
+                            <div style="width: 300px;height: 100px; float: left;">
+                                <img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
+                            </div>
+                            <script>
+                        $("#photo_file").uploadify({
+                            'swf': '__PUBLIC__/js/uploadify/uploadify.swf',
+                            'uploader': '<{:U("app/upload/uploadify",array("model"=>"life"))}>',
+                            'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                            'buttonText': '上传缩略图',
+                            'fileTypeExts': '*.gif;*.jpg;*.png',
+                            'queueSizeLimit': 1,
+                            'onUploadSuccess': function (file, data, response) {
+                                $("#data_photo").val(data);
+                                $("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
+                            }
+                        });
+                            </script>
+                        </td>
+                    </tr><tr>
+                        <td align="right">联系人：</td>
+                        <td><input type="text" name="data[contact]" value="<{$detail.contact|default=''}>" class="fInput fInput2" />
+
+                        </td>
+                    </tr><tr>
+                        <td align="right">电话：</td>
+                        <td><input type="text" name="data[mobile]" value="<{$detail.mobile|default=''}>" class="fInput fInput2" />
+
+                        </td>
+                    </tr><tr>
+                        <td align="right">QQ：</td>
+                        <td><input type="text" name="data[qq]" value="<{$detail.qq|default=''}>" class="fInput fInput2" />
+
+                        </td>
+                    </tr><tr>
+                        <td align="right">联系地址：</td>
+                        <td><input type="text" name="data[addr]" value="<{$detail.addr|default=''}>" class="fInput" />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+
+                            更多详情图：
+                        </td>
+                        <td>
+                            <div>
+                                <input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
+                            </div>
+                            <div class="jq_uploads_img">
+                                <foreach  name="photos" item="item">
+                                    <span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
+                                        <img width="200" height="100" src="__ROOT__/attachs/<{$item.photo}>">  
+                                        <input type="hidden" name="photos[]" value="<{$item.photo}>" />  
+                                        <a href="javascript:void(0);">取消</a>  
+                                    </span>
+                                </foreach>
+                            </div>
+                            <script>
+                                $("#logo_file").uploadify({
+                                    'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
+                                    'uploader': '<{:U("app/upload/uploadify",array("model"=>"lifepic"))}>',
+                                    'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
+                                    'buttonText': '上传图片',
+                                    'fileTypeExts': '*.gif;*.jpg;*.png',
+                                    'queueSizeLimit': 10,
+                                    'onUploadSuccess': function (file, data, response) {
+                                        var str = '<span style="width: 200px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;">  <img width="200" height="100" src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="photos[]" value="' + data + '" />    <a href="javascript:void(0);">取消</a>  </span>';
+                                        $(".jq_uploads_img").append(str);
+                                    }
+                                });
+
+                                $(document).on("click", ".jq_uploads_img a", function () {
+                                    $(this).parent().remove();
+                                });
 
 
-			
-
-			
-
-			
-			<div class="form-group">
-				<div class="label"><label for="addr">信息主图</label></div>
-				<div class="field">
-					<input type="hidden" name="data[photo]" value="<{$detail.photo}>" id="data_photo" />
-					<input id="photo_file" name="photo_file" type="file" multiple="true" value="" />
-					<div style="width: 300px;height: 100px; float: left;">
-						<img id="photo_img" width="80" height="80"  src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" />
-					</div>
-					<script>
-						$("#photo_file").uploadify({
-							'swf': '__PUBLIC__/js/uploadify/uploadify.swf',
-							'uploader': '<{:U("app/upload/uploadify",array("model"=>"life"))}>',
-							'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
-							'buttonText': '上传缩略图',
-							'fileTypeExts': '*.gif;*.jpg;*.png',
-							'queueSizeLimit': 1,
-							'onUploadSuccess': function (file, data, response) {
-								$("#data_photo").val(data);
-								$("#photo_img").attr('src', '__ROOT__/attachs/' + data).show();
-							}
-						});
-					</script>
-					<div class="blank-10"></div>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="label"><label for="addr">附加图片</label><p class="text-dot">图片越多越真实越有说服力</p></div>
-				<div class="field">
-					<input id="logo_file" name="logo_file" type="file" multiple="true" value="" />
-					<div class="line jq_uploads_img">
-						<foreach  name="photos" item="item">
-							<span style="width:150px; height: 120px; float: left; margin-left: 5px; margin-top: 10px;"> 
-								<img width="150" height="100" src="__ROOT__/attachs/<{$item.photo}>">  
-								<input type="hidden" name="photos[]" value="<{$item.photo}>" />  
-								<a href="javascript:void(0);">取消</a>  
-							</span>
-						</foreach>
-					</div>
-					<script>
-						$("#logo_file").uploadify({
-							'swf': '__PUBLIC__/js/uploadify/uploadify.swf?t=<{$nowtime}>',
-							'uploader': '<{:U("app/upload/uploadify",array("model"=>"lifepic"))}>',
-							'cancelImg': '__PUBLIC__/js/uploadify/uploadify-cancel.png',
-							'buttonText': '上传图片',
-							'fileTypeExts': '*.gif;*.jpg;*.png',
-							'queueSizeLimit': 10,
-							'onUploadSuccess': function (file, data, response) {
-								var str = '<span style="width:150px;height:120px;float:left;margin-right:5px;margin-top:10px;"> <img width="150px" height="100" src="__ROOT__/attachs/' + data + '"><input type="hidden" name="photos[]" value="' + data + '" />    <a href="javascript:void(0);">取消</a></span>';
-								$(".jq_uploads_img").append(str);
-							}
-						});
-						$(document).on("click", ".jq_uploads_img a", function () {
-							$(this).parent().remove();
-						});
-					</script>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="label"><label for="addr">详细介绍</label></div>
-				<div class="field">
-					<script type="text/plain" id="data_details" name="details" style="width:800px;height:360px;"><{$ex.details}></script>
-					<link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
-					<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.simple.js"></script>
-					<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
-					<script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
-					<script>
-						um = UM.getEditor('data_details', {
-							imageUrl: "<{:U('public/editor')}>",
-							imagePath: '__ROOT__/attachs/editor/',
-							lang: 'zh-cn',
-							langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
-							focus: false
-						});
-					</script>
-				</div>
-			</div>
-			<div class="blank-10"></div>
-			<div class="form-button">
-				<button class="button bg-dot" type="submit">发布信息</button>
-			</div>
-			</form>
-		</div>
-	</div>
-
-
-<include  file='public:footer'/>  
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">详情：</td>
+                        <td>
+                            <script type="text/plain" id="data_details" name="details" style="width:800px;height:360px;"><{$ex.details}></script>
+                        </td>
+                    </tr>
+                    <link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.config.js"></script>
+                    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+                    <script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+                    <script>
+                                um = UM.getEditor('data_details', {
+                                    imageUrl: "<{:U('app/upload/editor')}>",
+                                    imagePath: '__ROOT__/attachs/editor/',
+                                    lang: 'zh-cn',
+                                    langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+                                    focus: false
+                                });
+                    </script>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="submit"  class="fbtn" value="免费发布" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public:footer"/>

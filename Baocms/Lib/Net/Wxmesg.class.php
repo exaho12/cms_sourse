@@ -180,4 +180,27 @@ class Wxmesg{
 			)
 		);
 	}
+	
+	/**
+	 * 客户预约成功通知商家
+	 */
+	static public function yuyue($data=null)
+	{
+		if(empty($data)) throw new Exception("微信模板消息没有数据！",1001);
+		return array(
+			'touser'       => '',
+			'url'          => $data['url'],
+			'template_id'  => '',
+			'topcolor'     => $data['topcolor'],
+			'data'		   => array(
+				'first'   =>array('value'=>	$data['first'],    'color'=>'#000000'),
+				'keyword1'=>array('value'=> $data['remark'], 'color'=>'#000000'), //订单号
+				'keyword2'=>array('value'=> $data['name'],'color'=>'#000000'), //预约人名字
+				'keyword3'=>array('value'=> $data['date'],   'color'=>'#000000'), //时间
+				'keyword4'=>array('value'=> $data['tel'],    'color'=>'#000000'), //电话
+				'keyword5'=>array('value'=> $data['contents'],  'color'=>'#000000') //内容
+			)
+		);
+	}
+	
 }

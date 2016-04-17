@@ -1,103 +1,57 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-        <title>商城商品</title>
-        <link href="__TMPL__statics/css/style.css?v=20150609" rel="stylesheet" type="text/css">
-        <script src="__TMPL__statics/js/jquery.js?v=20150609"></script>
-        <script src="__PUBLIC__/js/store.js?v=20150610"></script>
-        <link rel="stylesheet" href="__TMPL__statics/css/index.css?v=20150602"/>
-        <script> var BAO_PUBLIC = '__PUBLIC__';
-            var BAO_ROOT = '__ROOT__';
-        </script>
-    <header>
-        <div class="headerTop">
-            <div class="headerTop_back"><a href="<{:U('index/index')}>"></a></div>
-            <div class="headerTop_t">商品添加</div>
+<include  file='public:header'/>   
+<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet">
+<script src="/static/default/wap/other/jquery-ui.js"></script>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('store/mart/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		添加商品
+	</div>
+    <div class="top-share">
+        <a href="<{:U('store/mart/goodscate')}>" class="top-addr icon-plus"> 分类</a>
+	</div>
+</header>
 
-        </div> 
-    </header>
-    <form method="post" action="<{:U('Goods/create')}>">
-        <section class="fixed_pad">
-            <div class="CouponBox">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr class="Coupon_tr">
-                        <td  class="CouponDel_td" style="width: 80px;">商品名:</td>
-                        <td><input class="CouponInput"  name="data[title]"  type="text"/></td> 
-                    </tr>
+<style>
+.fabu-form .form-content {border: none;resize: none;width: 100%;height: 80px;padding: 10px;font-size: 12px;}
+.fabu-form .form-content1 {border: none;resize: none;width: 100%;height: 150px;padding: 10px;font-size: 12px;}
+.shuxing{width: 20px; height: 20px;margin-bottom: 10px;}
+</style>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('goods/create')}>">
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" data-role="none">上传缩略图</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+
+ <script type="text/javascript" src="/static/default/wap/js/ajaxfileupload.js"></script>
                     <script>
-
+                        function ajaxupload() {
+                            $(".loading").show();
+                            $.ajaxFileUpload({
+                                url: '<{:U("app/upload/upload",array("model"=>"life"))}>',
+                                type: 'post',
+                                fileElementId: 'fileToUpload',
+                                dataType: 'text',
+                                secureuri: false, //一般设置为false
+                                success: function (data, status) {
+                                    $(".loading").hide();
+                                    var str = '<img src="__ROOT__/attachs/' + data + '"><input type="hidden" name="data[photo]" value="' + data + '" />';
+                                    $(".jq_photo").show().html(str);
+                                    $("#fileToUpload").unbind('change');
+                                    $("#fileToUpload").change(function () {
+                                        ajaxupload();
+                                    });
+                                }
+                            });
+                        }
                         $(document).ready(function () {
-                            $("#parent_id_html").click(function () {
-                                $("#option2").toggle();
-                                $("#option3").hide();
-                            });
-                            $("#cate_id_html").click(function () {
-                                $("#option3").toggle();
-                                $("#option2").hide();
-                            });
-
-                            $("#option2 li").click(function () {
-                                $("#parent_id_html").html($(this).html());
-                                $("#parent_id").val($(this).attr('rel'));
-                                var parent_id = $(this).attr('rel');
-                                $("#cate_id_html").html('请选择');
-                                $("#option3 li").each(function () {
-                                    if ($(this).attr('data') == parent_id) {
-                                        $(this).show();
-                                    } else {
-                                        $(this).hide();
-                                    }
-                                });
-                                $(this).parents("#option2").hide();
-                            });
-                            $("#option3 li").click(function () {
-                                $("#cate_id_html").html($(this).html());
-                                $("#cate_id").val($(this).attr('rel'));
-                                $(this).parents("#option3").hide();
-                            });
-                        });
-
-                    </script>
-
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">商品图片:</td>
-                        <td>
-                            <div class="load CouponDel_td">    
-                                <div class="camera">
-                                    <input type="file" id="fileToUpload" name="fileToUpload" data-role="none">
-                                </div>
-
-                            </div>
-                            <div class="photo_bg">
-                                <div class="photo">
-                                    <div class="loading" style="display: none;"><img src="__TMPL__statics/images/loading.gif" /></div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <script type="text/javascript" src="__TMPL__statics/js/ajaxfileupload.js"></script>
-                    <script>
-                        $(document).ready(function () {
-                            function ajaxupload() {
-                                $(".loading").show();
-                                $.ajaxFileUpload({
-                                    url: '<{:U("app/upload/upload",array("model"=>"Goods"))}>',
-                                    type: 'post',
-                                    fileElementId: 'fileToUpload',
-                                    dataType: 'text',
-                                    secureuri: false,
-                                    success: function (data, status) {
-                                        $(".loading").hide();
-                                        var str = '<div class="box"><img  src="__ROOT__/attachs/' + data + '">  <input type="hidden" name="data[photo]" value="' + data + '" /></div>';
-                                        $(".photo").append(str);
-                                        $("#fileToUpload").unbind('change');
-                                        $("#fileToUpload").change(function () {
-                                            ajaxupload();
-                                        });
-                                    }
-                                });
-                            }
                             $("#fileToUpload").change(function () {
                                 ajaxupload();
                             });
@@ -106,117 +60,199 @@
                             });
                         });
                     </script>
+                    
 
 
-                    <tr>
-                        <td  class="CouponDel_td" style="width: 80px;">商品分类:</td>
-                        <td><div>
-                                <div class="select2">
-                                    <span  id='parent_id_html'  class="selectOption2 ">==请选择==</span>
-                                    <input type="hidden" id="parent_id" name="data[cate_id]"/>
-                                    <div class="option" id="option2">
-                                        <ul>
-                                            <foreach name="cates" item="var">
-                                                <eq name="var.parent_id" value="0">
-                                                <li rel="<{$var.cate_id}>"  class="optionLi"><{$var['cate_name']}></li>
-                                                </eq>
-                                            </foreach>
-                                        </ul>
-                                    </div>
-                                </div>
 
-                                <div>
-                                    <div class="select2">
-                                        <span id='cate_id_html' class="selectOption2">==请选择==</span>
-                                        <input type="hidden" id="cate_id" name="data[cate_id]"/>
-                                        <div class="option" id="option3">
-                                            <ul>
-                                                <foreach name="cates" item="var">
-                                                    <?php if($var['parent_id'] > 0){?>
-                                                    <li rel="<{$var.cate_id}>" data='<{$var.parent_id}>'  class="optionLi" ><{$var['cate_name']}></li>
-                                                    <?php }?>
-                                                </foreach>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </tr>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">商家分类:</td>
-                        <td>
-                            <div class="select2">
-                                <span  id='shop_cate_html'  class="selectOption2 ">==请选择==</span>
-                                <input type="hidden" id="parent_id" name="data[shopcate_id]"/>
-                                <div class="option" id="option4">
-                                    <ul>
-                                        <foreach name="autocates" item="var">	
-                                            <li rel="<{$var.cate_id}>" id="ridae" class="optionLi"><{$var['cate_name']}></li>
-                                        </foreach>
-                                    </ul>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+<div class="blank-10 bg border-top"></div>
+<div class="row">
+	<div class="line">
+		<span class="x3">商品名称：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[title]" value="<{$detail.title|default=''}>" />
+		</span>
+	</div>
+</div>
 
-                    <script>
-                        $(function () {
-                            $("#shop_cate_html").click(function () {
-                                $("#option4").toggle();
-                            });
-                            $("#option4 li").click(function () {
-                                $("#shop_cate_html").html($(this).html());//将li中选定的值赋给id="shop_cate_html"的容器
-                                $("#parent_id").val($(this).attr('rel'));
-                                $(this).parents("#option4").hide();
-                            });
+<div class="row">
+	<div class="line">
+		<span class="x3">商品简介：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[intro]" value="<{$detail.intro|default=''}>" />
+		</span>
+	</div>
+</div>
 
-                        });
-                    </script>
+<div class="row">
+	<div class="line">
+		<span class="x3">产品规格：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[guige]" value="<{$detail.guige|default=''}>" />
+		</span>
+	</div>
+</div>
 
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">市场价格:</td>
-                        <td><input class="CouponInput" style="width:50px;" name="data[price]"  type="text" />元</td>
+<div class="row">
+	<div class="line">
+		<span class="x3">商品库存：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[num]" value="<{$detail.num|default=''}>" />
+		</span>
+	</div>
+</div>
 
-                    </tr>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">推广佣金:</td>
-                        <td><input class="CouponInput" style="width:50px;" name="data[commission]"  type="text"  />元</td>
-
-                    </tr>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">商城价格:</td>
-                        <td><input class="CouponInput" style="width:50px;" name="data[mall_price]"  type="text" />元</td>
-
-                    </tr>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">可使用积分</td>
-                        <td><input class="CouponInput" style="width:50px;" name="data[use_integral]"  type="text" /></td>
-
-                    </tr>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">购买须知:</td>
-                        <td><textarea name="data[instructions]" id="data_instructions" style="width: 100%;" rows="5"></textarea></td>
-
-                    </tr>
-
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">商品详情:</td>
-                        <td class="CouponDel_td"><textarea name="data[details]" id="data_details"  style="width: 100%;" rows="5"></textarea></td>
-
-                    </tr>
-                    <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
-                    <tr class="Coupon_tr">
-                        <td class="CouponDel_td">过期时间:</td>
-                        <td><input class="CouponInput" style="width:100px;" name="data[end_date]"  type="text" onfocus="WdatePicker();"  class="inputData" /></td>
-
-                    </tr>
-                </table>
-                <input class="CouponButt" type="submit" value="确认" />
-            </div>
+<div class="row">
+	<div class="line">
+		<span class="x3">商品分类</span>
+		<span class="x4">
+			<select name="parent_id" id="parent_id" class="text-select">
+				<option value="0" selected="selected">请选择</option>
+				<foreach name="cates" item="var">
+                    <eq name="var.parent_id" value="0">
+					<option value="<{$var.cate_id}>"><{$var.cate_name}></option>
+					</eq>
+                </foreach>
+			</select>
+		</span>
+		<span class="x5">
+			<select name="data[cate_id]" id="cate_id" class="text-select">
+				<option value="0" selected="selected">← 选择子分类</option>
+			</select>
+		</span>
+                         <script>
+                                $(document).ready(function (e) {
+                                    $("#parent_id").change(function () {
+                                        var url = '<{:U("store/goods/child",array("parent_id"=>"0000"))}>';
+                                        if ($(this).val() > 0) {
+                                            var url2 = url.replace('0000', $(this).val());
+                                            $.get(url2, function (data) {
+                                                $("#cate_id").html(data);
+                                            }, 'html');
+                                        }
+                                    });
+                                });
+                            </script>
+	</div>
+</div>
+<div class="row">
+	<div class="line">
+		<span class="x3">自定分类：</span>
+		<span class="x9">
+			<select id="shopcate_id"  name="data[shopcate_id]"  class="text-select">
+				<option value="0" selected="selected">请选择</option>
+				<foreach name="autocates" item="var">
+                <option value="<{$var.cate_id}>"  <eq name="var.cate_id" value="$detail.cate_id">selected="selected"</eq> ><{$var.cate_name}></option>
+                </foreach>
+			</select>
+		</span>
+	</div>
+</div>
 
 
-    </form>
-</section>
+<div class="row">
+     <div class="line">
+        <span class="x3">属性：</span>
+        <span class="x9">
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="1"/>认证商家&nbsp;&nbsp;</label>
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="2"/>正品保证&nbsp;&nbsp;</label><br/>
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="3"/>假一赔十&nbsp;&nbsp;</label>
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="4"/>当日送达&nbsp;&nbsp;</label><br/>
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="5"/>免运费&nbsp;&nbsp;</label>
+        <label><input class="shuxing" type="checkbox" name="data[is_vs1]" value="6"/>货到付款&nbsp;&nbsp;</label>
+        </span>
+    </div>
+  </div>
+  
+  
 
-</form>  
-<include file="public:footer"/>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">市场价格：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[price]" value="<{$detail.price|default=''}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">商城价格：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[mall_price]" value="<{$detail.mall_price|default=''}>" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">可使用积分：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[use_integral]" value="<{$detail.use_integral|default=''}>" />
+		</span>
+	</div>
+</div>
+
+
+<!--下面是时间-->
+<div class="blank-10" bg></div>  
+<div class="blank-20"></div>  
+<div class="row">
+   <div class="line">
+     <span class="x3">过期时间：</span>
+     <span class="x9">
+     <input type="text" class="text-input line-input datepicker" id="svctime1" name="data[end_date]" size="30"  readonly="readonly"  value="<{$detail['end_date']}>" placeholder="选择过期时间" />
+     </span>
+   </div>
+  <div class="blank-20"></div>  
+</div>
+<div class="blank-10 bg"></div>
+
+
+<div class="line border-bottom">
+	<textarea class="form-content" name="data[instructions]" placeholder="购买须知,建议不超过100字！"><{$detail.instructions}></textarea>
+</div>
+
+       
+<div class="line border-bottom">
+	<textarea class="form-content1" name="data[details]" placeholder="添加商品详情，建议不超过200字，如需上传文章详情图，请到使用电脑编辑！"><{$detail.details}></textarea>
+</div> 
+<div class="blank-10 bg"></div>        
+
+
+	<div class="container">
+		<div class="blank-30"></div>
+		<button  type="submit" class="button button-block button-big bg-dot">添加商品</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+<script>
+		jQuery(function($){
+			$.datepicker.regional['zh-CN'] = {
+				closeText: '关闭',
+				prevText: '&#x3c;上月',
+				nextText: '下月&#x3e;',
+				currentText: '今天',
+				monthNames: ['一月','二月','三月','四月','五月','六月',
+				'七月','八月','九月','十月','十一月','十二月'],
+				monthNamesShort: ['一','二','三','四','五','六',
+				'七','八','九','十','十一','十二'],
+				dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+				dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+				dayNamesMin: ['日','一','二','三','四','五','六'],
+				weekHeader: '周',
+				dateFormat: 'yy-mm-dd',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: true,
+				yearSuffix: '年'};
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		});
+		$(function() {
+			$( ".datepicker" ).datepicker();
+		});
+	</script>
+    
+   
+<include  file='public:footer'/>

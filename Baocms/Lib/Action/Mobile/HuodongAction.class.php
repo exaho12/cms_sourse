@@ -130,6 +130,9 @@ class HuodongAction extends CommonAction {
         $shop_id = $detail['shop_id'];
         $shop = D('Shop')->find($shop_id);
         $cates = D('Activitycate')->fetchAll();
+		
+		$detail['thumb'] = unserialize($detail['thumb']);
+		
         $this->assign('cates', $cates);
         $this->assign('shop', $shop);
         $this->display();

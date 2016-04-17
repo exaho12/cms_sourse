@@ -2,27 +2,64 @@
 <div class="content_right">  
     <div class="tgdd">
         <div class="tgdd_nr">
-            <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-                <tr class="tgdd_nrt">
-                    <th>LOGO</th>
-                    <th>店铺名称</th>
-                    <th>人均消费</th>
-                    <th>评论数述</th>
-                    <th>操作</th>
-                </tr>
-                <volist name="list" id="item">
-                    <tr class="tgdd_nrt">
-                        <td><div class="favoriteImg"><a class="myInfor_sx" title="<{$shops[$item['shop_id']]['shop_name']}>" target="_blank" href="<{:U('mobile/shop/detail',array('shop_id'=>$item['shop_id']))}>"><img style="margin:10px auto 1px"  width="81" height="50" src="__ROOT__/attachs/<{$shops[$item['shop_id']]['logo']|default='default.jpg'}>" /></a></div></td>
-                        <td><a class="myInfor_sx" title="<{$shops[$item['shop_id']]['shop_name']}>" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$item['shop_id']))}>"><{$shops[$item['shop_id']]['shop_name']}></a></td>
-                        <td id="price-color">￥<{$prices[$item['shop_id']]['price']}></td>
-                        <td><{:round($shops[$item['shop_id']]['score']/10,1)}></td>
-                        <td>
-                            <a class="myInfor_sx" mini='confirm' href="<{:U('favorites/deletefavo',array('favorites_id'=>$item['favorites_id']))}>">取消关注</a>
+           <div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="35%">LOGO</td>
+            <td width="12%">店铺名称</td>
+            <td width="13%">人均消费</td>
+            <td width="18%">评论数</td>
+            <td width="15%">操作</td>
+     </table>
+     <div class="blank-10"></div>
+  <volist name="list" id="item">  
+  <table class="tuan_table1" width="100%" border="0">
+  <tbody><tr class="tr_left_2">
+    <td class="left10" colspan="4">
+    收藏编号：<span class="mallorder_jg"><{$item.favorites_id}></span>
+    <span class="td_top_1">收藏时间：<{$item.create_time|date='Y-m-d H:i',###}>  </span></td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <table class="tuan_table2" width="100%" border="0">
+      <tbody><tr class="tr_left_1">
+      
+        <td class="left1">
+        <!--商品展示开始-->
+        <div class="index__production___yfP3y">
+        <a target="_blank" href="<{$shops[$item['shop_id']]['shop_name']}>" class="index__pic___TScfk"><img src="__ROOT__/attachs/<{$shops[$item['shop_id']]['logo']|default='default.jpg'}>"><span></span></a>
+        <div class="index__infos___A6XLq">
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2">
+       
+        </td>
+        <td class="left3"><{$shops[$item['shop_id']]['shop_name']}></td>
+       
+      </tr>
+     
+    </tbody></table>    
+    </td>
+    <td class="left7" width="15%">￥<{$prices[$item['shop_id']]['price']}>
+     </td>
+    <td class="left8" width="20%">
+    <{:round($shops[$item['shop_id']]['score']/10,1)}>
+
+    </td>
+    <td class="left9" width="15%">
+   <a class="myInfor_sx" mini='confirm' href="<{:U('favorites/deletefavo',array('favorites_id'=>$item['favorites_id']))}>">取消关注</a>
                             <a class="myInfor_sx" href="<{:U('pchome/shop/detail',array('shop_id'=>$item['shop_id']))}>#huodong">查看活动</a>
-                        </td>
-                    </tr>
-                </volist>
-            </table>
+    </td>
+  </tr>
+ 
+</tbody>
+</table>
+<br/> 
+</volist>
             <div class="x"><{$page}></div>
         </div>
     </div> 

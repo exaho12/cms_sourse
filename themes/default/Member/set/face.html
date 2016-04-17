@@ -16,7 +16,17 @@
                 <div class="HeadPort_sc">
                     <js file='__PUBLIC__/js/uploadify/jquery.uploadify.min.js'/>
                     <link rel="stylesheet" href="__PUBLIC__/js/uploadify/uploadify.css">
-                    <div class="left HeadPort_sc_img"> <img id="face_img" width="110" height="110"  src="__ROOT__/attachs/<{$MEMBER.face|default='default.jpg'}>" /> </div>
+                    <div class="left HeadPort_sc_img">
+                    
+                    
+             <?php if(strstr($MEMBER['face'],"http")){ ?>
+            <img  id="face_img" width="110" height="110"   src="<{$MEMBER['face']}>" />
+            <?php }else{ ?>
+            <img  id="face_img" width="110" height="110"  src="__ROOT__/attachs/<{$MEMBER['face']|default='default.jpg'}>" />
+            <?php }?>
+                   
+                     
+                     </div>
                     <div class="left HeadPort_sc_txt">
                         <div style="margin:30px 0px;">
                             <input type="hidden" name="face" value="<{$MEMBER.face}>" id="data_face" />

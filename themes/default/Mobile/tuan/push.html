@@ -12,7 +12,13 @@
 					</p>
 					<p class="info">
 						<span>￥ <em><{:round($item['tuan_price']/100,2)}></em></span> <del>¥ <{:round($item['price']/100,2)}></del>
-						<span class="text-little float-right badge bg-gray margin-small-top"><{$item.d}></span>
+                        
+                    <php>
+            		$business = D('Business') -> where('business_id ='.$item['business_id']) -> find();
+               		$business_name = $business['business_name'];
+            		</php>
+            
+						<span class="text-little float-right badge bg-gray margin-small-top"><{$business_name}><{$item.d}></span>
 					</p>
 				</div>
 			</div>

@@ -7,11 +7,11 @@
     </ul>
 </div>
 <div class="main-jsgl main-sc">
-    <p class="attention"><span>注意：如果你审核通过了就去商家列表里面手动修改下管理员，暂时无法做到自动！审核后自觉看下面的会员ID修改！，否则后果自负！</span></p>
+    <p class="attention"><span>新功能，只要后台审核后，会员自动登录，并收到邮件通知！</span></p>
     <div class="jsglNr">
         <div class="selectNr" style="margin-top: 0px; border-top:none;">
             <div class="left">
-                <{:BA('shoprecognition/create','','添加认领')}>
+                <{:BA('shop/index','','全部商家')}>
             </div>
             <div class="right">
                 <form class="search_form" method="post" action="<{:U('shoprecognition/index')}>">
@@ -25,7 +25,7 @@
             </div>
             <div class="clear"></div>
         </div>
-        <form method="post" action="<{:U('shopyuyue/index')}>">
+        <form method="post" action="<{:U('shoprecognition/index')}>">
             <div class="selectNr selectNr2">
                 <div class="left">
                     <div class="seleK">
@@ -78,28 +78,27 @@
                         <td><{$var.content}></td>
                         <td><{$var.reply}></td>
                     <td>
-                    <eq name="var.audit" value="1"> 
-                    <a class="remberBtn ">通过</a>
+                    <if condition="$var['audit'] eq 1">
+                    <a style="color:#F00">通过</a>
                     <else/>
-                    <a class="remberBtn ">未审核</a>
-                    </eq>
+                    <a style="color:#03F">未审核</a>
+                    </if>
                     </td>
-                    <td>
-                      
-                        
-                        <eq name="var.audit" value="0"> <{:BA('shoprecognition/audit',array("recognition_id"=>$var["recognition_id"]),'审核','act','remberBtn')}> </eq>
-                        
-                        <{:BA('shoprecognition/edit',array("recognition_id"=>$var["recognition_id"]),'编辑','','remberBtn')}>
-                        <{:BA('shoprecognition/delete',array("recognition_id"=>$var["recognition_id"]),'删除','act','remberBtn')}>
-                    </td>
-                    </tr>
+                    
+                    
+               <td>
+               <eq name="var.audit" value="0"> <{:BA('shoprecognition/audit',array("recognition_id"=>$var["recognition_id"]),'同意认领','act','remberBtn')}></eq>
+               <{:BA('shoprecognition/edit',array("recognition_id"=>$var["recognition_id"]),'编辑','','remberBtn')}>
+               <{:BA('shoprecognition/delete',array("recognition_id"=>$var["recognition_id"]),'删除','act','remberBtn')}>
+               </td>
+               </tr>
                 </foreach>
             </table>
             <{$page}>
         </div>
         <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
             <div class="left">
-                <{:BA('#','','审核后请去商家列表修改管理员ID','list',' a2')}>
+                <a href="<{:U('admin/shop/recognition')}>"  class=" a2 ">添加商家</a>
             </div>
         </div>
     </form>

@@ -13,9 +13,9 @@
     -webkit-box-shadow: 3px 3px #a9a9a9 ;
     -moz-box-shadow: 3px 3px #a9a9a9;
     box-shadow: 3px 3px #a9a9a9 ;
-    -moz-border-radius: 5px;      /* Gecko browsers */
-    -webkit-border-radius: 5px;   /* Webkit browsers */
-    border-radius:5px;            /* W3C syntax */
+    -moz-border-radius: 5px;      /* Gecko1 browsers */
+    -webkit-border-radius: 5px;   /* Webki1t browsers */
+    border-radius:5px;            /* W3C s4yntax */
     display: none;
 }
 .baomsgbox img{

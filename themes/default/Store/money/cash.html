@@ -1,0 +1,92 @@
+<include file='public:header'/> 
+<link rel="stylesheet" href="/static/default/wap/css/housekeeping.css"/>  
+	<link href="/static/default/wap/other/jquery-ui.css" rel="stylesheet" />
+	<script src="/static/default/wap/other/jquery-ui.js"></script> 
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			提现申请
+		</div>
+	</header>
+
+
+
+<style>
+ul { padding-left: 0px;}
+</style>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width:25%;"><a href="<{:U('money/index')}>">商家资金</a></li>
+        <li style="width:25%;"><a href="<{:U('money/detail')}>">资金日志</a></li>
+        <li style="width:25%;"><a href="<{:U('money/cashlogs')}>">提现日志</a></li>
+        <li style="width:25%;"><a href="<{:U('money/cash')}>"   class="on">提现</a></li>
+
+</ul> 
+
+
+
+  
+    <div class="blank-10 bg"></div> 
+    <div class="line padding border-bottom" style="margin-top:2rem;">
+        <span class="x12 text-gray">你好：<{$MEMBER['account']}>  &nbsp;您的店铺：<{$SHOP.shop_name}></span>
+		<span class="x12 text-gray">当前余额：<{:round($gold/100,2)}>元</span>
+	</div>
+    
+    <div class="blank-10 bg"></div> 
+    <form action="<{:U('store/money/cash')}>" method="post" target="x-frame">
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">提现金额：</span>
+		<span class="x5"><input type="text" name="gold" id="money" class="text-input" ></span>
+		<span class="x4"><em class="text-small text-gray">
+        <if condition="!empty($cash_money)">
+        单笔最少<{$cash_money}>元<br/>
+        </if>
+        <if condition="!empty($cash_money_big)">
+        单笔最多<{$cash_money_big}>元
+        </if>
+        
+        <em></span>
+	</div>
+	<div class="line padding border-bottom">
+		<span class="x3 text-gray">开户银行：</span>
+		<span class="x9"><input type="text" name="bank_name" id="bank_name" class="text-input"  value="<{$info.bank_name}>"  placeholder="请输入开户银行" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">银行账号：</span>
+		<span class="x9"><input type="text" name="bank_num" id="bank_num" class="text-input"  value="<{$info.bank_num}>"   placeholder="请输入银行账户" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">具体支行：</span>
+		<span class="x9"><input type="text" name="bank_branch" id="bank_branch" class="text-input"   value="<{$info.bank_branch}>"  placeholder="请输入具体支行名字" ></span>
+
+	</div>
+    <div class="line padding border-bottom">
+		<span class="x3 text-gray">开户名：</span>
+		<span class="x9"><input type="text" name="bank_realname" id="bank_realname" class="text-input"  value="<{$info.bank_realname}>"  placeholder="输入开户名" ></span>
+
+	</div>
+    
+	<div class="container">
+		<div class="blank-30"></div>
+		<p><span class="text-dot">小提示：</span> 请您认真填写!</p>
+	</div>
+	<div class="container">
+		<div class="blank-30"></div>
+            <eq name="money" value="0">
+            <button class="button button-big button-block bg-gray">您的余额不足</button>                                     
+            <else/>
+            <button class="button button-big button-block bg-dot">确认申请</button>
+            </eq>   
+		
+		<div class="blank-30"></div>
+	</div>
+</form>
+
+
+	
+<include file='public:footer'/>  
+

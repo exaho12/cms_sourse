@@ -1,0 +1,56 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('mcenter/member/zijinguanli')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			提现日志
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<style>ul { padding-left: 0px;}</style>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width:25%;"><a href="<{:U('money/index')}>">商家资金</a></li>
+        <li style="width:25%;"><a href="<{:U('money/detail')}>">资金日志</a></li>
+        <li style="width:25%;"><a href="<{:U('money/cashlogs')}>"  class="on">提现日志</a></li>
+        <li style="width:25%;"><a href="<{:U('money/cash')}>">提现</a></li>
+
+</ul> 
+
+<div class="blank-40 bg"></div>
+<table class="table">
+	<tr>
+		<th>ID</th>
+		<th>金额</th>
+		<th>日期</th>
+        <th>状态</th>
+	</tr> 
+	<volist name="list" id="var" key="index">
+	<tr>
+		<td><{$var.cash_id}></td>
+		<td><{:round($var['money']/100,2)}></td>
+		<td><{$var['addtime']|date='Y-m-d H:i:s', ###}></td>
+        <td>
+        <if condition="$var.status eq 0">
+                        未审核
+                        <elseif condition="$var.status eq 1" />
+                        <font color="green">通过</font>
+                        <else />
+                        <font color="red">拒绝</font>
+                    </if>
+        
+        </td>
+	</tr>
+	 </volist>                   
+</table>
+<div class="blank-10 bg"></div>
+<div class="container login-open">
+<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+<div class="blank-20"></div>
+</div>
+
+<include file='public:footer'/>   

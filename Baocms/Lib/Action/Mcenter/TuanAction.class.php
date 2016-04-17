@@ -16,16 +16,28 @@ class TuanAction extends CommonAction {
 	}
         
         public function  delete($order_id){
+			$obj = D('Tuanorder');
             if(!$detail = D('Tuanorder')->find($order_id)){
                 $this->error('该团购不存在或者已经被删除',U('tuan/index'));
             }
             if($detail['user_id'] != $this->uid){
                 $this->error('该团购不存在或者已经被删除',U('tuan/index'));
             }
+			
+			if ($detial['closed'] == 1) {//如果是关闭状态，防止刷分
+                 $this->error('该团购状态不能执行此操作',U('tuan/index'));
+            }
+			
             if($detail['status'] != 0){
                $this->error('该团购不存在或者已经被删除',U('tuan/index'));
             }
-            D('Tuanorder')->delete($order_id);
+            //先返还积分才行
+			
+			if($obj->save(array('order_id'=>$order_id,'closed'=>1))){
+				
+               D('Users')->addIntegral($detail['user_id'],$detail['use_integral'],'取消抢购订单'.$detail['order_id'].'积分退还');
+            }
+			
             $this->success('取消订单成功!',U('tuan/index'));
         }
 
@@ -34,7 +46,7 @@ class TuanAction extends CommonAction {
 	public function orderloading() {
 		$Tuanorder = D('Tuanorder');
 		import('ORG.Util.Page'); // 导入分页类
-		$map = array('user_id' => $this->uid); //这里只显示 实物
+		$map = array('user_id' => $this->uid,'closed' =>0); //这里只显示 实物
 		$aready = (int) $this->_param('aready');
 		if ($aready == 1) {
 			$map['status'] = 1;
@@ -140,8 +152,8 @@ class TuanAction extends CommonAction {
                 D( "Shop" )->updateCount( $detail['shop_id'], "score_num" );
                 D( "Users" )->updateCount( $this->uid, "ping_num" );
                 D( "Users" )->prestige( $this->uid, "dianping" );
-                D( "Shopdianping" )->updateScore( $shop_id );
-                $this->niuMsg( "评价成功", U( "member/index" ) );
+				$this->niuMsg( "评价成功", U( "member/index" ) );
+                
             }
             $this->niuMsg( "操作失败！" );
         }

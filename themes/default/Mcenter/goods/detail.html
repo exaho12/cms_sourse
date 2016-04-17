@@ -7,7 +7,7 @@
 			订单详情
 		</div>
 	<div class="top-signed">
-		<a href="<{:U('mobile/message/index')}>"><i class="icon-envelope"></i></a>
+		<include file="public:message"/>
 	</div>
 </header>
 
@@ -22,19 +22,36 @@
 		<li>
 			<a href="javascript:;">
 				订单金额
-				<em class="text-dot">¥ <{:round($detail['total_price']/100,2)}> 元</em>
+				<em>¥ <{:round($detail['total_price']/100,2)}> 元</em>
 			</a>
 		</li>
+        
+        
 		<li>
 			<a href="javascript:;">
 				配送费用
-				<em class="text-dot">¥ <{:round($detail['total_express']/100,2)}> 元</em>
+                <if condition="$detail['total_express'] eq 0">
+                <em class="text-dot">免邮</em>
+                <else/>
+                <em class="text-dot">¥ <{:round($detail['total_express']/100,2)}> 元</em>
+                </if>
+				
 			</a>
 		</li>
+        
+        <if condition="$detail['can_use_integral'] gt 0">
+        <li><a href="javascript:;">积分抵现 <em class="text-dot">¥ <{:round($detail['can_use_integral']/100,2)}> 元</em></a></li>
+        </if>
+        
+        <if condition="$detail['mobile_fan'] gt 0">
+        <li><a href="javascript:;">手机下单立减 <em class="text-dot">¥ <{:round($detail['mobile_fan']/100,2)}> 元</em></a></li>
+        </if>
+        
+        
 		<li>
 			<a href="javascript:;">
-				总需支付
-				<em class="text-dot">¥ <{:round($detail['total_express']/100 + $detail['total_price']/100 ,2)}> 元</em>
+				实际支付
+				<em class="text-dot">¥ <{:round($detail['total_express']/100 + $detail['need_pay']/100 ,2)}> 元</em>
 			</a>
 		</li>
 		<li>

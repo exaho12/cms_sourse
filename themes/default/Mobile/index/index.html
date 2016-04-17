@@ -1,56 +1,51 @@
 <include file='public:header'/>
 <script src="__TMPL__statics/js/jquery.flexslider-min.js" type="text/javascript" charset="utf-8"></script>
-	<header class="top-fixed bg-yellow bg-inverse">
-		<div class="top-local">
-			<a href="<{:U('city/index')}>" class="top-addr"><{:bao_msubstr($city_name,0,2,false)}> <i class="icon-angle-down"></i></a>
+
+	
+    <div class="index-bar">
+		<div class="bar-hd">
+			<div class="ui-row-flex ui-whitespace">
+				<div class="ui-col">
+					<a class="local" href="<{:U('city/index')}>"><{:bao_msubstr($city_name,0,4,false)}> <i class="icon-angle-down"></i></a>
+				</div>
+				<div class="ui-col">
+					<{$CONFIG.site.sitename}>
+				</div>
+				<div class="ui-col">
+					<span class="tool">
+                    <a style="color:#FFF" href="<{:U('mobile/sign/signed')}>"> 签到</a> <i class="icon-calendar-plus-o"></i>
+                    </span>
+				</div>
+			</div>
 		</div>
-			<div class="top-search">
-			<form method="post" action="<{:U('shop/index')}>">
-				<input name="keyword" placeholder="输入商家的关键字"  />
-				<button type="submit" class="icon-search"></button> 
-			</form>
-		</div>
-		<div class="top-signed">
-<a href="<{:U('mobile/sign/signed')}>" class="top-addr icon-calendar-plus-o"> 签到</a>
-		</div>
-	</header>   
-   <script>
-		$(document).ready(function () {
-			$("#share-box").hide();
-			$(".share-btn").click(function () {
-				$("#share-box").toggle();
-				$('html,body').animate({scrollTop:0}, 'slow');
-			});
-			$("#mui-card-close").click(function () {
-				$("#share-box").hide();
-			});
-		});
-	</script>
-  
-<script src="/static/default/wap/other/roll.js"></script>
-	<div id="focus" class="focus">
-		<div class="hd">
-			<ul></ul>
-		</div>
-		<div class="bd">
-			<ul>
-                 <calldata mdl="Ad" where=" closed=0 AND site_id=57 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="7200" order="orderby asc">
-                <li><a href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a></li>
-                </calldata>
-			</ul>
+		<div class="bar-bd">
+			<div class="ui-row ui-whitespace">
+				<div class="top-fixed2">
+                
+                    <div class="top-search">
+                            <form method="post" action="<{:U('all/index')}>">
+                                <input name="keyword" placeholder="搜抢购、商家、小区">
+                                <button type="submit" class="icon-search"></button> 
+                            </form>
+                        </div>
+                    </div>
+                    
+				<div class="ui-col">
+					<div class="text-white p-t-1 ui-txt-tips"><i class="fa fa-local"></i> 
+
+             <calldata mdl="Post" where="audit=1"  limit="0,1" cache="43200" order="post_id desc">
+			 <span id="local"><a class="m-l-2 text-white" href="<{:U('tieba/detail',array('post_id'=>$item['post_id']))}>">喜报：<{$item.title}></a></span>
+             </calldata>
+					</div>
+				</div>
+				
+			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		TouchSlide({ 
-			slideCell:"#focus",
-			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-			mainCell:".bd ul", 
-			effect:"left", 
-			autoPlay:true,//自动播放
-			autoPage:true, //自动分页
-			switchLoad:"_src" //切换加载，真实图片路径为"_src" 
-		});
-	</script> 
+    
+    
+
+	
 
  <!--分类开始-->
 <div id="index" class="page-center-box"> 
@@ -72,9 +67,7 @@
                         /*首页菜单分类结束*/
                     });
             </script>
-   
-
-   
+            
 <div class="banner mb10">
                 <div class="flexslider_cate"> 
                     <ul class="slides">
@@ -83,14 +76,14 @@
                             <if condition="$i%8 eq 1">
                                 <li class="list">
                                     <ul class="cate">
-                                       <li><a href="<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
+                                       <li><a href="/mobile/<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
                                         <elseif condition="$i%8 eq 0"/>        
 
-                                       <li><a href="<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
+                                       <li><a href="/mobile/<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
                                     </ul>
                                 </li>
                                 <else/>
-                               <li><a href="<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
+                               <li><a href="/mobile/<{$item.url}>"><div class="icon <{$item.ioc}> <{$item.colour}>"></div><p><{$item.nav_name}></p></a></li>
                             </if>
                         </volist>
 
@@ -100,25 +93,17 @@
             </div>            
             <!--首页分类结束-->
     
-		  <div class="panel-list">
-<ul><li style="border-top: thin solid #dedede; font-size:16px"><a href="<{:U('community/index')}>" class="icon-home "> 进入小区服务<i class="icon-angle-right"> </i><i class="icon-angle-right"> </i><i class="icon-angle-right"></i></a></li></ul>
-</div>  
+		
 
 
 	<div class="blank-10  bg"></div>
-<div class="panel-ad">
-<ul><calldata mdl="Ad" where=" closed=0 AND site_id=61 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="7200" order="orderby asc">
-                <li><a href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a></li>
-                </calldata></ul>
-</div>  
+
 	<!--首页广告-->
 
 	<div class="index-ads">
 		<div class="line border-bottom border-top">
 			<div class="x5 ad-1">
-				<calldata mdl="Ad" where=" closed=0 AND site_id=62 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="7200" order="orderby asc">
-                <a href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" /></a>
-                </calldata>
+				<a href="#"><img src="/static/default/wap/image/index/ads-1.png"></a>
 			</div>
 			<div class="x7 border-left">
 				<div class="line">
@@ -150,24 +135,21 @@
 			<div class="tab-panel active" id="tab-shop">
 				<ul class="line index-tuan">
 				<volist name="shoplist" id="item" key="index">
-                       <div class="container1" onclick="location='<{:U('shop/tuan',array('shop_id'=>$item['shop_id']))}>'">
+                       <div class="container1" onclick="location='<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>'">
                         <img class="x2" src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>">	
-                        <div class="des x8">
+                        <div class="des x10">
                         
-            <php>
-                $business = D('Business') -> where('business_id ='.$item['business_id']) -> find();
-                $business_name = $business['business_name'];
-            </php>
+                        <php>
+                            $business = D('Business') -> where('business_id ='.$item['business_id']) -> find();
+                            $business_name = $business['business_name'];
+                        </php>
             
             
-                            <h5><{:bao_msubstr($item['shop_name'],0,10,false)}> <a style="color:#999; margin-left:10px;">(<{$business_name}>)</a></h5>
+                            <h5><{:bao_msubstr($item['shop_name'],0,10,false)}> <a style="color:#999; margin-left:10px;"><{$business_name}>商圈 &nbsp;<{$item.d}></a></h5>
                             <p class="intro"><span class="ui-starbar" style="margin-top:0.2rem;"><span style="width:<{:round($item['score']*2,2)}>%"></span></span></p>
                             <p class="intro">地址：<{:bao_msubstr($item['addr'],0,12,false)}></p>
                         </div>
-                        
-                        <div class="des x2">
-                            <div class="intro2"><{$item.view}></div>
-                        </div>
+                     
                         
                         
                      </div>

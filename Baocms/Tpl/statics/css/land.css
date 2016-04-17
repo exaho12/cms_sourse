@@ -95,6 +95,8 @@
 }
 
 .remberBtn{ font: normal 14px/14px 'Microsoft Yahei';display: inline-block; margin-left: 5px; margin-top: 5px;   -moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;background: #0099cc;color: #fff; padding:0px 10px; height: 30px; line-height: 30px;} 
+.remberBtn_small{ font-size:12px; margin-left:5px;display: inline-block; margin-top:5px;   -moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;background: #0099cc;color: #fff; padding:0px 5px; height: 22px; line-height: 22px;} 
+
 .remberBtn:hover{color: #fff;}
 
 

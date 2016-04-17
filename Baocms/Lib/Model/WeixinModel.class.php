@@ -127,6 +127,18 @@ class WeixinModel {
         }
         return $data;
     }
+
+	
+
+	public function admin_wechat_client($shop_id=0)
+    {
+        static $clients = array();
+		if($weixin_admin = D('Shopdetails')->find($shop_id)){
+			include_once "Baocms/Lib/Action/Weixin/wechat.class.php";
+			$client = new WechatClient($weixin_admin['app_id'], $weixin_admin['app_key']);
+		}
+        return $client;
+    }
     
     
     private function getSiteToken(){ //获取主站的TOKEN

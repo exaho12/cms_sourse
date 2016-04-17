@@ -120,22 +120,23 @@ class PhoneAction extends CommonAction {
 			foreach ($phone as $val) {
 				$phone_ids[$val['phone_id']] = $val['phone_id'];
 			}
-					
-	
-			
-			
-			
-			
-			
+								
             if(!$phone_ids){
                 $this->baoError('不能操作其他小区电话');
             }
-			
+			//p($phone_id);die;
             if ($this->isPost()) {
                 $data = $this->checkEdit();
-                if ($phone_id = $obj->add($data)) {
+				
+				$data['phone_id'] = $phone_id;//编辑的时候
+                if (false !== $obj->save($data)) {
+                    $obj->cleanCache();//更新
                     $this->baoSuccess('编辑成功', U('phone/index'));
                 }
+				
+               
+				
+				
                 $this->baoError('操作失败！');
             } else {
                 $this->assign('detail',$detail);

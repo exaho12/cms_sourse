@@ -1,0 +1,84 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('store/shop/photo')}>"><i class="icon-angle-left"></i></a>
+	</div>
+	<div class="top-title">
+		添加环境图
+	</div>
+</header>
+
+<form class="fabu-form" method="post"  target="x-frame" action="<{:U('shop/photo_create')}>">
+
+<div class="blank-10"></div>
+<div class="Upload-img-box">
+   <div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" data-role="none">上传环境图</div>
+   <div class="Upload-img">
+   <div class="list-img loading" style="display:none;"><img src=""></div>
+   <div class="list-img jq_photo" style="display:none;"></div>
+  </div>
+</div>
+
+ <script type="text/javascript" src="/static/default/wap/js/ajaxfileupload.js"></script>
+                    <script>
+                        function ajaxupload() {
+                            $(".loading").show();
+                            $.ajaxFileUpload({
+                                url: '<{:U("app/upload/upload",array("model"=>"life"))}>',
+                                type: 'post',
+                                fileElementId: 'fileToUpload',
+                                dataType: 'text',
+                                secureuri: false, //一般设置为false
+                                success: function (data, status) {
+                                    $(".loading").hide();
+                                    var str = '<img src="__ROOT__/attachs/' + data + '"><input type="hidden" name="data[photo]" value="' + data + '" />';
+                                    $(".jq_photo").show().html(str);
+                                    $("#fileToUpload").unbind('change');
+                                    $("#fileToUpload").change(function () {
+                                        ajaxupload();
+                                    });
+                                }
+                            });
+                        }
+                        $(document).ready(function () {
+                            $("#fileToUpload").change(function () {
+                                ajaxupload();
+                            });
+                            $(document).on("click", ".photo img", function () {
+                                $(this).parent().remove();
+                            });
+                        });
+                    </script>
+                    
+
+
+
+<div class="blank-10 bg border-top"></div>
+<div class="row">
+	<div class="line">
+		<span class="x3">标题：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[title]" placeholder="填写图标名称" />
+		</span>
+	</div>
+</div>
+
+<div class="row">
+	<div class="line">
+		<span class="x3">排序：</span>
+		<span class="x9">
+			<input type="text" class="text-input" name="data[orderby]" />
+		</span>
+	</div>
+</div>
+
+
+	<div class="container">
+		<div class="blank-30"></div>
+		<button  type="submit" class="button button-block button-big bg-dot">确认添加</button>
+		<div class="blank-30"></div>
+	</div>
+</form>
+   
+   
+<include  file='public:footer'/>

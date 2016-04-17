@@ -168,7 +168,13 @@ class SetAction extends CommonAction {
             $randstring = rand_string(6, 1);
             session('code', $randstring);
         }
-        D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+		//大鱼短信
+		if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+            D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yzm', $mobile, array('sitename'=>$this->_CONFIG['site']['sitename'],'code' => $randstring));
+        }else{
+            D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+        }
+	
         $this->ajaxReturn(array('status'=>'success','msg'=>'短信发送成功，请留意收到的短信','code'=>session('code')));
     }
 

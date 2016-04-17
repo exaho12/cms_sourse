@@ -1,0 +1,29 @@
+<include file="public:headercard"/>
+<div class="ucenter_t">
+   
+    <ul>
+        <li class="on">核销卡券</li>
+    </ul>
+</div>
+</head>
+
+<body>
+<div id="content"> 
+	<script type="text/javascript">
+
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+  // 通过下面这个API隐藏右上角按钮
+
+  WeixinJSBridge.call('hideOptionMenu');
+
+  });
+
+</script>
+	<div class="cardYan">
+		<form method="post" action="<{:U('card/consume',array('id'=>$id))}>">
+			<input type="text" class="text" name="code" value="" />
+			<input type="submit" class="btn" value="验证" />
+		</form>
+	</div>
+</div>

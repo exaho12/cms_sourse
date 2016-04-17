@@ -1,0 +1,28 @@
+<include file="public:header_Query"/>
+<body class="bodys">
+
+<div id="container">
+    <table class="zebra">
+        <caption><{$paytype[$logs['code']]['name']}>查询账单</caption>
+        <thead>
+        <tr>
+            <volist name="list" id="vo">
+                <th><{$key}></th>
+            </volist>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <volist name="list" id="vo">
+                <td><{$vo}></td>
+            </volist>
+        </tr>
+        <tfoot>
+
+        </tfoot>
+        </tbody>
+    </table>
+    <{$button}>
+</div>
+</body>
+

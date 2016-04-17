@@ -76,6 +76,7 @@ class DingorderAction extends CommonAction {
         $dingorder = D('Shopdingorder');
         $dingyuyue = D('Shopdingyuyue');
         $dingmenu = D('Shopdingmenu');
+		
         if (!$order = $dingorder->where('order_id = ' . $order_id)->find()) {
             $this->baoError('该订单不存在');
         } else if (!$yuyue = $dingyuyue->where('ding_id = ' . $order['ding_id'])->find()) {
@@ -88,19 +89,25 @@ class DingorderAction extends CommonAction {
             } else if ($status == 2) {
                 $data['status'] = $status;
                 D('Shopdingorder')->where('order_id=' . $order_id)->save($data);
+				$shop = D('Shop')->find($yuyue['shop_id']);
+				
                 $shopmoney = D('Shopmoney');
                 $shopmoney->add(array(
                     'shop_id' => $yuyue['shop_id'],
+					'city_id' => $shop['city_id'],
+					'area_id' => $shop['area_id'],
                     'money' => $order['need_price'],
                     'create_ip' => $ip,
                     'type' => 'ding',
                     'create_time' => NOW_TIME,
+					'create_ip' => get_client_ip(),
                     'order_id' => $order['order_id'],
                     'intro' => '订座已消费',
                 ));
-
-                $shop = D('Shop')->find($yuyue['shop_id']);
-                D('Users')->addMoney($shop['user_id'], $order['need_price'], '订座已消费');
+					
+				D('Users')->Money($shop['user_id'], $order['need_price'], '商户订座资金结算：'.$order['order_id']);
+                
+                //D('Users')->addMoney($shop['user_id'], $order['need_price'], '订座已消费');
                 D('Users')->gouwu($order['user_id'],$order['need_price'],'订座消费');
                 $this->baoSuccess('订单修改成功', U('dingorder/detail', array('order_id' => $order_id)));
             } else if ($status == -1) {

@@ -1,24 +1,31 @@
 
 <div class="blank-20"></div>
-<if condition="$CONFIG[other][footer] eq 1">
-<footer class="foot-fixed">
-<a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:u('mobile/index/index')}>">		
-<span class="icon icon-home"></span>
-<span class="foot-label">首页</span>
-</a>
-
-<a class="foot-item <eq name="ctl" value="tuan">active</eq>" href="<{:u('mcenter/tuan/index')}>">			
-<span class="icon icon-star-o"></span><span class="foot-label">订单</span></a>
-
-<a class="foot-item <eq name="ctl" value="member">active</eq>" href="<{:u('mcenter/member/zijinguanli')}>">			
-<span class="icon icon-database"></span><span class="foot-label">资金</span></a>
-
-<a class="foot-item <eq name="ctl" value="mcenter">active</eq>" href="<{:u('mcenter/member/xiaoxizhongxin')}>">			
-<span class="icon icon-volume-up"></span><span class="foot-label">消息</span></a>
-<a class="foot-item <if condition="($ctl eq 'tuancode') AND ($act eq 'tuancode')">active</if>" href="<{:u('mcenter/tuancode/index')}>">			
-<span class="icon icon-ticket"></span><span class="foot-label">卡劵</span></a>
-</footer>
-<else/>
+<if condition="$CONFIG[other][footer] eq 1"> 
+	
+    <footer class="foot-fixed">
+  
+    <a class="foot-item <if condition="($ctl eq 'index') AND ($act neq 'more')">active</if>" href="<{:u('mcenter/member/index')}>">		
+    <span class="icon icon-home"></span>
+    <span class="foot-label">首页</span>
+    </a>
+   
+    
+    <a class="foot-item   <if condition="($ctl eq 'tuan') || ($ctl eq 'goods')  || ($ctl eq 'eleorder')  || ($ctl eq 'ding') ">active</if>" href="      <{:LinkTo('goods/index',array('aready'=>1))}>">			
+    <span class="icon icon-cart-plus"></span><span class="foot-label">订单</span></a>
+    
+     <a class="foot-item  <if condition="($ctl eq 'tuancode')">active</if>" href="<{:u('mcenter/tuancode/index')}>">			
+    <span class="icon icon-credit-card"></span><span class="foot-label">团购劵</span></a>
+    
+    
+    
+    <a class="foot-item  <if condition="($ctl eq 'message') ||($act eq 'xiaoxizhongxin')">active</if>" href="<{:u('mcenter/member/xiaoxizhongxin')}>">			
+    <span class="icon icon-volume-up"></span><span class="foot-label">消息</span></a>
+    
+    <a class="foot-item  <if condition="($ctl eq 'money') || ($ctl eq 'logs') || ($ctl eq 'cash') ||($act eq 'zijinguanli')">active</if>" href="<{:u('mcenter/information/index')}>">			
+    <span class="icon icon-gears"></span><span class="foot-label">设置</span></a>
+    
+   
+    </footer>
 </if>
 
 <iframe id="x-frame" name="x-frame" style="display:none;">

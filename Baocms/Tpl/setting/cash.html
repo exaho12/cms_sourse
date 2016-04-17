@@ -1,0 +1,70 @@
+<include  file='public:header'/>
+<style>.lfTdBt {width: 150px;}</style>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">提现设置</li>
+    </ul>
+</div>
+
+<p class="attention">这里可以设置会员提现至少满多少钱才可以提现，或者单笔不超过多少钱！<span>注意：单笔提现设置必须比满多少元大！记住了！不能设置为0，可以留空！</span></p>
+<form  target="baocms_frm" action="<{:U('setting/cash')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+                <tr>
+                    <td class="lfTdBt">网站会员最低提现：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[user]" value="<{$CONFIG.cash.user}>" class="scAddTextName w150" />
+                        
+						<code>就是网站的会员一次提现最少多少钱</code>
+                        <input type="text" name="data[user_big]" value="<{$CONFIG.cash.user_big}>" class="scAddTextName w150" />
+                        <code>就是网站的会单笔最大提现金额</code>
+                    </td>
+
+                </tr>
+          
+                
+                
+                <tr>
+                    <td class="lfTdBt">商户最低提现：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[shop]" value="<{$CONFIG.cash.shop}>" class="scAddTextName w150" />
+						<code>网站商家一次最低提现多少钱</code>
+                        <input type="text" name="data[shop_big]" value="<{$CONFIG.cash.shop_big}>" class="scAddTextName w150" />
+						<code>网站商单笔最大提现多少钱</code>
+                        
+                    </td>
+                </tr>
+                
+              
+                
+                
+                 <tr> 
+                    <td class="lfTdBt">认证商户最低提现：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[renzheng_shop]" value="<{$CONFIG.cash.renzheng_shop}>" class="scAddTextName w150" />
+						<code>通过资质认证的商家每次提现可以多少钱</code>
+                        
+                        <input type="text" name="data[renzheng_shop_big]" value="<{$CONFIG.cash.renzheng_shop_big}>" class="scAddTextName w150" />
+						<code>认证商户单笔最大提现多少钱</code>
+                        
+                    </td>
+                </tr>
+                
+              
+
+            </table>
+
+        </div>
+
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+
+    </div>
+
+</form>
+
+<include  file='public:footer'/>       
+

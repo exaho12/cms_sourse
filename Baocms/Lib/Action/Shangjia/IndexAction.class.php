@@ -86,7 +86,7 @@ class IndexAction extends CommonAction {
 		$counts['work_audit'] = (int) D('Work')->where(array('shop_id' => $this->shop_id,'audit' => 0))->count();//待审核招聘
 		
 		//商家预约
-		$counts['shopyuyue'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id))->count();//总商家预约数量
+		$counts['shopyuyue'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,))->count();//总商家预约数量
 		$counts['shopyuyue_one'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,'used' => 1))->count();//已确认预约
 		$counts['shopyuyue_eight'] = (int) D('Shopyuyue')->where(array('shop_id' => $this->shop_id,'used' => 0))->count();//未确认预约
 

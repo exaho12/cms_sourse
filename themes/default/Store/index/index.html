@@ -1,97 +1,46 @@
 <include file="public:header"/>
-
-
-
 <header class="top-fixed bg-yellow bg-inverse">
-
 	<div class="top-back">
-
 		<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
-
 	</div>
-
 		<div class="top-title">
-
 			商户中心
-
 		</div>
-
 	<div class="top-signed">
-
 		<a href="<{:U('passport/logout')}>"><i class="icon-sign-out"></i></a>
-
 	</div>
-
 </header>
-
-
-
-<div class="index-top">
-
-	<div class="top-a">
-
-		<div class="user">	
-
-			<span class="avatar">    
-
-            <img src="__ROOT__/attachs/<{$SHOP.logo}>" />         
-
-            </span>
-
-			<div class="info">	
-
-				<p>欢迎您，<{$SHOP.shop_name}> <span>店铺类型：<{$shopcates[$SHOP['cate_id']]['cate_name']}></span></p>	
-
-
-                <p>
-
-					<span>邮件： <if condition="!empty($MEMBER['mobile'])">已认证<else/>未认证</if>
-
-                    </span>
-
-					<span>手机：<if condition="!empty($MEMBER['email'])">已认证<else/>未认证</if></span>
-
-					<span>金块：<{$MEMBER.gold}> </span>
-
-				</p>
-
-                
-
-                
-
-			</div>	
-
-		</div>	
-
-
-
-	</div>
-
-	
-
-	
-
-	
-
-	
-
-</div>
-
-
-
-
+<div class="blank-10 bg"></div>
+<div class="container">
+		<div class="line detail-base">
+			<div class="x5">
+				<div class="pic">
+					<a href="<{:U('audit/index')}>"><img src="__ROOT__/attachs/<{$SHOP.logo}>"></a>	
+                    <if condition="$SHOP['is_renzheng'] eq 1">	
+                    <span class="album">已认证</span>	
+                    <else/>
+                    <span class="album" style="width:60px;">申请认证</span>	
+                    </if> 
+                </div>
+			</div>
+			<div class="x7">
+				<h1><{$SHOP.shop_name}>（<{$SHOP.shop_id}>）</h1>
+                <p><span class="ui-starbar"><span style="width:<{:round($SHOP['score']*2,2)}>%"></span></span></p>
+                <p>类型：<{$shopcates[$SHOP['cate_id']]['cate_name']}></p>
+                <p>金块：<{$MEMBER.gold}> &nbsp;员工：<{$counts['shopworker']}>人 &nbsp;<a href="<{:U('store/worker/index')}>">管理</a></p>
+                <p>浏览：<{$SHOP.view}> &nbsp; <{$SHOP.score_num}>人评价</p>
+			</div>
+			
+		</div>
+       </div>
+<div class="blank-10 bg"></div>
 
 <div class="panel-list">
 
 	<ul>
 
-		
-
-        
-
-<li><a href="<{:U('branch/index')}>"><span class="icon-asterisk"></span>
-
-店铺管理
+<li><a href="<{:U('branch/index')}>"><span class="icon-gears "></span>
+基本设置
 <if condition="$shop_branch gt 0">
 <font><{$shop_branch}>家分店<if condition="$shop_branch_audit gt 0">，待审核<b><{$shop_branch_audit}></b>家。</if></font></if>
                
@@ -100,10 +49,13 @@
 <li><a href="<{:U('tuan/index')}>"><span class="icon-tags"></span>抢购优惠
 <font>
 <if condition="$counts['tuan_order_code_is_used'] gt 0">
-待消费<{$counts['tuan_order_code_is_used']}>人，
+待验证<{$counts['tuan_order_code_is_used']}>单
+</if>
+<if condition="$counts['tuan_order_code_is_used_ture'] gt 0">
+，已验证<{$counts['tuan_order_code_is_used_ture']}>单
 </if>
 <if condition="$counts['tuan'] gt 0">
-共<{$counts['tuan']}>单
+，抢购<{$counts['tuan']}>单
 </if>
 <if condition="$counts['tuan_audit'] gt 0">
 ，待审核<b><{$counts['tuan_audit']}></b>单
@@ -112,10 +64,26 @@
 <i class="icon-angle-right"></i></a></li>
 
 
-<li><a href="<{:U('coupon/index')}>"><span class="icon-key"></span>优惠劵验证
-<if condition="$counts['tuan_order_code_is_used'] gt 0">
-<font>待核销<b><{$counts['tuan_order_code_is_used']}></b>人</font>
+<li><a href="<{:U('coupon/index')}>"><span class="icon-key"></span>优惠劵
+<font>
+
+<if condition="$counts['coupon'] gt 0">
+共<{$counts['coupon']}>优惠劵
 </if>
+
+<if condition="$counts['coupon_audit'] gt 0">
+，<b><{$counts['coupon_audit']}></b>待审
+</if>
+
+<if condition="$counts['coupon_download'] gt 0">
+，总<{$counts['coupon_download']}>次下载
+</if>
+
+<if condition="$counts['coupon_download_is_used'] gt 0">
+，待验<b><{$counts['coupon_download_is_used']}></b>。
+</if>
+
+</font>
 <i class="icon-angle-right"></i></a></li>
 
 <li><a href="<{:U('mart/index')}>"><span class="icon-home"></span>微店管理
@@ -188,11 +156,34 @@
 </font>
 <i class="icon-angle-right"></i></a></li>
 
+<li><a href="<{:U('yuyue/index')}>"><span class="icon-phone-square"></span>预约管理
+<font>
+<if condition="$counts['shopyuyue_one'] gt 0">
+<{$counts['shopyuyue_one']}>条预约
+</if>
+<if condition="$counts['shopyuyue_eight'] gt 0">
+，<b><{$counts['shopyuyue_eight']}></b>条待确认
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+
+<li><a href="<{:U('news/index')}>"><span class="icon-newspaper-o"></span>文章管理
+<font>
+<if condition="$counts['news'] gt 0">
+<{$counts['news']}>篇文章
+</if>
+<if condition="$counts['news_autit'] gt 0">
+，<b><{$counts['news_autit']}></b>篇待审核
+</if>
+</font>
+<i class="icon-angle-right"></i></a></li>
+
+
 <li><a href="<{:U('housework/index')}>"><span class="icon-random"></span>家政服务<i class="icon-angle-right"></i></a></li>
 
 <li><a href="<{:U('money/index')}>"><span class="icon-calendar"></span>结算<i class="icon-angle-right"></i></a></li>
 
-<li><a href="<{:U('award/index')}>"><span class="icon-briefcase"></span>营销管理<i class="icon-angle-right"></i></a></li>
 
 <li><a href="<{:U('passport/logout')}>"><span class="icon-sign-out"></span>注销登录<i class="icon-angle-right"></i></a></li>
 

@@ -9,8 +9,15 @@
 
 class TuisongemailAction extends CommonAction {
 
-    private $create_fields = array('tuisong_id',  'title', 'content','create_time');
-    private $edit_fields = array('tuisong_id',  'title','content', 'create_time');
+    private $create_fields = array('tuisong_id',  'title', 'content','create_time','rank_id','user_id');
+    private $edit_fields = array('tuisong_id',  'title','content', 'create_time','rank_id','user_id');
+	
+	public function _initialize() {
+        parent::_initialize();
+        $this->assign('ranks',D('Userrank')->fetchAll());
+		
+    }
+	
 
     public function index() {
         $Tuisongemail = D('Tuisongemail');
@@ -24,6 +31,17 @@ class TuisongemailAction extends CommonAction {
         $Page = new Page($count, 25); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
         $list = $Tuisongemail->where($map)->order(array('tuisong_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+		
+		
+		$ids = array();
+        foreach ($list as $k => $val) {
+            if ($val['user_id']) {
+                $ids[$val['user_id']] = $val['user_id'];
+            }
+        }
+	
+        $this->assign('users', D('Users')->itemsByIds($ids));
+		
         $this->assign('list', $list); // 赋值数据集
         $this->assign('page', $show); // 赋值分页输出
         $this->display(); // 输出模板
@@ -49,6 +67,10 @@ class TuisongemailAction extends CommonAction {
         if (empty($data['title'])) {
             $this->baoError('标题不能为空');
         }
+		$data['user_id'] = (int) $data['user_id'];
+		$data['rank_id'] = (int) $data['rank_id'];
+		
+		
         $data['create_time'] = NOW_TIME;
 		$data['content'] = SecurityEditorHtml($data['content']);
         if (empty($data['content'])) {
@@ -78,6 +100,35 @@ class TuisongemailAction extends CommonAction {
             }
             $this->baoError('请选择要删除的手机消息');
         }
+    }
+	
+	
+	 public function tuisong($tuisong_id){
+		$tuisong_id= (int) $this->_param('tuisong_id');
+        $Tuisongemail = D('Tuisongemail');
+        if (!$detail = $Tuisongemail->find($tuisong_id)) {
+            $this->error('请选择要推送的消息');
+        }
+
+		$db  = D("Users"); 
+		
+		$map['email'] = array('neq',''); //邮箱不能为空
+		if(!empty($detail['rank_id'])){
+			$map['rank_id'] = array('eq',$detail['rank_id']);//用户等级发送
+		}
+		if(!empty($detail['user_id'])){
+			$map['user_id'] = array('eq',$detail['user_id']);//后台选择单条推送就显示执行
+		}
+		
+		$users = $db ->where($map)->field('email')-> select(); //取得所有用户的邮箱 Email 字段对应你的 数据库邮箱的那
+		foreach($users as $k => $value){
+				D('Email')->sendMail('email_tuisongemail', $value['email'], $detail['title'], array(
+					'title'=>$detail['title'],
+					'content'=>$detail['content'],
+				));
+		}
+		$Tuisongemail->where("$tuisong_id=%d",$detail['tuisong_id'])->save(array('is_tuisong'=>1,'create_time'=>NOW_TIME,));//更新数据库
+		$this->baoSuccess('推送邮件成功',U('tuisongemail/index'));
     }
 
 }

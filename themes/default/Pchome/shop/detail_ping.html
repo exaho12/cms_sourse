@@ -27,7 +27,11 @@
 						<volist name="list" id="var">
 						<li class="media media-x">
 							<a class="float-left" href="<{:U('blog/index',array('user_id'=>$var['user_id']))}>">
-								<img class="txt-big radius-circle bg-green border-green reply-avatar" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='avatar.jpg'}>" alt="<{$users[$var['user_id']]['nickname']}>" />
+								  <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+                            <img  class="txt-big radius-circle bg-green border-green reply-avatar"  src="<{$users[$var['user_id']]['face']}>" />
+                            <?php }else{ ?>
+                            <img  class="txt-big radius-circle bg-green border-green reply-avatar"  src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+                            <?php }?>
 								<p><img src="__TMPL__statics/images/<{$userrank[$users[$var['user_id']]['rank_id']]['rank_name']}>.jpg" /></p>
 							</a>
 							<div class="media-body">

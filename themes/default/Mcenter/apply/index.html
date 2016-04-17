@@ -1,12 +1,11 @@
 <include  file='public:header'/>   
-<link rel="stylesheet" type="text/css" href="/static/default/wap/other/webuploader.css"> 
-<script src="/static/default/wap/other/webuploader.js"></script> 
+
 <header class="top-fixed bg-yellow bg-inverse">
 	<div class="top-back">
 		<a class="top-addr" href="<{:U('life/index')}>"><i class="icon-angle-left"></i></a>
 	</div>
 	<div class="top-title">
-		商家入驻
+		多城市商家入驻
 	</div>
 </header>
 
@@ -14,6 +13,45 @@
 
 
 <div class="blank-10 bg border-top"></div>
+
+<div class="blank-10"></div>
+ <div class="Upload-img-box">
+                        <div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" data-role="none">上传图片</div>
+                        <div class="Upload-img">
+                            <div class="list-img loading" style="display:none;"><img src=""></div>
+                            <div class="list-img jq_photo" style="display:none;"></div>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="/static/default/wap/js/ajaxfileupload.js"></script>
+                    <script>
+                        function ajaxupload() {
+                            $(".loading").show();
+                            $.ajaxFileUpload({
+                                url: '<{:U("app/upload/upload",array("model"=>"life"))}>',
+                                type: 'post',
+                                fileElementId: 'fileToUpload',
+                                dataType: 'text',
+                                secureuri: false, //一般设置为false
+                                success: function (data, status) {
+                                    $(".loading").hide();
+                                    var str = '<img src="__ROOT__/attachs/' + data + '"><input type="hidden" name="data[photo]" value="' + data + '" />';
+                                    $(".jq_photo").show().html(str);
+                                    $("#fileToUpload").unbind('change');
+                                    $("#fileToUpload").change(function () {
+                                        ajaxupload();
+                                    });
+                                }
+                            });
+                        }
+                        $(document).ready(function () {
+                            $("#fileToUpload").change(function () {
+                                ajaxupload();
+                            });
+                            $(document).on("click", ".photo img", function () {
+                                $(this).parent().remove();
+                            });
+                        });
+                    </script>
 
 
 
@@ -290,5 +328,5 @@
 	</div>
 		
 </form>
-	
+		
 <include  file='public:footer'/>

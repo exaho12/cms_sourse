@@ -20,15 +20,20 @@ class EmailModel extends CommonModel {
     }
 
     public function sendMail($code, $email, $title, $datas) {
+
+		
         $tmpl = $this->fetchAll();
         if (!empty($tmpl[$code]['is_open'])) {
             $content = $tmpl[$code]['email_tmpl'];
             $config = D('Setting')->fetchAll();
             $datas['sitename'] = $config['site']['sitename'];
             $datas['tel'] = $config['site']['tel'];
+
             foreach ($datas as $k => $val) {
                 $content = str_replace('{' . $k . '}', $val, $content);
             }
+			
+			
             if ($this->mailobj == null) {
                 $this->mailobj = $this->mail($config);
             }

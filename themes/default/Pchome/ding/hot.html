@@ -11,19 +11,21 @@
                         <div class="left goods_flList_l">商圈：</div>
                         <div class="left goods_flList_r">
                         	<a <if condition="empty($area_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/hot',$linkArr,array('area_id'=>0))}>">全部</a>
-                           <foreach name="areas" item="item"> 
-                                <php>if($item['city_id'] == $city_id){</php>
-                                <a class="goods_flListA" href="<{:U('ding/hot',array('area'=>$item['area_id']))}>"><{$item.area_name}></a> 
-                                <php>}</php>
-                            </foreach>
+                        	<volist name='areas' id='item'>
+                                                            <eq name="item.city_id" value="$city_id">
+
+                                 <a <if condition="$area_id eq $item['area_id']">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/hot',$linkArr,array('area_id'=>$item[area_id]))}>"><{$item.area_name}></a>
+                                 </eq>
+                                </volist>
+                           
+                           
                         </div>
                     </li>
-                    <li>
                     <li class="goods_flList">
                         <div class="left goods_flList_l">分类：</div>
                         <div class="left goods_flList_r">
                        		 <a <if condition="empty($keyw)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('ding/hot',$linkArr,array('keyword'=>0))}>">全部</a>
-                        	 <volist name='keyword' id='item'>
+                        	 <volist name='ding_keyword' id='item'>
                                 <a href="<{:LinkTo('ding/hot',$linkArr,array('keyword'=>$item[key_id]))}>" <if condition="$keyw eq $item['key_id']">class="goods_flListA on"<else/>class="goods_flListA"</if>><{$item.keyword}></a>
                             </volist>
                            

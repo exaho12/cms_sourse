@@ -28,95 +28,116 @@
         </form>
     </div>
     <div class="tgdd_nr">
-        <table border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-            <tr class="tgdd_nrt">
-                <th>订餐订单</th>
-                <th>内容</th>
-                <th>总价</th>
-                <th>收货地址</th>
-                <th>订单状态</th>
-                <th>操作</th>
-            </tr>
-            <foreach name="list" item="order">
-            
-                <tr class="tgdd_nrBh" style="margin-top:30px !important">
-                    <td colspan="6" style="text-align: left; text-indent: 20px;">订单编号：<span class="tgdd_bh"><{$order.order_id}></span></td>
-                  
-                </tr>
-                <tr class="tgdd_nrC">
-                    <td class="tgdd_tdtw">
-                
-                    <div class="tgdd_tw">
-                     
-                            <div class="left">
-                            <a class="myInfor_sx" target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$order['shop_id']))}>"><img src="__ROOT__/attachs/<{$shop_s[$order['shop_id']]['photo']}>" width="100" height="75" /></a></div>
-                            <div class="lef"><a class="myInfor_sx" href="<{:U('pchome/shop/detail',array('shop_id'=>$order['shop_id']))}>">商家：<{$shop_s[$order['shop_id']]['shop_name']}></a><p>下单时间：<{$order.create_time|date='Y-m-d H:i:s',###}></p></div>
-                        </div></td>
-                    <td class="tgdd_nrCtd">
-                        <ul>
-                            <foreach name="products" item="product">
-                                <if condition="$product['order_id'] eq $order['order_id']">    
-                                    <li class="mealOrder_nrli"><{$eleproducts[$product['product_id']]['product_name']}>（<{$product.num}>份）</li>
-                                </if>
-                            </foreach>
-                        </ul>
-                    </td>
-                    <td class="tgdd_nrCtd" id="price-color">￥<{:round($order['total_price']/100,2)}></td>
-                    <td class="tgdd_nrCtd">
-                    
-                        <a class="tips" rel=" 
-                        地区：<{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}><br/>
-                        商圈：<{$bizs[$addrs[$order['addr_id']]['business_id']]['business_name']}><br/>
-                        地址： <{$addrs[$order['addr_id']]['addr']}><br/>
-                        姓名： <{$addrs[$order['addr_id']]['name']}><br/>
-                        电话： <{$addrs[$order['addr_id']]['mobile']}>" style="color: #fff; background: #1ca290; padding: 0px 5px; margin-left: 10px; display: inline-block; height: 20px; line-height: 20px;" href="javascript:void(0)">查看收货地址</a>
-                    
-                    
-                       
-                        
-                        
-                        
-                        
-                        
-                    </td>
-                    <td class="tgdd_nrCtd">
-                        <eq name="order.is_pay" value="1">
-                        <eq name="order.status" value="0">
-                        <a class="myInfor_sx myInfor_sx_fk" href="<{:U('pchome/ele/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
-                <else />
-                <a class="myInfor_sx myInfor_sx_fk"> <{$cfg[$order['status']]}></a> 
-                </eq>
-                <else />
-                <eq name="order.status" value="0">
-                <a class="myInfor_sx myInfor_sx_fk" href="<{:U('pchome/ele/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
-                <else />
-                餐到付款&nbsp;&nbsp;<{$cfg[$order['status']]}>
-                </eq>
-                </eq>
-                </td>
-                <td>
-                
+    
+        <div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="33%">订餐订单单</td>
+            <td width="9%">内容</td>
+            <td width="8%">总价</td>
+            <td width="15%">收货地址</td>
+            <td width="20%">订单状态</td>
+            <td width="15%">操作</td>
+     </table>
+     <div class="blank-10"></div>
+  <foreach name="list" item="order">   
+  <table class="tuan_table1" width="100%" border="0">
+  <tbody><tr class="tr_left_2">
+    <td class="left10" colspan="4">
+    订单ID：<span class="mallorder_jg"><{$order.order_id}></span>
+    <span class="td_top_1">下单时间：<{$order.create_time|date='Y-m-d H:i:s',###}>   </span></td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <table class="tuan_table2" width="100%" border="0">
+      <tbody><tr class="tr_left_1">
+      
+        <td class="left1">
+        <!--商品展示开始-->
+        <div class="index__production___yfP3y">
+        <a target="_blank" href="<{:U('pchome/shop/detail',array('shop_id'=>$order['shop_id']))}>" class="index__pic___TScfk"><img src="__ROOT__/attachs/<{$shop_s[$order['shop_id']]['photo']}>"><span></span></a>
+        <div class="index__infos___A6XLq">
+            <p><a href="<{:U('pchome/shop/detail',array('shop_id'=>$order['shop_id']))}>" target="_blank"><span></span><span><{$shop_s[$order['shop_id']]['shop_name']}></span><span></span></a><span></span><span></span></p>
+            <span></span>
+           
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2">
+         <foreach name="products" item="product">
+            <if condition="$product['order_id'] eq $order['order_id']">    
+            <li class="mealOrder_nrli"><{$eleproducts[$product['product_id']]['product_name']}>（<{$product.num}>份）</li>
+            </if>
+         </foreach>
+        </td>
+        <td class="left3">￥<{:round($order['total_price']/100,2)}></td>
+        <td class="left5"> </td>
+      </tr>
+     
+    </tbody></table>    
+    </td>
+    <td class="left7" width="15%">
+       地区：<{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}><br/>
+       商圈：<{$bizs[$addrs[$order['addr_id']]['business_id']]['business_name']}><br/>
+       地址： <{$addrs[$order['addr_id']]['addr']}><br/>
+       姓名： <{$addrs[$order['addr_id']]['name']}><br/>
+       电话： <{$addrs[$order['addr_id']]['mobile']}>
+     </td>
+    <td class="left8" width="20%">
+   <eq name="order.is_pay" value="1">
+       <eq name="order.status" value="0">
+      	 <a href="<{:U('pchome/ele/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
+       <else />
+      	 <a > <{$cfg[$order['status']]}></a> 
+       </eq>
+       <else />
+       	<eq name="order.status" value="0">
+       		<a href="<{:U('pchome/ele/pay',array('order_id'=>$order['order_id']))}>" target="_blank">去付款</a>
+      	 <else />
+       餐到付款&nbsp;&nbsp;<{$cfg[$order['status']]}>
+       </eq>
+   </eq>   
+
+    </td>
+    <td class="left9" width="15%">
+      
                 <eq name="order.status" value="8">
-                	 <a mini='confirm' class="myInfor_sx myInfor_sx_fk" href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
+                	 <a mini='confirm' href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
                        </eq>
                        <eq name="order.status" value="0">
-                      <a mini='confirm' class="myInfor_sx myInfor_sx_fk" href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
+                      <a mini='confirm' href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
                       </eq>
                          <eq name="order.status" value="4">
-                      <a mini='confirm' class="myInfor_sx myInfor_sx_fk" href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
+                      <a mini='confirm' href="<{:U('member/ele/delete',array('order_id'=>$order['order_id']))}>">删除</a>
                       </eq>
                        <eq name="order.is_pay" value="1">
                        
-                     <eq name="order.status" value="1"><a mini='confirm' class="myInfor_sx myInfor_sx_fk" href="<{:U('member/ele/elecancle',array('order_id'=>$order['order_id']))}>">申请退款</a></if>
+                     <eq name="order.status" value="1"><a mini='confirm'href="<{:U('member/ele/elecancle',array('order_id'=>$order['order_id']))}>">申请退款</a></if>
                    </eq>
                       <eq name="order.status" value="3">
-                      <a mini='confirm' class="myInfor_sx myInfor_sx_fk" href="<{:U('member/ele/eleqxtk',array('order_id'=>$order['order_id']))}>">取消退款</a>
+                      <a mini='confirm' href="<{:U('member/ele/eleqxtk',array('order_id'=>$order['order_id']))}>">取消退款</a>
                       </eq>
                        </eq>
-                      <eq name="order.status" value="8"><if condition="$order['dianping'] eq 0"><a class="myInfor_sx myInfor_sx_fk" href="<{:U('ele/dianping',array('order_id'=>$order['order_id']))}>">点评</a><else/><a class="myInfor_sx myInfor_sx_fk" href="javascript:void(0);">已点评</a></if></eq></td>
-                </tr>
-            </foreach>
-        </table>
+                      <eq name="order.status" value="8">
+                      <if condition="$order['dianping'] eq 0">
+                      <a href="<{:U('ele/dianping',array('order_id'=>$order['order_id']))}>">点评</a>
+                      <else/>
+                      <a href="javascript:void(0);">已点评</a>
+                      </if>
+              </eq>
+    </td>
+  </tr>
+ 
+</tbody>
+</table>
+<br> 
+</foreach>
+
+       
         <div class='x'><{$page}></div>
      </div>
 </div>

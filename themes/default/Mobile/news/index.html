@@ -131,23 +131,19 @@
 			<ul></ul>
 		</div>
 	</div>
-	
-	<div class="blank-10"></div>
-	
-	
-	
-	
 	<div class="blank-10"></div>
 	<div class="sec-title">	
 		<div class="divider"></div>	
-		<span>资讯列表：总<{$countss}>条资讯，今日更新：<{$counts.article}>篇</span>
+		<span>资讯列表</span>
 	</div>
-	
-	<div class="news-list" id="shop-list">
+	<div class="blank-10"></div>
+	<div class="list-media-x" id="list-media">
+	<ul></ul>
+    </div>
     
     <script>
 		$(document).ready(function () {
-			loaddata('<{$nextpage}>', $("#shop-list"), true);
+			loaddata('<{$nextpage}>', $("#list-media ul"), true);
 		});
 	</script>
     

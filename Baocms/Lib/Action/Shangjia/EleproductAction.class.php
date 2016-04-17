@@ -9,8 +9,8 @@
 
 class EleproductAction extends CommonAction {
 
-    private $create_fields = array('product_name', 'cate_id', 'photo', 'price', 'is_new', 'is_hot', 'is_tuijian', 'create_time', 'create_ip');
-    private $edit_fields = array('product_name', 'cate_id', 'photo', 'price', 'is_new', 'is_hot', 'is_tuijian');
+    private $create_fields = array('product_name','desc', 'cate_id', 'photo', 'price', 'is_new', 'is_hot', 'is_tuijian', 'create_time', 'create_ip');
+    private $edit_fields = array('product_name', 'desc','cate_id', 'photo', 'price', 'is_new', 'is_hot', 'is_tuijian');
 
      public function _initialize() {
         parent::_initialize();
@@ -81,6 +81,11 @@ class EleproductAction extends CommonAction {
         if (empty($data['product_name'])) {
             $this->baoError('菜名不能为空');
         } 
+		$data['desc'] = htmlspecialchars($data['desc']);
+        if (empty($data['desc'])) {
+            $this->baoError('菜单介绍不能为空');
+        }
+		
         $data['shop_id'] = $this->shop_id;
         $data['cate_id'] = (int) $data['cate_id'];
         if (empty($data['cate_id'])) {
@@ -140,7 +145,12 @@ class EleproductAction extends CommonAction {
         $data['product_name'] = htmlspecialchars($data['product_name']);
         if (empty($data['product_name'])) {
             $this->baoError('菜名不能为空');
-        }$data['cate_id'] = (int) $data['cate_id'];
+        }
+		$data['desc'] = htmlspecialchars($data['desc']);
+        if (empty($data['desc'])) {
+            $this->baoError('菜单介绍不能为空');
+        }
+		$data['cate_id'] = (int) $data['cate_id'];
         if (empty($data['cate_id'])) {
             $this->baoError('分类不能为空');
         } $data['photo'] = htmlspecialchars($data['photo']);

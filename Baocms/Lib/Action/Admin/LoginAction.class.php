@@ -26,12 +26,28 @@ class LoginAction extends CommonAction{
             session('verify',null);
             $this->baoError('用户名或密码不正确!',2000,true);
         }
+		
         if($admin['closed'] == 1){
            session('verify',null);
            $this->baoError('该账户已经被禁用!',2000,true); 
         }
+		
+		if($admin['role_id'] == 2) {
+			session('verify',null);
+			$this->baoError('分站管理员请登录分站后台',2000,true); 
+		}
+
+		
+		$ip = $admin['last_ip']; //旧的IP
+		
         $admin['last_time'] = NOW_TIME;
         $admin['last_ip']  = get_client_ip();
+		if(!empty($ip)){//首先判断是否等于空
+			if($ip != $admin['last_ip']){
+				$adminObj->where("admin_id=%d",$admin['admin_id'])->save(array('is_ip'=>1));//对比IP不对更更新is_ip值不一样
+			}
+		}
+		
         $adminObj->where("admin_id=%d",$admin['admin_id'])->save(array('last_time'=>$admin['last_time'],'last_ip'=>$admin['last_ip']));
         
         session('admin',$admin);
@@ -39,6 +55,10 @@ class LoginAction extends CommonAction{
     }
     
     public function logout(){
+		
+		$admin_ids = $this->_admin = session('admin');
+		$adminObj = D('Admin');
+	    $adminObj->where("admin_id=%d",$admin_ids['admin_id'])->save(array('is_ip'=>0));//不论怎么样退出的时候值修改为0，只有登录时候IP不一样才会修改
         session('admin',null);
         $this->success('退出成功',U('login/index'));
     }

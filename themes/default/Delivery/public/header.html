@@ -12,10 +12,8 @@
 		<script src="/static/default/wap/other/layer.js"></script>
 		<script src="/static/default/wap/other/roll.js"></script>
 		<script src="/static/default/wap/js/public.js"></script>
-		
-        <script src="/static/default/wap/js/dingwei.js"></script>
-        
-		 <script>
+
+        <script>
             function bd_encrypt(gg_lat, gg_lon)   // 百度地图测距偏差 问题修复
             {
                 var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
@@ -25,11 +23,13 @@
                 var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
                 var bd_lon = z * Math.cos(theta) + 0.0065;
                 var bd_lat = z * Math.sin(theta) + 0.006;
-                dingwei('<{:U("delivery/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
+                dingwei('<{:U("mobile/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
             }
             navigator.geolocation.getCurrentPosition(function (position) {
                 bd_encrypt(position.coords.latitude, position.coords.longitude);
             });
+        
         </script>
+
 	</head>
 	<body>

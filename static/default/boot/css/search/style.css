@@ -1,0 +1,24 @@
+.search-count{line-height:4rem;font-size:1.4rem;font-weight:100;font-family:inherit;color:inherit;}
+.search-list{list-style:none;padding:0;}
+.search-list li{padding:15px 0;border-bottom:1px dashed #eee;overflow:hidden;}
+.search-list li:hover .item-title{color:#f60;}
+.search-list .item-title{font-size:16px;margin:0;}
+.search-list .item-photo{float:left;display:block;margin-right:10px;}
+.search-list .item-photo img{width:120px;height:90px;}
+.search-list .item-desc p{color:#999;margin:5px 0;}
+.search-list .item-desc .desc-tel{color:#006621;}
+
+
+.search-side{margin:15px 0 0 0;}
+.search-side .side-rec h4{border-bottom:1px solid #eee;height:30px;line-height:20px;}
+.search-side .side-rec i{color:#F46;margin-right:10px;}
+.search-side .side-rec ul{list-style:none;padding:0;}
+.search-side .side-rec li{padding:10px 0;border-bottom:1px dashed #eee;overflow:hidden;}
+.search-side .side-rec li:last-child{border:none;}
+.search-side .side-rec img{width:100%;height:180px;}
+.search-side .side-rec .item-title{font-size:18px;margin:0;line-height:40px;}
+.search-side .side-rec .item-desc p{color:#999;margin:5px 0;;}
+.search-side .side-rec .item-desc p.desc-tel{color:#006621;}
+
+
+.ibox {clear: both;background: #FFF;color:inherit;padding: 15px 20px 20px;border: 1px solid #E7EAEC;}

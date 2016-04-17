@@ -134,31 +134,33 @@ class TuanAction extends CommonAction {
             $userobj = D('Users');
             foreach ($code as $key => $var) {
                 $var = trim(htmlspecialchars($var));
-
+				
                 if (!empty($var)) {
                     $data = $obj->find(array('where' => array('code' => $var)));
+					$shop = D('Shop')->find(array('where' => array('shop_id' => $data['shop_id'])));
 
                     if (!empty($data) && $data['shop_id'] == $this->shop_id && (int) $data['is_used'] == 0 && (int) $data['status'] == 0) {
-                        if ($obj->save(array('code_id' => $data['code_id'], 'is_used' => 1))) { //这次更新保证了更新的结果集              
+                        if ($obj->save(array('code_id' => $data['code_id'], 'is_used' => 1,'used_time' => NOW_TIME,'worker_id' => $this->uid, 'used_ip' => $ip))) { //这次更新保证了更新的结果集              
                             //增加MONEY 的过程 稍后补充
                             if (!empty($data['price'])) {
                                 $data['intro'] = '抢购消费' . $data['order_id'];
-
-                                $data['settlement_price'] =  D('Quanming')->quanming($data['user_id'],$data['settlement_price'],'tuan'); //扣去全民营销
-
+						
                                 $shopmoney->add(array(
                                     'shop_id' => $data['shop_id'],
+									'city_id' => $shop['city_id'],
+									'area_id' => $shop['area_id'],
+									'branch_id' => $data['branch_id'],
                                     'money' => $data['settlement_price'],
                                     'create_ip' => $ip,
                                     'create_time' => NOW_TIME,
                                     'order_id' => $data['order_id'],
                                     'intro' => $data['intro'],
                                 ));
-                                $shop = D('Shop')->find($data['shop_id']);
-                                D('Users')->addMoney($shop['user_id'], $data['settlement_price'], $data['intro']);
+                                
+								D('Users')->Money($shop['user_id'], $data['settlement_price'], '商户抢购资金结算:' . $data['order_id']);
+							
                                 $return[$var] = $var;
                                 D('Users')->gouwu($data['user_id'],$data['price'],'抢购券消费成功');
-                                $obj->save(array('code_id' => array('used_time' => NOW_TIME, 'used_ip' => $ip))); //拆分2次更新是保障并发情况下安全问题
                                 echo '<script>parent.used(' . $key . ',"√验证成功",1);</script>';
                             } else {
                                 echo '<script>parent.used(' . $key . ',"√到店付抢购券验证成功，需要现金付款",2);</script>';

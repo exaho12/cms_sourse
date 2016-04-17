@@ -32,7 +32,18 @@
             <tr>
                 <td><{$var.owner_id}></td>
                 <td><{$var.name}></td>
-                <td style="height: 80px;"><img src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>"  style="width: 80px;  margin: 0px auto;" /></td>
+                <td style="height: 80px;">
+                        <!--手机贴吧头像调用-->
+            <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+            <img style="width: 80px;  margin: 0px auto;"   src="<{$users[$var['user_id']]['face']}>" />
+            <?php }else{ ?>
+            <img  style="width: 80px;  margin: 0px auto;"  src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+            <?php }?>
+            
+            
+                
+                
+                </td>
                 <td><{$users[$var['user_id']]['mobile']}></td>
                 <td><{$var.number}></td>
                 <td><{$var.location}></td>

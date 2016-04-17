@@ -1,14 +1,11 @@
 <?php
-
-
-
 class PassportAction extends CommonAction {
-
     private $create_fields = array('account', 'password', 'nickname');
-
     public function register() {
+
         if ($this->isPost()) {
-            if (isMobile(htmlspecialchars($_POST['account']))) {
+
+            if (isMobile(htmlspecialchars($_POST['data']['account']))) {
                 if (!$scode = trim($_POST['scode'])) {
                     $this->baoError('请输入短信验证码！');
                 }
@@ -20,29 +17,43 @@ class PassportAction extends CommonAction {
                     $this->baoError('请输入正确的短信验证码！');
                 }
             } else {
+				
                 $yzm = $this->_post('yzm');
-                if (strtolower($yzm) != strtolower(session('verify'))) {
-                    session('verify', null);
-                    $this->baoError('验证码不正确!', 2000, true);
-                }
+				//是否开启显示验证码1，开启，0关闭
+				$register_yzm = $this->_CONFIG['register']['register_yzm'];
+				if($register_yzm == 1) {
+					if (strtolower($yzm) != strtolower(session('verify'))) {
+						session('verify', null);
+						$this->baoError('验证码不正确!', 2000, true);
+					}
+				}
+				
+				
             }
+			
+			
+
             $data = $this->createCheck();
             $is_agree = $this->_post('is_agree');
             if (!$is_agree) {
                 $this->baoError('请同意注册条约!', 2000, true);
             }
+
             $password2 = $this->_post('password2');
             if ($password2 !== $data['password']) {
                 session('verify', null);
                 $this->baoError('两次密码不一致', 3000, true);
             }
+
             //开始其他的判断了
             if (D('Passport')->register($data)) {
-                
                 $this->baoSuccess('恭喜您，注册成功！', U('index/index'));
             }
+
             $this->baoError(D('Passport')->getError(), 3000, true);
+
         } else {
+
 			//判断是不是注册会员获取cookie开启
 			 $fuid = (int)cookie('fuid');
             if ($fuid) {
@@ -68,27 +79,31 @@ class PassportAction extends CommonAction {
 					}
 					else {
 						$flag = true;
+
 					}
+
                     $fuser['nickname'] = empty($fuser['nickname']) ? $fuser['account'] : $fuser['nickname'];
 					if ($flag) {
 						$this->assign('fuser', $fuser);
+
 					}
+
                 }
+
 			}
+
 			//结束
-			
+
 			if(!empty($this->uid)){
 				$this->success('您已经是我们的会员，不需要重复注册！', U('member/index'));
 			}else{
 				 $this->display();
 			}
-
         }
-    }
-   
 
+    }
 	
-	
+
     public function sendsms() {
         if (!$mobile = htmlspecialchars($_POST['mobile'])) {
             die('请输入正确的手机号码1');
@@ -96,23 +111,34 @@ class PassportAction extends CommonAction {
         if (!isMobile($mobile)) {
             die('请输入正确的手机号码2');
         }
+
         if ($user = D('Users')->getUserByAccount($mobile)) {
             die('手机号码已经存在！');
         }
 		if ($user = D('Users')->getUserByMobile($mobile)) {
             die('手机号码已经存在！');
         }
+
         $randstring = session('scode');
         if (empty($randstring)) {
                 $randstring = rand_string(6, 1);
                 session('scode', $randstring);
         }
-        D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+		
+		
+		
+		//大鱼短信
+		if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+            D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_yzm', $mobile, array('sitename'=>$this->_CONFIG['site']['sitename'],'code' => $randstring));
+        }else{
+            D('Sms')->sendSms('sms_code', $mobile, array('code' => $randstring));
+        }
+
         die('1');
+
     }
 
     public function logout() {
-
         D('Passport')->logout();
         $this->success('退出登录成功！', U('index/index'));
     }
@@ -149,11 +175,9 @@ class PassportAction extends CommonAction {
                 $backurl = U('member/index');
             }
             $this->assign('backurl', $backurl);
-			
 			if(!empty($this->uid)){
 				$this->success('您已经是我们的会员，不需要重复注册！', U('member/index'));
 			}else{
-				
 				echo session('verify', null);
 				$this->display();
 			}
@@ -162,12 +186,12 @@ class PassportAction extends CommonAction {
 
     public function bind() {
         $connect = session('connect');
-
         $this->assign('connect', D('Connect')->find($connect));
-
         $this->assign('types', array('qq' => '腾讯QQ', 'weixin' => '微信', 'weibo' => '微博'));
         $this->display();
+
     }
+
 
     public function login2() { //这里修改一下
         if ($this->isPost()) {
@@ -181,8 +205,7 @@ class PassportAction extends CommonAction {
                 session('verify', null);
                 $this->baoError('请输入用户名!', 2000, true);
             }
-
-            $password = $this->_post('password');
+         $password = $this->_post('password');
             if (empty($password)) {
                 session('verify', null);
                 $this->baoError('请输入登录密码!', 2000, true);
@@ -195,7 +218,9 @@ class PassportAction extends CommonAction {
             $this->display();
         }
     }
+
 	
+
 	public function login3() { //这里修改一下
         if ($this->isPost()) {
             $yzm = $this->_post('yzm');
@@ -222,34 +247,63 @@ class PassportAction extends CommonAction {
             $this->display();
         }
     }
+	
+	public function login4() { 
+        if ($this->isPost()) {
+            $account = $this->_post('account');
+            if (empty($account)) {
+                session('verify', null);
+                $this->niuError('请输入用户名!', 2000, true);
+            }
+            $password = $this->_post('password');
+            if (empty($password)) {
+                session('verify', null);
+                $this->niuError('请输入登录密码!', 2000, true);
+            }
+            if (true == D('Passport')->login($account, $password)) {
+                $this->ajaxLoginSuccess();
+            }
+            $this->niuError(D('Passport')->getError(), 3000, true);
+        } else {
+            $this->display();
+        }
+    }
+
+
 
     public function check() {
-
         $this->display();
     }
 
     public function ajaxloging() {
-
         $this->display();
     }
+
 	public function ajaxloging1() {
-
         $this->display();
     }
-
+	public function ajaxloging2() {
+        $this->display();
+    }
 
     private function createCheck() {
         $data = $this->checkFields($this->_post('data', false), $this->create_fields);
-        $data['account'] = htmlspecialchars($_POST['account']);
+        $data['account'] = htmlspecialchars($_POST['data']['account']);
         if (!isMobile($data['account']) && !isEmail($data['account'])) {
             session('verify', null);
             $this->baoError('用户名只允许手机号码或者邮件2!', 2000, true);
         }
+
         $data['password'] = htmlspecialchars($data['password']); //整合UC的时候需要
-        if (empty($data['password']) || strlen($data['password']) < 6) {
+		$register_password = $this->_CONFIG['register']['register_password'];
+        if (empty($data['password']) || strlen($data['password']) < $register_password) {
+
             session('verify', null);
-            $this->baoError('请输入正确的密码!密码长度必须要在6个字符以上', 2000, true);
+
+            $this->baoError('请输入正确的密码!密码长度必须要在'.$register_password.'个字符以上', 2000, true);
+
         }
+
         $data['nickname'] = $data['account'];
         if (isEmail($data['account'])) { //如果邮件的@前面超过15就不好了
             $local = explode('@', $data['account']);
@@ -258,52 +312,72 @@ class PassportAction extends CommonAction {
             $data['mobile'] = $data['account']; //绑定手机号
             $data['ext0'] = $data['account']; //兼容UCENTER
         }
-        
         $data['reg_ip'] = get_client_ip();
         $data['reg_time'] = NOW_TIME;
         return $data;
     }
 
-    //两种找回密码的方式 1个是通过邮件 //填写了2个就改密码相对来说是不太合理，但是毕竟逻辑和操作相对简单一些！
-    public function forget() {
 
+     //两种找回密码的方式 1个是通过邮件 //填写了2个就改密码相对来说是不太合理，但是毕竟逻辑和操作相对简单一些！
+    public function forget() {
+        $way = (int) $this->_param('way');
+        $this->assign('way', $way);
         $this->display();
     }
-
-    public function newpwd() {
-       // $yzm = $this->_post('yzm');
-       // if (strtolower($yzm) != strtolower(session('verify'))) {
-       //    session('verify', null);
-       //     $this->baoError('验证码不正确!', 2000, true);
-       // }
-        
+	
+	 public function newpwd() {
+        $account = $this->_post('account');
+        if (empty($account)) {
+            session('verify', null);
+            $this->baoError('请输入用户名!');
+        }
+        $user = D('Users')->getUserByAccount($account);
+        if (empty($user)) {
+            session('verify', null);
+            $this->baoError('用户不存在!');
+        }
         $way = (int) $this->_post('way');
         $password = rand_string(8, 1);
-		$users = D('Users');
-        switch ($way) {
-            case 1:
-                $email = $this->_post('email');
-				$user = $users->getUserByAccount($email);
-                if (empty($email) || $email != $user['account']) {
-                    $this->baoError('账号不正确');
-                }
-                D('Passport')->uppwd($user['account'], '', $password);
-                D('Email')->sendMail('email_newpwd', $email, '重置密码', array('newpwd' => $password));
-
-                break;
-            default:
-                $mobile = $this->_post('mobile');
-				$user = $users->getUserByMobile($mobile);
-                if (empty($mobile) || $mobile != $user['mobile']) {
-                    $this->baoError('手机号码不正确');
-                }
-                D('Passport')->uppwd($user['account'], '', $password);
+        if ($way == 1) {
+            $yzm = $this->_post('yzm');
+            if (strtolower($yzm) != strtolower(session('verify'))) {
+                session('verify', null);
+                $this->baoError('验证码不正确!');
+            }
+            $email = $this->_post('email');
+			
+            if (empty($email) || $email != $user['email']) {
+                $this->baoError('邮件不正确');
+            }
+            D('Passport')->uppwd($user['account'], '', $password);
+            D('Email')->sendMail('email_newpwd', $email, '重置密码', array('newpwd' => $password));
+        } elseif ($way == 2) {
+            $mobile = htmlspecialchars($_POST['mobile']);
+            if (!$scode = trim($_POST['scode'])) {
+                $this->baoError('请输入短信验证码！');
+            }
+            $scode2 = session('scode');
+            if (empty($scode2)) {
+                $this->baoError('请获取短信验证码！');
+            }
+            if ($scode != $scode2) {
+                $this->baoError('请输入正确的短信验证码！');
+            }
+            D('Passport')->uppwd($user['account'], '', $password);
+			
+			if($this->_CONFIG['sms']['dxapi'] == 'dy'){
+                D('Sms')->DySms($this->_CONFIG['site']['sitename'], 'sms_zhmm', $mobile, array(
+					'sitename'=>$this->_CONFIG['site']['sitename'], 
+					'newpwd' => $password
+				));
+            }else{
                 D('Sms')->sendSms('sms_newpwd', $mobile, array('newpwd' => $password));
-                break;
+            }
         }
         $this->baoSuccess('重置密码成功！', U('passport/suc', array('way' => $way)));
     }
-
+	
+	
     public function suc() {
         $way = (int) $this->_get('way');
         switch ($way) {
@@ -314,7 +388,10 @@ class PassportAction extends CommonAction {
                 $this->success('密码重置成功！请查看验证手机！', U('passport/login'));
                 break;
         }
+
     }
+
+
 
     public function wblogin() {
         $login_url = 'https://api.weibo.com/oauth2/authorize?client_id=' . $this->_CONFIG['connect']['wb_app_id'] . '&response_type=code&redirect_uri=' . urlencode(__HOST__ . U('passport/wbcallback'));
@@ -322,9 +399,10 @@ class PassportAction extends CommonAction {
         die;
     }
 
+
+
     public function qqlogin() {
         $state = md5(uniqid(rand(), TRUE));
-
         session('state', $state);
         $login_url = "https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id="
                 . $this->_CONFIG['connect']['qq_app_id'] . "&redirect_uri=" . urlencode(__HOST__ . U('passport/qqcallback'))
@@ -333,6 +411,8 @@ class PassportAction extends CommonAction {
         header("Location:$login_url");
         die;
     }
+
+
 
     public function wxlogin() {
         $state = md5(uniqid(rand(), TRUE));
@@ -347,7 +427,9 @@ class PassportAction extends CommonAction {
 		$this->assign('url', $url);
 		$this->assign('state', $state);
 		$this->display();
+
     }
+
 	  public function weixincheck() {
 		$state = $this->_param('state');
 		$wxconn = D('Weixinconn') -> where(array('state'=>$state))->find();
@@ -361,7 +443,9 @@ class PassportAction extends CommonAction {
 			echo '0';
 		}
 	}
+
 	
+
 	public function wxscaned() {
 		$state = $this->_param('state');
 		$user_id = $this->_param('user');
@@ -370,11 +454,12 @@ class PassportAction extends CommonAction {
 	}
 
 
-    public function wbcallback() {
 
+
+
+    public function wbcallback() {
         import("@/Net.Curl");
         $curl = new Curl();
-
         $params = array(
             'grant_type' => 'authorization_code',
             'code' => $_REQUEST["code"],
@@ -382,6 +467,7 @@ class PassportAction extends CommonAction {
             'client_secret' => $this->_CONFIG['connect']['wb_app_key'],
             'redirect_uri' => __HOST__ . U('passport/qqcallback')
         );
+
         $url = 'https://api.weibo.com/oauth2/access_token';
         $response = $curl->post($url, http_build_query($params));
         $params = json_decode($response, true);
@@ -404,7 +490,10 @@ class PassportAction extends CommonAction {
             'token' => $params['access_token']
         );
         $this->thirdlogin($data);
+
     }
+
+
 
     public function wxcallback() {
         if ($_REQUEST['state'] == session('state')) {
@@ -417,16 +506,17 @@ class PassportAction extends CommonAction {
                     '&secret=' . $this->_CONFIG['connect']["wx_app_key"] .
                     '&code=' . $_REQUEST["code"] . '&grant_type=authorization_code';
             $str = $curl->get($token_url);
-
             $params = json_decode($str, true);
             if (!empty($params['errcode'])) {
                 echo "<h3>error:</h3>" . $params['errcode'];
                 echo "<h3>msg  :</h3>" . $params['errmsg'];
                 exit;
             }
+
             if (empty($params['openid'])) {
                 $this->error('登录失败', U('passport/login'));
             }
+
             $data = array(
                 'type' => 'weixin',
                 'open_id' => $params['openid'],
@@ -436,6 +526,8 @@ class PassportAction extends CommonAction {
         }
     }
 
+
+
     public function qqcallback() {
         import("@/Net.Curl");
         $curl = new Curl();
@@ -444,7 +536,6 @@ class PassportAction extends CommonAction {
                     . "client_id=" . $this->_CONFIG['connect']["qq_app_id"] . "&redirect_uri=" . urlencode(__HOST__ . U('passport/qqcallback'))
                     . "&client_secret=" . $this->_CONFIG['connect']["qq_app_key"] . "&code=" . $_REQUEST["code"];
             $response = $curl->get($token_url);
-
             if (strpos($response, "callback") !== false) {
                 $lpos = strpos($response, "(");
                 $rpos = strrpos($response, ")");
@@ -460,7 +551,6 @@ class PassportAction extends CommonAction {
                 die;
             $graph_url = "https://graph.qq.com/oauth2.0/me?access_token="
                     . $params['access_token'];
-
             $str = $curl->get($graph_url);
             if (strpos($str, "callback") !== false) {
                 $lpos = strpos($str, "(");
@@ -474,6 +564,7 @@ class PassportAction extends CommonAction {
                 echo "<h3>msg  :</h3>" . $user['error_description'];
                 exit;
             }
+
             if (empty($user['openid']))
                 die;
             $data = array(
@@ -485,6 +576,8 @@ class PassportAction extends CommonAction {
         }
     }
 
+
+
     private function thirdlogin($data) {
         if ($this->_CONFIG['connect']['debug']) { //调试状态下 可以直接就登录 不是调试状态就要走绑定用户名的流程
             $data['type'] = 'test'; //DEBUG状态是直接登录
@@ -495,7 +588,9 @@ class PassportAction extends CommonAction {
             } else {
                 D('Connect')->save(array('connect_id' => $connect['connect_id'], 'token' => $data['token']));
             }
+
            
+
             if (empty($connect['uid'])) {
                 $account = $data['type'] . rand(100000, 999999) . '@qq.com';
                 $user = array(
@@ -507,12 +602,10 @@ class PassportAction extends CommonAction {
                     'create_ip' => get_client_ip(),
                 );
                 if(!D('Passport')->register($user))                    $this->error ('创建帐号失败');
-                
                 $token =   D('Passport')->getToken();
                 $connect['uid'] = $token['uid'];
                 D('Connect')->save(array('connect_id' => $connect['connect_id'], 'uid' => $connect['uid']));
             }
-
             setUid($connect['uid']);
             session('access', $connect['connect_id']);
             header("Location:" . U('member/index'));
@@ -525,6 +618,7 @@ class PassportAction extends CommonAction {
             } else {
                 D('Connect')->save(array('connect_id' => $connect['connect_id'], 'token' => $data['token']));
             }
+
             if (empty($connect['uid'])) {
                 if($this->uid){
                     D('Connect')->save(array('connect_id' => $connect['connect_id'], 'uid' => $this->uid));
@@ -542,4 +636,6 @@ class PassportAction extends CommonAction {
         }
     }
 
+
 }
+

@@ -13,7 +13,7 @@
 	
 
 
-	<div class="blank-40"></div>
+	<div class="blank-10"></div>
 
 		<form class="reg-form" action="<{:U('passport/register')}>" method="post" >
             <if condition="$fuser">
@@ -34,7 +34,7 @@
 			</div>
 			<div class="line padding border-bottom">
 				<span class="x2"><label>密码</label></span>
-				<span class="x10"><input id='password' type="password" class="text-input" name="data[password]" placeholder="请输入密码"></span>
+				<span class="x10"><input id='password' type="password" class="text-input" name="data[password]" placeholder="请输入<{$CONFIG['register']['register_password']}>-20位密码"></span>
 			</div>
 			<div class="line padding border-bottom">
 				<span class="x2"><label>确认</label></span>

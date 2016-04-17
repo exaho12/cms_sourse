@@ -1,83 +1,44 @@
 <title>物流配送中心</title>
-
 <include file="public:header"/>
-
 <link rel="stylesheet" href="/static/default/wap/css/delivery.css">
 <script src = "/themes/default/Mobile/statics/js/jquery-1.7.1.min.js" ></script>
 <script src="/themes/default/Mobile/statics/js/layer/layer.js"></script>
-
 <script language="JavaScript"> 
-
 var tms = []; 
-
 var day = []; 
-
 var hour = []; 
-
 var minute = []; 
-
 var second = []; 
-
 function takeCount() { 
-
 setTimeout("takeCount()", 1000); 
-
 for (var i = 0, j = tms.length; i < j; i++) { 
-
 //计数减一 
-
 tms[i] -= 1000; 
-
 //计算时分秒 
-
 var days = Math.floor(tms[i] / (1000 * 60 * 60 * 24)); 
-
 var hours = Math.floor(tms[i] / (1000 * 60 * 60)) % 24; 
-
 var minutes = Math.floor(tms[i] / (1000 * 60)) % 60; 
-
 var seconds = Math.floor(tms[i] / 1000) % 60; 
-
 if (days < 0) 
-
 days = 0; 
-
 if (hours < 0) 
-
 hours = 0; 
-
 if (minutes < 0) 
-
 minutes = 0; 
-
 if (seconds < 0) 
-
 seconds = 0; 
-
 //将时分秒插入到html中 
-
 document.getElementById(day[i]).innerHTML = days; 
-
 document.getElementById(hour[i]).innerHTML = hours; 
-
 document.getElementById(minute[i]).innerHTML = minutes; 
-
 document.getElementById(second[i]).innerHTML = seconds; 
-
 } 
-
 } 
-
 setTimeout("takeCount()", 1000); 
-
 </script> 
 
-
-
 <style>
-
 .table th {border-bottom: 2px dashed #ddd;}
-
 </style>
 
 
@@ -85,25 +46,15 @@ setTimeout("takeCount()", 1000);
 
 
 <header class="top-fixed bg-yellow bg-inverse">
-
 	<div class="top-back">
-
 		<a class="top-addr" href="<{:U('delivery/index/index')}>"><i class="icon-angle-left"></i></a>
-
 	</div>
-
 		<div class="top-title">
-
 			订单列表
-
 		</div>
-
 	<div class="top-signed">
-
 		<a href="<{:U('delivery/login/logout')}>">退出</a>
-
 	</div>
-
 </header>
 
 
@@ -482,11 +433,6 @@ setInterval(getRTime,1000);
   <script type="text/javascript" language="javascript">
 
 
-
-   
-
-
-
    		$(document).ready(function(){
 
 
@@ -590,34 +536,14 @@ setInterval(getRTime,1000);
 					}
 
 
-
 				},'json');
 
-
-
 			})
-
-
 
 		})
 
 
-
-   
-
-
-
    </script>
-
-
-
-   
-
-
-
-   
-
-
 
 
 

@@ -1,0 +1,12 @@
+
+ul {padding-left: 0px;}
+/* 店铺列表 */
+.shop-list li{overflow:hidden;padding:0 10px;}
+.shop-list .item{overflow:hidden;padding:10px 0;border-bottom:thin solid #EEE;display:block;position:relative;}
+.shop-list .item .pic{float:left;width:100px;height:80px;width:80px;}
+.shop-list .item .des{float:left;width:100%;padding-left:90px;position:absolute;left:0;}
+.shop-list .item .des h5{overflow:hidden;margin-bottom:5px;width:100%;}
+.shop-list .item .des .distance{float:right;}
+.shop-list .item .des .addr{padding:5px 0;font-size:12px;color:#999;}
+.shop-list .item .des .info{padding:5px 0;}
+

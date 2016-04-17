@@ -1,6 +1,11 @@
 <include file="public:header"/>
+<!--<script src="/static/default/mobile/js/zepto.js"></script>
+<script src="/static/default/mobile/js/frozen.js"></script>-->
+
 <style>
-.container { margin-top: 3rem;}
+ul{ padding-left:0px;}
+li {list-style: none;}
+.container { margin-top:3rem;}
 .container2 {margin: 0 auto; }
 .coupon-list .item {  padding: 5px 0px 0px 5px;}
 .coupon-list .item .intro { height: initial;}
@@ -33,7 +38,41 @@ p, .p {margin-bottom: 0px; }
 			</ul>
 		<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=890ab8bbdb3c"></script>
 	</div>
-	<script>
+	
+	
+
+<ul id="shangjia_tab">
+        <li style="width:16.66666667%;"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>" class="on">首页</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">团购</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/life',array('shop_id'=>$detail['shop_id']))}>">信息</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>">优惠</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/news',array('shop_id'=>$detail['shop_id']))}>">新闻</a></li>
+        <li style="width:16.66666667%;"><a href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a></li>
+</ul>
+
+ <!-- 筛选TAB
+ <div class="index-cate">
+	<div class="ui-scroller scroller-news">
+		<ul>
+		<li class="x-item"><a class="active" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">商家首页<i></i></a></li>
+		<li class="x-item"><a href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">商家团购<i></i></a></li>
+        <li class="x-item"><a href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>">优惠劵<i></i></a></li>
+        <li class="x-item"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">商家新闻<i></i></a></li>
+        <li class="x-item"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">商家粉丝<i></i></a></li>
+        <li class="x-item"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">自定义页面<i></i></a></li>
+        <li class="x-item"><a href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">商家点评<i></i></a></li>
+		</ul>
+	</div>
+</div>
+  -->          
+ 
+ <script>
+		var news = new fz.Scroll('.scroller-news', {
+			scrollY: false,
+			scrollX: true
+		});
+		news.scrollToElement("li:nth-child(1)", 120, true, true);
+		
 		$(document).ready(function () {
 			$("#share-box").hide();
 			$("#share-btn").click(function () {
@@ -45,16 +84,7 @@ p, .p {margin-bottom: 0px; }
 			});
 		});
 	</script>
-	
-    
-        
-<!-- 筛选TAB -->
-<ul id="shangjia_tab">
-        <li style="width: 25%;"><a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>" class="on">首页</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/tuan',array('shop_id'=>$detail['shop_id']))}>">团购</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/coupon',array('shop_id'=>$detail['shop_id']))}>">优惠</a></li>
-        <li style="width: 25%;"><a href="<{:U('shop/dianping',array('shop_id'=>$detail['shop_id']))}>">评价</a></li>
-    </ul>
+           
 
 
 
@@ -81,6 +111,9 @@ p, .p {margin-bottom: 0px; }
 				<div class="blank-10"></div>
 				<p class="text-center"><a class="text-dot" href="#ping">商铺评价</a></p>
 				<p class="text-small text-center">( <em class="text-yellow"><{$totalnum}></em>人评价 )</p>
+                <if condition="$detail['is_renzheng'] eq 1">
+                <p class="text-small text-center"><em class="text-yellow">该商家已认证</em></p>
+                </if>
 			</div>
 		</div>
        </div>
@@ -103,7 +136,7 @@ p, .p {margin-bottom: 0px; }
 				<a class="favor" href="<{:U('shop/favorites',array('shop_id'=>$detail['shop_id']))}>">
 					<div class="txt radius-circle bg-green"><i class="icon-heart"></i></div>
 					<p>关注该商家</p>
-					<p class="text-small">已关注<em class="text-yellow"><{$favnum}></em>人</p>
+					<p class="text-small">粉丝<em class="text-yellow"><{$favnum}></em>人</p>
 				</a>
 			</div>
 		</div>
@@ -140,7 +173,6 @@ p, .p {margin-bottom: 0px; }
 				   	<span class="txt txt-little radius-little bg-green">团</span> 去逛逛商家抢购
 			    	<span class="float-right icon-angle-right"></span>
 			    </a>		   
-            <else/>
             </if>		           
            
             <if condition="!empty($coupon)"><!--显示近期优惠券数据$detail['shop_id-->			
@@ -148,35 +180,53 @@ p, .p {margin-bottom: 0px; }
 				    <span class="txt txt-little radius-little bg-red">劵</span> 商家优惠券下载
 				    <span class="float-right icon-angle-right"></span>
 			    </a>
-            <else/>
             </if>            
             <!--显示近期优惠劵结束-->
             
-             <if condition="!empty($work)"><div class="panel-head"><b>商家招聘信息</b></div>			
+            <if condition="!empty($work)">
+            <div class="blank-10 bg"></div>
+            <div class="panel-head"><b>商家招聘信息</b></div>
+            <php>$i=0;</php>	
             <volist name="work" id="item" key="index"><!--循环输出的一条数据-->
+            <php>$i++;</php>	
             <a href="<{:U('nearwork/detail',array('work_id'=>$item['work_id']))}>">
-				 <span class="txt txt-little radius-little bg-green">聘</span> <{$item.title}>
+				 <span class="txt txt-little radius-little bg-yellow"><{$i}></span> 
+                 <{:bao_msubstr($item['title'],0,12,false)}>
+                 <em style="color:#999; font-size:12px;">
+                 <if condition="!empty($item['money1'])">
+                 月薪：<{$item.money1}>
+                 </if>
+                 <if condition="!empty($item['money2'])">
+                 -<{$item.money2}> &nbsp;
+                 </if>
+                 <if condition="!empty($item['num'])">
+                 需：<{$item.num}>人
+                 </if>
+                 </em>
 				 <span class="float-right icon-angle-right"></span>
 			</a>
             </volist>
-            <else/>
+            <div class="blank-10 bg"></div>
             </if><!--显示近期招聘结束-->           
             <if condition="!empty($huodong)"><!--显示近期活动数据-->			
                 <a href="<{:U('mobile/huodong/index',array('activity_id'=>$activity_id['activity_id']))}>">
-				    <span class="txt txt-little radius-little bg-red">活</span>商家近期活动
+				    <span class="txt txt-little radius-little bg-red">活</span> 商家近期活动
 				    <span class="float-right icon-angle-right"></span>
 			    </a>
-            <else/>
             </if><!--显示近期活动结束-->          
             <if condition="!empty($ele_menu)"><!--显示近期外卖数据-->			
                 <a href="<{:U('mobile/ele/shop/',array('shop_id'=>$detail['shop_id']))}>">
-			     	<span class="txt txt-little radius-little bg-yellow">外</span> 商家外卖精选
+			     	<span class="txt txt-little radius-little bg-dot">外</span> 商家外卖精选
         		    <span class="float-right icon-angle-right"></span>
 			    </a>
-            <else/> 
             </if><!--显示近期外卖结束-->                
                        
-            
+            <if condition="!empty($goods)">			
+                <a href="<{:U('mart/lists',array('id'=>$weidian_id))}>">
+				    <span class="txt txt-little radius-little bg-yellow">商</span> 去逛逛商家微店
+				    <span class="float-right icon-angle-right"></span>
+		        </a>
+            </if><!--显示近期商品结束-->    
                        
 			<a href="<{:U('shop/book',array('shop_id'=>$detail['shop_id']))}>">
 				<span class="txt txt-little radius-little bg-blue">约</span> 预约去消费
@@ -233,7 +283,11 @@ p, .p {margin-bottom: 0px; }
 		</div>
        </div>
         
-        
-	
+
 <div class="blank-10"></div>	
 <include file="public:footer"/>
+
+<!--客服代码-->  
+<if condition="!empty($detail['service']) and $detail['service_audit'] eq 1">      
+<{$detail.service}>	
+</if>

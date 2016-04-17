@@ -194,6 +194,13 @@ class CommonAction extends Action {
         $str.='</script>';
         exit($str);
     }
+	
+	 protected function baoOpen($message, $close = true, $style) {
+        $str = '<script>';
+        $str .='parent.bopen("' . $message . '","' . $close . '","' . $style . '");';
+        $str.='</script>';
+        exit($str);
+    }
 
 //结束
    

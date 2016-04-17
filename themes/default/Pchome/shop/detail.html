@@ -12,16 +12,8 @@
 
 <style>
 
-
-
 .ajax-dialog {
-
-
-
     z-index: 99 !important;
-
-
-
 }
 
 
@@ -82,7 +74,9 @@
 
 
 
-						<h1><{$detail.shop_name}></h1>
+						<h1><{$detail.shop_name}>
+                        <if condition="$detail['is_renzheng'] eq 1"><a class="button bg-dot radius" style="font-size:14px;">已通过资质认证</a></if>
+                        </h1>
 
 
 

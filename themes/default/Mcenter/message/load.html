@@ -1,0 +1,25 @@
+<foreach name="msgs" item="item">
+	<div class="line padding border-bottom">
+		
+		<div class="x12">
+			<p>
+				<a class="title" href="<{:U('/mcenter/message/msgshow',array('msg_id'=>$item['msg_id']))}>">
+					<{:bao_Msubstr($item['title'],0,30,true )}>
+				</a>
+			</p>
+			<p class="text-gray">类型：<{$types[$item['type']]}></p>
+            <p class="text-gray">发布时间：<{$item.create_time|date='Y-m-d H:i:s',###}></p>
+		</div>
+	</div>
+	<div class="line padding">
+		<span class="x12 text-right">
+        <a class="button button-small bg-dot" href="<{:U('/mcenter/message/msgshow',array('msg_id'=>$item['msg_id']))}>">通知详情</a>
+        <if condition="$item['views'] gt 0">
+        <a class="button button-small bg-gray">已阅</a>
+        <else/>
+        <a class="button button-small bg-blue">未读</a>
+        </if>
+        </span>
+	</div>
+	<div class="blank-10 bg"></div>
+</foreach>

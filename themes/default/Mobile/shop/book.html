@@ -16,11 +16,11 @@
         
         <div class="row">
 				<span class="icon icon-user"></span>
-				<input type="text" class="line-input" id="name" name="data[name]" placeholder="填写联系人姓名"  value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}> <else/></if>"/>
+				<input type="text" class="line-input" id="name" name="data[name]" placeholder="填写联系人姓名"  value="<if condition="$MEMBER.nickname neq null"><{$MEMBER.nickname}><else/></if>"/>
 			</div>
 			<div class="row">
 				<span class="icon icon-mobile"></span>
-				<input type="text"   onkeyup="this.value=this.value.replace(/[^0-9-]+/,'')"   class="line-input" id="tel" name="data[mobile]" placeholder="填写手机号码" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}> <else/></if>" />
+				<input type="text"   onkeyup="this.value=this.value.replace(/[^0-9-]+/,'')"   class="line-input" id="tel" name="data[mobile]" placeholder="填写手机号码" value="<if condition="$MEMBER.mobile neq null"><{$MEMBER.mobile}><else/></if>" />
 			</div>
             
             

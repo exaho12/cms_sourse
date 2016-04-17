@@ -27,7 +27,7 @@ class LifeAction extends CommonAction {
                     }    
                 }
             }
-        }    
+        }   
         $this->assign('list',$list);
         $this->display(); // 输出模板   
     }
@@ -131,7 +131,7 @@ class LifeAction extends CommonAction {
 
         $cate = $this->lifecate[$cat];
         if (empty($cate)) {
-            $this->error('请选择分类！');
+            $this->error('请选择分类！1');
         }
         $linkArr = array('cat' => $cat, 'area' => 0, 's1' => 0, 's2' => 0, 's3' => 0, 's4' => 0, 's5' => 0);
         $this->assign('cate', $cate);
@@ -186,6 +186,7 @@ class LifeAction extends CommonAction {
         if (empty($cate)) {
             $this->error('该信息不能正常显示！');
         }
+		D('Life')->updateCount($life_id, 'views');
         $this->assign('cate', $cate);
 		$this->assign('city_id', $this->city_id);//添加获取城市
         $this->assign('areas', D('Area')->fetchAll());
@@ -208,22 +209,13 @@ class LifeAction extends CommonAction {
         }
         if ($this->isPost()) {
 			
-			$photo =  $this->_post('photo', false);
-			if(count($photo) ==0){
-				$this->niuMsg('请上传一张图片，可以用手机拍照上传！');
-			}
-			if(!isImage($photo['0'])){
-				$this->niuMsg('所上传的缩略图格式不正确！');
-			}
-			
-			
 			
             $data = $this->createCheck();
             $shop = D('Shop')->find(array("where" => array('user_id' => $this->uid, 'closed' => 0, 'audit' => 1)));
             if ($shop) {
                 $data['is_shop'] = 1;
             }
-			$data['photo'] = $photo['0'];
+
             $data['user_id'] = $this->uid;
 			//$data['cate_id'] = (int)$data['cate_id'];  //小灰灰自己添加的
 			$data['city_id'] = $this->city_id;//小灰灰自己添加的
@@ -288,7 +280,10 @@ class LifeAction extends CommonAction {
             $this->niuMsg('商圈不能为空');
         }
 		
-	   // $data['city_id'] = intval($data['city_id']);//小灰灰自己添加的
+	   $data['photo'] = htmlspecialchars($data['photo']);
+        if (!empty($data['photo']) && !isImage($data['photo'])) {
+            $this->niuMsg('缩略图格式不正确');
+        }
 		 
 		 
         $data['lng'] = htmlspecialchars(trim($data['lng']));

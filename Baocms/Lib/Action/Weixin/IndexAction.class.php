@@ -71,125 +71,27 @@ class IndexAction extends CommonAction {
           )); */
 
         if ($this->shop_id == 0) {
-			
-			//增加
-			$key = explode(' ',$data['Content']);
-			$keyword = D('Weixinkeyword')->checkKeyword($key[0]);
-            //$keyword = D('Weixinkeyword')->checkKeyword($data['Content']);
-			
-			if ($keyword) {
-				$openid = $data['FromUserName'];
-				$con = D('Connect')->getConnectByOpenid('weixin',$openid);
-				$usr = D('Users')->where(array('user_id' => $con['uid']))->find();
+
+            $keyword = D('Weixinkeyword')->checkKeyword($data['Content']);
+            if ($keyword) {
                 switch ($keyword['type']) {
                     case 'text':
-						//昵称帐号替换
-						$text =$keyword['contents'];
-						$text = str_replace('|nickname|',$usr['nickname'],$text);
-						$text = str_replace('|account|',$usr['account'],$text);
-                        $this->weixin->response($text, 'text');
+                        $this->weixin->response($keyword['contents'], 'text');
                         break;
                     case 'news':
-						//昵称帐号替换
-						$text =$keyword['contents'];
-						$text = str_replace('|nickname|',$usr['nickname'],$text);
-						$text = str_replace('|account|',$usr['account'],$text);
                         $content = array();
                         $content[] = array(
                             $keyword['title'],
-                            $text,
+                            $keyword['contents'],
                             $this->getImage($keyword['photo']),
                             $keyword['url'],
                         );
                         $this->weixin->response($content, 'news');
                         break;
-                    case 'pram':
-						$pram = explode('/', $keyword['contents']);
-						$text = '暂时没有为您找到内容！';
-						import("@/Wei.".$pram[0]);
-						$this->wei = new Wei();
-						$text = $this->wei->get($key);
-						$this->weixin->response($text,'text');
-                        break;
                 }
             } else {
-				
-				// 没有特定关键词则查询POIS信息
-				$openid = $data['FromUserName'];
-				$con = D('Connect')->getConnectByOpenid('weixin',$openid);
-				$usr = D('Users')->where(array('user_id' => $con['uid']))->find();
-				$map = array();
-				$map['name|tag'] = array('LIKE',array('%'.$key[0].'%','%'.$key[0],$key[0].'%','OR'));
-				$lat = $usr['lat'];
-				$lng = $usr['lng'];
-				if (empty($lat) || empty($lng)) {
-					$lat = $this->_CONFIG['site']['lat'];
-					$lng = $this->_CONFIG['site']['lng'];
-				}
-				$squares = returnSquarePoint($lng,$lat,2);
-				$map['lat'] > $squares['right-bottom']['lat'];
-				$map['lat'] < $squares['left-top']['lat'];
-				$map['lng'] > $squares['left-top']['lng'];
-				$map['lng'] > $squares['right-bottom']['lng'];
-				
-				$orderby = "orderby asc";
-				
-				
-
-				//查询包年固顶
-				$word = D('Nearword')->where(array('text' => $key[0]))->find();
-				$word_pois = $word['pois_id'];
-				if($word_pois){
-					$ding = D('Near')->find($word_pois);
-				}
-				
-				if($ding){
-					$map['pois_id'] <> $word_pois;
-					
-					if($ding['shop_id']){
-						$url = $this->_CONFIG['site']['host'].'/mobile/shop/detail/shop_id/'.$ding['shop_id'].'.html';
-					}else{
-						$url = $this->_CONFIG['site']['host'].'/mobile/near/detail/pois_id/'.$ding['pois_id'].'.html';
-					}
-					
-					
-					$text = "<a href=\"".$url."\">".$ding['name']."</a> ★★★★★ /:strong\n".$ding['address']."\n".$ding['telephone']."\n\n\n";
-					
-				}
-				
-
-				$list = D('Near')->where($map)->order($orderby)->limit(0,9)->select();
-				//判断是否从POIS中获取到信息
-				if(count($list)>0){
-					foreach($list as $val){
-						if(intval($val['pois_id']) != intval($word_pois)){
-							
-							if(intval($val['shop_id'])>0){
-								$url = $this->_CONFIG['site']['host'].'/mobile/shop/detail/shop_id/'.$val['shop_id'].'.html';
-							}else{
-								$url = $this->_CONFIG['site']['host'].'/mobile/near/detail/id/'.$val['uid'].'.html';
-							}
-							$distance = getDistanceCN($val['lat'],$val['lng'],$lat,$lng);
-							if(!empty($val['telephone'])){
-								$text.= "<a href=\"".$url."\">".$val['name']."</a>\n".$val['address']." (".$distance.")\n".$val['telephone']."\n\n\n";
-							}else{
-								$text.= "<a href=\"".$url."\">".$val['name']."</a>\n".$val['address']." (".$distance.")\n\n\n";
-							}
-						}
-					}	
-				}
-				
-				
-				if(empty($ding) && count($list)==0){
-					$text = '回禀圣上，臣翻阅了整个新华字典也没找到你要的东东。依臣所见，还是点击下面菜单试试吧！';
-				}
-
-				//发送信息到客户
-				$this->weixin->response($text,'text');
-
+                $this->event();
             }
-			//黄页结束
-            
         } else {
             $keyword = D('Shopweixinkeyword')->checkKeyword($this->shop_id, $data['Content']);
 
@@ -342,20 +244,6 @@ class IndexAction extends CommonAction {
                     }
                 }
                 $this->weixin->response($content, 'news');
-            }elseif ($type == 9) { //活动
-               $activity_id = $detail['soure_id'];
-                $activity = D('Activity')->find($activity_id);
-                $content[] = array(
-                    $activity['title'],
-                    $activity['intro'],
-                    $this->getImage($activity['photo']),
-                    __HOST__ . '/mobile/huodong/detail/activity_id/' . $activity_id . '.html',
-                );
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bbb.txt', var_export($content, true));
-                $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
-               
-                
-                $this->weixin->response($content, 'news');
             }elseif($type == 3){ //购物
                 $goods_id = $detail['soure_id'];
                 $goods = D('Goods')->find($goods_id);
@@ -470,18 +358,7 @@ class IndexAction extends CommonAction {
                     }
                 }
                 $this->weixin->response($content, 'news');
-            }elseif ($type == 9) { //活动
-				$activity_id = $detail['soure_id'];
-                $activity = D('Activity')->find($activity_id);
-                $content[] = array(
-                    $activity['title'],
-                    $activity['intro'],
-                    $this->getImage($activity['photo']),
-                    __HOST__ . '/mobile/huodong/detail/activity_id/' . $activity_id . '.html',
-                );
-				 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
-				$this->weixin->response($content, 'news'); 
-			}elseif($type == 3){ //购物
+            }elseif($type == 3){ //购物
                 $goods_id = $detail['soure_id'];
                 $goods = D('Goods')->find($goods_id);
                 $shops = D('Shop')->find($goods['shop_id']);

@@ -12,22 +12,20 @@
 	</header>
 <body>   
 
-
 <div class="panel-list">
 	<ul>
         <li><a href="javascript:;">订单号：<em><{$arr.order_no}></em></a></li>
-        
 <if condition="$arr[menu][0][0] gt 0">                             
 <volist name='arr.menu' id='item'>         
 <li><a href="javascript:;"><{$menu[$item[0]][menu_name]}><em class="text-dot">x<{$item[1]}>&nbsp;￥<{:round($menu[$item[0]][ding_price]/100,2)}></em></a></li>
 </volist>                                    
 </if>
- 	
 
 	</ul>
 </div>
 <div class="blank-10 bg"></div>
 <div class="panel-list">
+
 	<ul>
 		<li><a href="javascript:;">地点：<em><{$arr.room_id}></em></a></li>
 		<li><a href="javascript:;">预约人数：<em><{$arr.number}></em></a></li>
@@ -38,45 +36,64 @@
         <li><a href="javascript:;">买家留言：<{$arr.tip}></a></li>
         <li><a href="javascript:;">支付定金：<em><{:round($arr['need_price']/100,2)}> 元 &nbsp;&nbsp; (<if condition="$arr[status] eq 1"> 未消费 <elseif condition="$arr[status] eq 2"/> 已消费 <elseif condition="$arr[status] eq -1"/> 已退款 <else/>未支付</if>)</em></a></li>
 	</ul>
+
 </div>
+
+
+
 
 
 <div class="blank-30"></div>
 <div class="container login-open">
+<if condition="$arr[status] eq -1"> 
+<a  href="<{:U('ding/index')}>"class=" button button-block button-big bg-blue text-center">返回订单列表</a>  
+<else/>
+<a href="javascript:void(0);" rel="<{$order_id}>" class="jquery-delete button button-block button-big bg-dot text-center">退款</a>  
+</if>
 
-<form action="<{:U('ding/edit',array('order_id'=>$order_id))}>" method="post">
-<input type="hidden" name="status" value="-1" />
-<input type="button" onClick="msg()" class="button button-block button-big bg-dot" value="退款" />
-</form>
-<div class="blank-20"></div>
+<div class="blank-20" style="text-align:center"></div>
+
                                   
+<if condition="$arr[status] eq 1"> 
 <form  action="<{:U('ding/edit',array('order_id'=>$order_id))}>" method="post">
 <input type="hidden" name="status" value="2" />
 <input type="submit" class="button button-block button-big bg-green" value="设为已消费" />
-</form>                                    
+</form>  
+<elseif condition="$arr[status] eq 2"/> 
+<a class="button button-block button-big bg-blue text-center">已消费</a> 
+<elseif condition="$arr[status] eq -1"/> 
+<a class="button button-block button-big bg-gray text-center">已退款</a>  
+<else/>
+<a class="button button-block button-big bg-gray text-center">未支付</a>  
+</if>
+</div>
+<div class="blank-20"></div>
+
+<script>
+	$(document).ready(function () {
+		$(document).on('click', ".jquery-delete", function (e) {
+			var order_id = $(this).attr('rel');
+			layer.confirm('您确定要退款？', {
+				skin: 'layer-ext-demo', 
+				area: ['50%', 'auto'], //宽高
+				btn: ['是的', '不'], //按钮
+				shade: false //不显示遮罩
+			}, function () {
+				$.post("<{:U('ding/refund')}>", {order_id: order_id}, function (result) {
+					if (result.status == "success") {
+						layer.msg(result.msg);
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+		});
+	});
+</script>
 
 </div>
 
-
-
-
-<script language="javascript">
-		 function msg(){
-		 if (confirm("您确认要退款吗？"))
-		 	$('#myform').submit();
-		 }
-		</script>
-
-
-
-<div class="blank-20"></div>
-
-<div class="container login-open">
-<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
-<div class="blank-20"></div>
-</div>
-        
-
-
-		
 <include file="public:footer"/>

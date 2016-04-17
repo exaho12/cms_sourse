@@ -9,8 +9,8 @@
 
 class MarketAction extends CommonAction {
 
-    private $create_fields = array('area_id', 'business_id', 'market_name', 'logo', 'photo', 'addr', 'summary', 'tel', 'contact', 'type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'tags', 'business_time', 'near', 'orderby', 'lng', 'lat');
-    private $edit_fields = array('area_id', 'business_id', 'market_name', 'logo', 'photo', 'addr', 'summary', 'tel', 'contact', 'type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'tags', 'business_time', 'near', 'orderby', 'lng', 'lat');
+    private $create_fields = array('city_id','area_id', 'business_id', 'market_name', 'logo', 'photo', 'addr', 'summary', 'tel', 'contact', 'type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'tags', 'business_time', 'near', 'orderby', 'lng', 'lat');
+    private $edit_fields = array('city_id','area_id', 'business_id', 'market_name', 'logo', 'photo', 'addr', 'summary', 'tel', 'contact', 'type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'tags', 'business_time', 'near', 'orderby', 'lng', 'lat');
 
     public function index() {
         $market = D('Market');
@@ -76,7 +76,10 @@ class MarketAction extends CommonAction {
         $data['area_id'] = (int) $data['area_id'];
         if (empty($data['area_id'])) {
             $this->baoError('所在区域不能为空');
-        } $data['business_id'] = (int) $data['business_id'];
+        }
+        $area = D('area')->find($data['area_id']);
+        $data['city_id'] = $area['city_id'];
+        $data['business_id'] = (int) $data['business_id'];
         if (empty($data['business_id'])) {
             $this->baoError('所在商圈不能为空');
         } $data['market_name'] = htmlspecialchars($data['market_name']);
@@ -189,7 +192,10 @@ class MarketAction extends CommonAction {
         $data['area_id'] = (int) $data['area_id'];
         if (empty($data['area_id'])) {
             $this->baoError('所在区域不能为空');
-        } $data['business_id'] = (int) $data['business_id'];
+        } 
+        $area = D('area')->find($data['area_id']);
+        $data['city_id'] = $area['city_id'];
+        $data['business_id'] = (int) $data['business_id'];
         if (empty($data['business_id'])) {
             $this->baoError('所在商圈不能为空');
         } $data['market_name'] = htmlspecialchars($data['market_name']);
@@ -299,11 +305,9 @@ class MarketAction extends CommonAction {
         if ($detail['closed'] == 1) {
             $this->baoError('您选择的商场不存在');
         }
-        $floor = D('Marketfloor')->where(array('market_id' => $market_id))->order('floor_id asc')->select();
-		
+        $floor = D('Marketfloor')->where(array('market_id' => $market_id))->order('orderby asc')->select();
         $this->assign('detail', $detail);
         $this->assign('floor', $floor);
-
         $this->display();
     }
 
@@ -410,13 +414,11 @@ class MarketAction extends CommonAction {
                 $this->baoError('您选择的商场不存在');
             }
             $types = D('Market')->getType();
-	
             for ($i = 1; $i <= 6; $i++) {
                 if ($detail['type' . $i] == 0) {
                     unset($types[$i]);
                 }
             }
-			
             if ($this->isPost()) {
                 $data['shop_id'] = (int) $this->_post('shop_id', false);
                 $details = D('Marketenter')->where(array('market_id' => $market_id, 'shop_id' => $data['shop_id']))->find();
@@ -434,7 +436,6 @@ class MarketAction extends CommonAction {
             } else {
                 $this->assign('floors',D('Marketfloor')->where(array('market_id'=>$market_id))->select());
                 $this->assign('types', $types);
-				
                 $this->assign('detail', $detail);
                 $this->display();
             }

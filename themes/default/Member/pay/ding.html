@@ -28,11 +28,7 @@
                             <else/>
                             <div class="left">欢迎 <b style="color: red;font-size:14px;"><{$MEMBER.nickname}></b> 来到<{$CONFIG.site.sitename}>&nbsp;&nbsp; <a href="<{:U('member/index/index')}>" >个人中心</a>|<a href="<{:U('pchome/passport/logout')}>" >退出登录</a>
                             </if>
-                                <div class="topSm"> <span class="topSmt"><em>&nbsp;</em>手机CMS</span>
-                                    <div class="topSmnr"><img src="__PUBLIC__/img/wx.png" width="100" height="100" />
-                                        <p>扫描下载客户端</p>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="right">                    
                                 <ul>
@@ -162,6 +158,7 @@
                               <td>电话：<{$arr.mobile}>  </td>
                         </tr>
                      </table>
+                    <if condition="$arr[menu][0][0] gt 0">
                      <table class="tab_xx" width="100%">
                         <tr>
                             <td width="20%"><p class="tuanfabu_nr">菜名</p></td>
@@ -184,7 +181,8 @@
                             <td colspan="4">&nbsp;</td>
                             <td><p class="pay_total_p">支付定金：<span>￥<{:round($order['need_price']/100,2)}></span></p></td>
                         </tr>
-                    </table>      
+                    </table> 
+                      </if>
                 </div>
             </div>
             <include file="public:footer"/>

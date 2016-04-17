@@ -51,8 +51,8 @@
                         <td><{$var.details}></td>
                         <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
                         <td>
-                        
-                                <{:BA('village/bbs_replys_delete',array("reply_id"=>$var["reply_id"],'post_id'=>$detail['post_id']),'删除','act','remberBtn')}>
+                        <eq name="var.audit" value="0"> <{:BA('village/bbs_replys_audit',array("reply_id"=>$var["reply_id"]),'审核','act','remberBtn')}> </eq>
+                        <{:BA('village/bbs_replys_delete',array("reply_id"=>$var["reply_id"],'post_id'=>$detail['post_id']),'删除','act','remberBtn')}>
 
                         </td>
 

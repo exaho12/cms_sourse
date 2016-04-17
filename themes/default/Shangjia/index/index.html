@@ -92,10 +92,10 @@
                     <ul>
 
                         <li><a class="on" target="main_frm" href="<{:U('info/password')}>"><em>&nbsp;</em>修改密码</a></li>
-
-                         <li><a target="main_frm" href="<{:U('shop/about')}>"><em>&nbsp;</em>店铺管理</a></li>
-
+                        <li><a target="main_frm" href="<{:U('shop/about')}>"><em>&nbsp;</em>店铺管理</a></li>
+						<li><a target="main_frm" href="<{:U('audit/index')}>"><em>&nbsp;</em>认证管理</a></li>
                     	<li><a  target="main_frm" href="<{:U('branch/index')}>"><em>&nbsp;</em>分店地址</a></li>
+                        <li><a  target="main_frm" href="<{:U('shop/service')}>"><em>&nbsp;</em>其他设置</a></li>
                         <li><a  target="main_frm" href="<{:U('worker/index')}>"><em>&nbsp;</em>员工管理</a></li>
 
                     </ul>
@@ -125,17 +125,17 @@
             	<div class="leftNav2">
                     <ul>
                         <li><a target="main_frm" href="<{:U('goodsshopcate/index')}>"><em>&nbsp;</em>产品分类</a></li>
-                        <li><a target="main_frm" href="<{:U('goods/index')}>"><em>&nbsp;</em>商城产品</a></li>
-                        <li><a target="main_frm" href="<{:U('order/index')}>"><em>&nbsp;</em>卖出产品</a></li>
+                        <li><a target="main_frm" href="<{:U('goods/index')}>"><em>&nbsp;</em>出售中的商品</a></li>
+                        <li><a target="main_frm" href="<{:U('order/index')}>"><em>&nbsp;</em>全部订单列表</a></li>
                         
                         <if condition="$ding['is_pei'] neq 0">
-                        <li><a target="main_frm" href="<{:U('order/wait')}>"><em>&nbsp;</em>付款订单</a></li>
-                        <li><a target="main_frm" href="<{:U('order/wait2')}>"><em>&nbsp;</em>货到付款</a></li>
+                        <li><a target="main_frm" href="<{:U('order/wait')}>"><em>&nbsp;</em>已付款订单</a></li>
+                        <li><a target="main_frm" href="<{:U('order/wait2')}>"><em>&nbsp;</em>货到付款订单</a></li>
                         <li><a target="main_frm" href="<{:U('order/picks')}>"><em>&nbsp;</em>捡货单管理</a></li>
-                        <li><a target="main_frm" href="<{:U('shangjia/order/delivery')}>"><em>&nbsp;</em>发货管理</a></li>	
+                        <li><a target="main_frm" href="<{:U('shangjia/order/delivery')}>"><em>&nbsp;</em>待确认订单</a></li>	
                         <else/>
                         <li><a target="main_frm" href="<{:U('order/count')}>"><em>&nbsp;</em>配送员订单统计</a></li>
-                        <li><a target="main_frm" href="<{:U('shangjia/order/delivery')}>"><em>&nbsp;</em>发货管理</a></li>
+                        <li><a target="main_frm" href="<{:U('shangjia/order/delivery')}>"><em>&nbsp;</em>待确认订单</a></li>
                         </if>
                         <li><a target="main_frm" href="<{:U('goods/weidian')}>"><em>&nbsp;</em>商城资料修改</a></li>
                     </ul>
@@ -285,12 +285,13 @@
 
                     <ul>
 
-                        <li><a target="main_frm" href="<{:U('award/index')}>"><em>&nbsp;</em>抽奖</a></li>
-
-                        <li><a target="main_frm" href="<{:U('vote/index')}>"><em>&nbsp;</em>投票功能</a></li>
-
+                        <li><a target="main_frm" href="<{:U('coupon/index')}>"><em>&nbsp;</em>优惠券</a></li>
+                        <li><a target="main_frm" href="<{:U('scratch/index')}>"><em>&nbsp;</em>刮刮卡</a></li>
+                        <li><a target="main_frm" href="<{:U('lottery/index')}>"><em>&nbsp;</em>大转盘</a></li>
+                        
+                        <li><a target="main_frm" href="<{:U('shake/index')}>"><em>&nbsp;</em>摇一摇</a></li>
+                     
                         <li><a target="main_frm" href="<{:U('weixin/index')}>"><em>&nbsp;</em>微信营销</a></li>
-
                         <li><a target="main_frm" href="<{:U('news/index')}>"><em>&nbsp;</em>文章群发</a></li>
 
                     </ul>

@@ -8,9 +8,9 @@
 .leftMenu_li .leftMenu_a{display:block;background-image:url(../images/leftico_13.png);background-repeat:no-repeat;background-position:168px center;color:#c9d4f6;position:relative;padding-left:30px;font-size:12px;text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);}
 .leftNav2{width:199px;height:auto;background-color:#1A1C20;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#1A1C20;display:none}
 .leftNav2 li{font-family:"微软雅黑";font-size:14px;line-height:30px;color:#c9d4f6}
-.leftNav2 li:hover{font-family:"微软雅黑";font-size:14px;line-height:30px;color:#fff;background-color:#2494F2}
+.leftNav2 li:hover{font-family:"微软雅黑";font-size:14px;line-height:30px;color:#fff;background-color:#09C;}
 .leftNav2 li a{text-indent:50px;font-size:12px;color:#c9d4f6;width:196px;display:block; text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);}
-.curHover{color:#c9d4f6!important;border-left:2px solid #2494F2;background-color:#1e2025}
+.curHover{color:#c9d4f6!important;border-left:2px solid #09C;;background-color:#1e2025}
 .currents{background-image:url(../images/leftico_on_13.png)!important}
 .current{height:28px;line-height:28px;padding:0 10px;background:#09c;color:#fff!important;border-radius:3px;border:1px solid #09c}
 .rightMenu{margin-left:200px;height:100%}

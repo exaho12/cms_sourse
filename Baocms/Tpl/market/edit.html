@@ -10,16 +10,48 @@
              <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
                 <tr>
                     <td class="lfTdBt">所在区域：</td>
-                    <td  class="rgTdBt">
-                        <select name="data[area_id]" id="area_id" class="manageSelect">
-                            <option value="0">请选择...</option>
-                            <foreach name="areas" item="var">
-                                <option value="<{$var.area_id}>"  <eq name="var.area_id" value="$detail.area_id">selected="selected"</eq> ><{$var.area_name}></option>
-                            </foreach>   
-                        </select>
-
+                    <td class="rgTdBt jq_bao_city_area">
+                       <select name="data[city_id]" id="city_id"></select>市
+                       <select name="data[area_id]" id="area_id"></select>区
                     </td>
                 </tr>
+                <script src="<{:U('app/datas/cityarea')}>"></script>
+                <script>
+                    var city_id = 0;
+                    var area_id = 0;
+                    function changeCity(cid){
+                        var area_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.area){
+                           if(cityareas.area[a].city_id ==cid){
+                                if(area_id == cityareas.area[a].area_id){
+                                    area_str += '<option selected="selected" value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }else{
+                                     area_str += '<option value="'+cityareas.area[a].area_id+'">'+cityareas.area[a].area_name+'</option>';
+                                }  
+                            }
+                        }
+                        $("#area_id").html(area_str);
+                    }
+                    $(document).ready(function(){
+                        var city_str = '<option value="0">请选择.....</option>';
+                        for(a in cityareas.city){
+                           if(city_id == cityareas.city[a].city_id){
+                               city_str += '<option selected="selected" value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }else{
+                                city_str += '<option value="'+cityareas.city[a].city_id+'">'+cityareas.city[a].name+'</option>';
+                           }  
+                        }
+                        $("#city_id").html(city_str);
+                        if(city_id){
+                            changeCity(city_id);
+                        }
+                        $("#city_id").change(function(){
+                            city_id = $(this).val();
+                            changeCity($(this).val());
+                        });
+                    });
+                </script>
+
                 <script>
                     $(document).ready(function (e) {
                         $("#area_id").change(function () {
@@ -34,6 +66,7 @@
                         });
                     });
                 </script>
+                <tr>
                 <tr>
                     <td class="lfTdBt">所在商圈：</td>
                     <td  class="rgTdBt">

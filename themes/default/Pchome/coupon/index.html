@@ -51,9 +51,9 @@
                 <div style="width: 1110px;" class="left goods_flList_r">
                     <a  class="<if condition='empty($area_id)'>on</if> goods_flListA"  title="全部地区" href="<{:LinkTo('coupon/index',$linkArr,array('area'=>0,'business_id'=>0))}>">全部</a>  
                     <foreach name="areas" item="item">
-                                <php>if($item['city_id'] == $city_id){</php>
-                                <a class="goods_flListA" href="<{:U('coupon/index',array('area'=>$item['area_id']))}>"><{$item.area_name}></a> 
-                                <php>}</php>
+                        <eq name="item.city_id" value="$city_id">
+                        <a title="<{$item.area_name}>"  href="<{:LinkTo('coupon/index',$linkArr,array('area'=>$item['area_id']))}>"  <eq name="item.area_id" value="$area_id">class="goods_flListA on"<else/>class="goods_flListA"</eq> ><{$item.area_name}></a> 
+                        </eq>
                     </foreach>
                 </div>
             <if condition="!empty($area_id)">
@@ -101,7 +101,7 @@
                                 background: #fff;
                             }
                         </style>
-                        <div class="yhsy_syLiBgDw">
+                        <!-- <div class="yhsy_syLiBgDw">
                             <div class="yhsy_syLiBgK">
                                 <div class="yhsy_syLiDwNr">
                                     <a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>"><div class="yhsy_syLiWx"><div style="width: 122px; height: 122px; margin: 0px auto;" id="code_<{$item.coupon_id}>"></div></div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="yhsy_syLiBg"></div>
                             </div>
-                        </div> 
+                        </div> -->
                     </div>
                 </li>
             </foreach>

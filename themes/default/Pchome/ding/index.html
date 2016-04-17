@@ -1,6 +1,4 @@
-<include  file='public:header'/> 
-<include  file='public:top'/>
-<include  file='public:nav3'/>
+<include  file='public:header'/> <include  file='public:top'/> <include  file='public:nav3'/>
 <div class="content">
 	<div class="seat-banner">
 		<div class="seat-form-box">
@@ -18,10 +16,9 @@
 				<div class="right seat-form1-r">
 					<select name='area_id' class="city">
 						<volist name='areas' id='item'>
-                                                            <eq name="item.city_id" value="$city_id">
-
-							<option value="<{$item.area_id}>"><{$item.area_name}></option>
-                                                        </eq>
+							<eq name="item.city_id" value="$city_id">
+								<option value="<{$item.area_id}>"><{$item.area_name}></option>
+							</eq>
 						</volist>
 					</select>
 				</div>
@@ -41,7 +38,8 @@
 				</div>
 			</form>
 			<div class="seat-form2"> <span>您还可以选择以下就餐类型：</span>
-				<volist name='keyword' id='item'> <a href="<{:LinkTo('ding/lists',array('keyword'=>$item[key_id]))}>" 
+				<volist name='ding_keyword' id='item'> <a href="<{:LinkTo('ding/lists',array('keyword'=>$item[key_id]))}>" 
+					
 					<if condition='$key eq 0'>class="on"</if>
 					><{$item.keyword}></a> </volist>
 			</div>
@@ -124,66 +122,66 @@
 			<div class="seat-order seat-order-tab">
 				<ul>
 					<volist name='kw.shop' id='item'>
-					<eq name='item.closed' value='0'>
-						<li class="seat-order-list">
-							<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
-								<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($kw['set'][$item['shop_id']]['money']/100,2)}></span></div>
-								<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
-							</div>
-							<div class="seat-order-content">
-								<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
-								<p class="row"><span><{$kw['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$kw['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$kw['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
-								<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
-								<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
-							</div>
-						</li>
-					</eq>
+						<eq name='item.closed' value='0'>
+							<li class="seat-order-list">
+								<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
+									<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($kw['set'][$item['shop_id']]['money']/100,2)}></span></div>
+									<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
+								</div>
+								<div class="seat-order-content">
+									<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
+									<p class="row"><span><{$kw['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$kw['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$kw['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
+									<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+									<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
+								</div>
+							</li>
+						</eq>
 					</volist>
 				</ul>
 			</div>
 			<div class="seat-order seat-order-tab" style="display:none;">
 				<ul>
 					<volist name='hj.shop' id='item'>
-					<eq name="item.closed" value="0">
-						<li class="seat-order-list">
-							<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
-								<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($hj['set'][$item['shop_id']]['money']/100,2)}></span></div>
-								<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
-							</div>
-							<div class="seat-order-content">
-								<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
-								<p class="row"><span><{$hj['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$hj['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$hj['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
-								<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
-								<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
-							</div>
-						</li>
-					</eq>
+						<eq name="item.closed" value="0">
+							<li class="seat-order-list">
+								<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
+									<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($hj['set'][$item['shop_id']]['money']/100,2)}></span></div>
+									<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
+								</div>
+								<div class="seat-order-content">
+									<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
+									<p class="row"><span><{$hj['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$hj['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$hj['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
+									<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+									<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
+								</div>
+							</li>
+						</eq>
 					</volist>
 				</ul>
 			</div>
 			<div class="seat-order seat-order-tab" style="display:none;">
 				<ul>
 					<volist name='fw.shop' id='item'>
-					<eq name="item.closed" value="0">
-						<li class="seat-order-list">
-							<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
-								<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($fw['set'][$item['shop_id']]['money']/100,2)}></span></div>
-								<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
-							</div>
-							<div class="seat-order-content">
-								<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
-								<p class="row"><span><{$fw['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$fw['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$fw['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
-								<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
-								<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
-							</div>
-						</li>
-					</eq>
+						<eq name="item.closed" value="0">
+							<li class="seat-order-list">
+								<div class="seat-order-img"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><img src="__ROOT__/attachs/<{$item['photo']}>" width="281" height="187" /></a>
+									<div class="sy_sjcpBq"><span class="sy_sjcpBq3">￥<{:round($fw['set'][$item['shop_id']]['money']/100,2)}></span></div>
+									<p class="rap title"><em></em><{:bao_msubstr($item[addr],0,15)}></p>
+								</div>
+								<div class="seat-order-content">
+									<p class="rap title"><a href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></p>
+									<p class="row"><span><{$fw['cat'][$item['cate_id']]['d1']}><{$item.d1}></span><span><{$fw['cat'][$item['cate_id']]['d2']}><{$item.d2}></span><span><{$fw['cat'][$item['cate_id']]['d3']}><{$item.d3}></span></p>
+									<hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+									<p class="sy_hottjJg"><span class="left">浏览数：<{$item.view}></span><span class="right"><a class="sy_hottjJd" href="<{:U('ding/detail',array('shop_id'=>$item['shop_id']))}>">立即预订</a></span></p>
+								</div>
+							</li>
+						</eq>
 					</volist>
 				</ul>
 			</div>
 		</div>
 		<div class="left seat-box-r">
-			<div class="seat-ad-wx"><img src="__TMPL__statics/img/seat-wx.jpg" width="280" height="330" /></div>
+			<div class="seat-ad-wx"><img src="__ROOT__/attachs/<{$CONFIG.site.wxcode}>" width="100" height="100" /></div>
 			<div class="seat-ad"> 
 				<script type="text/javascript">
                     $(document).ready(function () {
@@ -198,9 +196,9 @@
                 </script>
 				<div class="seat-ad_flexslider">
 					<ul class="slides">
-                                            <calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=15" limit="0,3" cache="21600" order="orderby asc">
-                                                <li class="sy_hotgzLi"><a target="_blank" href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="280" height="87" /></a></li>
-                                            </calldata>
+						<calldata mdl="Ad" where=" bg_date ELT '{$today}' AND  city_id IN ({$city_ids}) AND end_date EGT '{$today}' AND closed=0 AND site_id=15" limit="0,3" cache="21600" order="orderby asc">
+							<li class="sy_hotgzLi"><a target="_blank" href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="280" height="87" /></a></li>
+						</calldata>
 					</ul>
 				</div>
 			</div>

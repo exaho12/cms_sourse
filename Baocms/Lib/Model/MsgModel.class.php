@@ -5,7 +5,7 @@ class MsgModel extends CommonModel{
     
     protected $types = array(
         'gift'      => '红包礼物',
-        'movie'     => '电影资讯',
+        'movie'     => '官方动态',
         'message'   => '个人消息',
         'coupon'    => '抢购优惠',
     );

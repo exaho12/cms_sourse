@@ -1,0 +1,250 @@
+@charset "utf-8";
+body, div, p, ul, li, ol, dl, dt, dd, form, h1, h2, h3, h4, h5, h6, input, fieldset, legend, optgroup, select, table, textarea {
+    margin: 0;
+    padding: 0;
+    font-family: "微软雅黑";
+    font-size: 12px;
+}
+
+ul,li{
+    list-style:none;
+    padding:0px;
+    margin:0px;
+    text-indent: 0px;
+}
+img,a{
+    border:none;
+}
+a{
+    text-decoration: none;
+}
+.left,.lef,.le,.l,.center,.cen,.ce,.c{
+    float:left;
+}
+.right,.righ,.rig,.ri,.r{
+    float:right;
+}
+.clear{
+    float:none;
+    clear:both;
+}
+
+
+
+.top {
+    background-color: #ff5a00;
+    height: auto;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    overflow: hidden;
+}
+.top .left {
+    width: 220px;
+    height: 100px;
+    background-image: url(../images/fgx_02.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.top .left .bgx {
+    background-image: url(../images/logo_03.png);
+    background-repeat: no-repeat;
+    background-position: center 18px;
+    height: 42px;
+    overflow: hidden;
+    color: #FFF;
+    text-align: center;
+    padding-top: 58px;
+    font-size: 31px;
+    color: #FFF;
+    text-align: center;
+}
+.top .center {
+    height: auto;
+    margin-left: 220px;
+    float: none;
+}
+.top .center .t1 {
+    height: auto;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #ffaa7b;
+
+}
+.top .center .t1 .lef {
+    font-family: "宋体";
+    font-size: 12px;
+    line-height: 32px;
+    color: #FFF;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.top .center .t1 .lef a {
+    color: #FFF;
+}
+.top .center .t1 .lef span {
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.top .center .t1 .rig {
+    text-align: right;
+}
+.top .center .t1 .rig a {
+    font-family: "宋体";
+    font-size: 12px;
+    line-height: 32px;
+    color: #FFF;
+    padding-right: 3px;
+    padding-left: 3px;
+    display: inline-block;
+}
+.top .center .t2 ul li {
+    font-family: "宋体";
+    font-size: 16px;
+    line-height: 67px;
+    color: #FFF;
+    background-image: url(../images/nav_x_08.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    text-align: center;
+    float: left;
+    height: 67px;
+    width: 101px;
+}
+.top .center .t2 {
+    height: auto;
+}
+.top .center .t2 ul li a {
+    color: #FFF;
+    display: block;
+    width: 101px;
+    height: 67px;
+}
+.top .center .t2 ul li:hover {
+    background-color: #c14400;
+    background-image: none;
+}
+.top .center .t2 ul li a.cur{
+    background-color: #c14400;
+} 
+/****************后台登陆样式修改开始***************************/
+.main_logon{
+	background-image: url(../images/htbg.jpg);
+	background-repeat: repeat;
+	background-position: center center;
+	height: 100%;
+	width: 100%;
+	overflow:hidden;
+}
+.login{
+	width:660px;
+	margin:220px auto;
+}
+.login .title{
+	font-family: "微软雅黑";
+	font-size: 45px;
+	line-height: 114px;
+	font-weight: bold;
+	color: #FFF;
+	background-image: url(../images/light.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	text-align: center;
+	width: 660px;
+	height: 114px;
+}
+.login table {
+  margin-top: 54px;
+  text-align:left;
+}
+.login table td {
+	padding-left:136px;
+}
+.main_logon .login table td input {
+	width: 366px;
+	height: 48px;
+	line-height: 48px;
+	border: #fff;
+	border-radius: 5px;
+	text-indent: 5px;
+	color: #525252;
+	font-size: 16px;
+	font-family: "宋体";
+	background-color: #FFF;
+	margin-bottom: 20px;
+	padding-left:20px;
+}
+.main_logon .login table td .yzm {
+  width: 225px;
+  float: left;
+  margin-right: 15px;
+}
+.main_logon .login table td .yzm_code {
+  float: left;
+}
+.main_logon .login table td .loginBtn {
+	margin-top:30px;
+	height: 52px;
+	line-height: 52px;
+	width: 386px;
+	text-align: center;
+	color: #812d17;
+	font-family: "微软雅黑";
+	font-size: 30px;
+	border: 1px solid #b43000 !important;
+	border-radius: 5px;
+	/*background: -moz-linear-gradient(90deg, #1da4fd, #31aff7);
+  background: -webkit-gradient(linear,100% 100%,0 0,from(#1da4fd),to(#31aff7));
+  background: -webkit-linear-gradient(90deg, #1da4fd, #31aff7);
+  background: -o-linear-gradient(90deg, #1da4fd, #31aff7);*/
+	cursor: pointer;
+	background-color: #d14c29;
+	box-shadow:0px 3px #c94e20;
+}
+.main_logon .copy{
+	font-family: "宋体";
+	font-size: 14px;
+	line-height: 44px;
+	color: #fec0b3;
+	height: 44px;
+	width: 100%;
+	background-color: #bf3601;
+	text-align: center;
+}
+
+
+.baomsgbox{
+    min-width: 100px;
+    max-width: 200px;
+    background: #fff;
+    height: 30px;
+    line-height: 30px;
+    border: 1px   #f58505  double;
+    position: fixed; padding: 0 10px;
+    z-index: 100000;
+    top: 20%;
+    left: 45%;
+    -webkit-box-shadow: 3px 3px #a9a9a9 ;
+    -moz-box-shadow: 3px 3px #a9a9a9;
+    box-shadow: 3px 3px #a9a9a9 ;
+    -moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px;            /* W3C syntax */
+    display: none;
+}
+.baomsgbox img{
+    float: left;
+    margin-top: 7px;
+    width: 16px; height: 16px;
+    display: block;
+}
+.baomsgbox span{
+    float: left;
+    display: block;
+    margin-left: 5px;
+    font-size: 13px; 
+}

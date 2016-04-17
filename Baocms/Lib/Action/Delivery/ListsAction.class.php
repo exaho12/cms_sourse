@@ -12,16 +12,36 @@ class ListsAction extends CommonAction {
     public function index() {
         if(!cookie('DL')){
 		header("Location: " . U('login/index'));
+		$keyword = $this->_param('keyword', 'htmlspecialchars');
+        $this->assign('keyword', $keyword);
+		
 		}else{
 			$cid = $this->reid();
 			$dv = D('DeliveryOrder');
-			//条件开始
+			//条件开始先删除多城市
 			/*$map = array(
                 "city_id" => $this->city_id
             );*/
 			
+	
+			
             $ss = i( "ss", 0, "intval,trim" );
             $this->assign( "ss", $ss );
+			
+			//增加搜索开始
+			if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
+			$map['shop_name|addr'] = array('LIKE', '%' . $keyword . '%');
+			}
+			$area = (int) $this->_param('area');//搜索地区
+			if ($area) {
+				$map['area_id'] = $area;
+			}
+			$business = (int) $this->_param('business');//搜索商圈
+			if ($business) {
+				$map['business_id'] = $business;
+			}
+		    //增加搜索结束
+		
             if ( $ss == 2 ) {
                 $map['status'] = 2;
                 $map['delivery_id'] = $cid;
@@ -51,11 +71,14 @@ class ListsAction extends CommonAction {
                 $shop_ids[$val['shop_id']] = $val['shop_id'];
                 $rdv[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
             }
-			$this->assign( "ex", d( "Shopdetails" )->itemsByIds( $shop_ids ) );
-			//计算那个距离结束
 			
+			
+			$this->assign( "ex", d( "Shopdetails" )->itemsByIds( $shop_ids ) );
+			//计算那个距离结
+
             $this->assign('rdv',$rdv);
 		}
+		
 		$this->display();      
     }
     
@@ -267,5 +290,43 @@ class ListsAction extends CommonAction {
 
 	//快递确认结束
 
+
+//语音通知
+
+ public function get_message(){
+        
+        if(IS_AJAX){
+            $last_time = cookie('last_time');
+            cookie('last_time',time(),86400*30); //存一个月 
+            if(empty($last_time)){  
+                $this->ajaxReturn(array('status'=>'0','message'=>'开始抢单了!'));
+            }
+            else{
+                $cid = $this->reid();
+            $delivery_type = D('Delivery')->where('id='.$cid)->getField('delivery_type');
+			//$dv = D('DeliveryOrder');
+            $t_e = C('DB_PREFIX').'ele_order';
+            $t_d = C('DB_PREFIX').'delivery_order';
+            $t_o = C('DB_PREFIX').'order';
+            $dv = D('DeliveryOrder')->join($t_e.' on '.$t_d.'.type_order_id = '.$t_e.'.order_id');
+            $dv = $dv->join($t_o.' on '.$t_d.'.type_order_id = '.$t_o.'.order_id');
+			$map = array();
+            if($delivery_type == 0){
+                $map['_string'] = '('.$t_e.'.is_pay = 1 or '.$t_o.'.is_daofu = 0) ';
+            }
+            elseif($delivery_type == 1){
+			    $map['_string'] = '('.$t_e.'.is_pay = 0 or '.$t_o.'.is_daofu = 1 ) ';
+            }
+            $map['_string'] = $map['_string'].'and '.$t_d.'.create_time>='.$last_time.' and '.$t_d.'.status <2 and '.$t_d.'.delivery_id =0';
+            $count = $dv -> where($map) -> count();
+           
+            if($count>0)
+                $this->ajaxReturn(array('status'=>'2','message'=>'有新的订单了!'));
+            else
+                $this->ajaxReturn(array('status'=>'1','message'=>''));
+            }
+        }
+        
+    }
 
 }

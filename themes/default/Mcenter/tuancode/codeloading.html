@@ -1,46 +1,76 @@
-    <foreach name="list" item="item">
-		<li class="line tuan-card">
-			<div class="x8">
-				<div class="card-l">
-					
-					<p>名称：<{:bao_Msubstr($tuans[$item['tuan_id']]['title'],0,10)}></p>
-                    <p>商家：<{$shops[$item['tuan_id']['shop_id']]['shop_name']}></p>
-                    <p>地址：<{$shops[$item['tuan_id']['shop_id']]['addr']}></p>
-                    <p>订单ID：<{$item.order_id}>&nbsp;<{$shops[$item['tuan_id']['shop_id']]['mobile']}></p>
-					<p>密码：<em class="text-yellow margin-right"><{$item.code}></i></em>
-                         <eq name="item.is_used" value="1">
-                            已使用
-                            <else/>
-                            <eq name="item.status" value="0">
+ <foreach name="list" item="item">
+   	 <li class="line">
+          <dt><a class="x2">ID：<{$item.code_id}></a><a class="x10 text-right text-gray">创建时间：<{$item.create_time|date='Y-m-d H:i:s',###}></a></dt>
+          <dd class="zhong">
+            <div class="x3">
+                   <img src="__ROOT__/attachs/<{$tuans[$item['tuan_id']]['photo']}>" style="width:90%;">
+                   </div>
+             <div class="9">
+                <p class="text-small">名称：<{:bao_Msubstr($tuans[$item['tuan_id']]['title'],0,16)}></p>
+                <p class="text-gray">订单ID：<{$item.order_id}>&nbsp;价值：<{:round($item['price']/100,2)}></em><small>元</small></p>     
+                <p class="text-small">
+                   <span class="text-dot1 margin-right">验证码：<span class="text-dot"><{$item.code}></span></span>
+                </p>
+             </div>
+          </dd>
 
-                            <neq name="item.price" value="0">
-                            <a target="x-frame"  href="<{:U('tuancode/refund',array('code_id'=>$item['code_id']))}>">申请退款</a>
-                            <else/>
-                            到店付款
-                            </neq>
-                            <else />
-                            <eq name="item.status" value="1">
-                            正在退款&nbsp;&nbsp;&nbsp;&nbsp;<a target="x-frame"  href="<{:U('tuancode/quxiao',array('code_id'=>$item['code_id']))}>"><font color="#990000">取消退款</font></a>
-                            <else />
-                            已退款
-                            </eq>
-                            </eq>
-                            </eq>
-					</p>
-				</div>
+          <dl>
+             <p class="text-right padding-top x12"> 
+             <eq name="item.is_used" value="1">
+                <a class="button button-small bg-gray">已使用</a>
+                <a href="javascript:void(0);" rel="<{$item.code_id}>"  class="jquery-delete button button-small bg-gray">删除</a>           
+             <else/>
+                  <eq name="item.status" value="0">
+                       <neq name="item.price" value="0">
+                       <a target="x-frame" class="button button-small bg-blue" href="<{:U('tuancode/refund',array('code_id'=>$item['code_id']))}>">申请退款</a>
+                       <else/>
+                        <a class="button button-small bg-blue">到店付款</a>        
+                       </neq>
+                       
+                       <eq name="item.is_sms" value="0">    
+                       <a target="x-frame" class="button button-small bg-dot" href="<{:U('mcenter/tuancode/sms',array('code_id'=>$item['code_id']))}>">发送到手机</a> 
+                       </eq>
+                      
+                       <a class="button button-small bg-dot" href="<{:U('tuancode/weixin',array('code_id'=>$item['code_id']))}>">查看二维码</a>
+                   <else />
+                       <eq name="item.status" value="1">
+                       <a target="x-frame" class="button button-small bg-dot" href="<{:U('tuancode/quxiao',array('code_id'=>$item['code_id']))}>">取消退款</a>
+                       <a class="button button-small bg-dot" href="<{:U('tuancode/weixin',array('code_id'=>$item['code_id']))}>">查看二维码</a>
+                       <else />
+                       <a class="button button-small bg-gray">已退款</a>
+                       <a href="javascript:void(0);" rel="<{$item.code_id}>"  class="jquery-delete button button-small bg-gray">删除</a>
+                       </eq>
+                   </eq>
+                   
+              </eq>
 
-			</div>
-			<div class="x4">
-                <div class="card-l">
-                   <span class="price"><em><{:round($item['price']/100,2)}></em><small>元</small></span>
-                </div>
-				<div class="card-r">
-					<a href="<{:U('tuancode/weixin',array('code_id'=>$item['code_id']))}>">
-						<img src="/static/default/pc/image/wx.png" />
-						<p>点击查看二维码</p>
-					</a>
-				</div>
-			</div>
-		</li>
-		<div class="blank-10 bg"></div>
-    </foreach>
+              </p>
+          </dl>
+        </li>
+        <div class="blank-10 bg"></div>  
+     </foreach>
+ 
+ <script>
+	$(document).ready(function () {
+		$(document).on('click', ".jquery-delete", function (e) {
+			var code_id = $(this).attr('rel');
+			layer.confirm('您确定要删除该抢购劵？', {
+				skin: 'layer-ext-demo', 
+				area: ['50%', 'auto'], //宽高
+				btn: ['是的', '不'], //按钮
+				shade: false //不显示遮罩
+			}, function () {
+				$.post("<{:U('tuancode/delete')}>", {code_id: code_id}, function (result) {
+					if (result.status == "success") {
+						layer.msg(result.msg);
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(result.msg);
+					}
+				}, 'json');
+			});
+		});
+	});
+</script>

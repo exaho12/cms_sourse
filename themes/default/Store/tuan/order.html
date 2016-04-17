@@ -1,33 +1,23 @@
 <include file='public:header'/>  
-
 <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
-
 	<header class="top-fixed bg-yellow bg-inverse">
-
 		<div class="top-back">
-
 			<a class="top-addr" href="<{:U('store/index/index')}>"><i class="icon-angle-left"></i></a>
-
 		</div>
-
 		<div class="top-title">
-
 			订单管理
-
 		</div>
-
 		<div class="top-share">
-
-			<a href="javascript:void(0);" id="cate-btn">+</a>
-
 		</div>
-
 	</header>
 
 <style>
 /*搜索框开始*/
+.xiaoqu-search { margin-top:2rem;}
+.list-media-x { margin-top: 0.0rem;}
+.list-media-x p {margin-top: .01rem; line-height:20px;font-size: 12px;font-weight: normal;}
 .right {float: right;}.fr {float: right;}.fl {float: left;}.mb10 {margin-bottom: 0.5rem !important;}
-.xiaoqu-search1 {padding: 15px; background: #fafafa;border-bottom: thin solid #eee;}
+.xiaoqu-search1 {padding: 15px; background: #fafafa;border-bottom: thin solid #eee; margin-top: 2rem;}
 .sh_search_box{}
 .sh_search_int{ border:1px solid #dedede;  border-radius:3px;  position:relative; padding-left:0.3rem; background:#fff url(../img/search02.png) 0.1rem center no-repeat; background-size:0.2rem 0.2rem;}
 .sh_search_int span{font-size:0.14rem; line-height:0.34rem; color:#333; margin:0px 0.05rem;}
@@ -53,218 +43,129 @@
 </style>
 
    <script>
-
 	$(function(){
-
 		$(".sh_search_more_int .center").click(function(){
-
 				$(this).find(".sh_search_more_pull").toggle();
-
 		});
-
 		$(".sh_search_more_pull li").click(function(){
-
 				$(".sh_search_more_int .center input").val($(this).html());
-
 				v = $(this).attr('v');
-
 				$('#st').val(v);
-
 		});
-
 	});
-
 </script> 
 
-	
-
-	
 
 	<div class="xiaoqu-search1">
-
-		<form method="post" action="<{:U('tuan/order')}>">
-
+		<form method="get" action="<{:U('tuan/order')}>">
 <div class="sh_search_box">
-
     	<div class="sh_search_more">
-
             <div class="sh_search_more_time mb10">
-
                 <div class="fl left"><input type="text" name="bg_date" value="<{$bg_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" placeholder="开始时间" onBlur="if (!value) { value = defaultValue; this.style.color = '#999' }" onClick="if (value == defaultValue) { value = ''; this.style.color = '#000' }" ></div>
-
-                
-
-                
-
-                
-
                 <div class="fr right"><input type="text" name="end_date" value="<{$end_date|default=''}>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss'});" placeholder="结束时间" onBlur="if (!value) { value = defaultValue; this.style.color = '#999' }" onClick="if (value == defaultValue) { value = ''; this.style.color = '#000' }" ></div>
-
-                
-
-                
-
-                
-
-                
-
-                
-
+      
                 <div class="clear"></div>
-
             </div>
-
             <div class="sh_search_more_int">
-
                 <div class="fl left"><input type="text" name="keyword" value="<{$keyword}>" placeholder="订单编号" onBlur="if (!value) { value = defaultValue; this.style.color = '#999' }" onClick="if (value == defaultValue) { value = ''; this.style.color = '#000' }" ></div>
-
                 <div class="fl center">
-
                 	<input type="text" value="状态"> <input value="" name="st" id="st" type="hidden" />
-
                     <div class="sh_search_more_pull" style="display:none;">
-
                         <ul>
-
                             <li v="0">等待付款</li>
-
                             <li v="1">已完成</li>
-
                         </ul>
-
                     </div>
-
                 </div>
-
                 <div class="fr right"><input class="btn" type="submit" value="搜索"></div>
-
                 <div class="clear"></div>
-
             </div>
-
         </div>
-
+</div>
+</form>
 </div>
 
-</form>
+   
+<style>ul { padding-left: 0px;}</style>
+<!-- 筛选TAB -->
+<ul id="shangjia_tab">
+        <li style="width: 25%;"><a href="<{:U('tuan/index')}>">正在抢购</a></li>
+        <li style="width: 25%;"><a href="<{:U('tuan/history')}>">往期抢购</a></li>
+        <li style="width: 25%;"><a href="<{:U('tuan/order')}>" class="on">订单管理</a></li>
+        <li style="width: 25%;"><a href="<{:U('tuan/used')}>">抢购券</a></li>
+</ul>
 
-	</div>
-
-
-
-    
-
-    
-
- <!-- 筛选TAB -->
-
-<div class="line tab-bar">
-
-	<div class="button-toolbar">
-
-		<div class="button-group">
-
-			<a class="block button" href="<{:U('tuan/index')}>">正在抢购</a>
-
-			<a class="block button" href="<{:U('tuan/history')}>">往期抢购</a>
-
-			<a class="block button bg-dot active" href="<{:U('tuan/order')}>">订单管理</a>
-
-            <a class="block button" href="<{:U('tuan/used')}>">抢购券管理</a>
-
-		</div>
-
-	</div>
-
-</div>   
-
-    
-
-    
 
 <div class="list-media-x" id="list-media">
-
 	<ul>
-
+ <div class="blank-10 bg"></div>   
     
-
-   <foreach name="list" item="var">  
-
-    <li class="line padding">
-
+<foreach name="list" item="var">   
+<li class="line ">
+      <dt><a class="x4">订单ID：<{$var.order_id}></a><a class="x8 text-right" style=" font-size:12px;">交易日期：<{$var.create_time|date='Y-m-d,H:i:s',###}></a></dt>
+        
+      <dd class="zhong">
         <div class="x4">
-
-            <a href="javascript:void(0);"><img style="width:90%;" src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>"></a>
-
-        </div>
-
-        <div class="x8">
-
-            <p><a href="javascript:void(0);"><{$tuan[$var['tuan_id']]['title']}></a> <a class="text-dot" href="javascript:void(0);">【ID:<{$var.tuan_id}>】</a></p>
-
-            <p class="text-small">订单ID:<{$var.order_id}></p>
-
-            <p class="text-small">创建时间：<{$var.create_time|date='Y-m-d H:i:s',###}><span>IP:<{$var.create_ip}></p>         
-
-				<span class="text-dot margin-right">数量：<{$var.num}></span>
-
-				<span class="text-dot">订单金额：￥<{:round($var['total_price']/100,2)}></span>
-
+               <img src="__ROOT__/attachs/<{$tuan[$var['tuan_id']]['photo']}>"  style="width:90%;">
+         </div>
+            
+         <div class="x8">
+            <p class="text-small">
+		    <span class="text-dot1 margin-right">名称：<{$tuan[$var['tuan_id']]['title']}></span>
 			</p>
-
-			<p class="text-right padding-top">
-
-            <a href="javascript:void(0);" class="button button-small bg-dot">订单状态：<eq name="var.status" value="0">等待付款<else />已完成</eq></a>
-
+            <p class="text-small">
+               <span class="text-dot1 margin-right">订单金额：<span class="text-dot"><{:round($var['total_price']/100,2)}></span>&nbsp;数量：<{$var.num}></span>
             </p>
-
-        </div>
-
+            
+         </div>
+      </dd>
+         
+     <!--信息-->          
+      <dt>
+         <div class="x12">
+         
+          <p class="text-small">总价：<{:round($var['total_price']/100,2)}>元
+           <if condition="$var['use_integral'] gt 0">
+          - 积分抵现：<{:round($var['use_integral']/100,2)}>元（消耗<{$var['use_integral']}>积分）
+           </if>
+           <if condition="$var['mobile_fan'] gt 0">
+           -手机优惠：<{:round($var['mobile_fan']/100,2)}>元
+           </if>
+           =实付金额：<a class="text-dot"><{:round($var['need_pay']/100,2)}></a>元
+           </p>
+         </div>
+      </dt> 
+      <!--信息end-->   
+            
+      <dl>
+         <p class="text-right padding-top x12"> 
+         <eq name="var.status" value="0">
+         <a class="button button-small bg-gray">待付款</a>
+         <else/>
+         <a class="button button-small bg-dot">已完成</a>
+             <eq name="var.is_dianping" value="1">
+             <a class="button button-small bg-gray">已评价</a>
+             <else/>
+             <a class="button button-small bg-blue">待评价</a>
+             </eq>
+         </eq>
+         <eq name="var.status" value="1">
+         <a class="button button-small bg-blue">手机订单</a>
+         </eq>
+         <a href="<{:U('store/tuan/detail',array('order_id'=>$var['order_id']))}>" class="button button-small bg-dot">详情</a>
+          </p>
+      </dl>
     </li>
 
-   </foreach>   
-
-    
-
+    <div class="blank-10 bg"></div>
+   </foreach>    
+   
   </ul>
-
 </div> 
 
-	
-
-
-
-
-
 <div class="blank-20"></div>
-
-
-
 <div class="container login-open">
-
 <h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
-
 <div class="blank-20"></div>
-
 </div>
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-		
-
 <include file="public:footer"/>
-
-
-
-
-

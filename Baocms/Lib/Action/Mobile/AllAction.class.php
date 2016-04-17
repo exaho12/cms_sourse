@@ -1,6 +1,16 @@
 <?php
 class AllAction extends CommonAction {
-    public function index(){
+	
+	 public function index() {
+		
+	 $keyword = $this->_param('keyword', 'htmlspecialchars');
+     $this->assign('keyword', $keyword);
+     $this->assign('nextpage', LinkTo('all/load', array('t' => NOW_TIME,'keyword' => $keyword, 'p' => '0000')));
+     $this->display(); // 输出模板
+    }
+	
+	
+    public function load(){
         import('ORG.Util.Page');
 
         $where_shop = array('closed'=>0,'audit' =>1,'city_id'=>$this->city_id);
@@ -24,7 +34,7 @@ class AllAction extends CommonAction {
 			$where_goods['title'] = array('LIKE', '%' . $keyword . '%');
 			$where_ele['product_name'] = array('LIKE', '%' . $keyword . '%');
 			$where_ding['menu_name'] = array('LIKE', '%' . $keyword . '%');
-			$where_life['title'] = array('LIKE', '%' . $keyword . '%');
+			$where_life['qq|mobile|contact|title|num1|num2'] = array('LIKE', '%' . $keyword . '%');
 			$where_coupon['title'] = array('LIKE', '%' . $keyword . '%');
 			$where_post['title'] = array('LIKE', '%' . $keyword . '%');
 			
@@ -127,6 +137,13 @@ class AllAction extends CommonAction {
 		
 		$Page=new Page(count($list),10);
 		
+	    $show = $Page->show(); // 分页显示输出
+
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
+        }
 		
 		$list=array_slice($list,$Page->firstRow,$Page->listRows);
 		$show=$Page->show();

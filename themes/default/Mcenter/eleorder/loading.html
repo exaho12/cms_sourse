@@ -1,21 +1,14 @@
 <foreach name="list" item="order">
-
 <li class="line ">
-
         <dt>
         <a class="x4">订单编号：<{$order.order_id}></a>
-        <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$order['shop_id']['shop_id']))}>">  
-        
-         <php>
-         		$shop_ids =$order['shop_id'];
-                $shop_idss = D('Shop') -> where($shop_ids) -> find();
-                $shop_name =$shop_idss['shop_name'];
-        </php> 
-               
-        <{$shop_name}> <span class=" icon-angle-right"></span> </a>
+        <a class="x8 text-right" href="<{:U('mobile/shop/detail',array('shop_id'=>$order['shop_id']))}>">   
+        <php>
+         $shops = D('Shop') -> where('shop_id ='.$order['shop_id']) -> find();
+        </php>       
+        <{$shops['shop_name']}> <span class=" icon-angle-right"></span> </a>
         </dt>
-   
-        
+  
    <foreach name="products" item="product">  
    <if condition="$product['order_id'] eq $order['order_id']">   
   <dd class="zhong">
@@ -37,7 +30,7 @@
          <dt>
              <div class="x12">
              <span class="margin-right">总费用：&yen;<{:round($order['total_price']/100,2)}></span>
-             <span>下单时间：<{$order.create_time|date='Y-m-d',###}></span>
+             <span>下单时间：<{$order.create_time|date='m-d H:i:s',###}></span>
              </div>
          </dt>   
 			

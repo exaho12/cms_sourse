@@ -96,6 +96,7 @@
                             <td><{$var.create_time|date='Y-m-d H:i:s',###}></td>
                             <td><{$var.views}></td>
                             <td>
+                            <eq name="var.audit" value="0"> <{:BA('article/audit',array("article_id"=>$var["article_id"]),'审核','act','remberBtn')}> </eq>
                                 <{:BA('article/edit',array("article_id"=>$var["article_id"]),'编辑','','remberBtn')}>
                                 <{:BA('article/delete',array("article_id"=>$var["article_id"]),'删除','act','remberBtn')}>
                             </td>
@@ -107,6 +108,7 @@
             <div class="selectNr" style="margin-bottom: 0px; border-bottom: none;">
                 <div class="left">
                     <{:BA('article/delete','','批量删除','list','a2')}>
+                    <{:BA('article/audit','','批量审核','list','remberBtn')}>
                 </div>
             </div>
         </form>

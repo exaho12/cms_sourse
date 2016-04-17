@@ -1,5 +1,5 @@
 <include  file='public:header'/>
-
+<style>.lfTdBt {width: 250px;}</style>
 <div class="mainBt">
 
     <ul>
@@ -25,7 +25,18 @@
             <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
 
 
+				
+                
+                <tr>
+                    <td class="lfTdBt">PC模板主色调：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[color]" value="<{$CONFIG.other.color}>" class="scAddTextName w150" />
+						<code>请填写比如：#ccc 之类的颜色代码</code>
+                    </td>
 
+                </tr>
+                
+                
                 <tr>
 
                     <td class="lfTdBt">美洽帐号UID：</td>
@@ -44,6 +55,15 @@
                         <label><input type="radio" name="data[mechataudit]" <eq name="CONFIG.other.mechataudit" value="1">checked="checked"</eq> value="1"  />开启</label>
                         <label><input type="radio" name="data[mechataudit]"  <eq name="CONFIG.other.mechataudit" value="0">checked="checked"</eq>  value="0"  />不开启</label>
                         <code>开启之后手机版就显示在线客服，针对新模板的，niu模板无效</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">手机访问PC页面自动跳转到手机版：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[url_jump]" <eq name="CONFIG.other.url_jump" value="1">checked="checked"</eq> value="1"  />开启</label>
+                        <label><input type="radio" name="data[url_jump]"  <eq name="CONFIG.other.url_jump" value="0">checked="checked"</eq>  value="0"  />不开启</label>
+                        <code>开启之后手机访问PC页面自动跳转到手机版！</code>
                     </td>
                 </tr>
                 

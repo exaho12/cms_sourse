@@ -27,9 +27,9 @@ class SignAction extends CommonAction {
         }
         $integal = D('Usersign')->sign($this->uid,$this->_CONFIG['integral']['sign'],$this->_CONFIG['integral']['firstsign']);
         if($integal !== false){
-            $this->success('恭喜您签到成功！系统赠送了您'.$integal.'积分',U('sign/signed'));
+            $this->success('恭喜您签到成功！系统赠送了您'.$integal.'积分',U('mcenter/member/index'));
         }else{
-            $this->error('很抱歉您已经签到过了！',U('sign/signed'));
+            $this->error('很抱歉您已经签到过了！',U('mcenter/member/index'));
         }
     }
     

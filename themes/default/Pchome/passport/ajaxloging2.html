@@ -1,0 +1,65 @@
+<div class="ajax-login">
+	<div class="ui-dialog-header">
+        <h3>用户登录</h3>
+    </div>
+	<a class="ui-dialog-btn"  href="javascript:hidde();" >
+        <i class="fa fa-close"></i>
+    </a>
+	<div class="ui-dialog-inner">
+        <div class="ui-dialog-pannel ui-dialog-border">
+            <form target="niu-frame" action="<{:U('passport/login4')}>" method="post">
+                <ul>
+                    <li>
+                        <div class="input-group">
+                            <div class="input">
+                                <label>帐号</label>
+                                <input class="name" name="account" placeholder="请用手机或者帐号"  type="text">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group">
+                            <div class="input">
+                                <label>密码</label>
+                                <input class="name" name="password" placeholder="请输入密码"  type="password">
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group" style="text-align: center;">
+                            <input class="submit-btn" value="登录" type="submit">
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="ui-dialog-header">
+            <h3>合作网站帐号登陆</h3>
+        </div>
+        <div class="ui-dialog-pannel">
+            <ul class="sns-login-list clearfix">
+                <li class="qq">
+                    <a href="<{:U('member/qqlogin')}>">
+                        <i class="fa fa-qq"></i>
+                        QQ登录
+                    </a>
+                </li>
+                <li class="wechat">
+                     <a href="<{:U('member/wxlogin')}>">
+                        <i class="fa fa-weixin"></i>
+                        微信登录
+                    </a>
+                </li>
+                <li class="weibo">
+                      <a href="<{:U('member/wblogin')}>">
+                        <i class="fa fa-weibo"></i>
+                        微博登录
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</div>

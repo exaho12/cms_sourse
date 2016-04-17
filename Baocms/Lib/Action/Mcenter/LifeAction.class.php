@@ -71,9 +71,9 @@ class  LifeAction extends  CommonAction{
                 $mday = 27;
                 break;
         }
-        $gold = $mday * $this->_CONFIG['shop']['life']['urgent'];
+        $gold = $mday * $this->_CONFIG['shop']['life']['urgent']*100;
         if($this->member['gold'] < $gold){
-            $this->errorJump('金块余额不足',U('gold/index'));
+            $this->error('金块余额不足',U('gold/index'));
         }
         $urgent_date = date('Y-m-d',NOW_TIME + $day * 86400);
         if($detail['urgent_date'] > TODAY){
@@ -110,9 +110,9 @@ class  LifeAction extends  CommonAction{
                 $mday = 27;
                 break;
         }
-        $gold = $mday * $this->_CONFIG['shop']['life']['top'];
+        $gold = $mday * $this->_CONFIG['shop']['life']['top']*100;
         if($this->member['gold'] < $gold){
-            $this->errorJump('金块余额不足',U('gold/index'));
+            $this->error('金块余额不足',U('gold/index'));
         }
         $top_date = date('Y-m-d',NOW_TIME + $day * 86400);
         if($detail['top_date'] > TODAY){

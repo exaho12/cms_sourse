@@ -1,0 +1,75 @@
+<include file="public:header"/>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('information/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			赠送优惠劵
+		</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<div class="panel-list">
+	<ul>
+		<li>
+			<a href="javascript:;">
+				 您的账户：
+				<em class="text-gray"><{$MEMBER['nickname']}></em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="container">
+	<div class="blank-10"></div>
+	<p class="text-small text-dot">您赠送到的账户需要检测通过才能赠送，都则将会赠送失败！</p>
+	<form target="x-frame" id="nick-form" method="post" action="<{:U('mcenter/coupon/give',array('download_id'=>$detail['download_id']))}>">
+	<input type="hidden" id="status" value="0" />
+	<div class="blank-20"></div>
+	<div class="form-group">
+		<div class="field">
+			<div class="input-group">
+				<input type="text" id="nickname" class="input" name="nickname" size="50" value="" placeholder="请输入昵称" />
+				<span id="check-nick" class="addbtn"><button type="button" class="button">检测</button></span>
+			</div>
+		</div>
+	</div>
+	<div class="blank-30"></div>
+	<button id="check-form" type="button" class="button button-block button-big bg-dot text-center">立即赠送</button>
+	</form>
+</div>
+<script>
+	$(document).ready(function () {
+		$("#check-nick").click(function () {
+			var nickname = $("#nickname").val();
+			var page = "/mcenter/coupon/nickcheck/nickname/"+nickname+".html";
+			if(nickname=="" || nickname=="请输入昵称"){
+				layer.msg("昵称不能为空！",{icon:2});
+				$("#status").val("0");
+			}else{
+				$.get(page, function (data) {
+					if(data == "0"){
+						layer.msg("该用户不存在",{icon:2});
+						$("#status").val("0");
+					}else{
+						layer.msg("可以赠送给此用户！",{icon:1});
+						$("#status").val("1");
+					}
+				
+				}, 'html')
+			}
+		});
+
+		$("#check-form").click(function () {
+			var status = $("#status").val();
+			if( status == '0'){
+				layer.msg("昵称没有检测通过！",{icon:2});
+			}else{
+				$("#nick-form").submit();
+			}
+		});
+	});
+</script>
+
+<include file='public:footer'/> 

@@ -1,7 +1,9 @@
 <include file="public:header"/>
 <div class="content_right"> 
 <div class="tgdd">
-	<if condition="$arr[menu][0][0] gt 0">
+
+
+	
 	<table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
     	<tr>
             <td colspan="4" style="background-color:#FCFCFC;">
@@ -17,14 +19,14 @@
                  </div>
             </td>
         </tr>
-        
+       <if condition="$arr[menu][0][0] gt 0">
         <tr>
             <th width="340">详情</th>
             <th>优惠价</th>
             <th>数量</th>
             <th>单价</th>
         </tr>
-        
+     
         <volist name='arr.menu' id='item'>
         <tr>
         	
@@ -38,9 +40,13 @@
             
         </tr>
         </volist>
+      
         <tr>
             <td colspan="4"><div class="con_ri">总价:<span class="mallorder_jg"> <{:round($order[total_price]/100,2)}>元</span></div></td>
         </tr>
+        </if>
+        
+        <if condition="!empty($arr[tip])">
         <tr>
             <td colspan="4" style="background-color:;">
             	<div class="mallorder_tBox">
@@ -48,94 +54,66 @@
                 </div>
             </td>
         </tr>
+        </if>
+        
+        <if condition="$arr[status] eq 0">
+         <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox">
+                	<p class="">
+                      <a class="myInfor_sx myInfor_sx_fk" <if condition="!empty($arr['name']) && !empty($arr['mobile'])"> href="<{:U('pchome/ding/pay2',array('order_id'=>$arr['order_id']))}>" <else/> href="<{:U('pchome/ding/pay',array('order_id'=>$arr['order_id']))}>"</if> target="_blank">去付款</a>
+                    </p>
+                </div>
+            </td>
+        </tr>
+         <elseif condition="$arr[status] eq 1" />
+         <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox"><p class=""><a class="myInfor_sx myInfor_sx_fk">已付款</a></p></div>
+            </td>
+        </tr>
+        <elseif condition="$arr[status] eq 2" />
+          <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox"><p class=""><a class="myInfor_sx myInfor_sx_fk">已消费</a></p></div>
+            </td>
+        </tr>
+         <eq name="arr.status" value="2">
+         <if condition="$arr['is_dianping'] eq 0">
+          <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox">
+                	<p class=""><a class="myInfor_sx myInfor_sx_fk" href="<{:U('ding/dianping',array('order_id'=>$arr['order_id']))}>" target="_blank">点评</a>
+                    </p>
+                </div>
+            </td>
+        </tr>
+
+         
+         <else/>
+         
+         
+          <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox"><p class=""><a class="myInfor_sx myInfor_sx_fk">已点评</a></p></div>
+            </td>
+         </tr>
+         
+         
+         </if>
+         </eq>
+         <elseif condition="$arr[status] eq -1" />
+         <tr>
+            <td colspan="4" style="background-color:;">
+            	<div class="mallorder_tBox"><p class=""><a class="myInfor_sx myInfor_sx_fk">已退款</a></p></div>
+            </td>
+         </tr>
+         </if>
+                       
+        
+        
     </table>
-    
-    
-    
-    <!--<div class="page-center-box">
-        <table  border="0" cellspacing="0" width="100%"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; text-align:center;">
-            <tr>
-                <td width="120"><p class="tuanfabu_t">订单号：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{$arr.order_no}>
-                </div></td>
-            </tr>
-            
-             <tr>
-                <td width="120"><p class="tuanfabu_t">地点：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{$arr.room_id}>
-                </div></td>
-            </tr>
-            
-             <tr>
-                <td width="120"><p class="tuanfabu_t">预约时间：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{$arr.last_date}> &nbsp;<{$arr.last_t}>
-                </div></td>
-            </tr>
-            
-            <tr>
-                <td width="120"><p class="tuanfabu_t">预计人数：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{$arr.number}> 
-                </div></td>
-            </tr>
-            
-             <tr>
-                <td width="120"><p class="tuanfabu_t">支付定金：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{:round($arr['need_price']/100,2)}> 元 &nbsp;&nbsp; (<if condition="$arr[status] eq 1"> 未消费 <elseif condition="$arr[status] eq 2"/> 已消费 <elseif condition="$arr[status] eq -1"/> 已退款 <else/>未支付</if>)
-                </div></td>
-            </tr>
-            
-             <tr>
-                <td width="120"><p class="tuanfabu_t">联系人：</p></td>
-                <td><div class="tuanfabu_nr">
-                <{$arr.name}> &nbsp;（<if condition="$sex eq 2">女士<else/>先生</if>）
-                </div></td>
-            </tr>
-            
-            <tr>
-                <td width="120"><p class="tuanfabu_t">电话：</p></td>
-                <td><div class="tuanfabu_nr">
-                	<{$arr.mobile}> 
-                </div></td>
-            </tr>
-            
-            <tr>
-                <td width="120"><p class="tuanfabu_t">买家留言：</p></td>
-                <td><div class="tuanfabu_nr">
-                	<{$arr.tip}> 
-                </div></td>
-            </tr>
-        </table>
-         <if condition="$arr[menu][0][0] gt 0">
-        <div style="margin-top:10px;"></div>
-        <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-        	
-            <tr>
-                <td width="20%"><p class="tuanfabu_nr">菜名</p></td>
-                <td width="20%"><div class="tuanfabu_nr">缩略图</div></td>
-                <td width="20%"><p class="tuanfabu_nr">优惠价</p></td>
-                <td width="20%"><p class="tuanfabu_nr">数量</p></td>
-                <td width="20%"><p class="tuanfabu_nr">单价</p></td>
-            </tr>
-            <volist name='arr.menu' id='item'>
-            	<tr>
-                    <td width="20%"><p class="tuanfabu_nr"><{$menu[$item[0]][menu_name]}></p></td>
-                    <td width="20%"><div class="tuanfabu_nr"><img style="margin: 10px auto; width: 120px;" src="__ROOT__/attachs/<{$menu[$item[0]][photo]}>" /></div></td>
-                    <td width="20%"><p class="tuanfabu_nr"><{:round($menu[$item[0]][ding_price]/100,2)}>元</p></td>
-                    <td width="20%"><p class="tuanfabu_nr"><{$item[1]}></p></td>
-                    <td width="20%"><p class="tuanfabu_nr"><{:round($menu[$item[0]][ding_price]*$item[1]/100,2)}>元</p></td>
-                </tr>
-            </volist>
-            <tr>
-            	<td colspan="6" class="tuanfabu_t"> 总价 ： <{:round($order[total_price]/100,2)}>元 &nbsp; 支付定金：  <{:round($order[need_price]/100,2)}>元</td>
-            </tr>
-            
-        </table>
-     </div>-->
+
 </div>
 </div>
 </div>

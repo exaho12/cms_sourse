@@ -3,7 +3,15 @@
 <div class="item">	
 	<div class="line">
 		<div class="x2">
-        	<img class="pic" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>">
+        
+         <!--如果头像中有http://-->
+            <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
+            <img class="pic"  src="<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
+            <?php }else{ ?>
+            <img class="pic" src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>">
+            <?php }?>
+            
+            
         </div>
         
 		<div class="x10">

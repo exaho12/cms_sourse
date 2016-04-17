@@ -183,19 +183,19 @@ class EleorderAction extends CommonAction {
         $product_name = D('Eleproduct')->where($map)->getField('product_name',true);
         $product_name = implode(',', $product_name);
         //====================微信支付通知===========================
-             
+
         include_once "Baocms/Lib/Net/Wxmesg.class.php";
         $_data_sure = array(
             'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/eleorder/detail/order_id/".$detail['order_id'].".html",
             'topcolor'  =>  '#F55555',
             'first'     =>  '亲,卖家已经收到您的订单！',
-            'remark'    =>  '更多信息,请登录http://www.baocms.cn！再次感谢您的惠顾！',
+            'remark'    =>  '更多信息,请登录http://'.$_SERVER['HTTP_HOST'].'！再次感谢您的惠顾！',
             'orderNum'  =>  $detail['order_id'],
             'money'     =>  round($detail['need_money']/100,2).'元',
             'orderDate' =>  $detail['create_time']
         );
         $sure_data = Wxmesg::pay($_data_sure);
-        $return    = Wxmesg::net($detail['user_id'], 'OPENTM201490088', $sure_data);
+        $return    = Wxmesg::net($detail['user_id'], 'OPENTM202297555', $sure_data);
 
         //====================微信支付通知==============================
 

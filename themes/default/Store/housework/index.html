@@ -10,22 +10,14 @@
 			<a  href="javascript:void(0);" id="cate-btn"></a>
 		</div>
 	</header>
-    
-
 <body>
-<style>
-.button {
-    border-radius:0px;
-}
-</style>  
 
- <div class="line tab-bar">
-	<div class="button-toolbar">
-		<div class="button-group">
-			<a class="block button bg-dot active">家政需要用金块查看用户联系方式滴！</a>
-		</div>
-	</div>
-</div> 
+<style>
+.xiaoqu-search { margin-top:0rem;}
+.list-media-x { margin-top: 0.0rem;}
+.list-media-x p {margin-top: .01rem; line-height:20px;font-size: 12px;}
+</style>
+
 	<div class="line xiaoqu-search">
 		<form method="post"  action="<{:U('housework/index')}>" id="form1" class="form1">
 			<div class="form-group">
@@ -40,71 +32,73 @@
 		</form>
 	</div>
 
-
-<div class="xiaoqu-list">
-<ul id="xiaoqu-list">
-              
-              
-     <foreach name="list" item="item">     
-     <li class="line">
-	<a href="javascript:void(0);" class="item fix hightitem">	
-		</a><div class="x12"><a href="javascript:void(0);" class="item fix hightitem">	
-			</a><h5>项目：<{$workTypes[$item['svc_id']]}></h5>
-            
-            
-<if condition="!empty($looks[$item['housework_id']])"> 
-<a href="javascript:void(0);" class="button button-big bg-dot float-right">已经购买</a>	                     
-<else/>                   
-<a href="<{:U('housework/look',array('housework_id'=>$item['housework_id']))}>" class="button button-big bg-yellow float-right"><{$item.gold}>金块购买</a>	 
-</if>
-            
-			<p class="addr">服务时间：<{$item.svctime}></p>
-            <p class="addr">内容：<{$item.contents}></p>
-            <if condition="!empty($looks[$item['housework_id']])">
-            <p class="addr">地址：<{$item.addr}></p>
-            <else/>
-            <p class="addr">地址：<{:msubstr($item['addr'],0,5)}></p>                     
-            </if>
-                
-                    
-                 
-                    
-                    
-            <p class="text-small">
-            <if condition="!empty($looks[$item['housework_id']])">
-			<span class="text-dot margin-right">姓名：<{$item.name}></span>
-			<span class="text-dot">电话：<{$item.tel}></span>
-            <else/> 
-            <span class="text-dot margin-right">姓名：***</span>
-			<span class="text-dot">电话：***</span>
-            </if>                
-			</p>
-            
-                     
-<eq name="item.is_real" value="1">      
-<p class="addr">状态：真实需求</p>
-<else/>
-<p class="addr">状态：未确认 </p>
-</eq>   
-            
-		</div>	
-		</li>
-       </foreach>
+<div class="list-media-x" id="list-media">
+	<div class="blank-10 bg"></div>
+	<ul>
+	<foreach name="list" item="item"> 
 		
-        
+		<php>
+          $housework = D('Houseworksetting') -> where('id ='.$item['id']) -> find();
+        </php> 
+               
+	<li class="line ">
+	      <dt><a class="x3">服务ID：<{$item.housework_id}></a><a class="x9 text-right text-gray" style="font-size: 12px;">预约日期：日期:<{$item.create_time|date='Y-m-d H:i:s',###}></a></dt>
+	      <dd class="zhong">
+	        <div class="x4">
+	               <img src="__ROOT__/attachs/<{$housework['photo']}>"  style="width:90%;">
+	               <span class="album" style="width:70px;"><{:round($housework['price']/100,2)}>/<{$housework['unit']}></span>
+	         </div>
+	            
+	         <div class="8">
+	            <p class="text-small">项目：<{$housework['name']}></p>
+	            <p class="text-gray">服务时间：<{$item.svctime}></p>
+	            <if condition="!empty($looks[$item['housework_id']])">
+	            <p class="addr">地址：<{$item.addr}></p>
+	            <else/>
+	            <p class="text-gray">地址：***</p>                   
+	            </if>
+	          	<if condition="!empty($looks[$item['housework_id']])">
+				<span class="text-dot">姓名：<{$item.name}></span>
+				<span class="text-dot">电话：<{$item.tel}></span>
+	            <else/> 
+	            <span class="text-dot">姓名：***</span>
+				<span class="text-dot">电话：***</span>
+	            </if> 
+	         </div>
+	      </dd>
+	         
+	      <if condition="!empty($looks[$item['housework_id']])">   
+	      <dt><div class="x12"><span class="margin-right text-gray">内容：<{$item.contents}></span></div></dt> 
+	      <else/>  
+	      <dt><div class="x12"><span class="margin-right text-gray">内容：***</span></div></dt> 
+	      </if> 
+	           
+	      <dl>
+	         <p class="text-right padding-top x12"> 
+	         <eq name="item.is_real" value="1"> 
+	         <a class="button button-small bg-dot">真实需求</a>
+             <if condition="empty($looks[$item['housework_id']])">  
+             <a href="<{:U('housework/look',array('housework_id'=>$item['housework_id']))}>" class="button button-small bg-dot"><{$item.gold}>金块购买</a>
+             <else/>  
+             <a class="button button-small bg-gray">已购买</a>
+             </if>
+	         <else/>
+	         <a class="button button-small bg-gray">未确认</a>
+	         </eq>
+        	  
+          
+	          </p>
+	      </dl>
+	    </li>
+	 
+	    <div class="blank-10 bg"></div>
+	   </foreach>   
+	  </ul>
+</div> 
 
-</ul>  
-	</div>
-
-	
-    
-    
-    
-    
 <div class="blank-20"></div>
-
 <div class="container login-open">
 <h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
 </div>
-        
+
 <include file="public:footer"/>

@@ -9,8 +9,7 @@
 
 class MallAction extends CommonAction {
 
-    protected $goodscate = array('select1', 'select2', 'select3', 'select4', 'select5');
-
+    protected $goodscate = array();
 
     public function _initialize() {
         parent::_initialize();
@@ -20,14 +19,11 @@ class MallAction extends CommonAction {
         $this->assign('types', $this->type);
         $goods = cookie('goods');
         $this->assign('cartnum', (int) array_sum($goods));
-				$this->assign('attrs', D('Goodscateattr')->fetchAll());
-
     }
 
     public function main() {
         
-        
-        /*
+       
         $mcates = $this->_CONFIG['mall'];
         $cates = array();
         for ($i = 1; $i <= count($mcates); $i+=1) {
@@ -55,9 +51,7 @@ class MallAction extends CommonAction {
         $this->assign('goods', $goods);
         $this->assign('channels', $channels);
         $this->display(); // 输出模板 
-         * /
-         */
-        $this->index();
+       
     }
 
     public function index() {
@@ -72,22 +66,17 @@ class MallAction extends CommonAction {
         }
         $cat = (int) $this->_param('cat');
         $cate_id = (int) $this->_param('cate_id');
-		$cates = (int) $this->_param('cates');
-        if ($cat) {	
-            if (!empty($cates)) {
-				$catids = D('Goodscate')->getChildren($cates);
-                $map['cate_id'] = array('IN', $catids);
-                $this->seodatas['cate_name'] = $this->goodscate[$cates]['cate_name'];
-				$linkArr['cat'] = $cat;
-                $linkArr['cates'] = $cates;				
-			}
-			
-			 else {				
+        if ($cat) {
+            if (!empty($cate_id)) {
+                $map['cate_id'] = $cate_id;
+                $this->seodatas['cate_name'] = $this->goodscate[$cate_id]['cate_name'];
+                $linkArr['cat'] = $cat;
+                $linkArr['cate_id'] = $cate_id;
+            } else {
                 $catids = D('Goodscate')->getChildren($cat);
                 if (!empty($catids)) {
                     $map['cate_id'] = array('IN', $catids);
                 }
-				
                 $this->seodatas['cate_name'] = $this->goodscate[$cat]['cate_name'];
                 $linkArr['cat'] = $cat;
             }
@@ -170,6 +159,7 @@ class MallAction extends CommonAction {
         $this->assign('page', $show); // 赋值分页输出
         $this->assign('selArr', $selArr);
         $this->assign('linkArr', $linkArr);
+		$this->assign('host',__HOST__);
         $this->display('index');
     }
 
@@ -185,7 +175,6 @@ class MallAction extends CommonAction {
         $this->assign('page', $show); // 赋值分页输出
         $this->display();
     }
-
     public function shop() {
         if (!$shop_id = (int) $this->_param('shop_id')) {
             $this->error('该商家不存在');
@@ -377,7 +366,10 @@ class MallAction extends CommonAction {
         $count = $goodsdianping->where($map)->count(); // 查询满足要求的总记录数 
         $Page = new Page($count, 5); // 实例化分页类 传入总记录数和每页显示的记录数
         $show = $Page->show(); // 分页显示输出
-        $list = $goodsdianping->where($map)->order(array('dianping_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $list = $goodsdianping->where($map)->order(array('order_id' => 'desc'))->limit($Page->firstRow . ',' . $Page->listRows)->select();
+
+		
+		
         $user_ids = $dianping_ids = array();
         foreach ($list as $k => $val) {
             $list[$k] = $val;
@@ -453,15 +445,15 @@ class MallAction extends CommonAction {
 		$this->assign('cate', $this->cates[$detail['cate_id']]);
         $this->assign('detail', $detail);
 		$attrs = D('Goodscateattr')->getAttrs($detail['cate_id']);
-		 $this->assign('attrs', $attrs);
+		$this->assign('attrs', $attrs);
 	 //丶carrot 。
 	 
 	  /** 修复评论用户等级不显示 */
-       $userrank = D('user_rank')-> select();
-       $this -> assign('userrank',$userrank);
+        $userrank = D('user_rank')-> select();
+        $this -> assign('userrank',$userrank);
        /**修复等级不显示 end**/
-	   
-	   
+	    $this->assign('pics', D('Goodsphoto')->getPics($detail['goods_id']));
+	    $this->assign('host',__HOST__);
         $this->assign('height_num', 675);
         $this->display();
     }
@@ -523,7 +515,7 @@ class MallAction extends CommonAction {
         } else {
             $goods[$goods_id] = $num;
         }
-        cookie('goods', $goods, 604800);		
+        cookie('goods', $goods, 604800);
         $this->ajaxReturn(array('status' => 'success', 'msg' => '添加购物车成功'));
     }
 	public function cartadd3() {
@@ -649,7 +641,7 @@ class MallAction extends CommonAction {
             $this->ajaxReturn(array('status' => 'error', 'msg' => '很抱歉请填写正确的购买数量'));
         $goods = D('Goods')->itemsByIds($goods_ids);
         foreach ($goods as $key => $val) {
-            if ($val['closed'] != 0 || $val['audit'] != 1 || $val['end_date'] < TODAY || $val['num'] < 0 ) {
+            if ($val['closed'] != 0 || $val['audit'] != 1 || $val['end_date'] < TODAY) {
                 unset($goods[$key]);
             }
         }
@@ -670,8 +662,9 @@ class MallAction extends CommonAction {
             $tprice+= $price;
             $ordergoods = array(
                 'num' => $num[$val['goods_id']],
+				'goods_id' => $val['goods_id'],
                 'price' => $val['mall_price'],
-                'total_price' => $price,
+                'total_price' => $price,//不是这里
                 'js_price' => $js_price,
                 'update_time' => NOW_TIME,
                 'update_ip' => $ip,
@@ -706,7 +699,7 @@ class MallAction extends CommonAction {
             $this->baoError('很抱歉请填写正确的购买数量');
         $goods = D('Goods')->itemsByIds($goods_ids);
         foreach ($goods as $key => $val) {
-            if ($val['closed'] != 0 || $val['audit'] != 1 || $val['end_date'] < TODAY || $val['num'] <= 0) {
+            if ($val['closed'] != 0 || $val['audit'] != 1 || $val['end_date'] < TODAY) {
                 unset($goods[$key]);
             }
         }
@@ -723,6 +716,11 @@ class MallAction extends CommonAction {
         $canuserintegral = array();
         foreach ($goods as $val) {
             $price = $val['mall_price'] * $num[$val['goods_id']];
+			$dan_price = $val['mall_price'] * $num[$val['goods_id']];//总费用
+			$use_price = $val['use_integral'] * $num[$val['goods_id']];//积分抵现多少钱
+			$need_pay = $dan_price - $use_price;//实际支付金额
+			
+			
             $js_price = $val['settlement_price'] * $num[$val['goods_id']];
             $tprice+= $price;
             $canuserintegral[$val['shop_id']] += $val['use_integral'] * $num[$val['goods_id']];
@@ -732,11 +730,12 @@ class MallAction extends CommonAction {
                 'num' => $num[$val['goods_id']],
                 'price' => $val['mall_price'],
                 'total_price' => $price,
+				'need_pay' => $need_pay,
                 'js_price' => $js_price,
                 'create_time' => NOW_TIME,
                 'create_ip' => $ip
             );
-            $total_price[$val['shop_id']] += $price;
+            $total_price[$val['shop_id']] += $price;//应该是这里出去的，PC	钱是减去了，可是积分还没减去怎么办呢？
         }
 
         //总订单
@@ -744,6 +743,8 @@ class MallAction extends CommonAction {
             'user_id' => $this->uid,
             'create_time' => NOW_TIME,
             'create_ip' => $ip,
+			'need_pay' => $need_pay,
+			'goods_id' => $val['goods_id'],
             'total_price' => 0
         );
         $order_ids = array();
@@ -751,7 +752,8 @@ class MallAction extends CommonAction {
             $shop = D('Shop')->find($k);
             $order['shop_id'] = $k;
             $order['can_use_integral'] = $canuserintegral[$k];
-            $order['total_price'] = $total_price[$k];
+            $order['total_price'] = $total_price[$k];//这里影响的没有减去积分
+			
             $order['is_shop'] = (int) $shop['is_pei']; //是否由商家自己配送
 
             if ($order_id = D('Order')->add($order)) {
@@ -763,8 +765,12 @@ class MallAction extends CommonAction {
             }
         }
         cookie('goods', null);
-        if (count($order_ids) > 1) {//如果大于1 那么形成一个 支付记录 来合并付款！如果其他条件可以直接去付款
+		
+		//如果大于1 那么形成一个 支付记录 来合并付款！如果其他条件可以直接去付款
+		
+        if (count($order_ids) > 1) {
             $need_pay = D('Order')->useIntegral($this->uid,$order_ids);
+			
             $logs = array(
                 'type' => 'goods',
                 'user_id' => $this->uid,
@@ -778,10 +784,10 @@ class MallAction extends CommonAction {
             );
             $logs['log_id'] = D('Paymentlogs')->add($logs);
             $this->baoJump(U('mall/paycode', array('log_id' => $logs['log_id'])));
+		
         } else {
             $this->baoJump(U('mall/pay', array('order_id' => $order_id)));
         }
-		
     }
 
     public function change_addr() {
@@ -928,9 +934,24 @@ class MallAction extends CommonAction {
                     ), array('where' => array(
                     'order_id' => array('IN', $order_ids)
             )));
+			
+			
             D('Sms')->mallTZshop($order_ids);
-             D('Payment')->mallSold($order_ids);
+			
+			//用户下单大鱼通知商家
+			$shop_mobile = D('Shop')->where(array('shop_id'=>$order['shop_id']))->select();
+			$mobile = $shop_mobile[0]['tel'];
+			if(!empty($mobile)){
+				if($this->_CONFIG['']['dxapi'] == 'dy'){
+				 D('')->Dy($this->_CONFIG['site']['sitename'], '_gwtxsj', $mobile, array());
+				}else{
+				 D('')->mallTZshop($order_ids);
+			  }
+			}
+			
+            D('Payment')->mallSold($order_ids);
             D('Payment')->mallPeisong(array($order_ids),1);
+
             $this->baoSuccess('恭喜您下单成功！', U('member/order/goods'));
         } else {
             $payment = D('Payment')->checkPayment($code);
@@ -1002,14 +1023,14 @@ class MallAction extends CommonAction {
             $map         = array('goods_id'=>array('in',$goods_ids));
             $goods_name  = D('Goods')->where($map)->getField('title',true);
             $goods_name  = implode(',', $goods_name);
-            //====================微信支付通知===========================
+             //====================微信支付通知===========================
              
             include_once "Baocms/Lib/Net/Wxmesg.class.php";
             $_data_pay = array(
                 'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/goods/index/aready/".$order['order_id'].".html",
                 'topcolor'  =>  '#F55555',
                 'first'     =>  '亲,您的货到付款订单我们已经收到,我们马上发货！',
-                'remark'    =>  '更多信息,请登录http://www.baocms.cn！再次感谢您的惠顾！',
+                'remark'    =>  '更多信息,请登录http://'.$_SERVER['HTTP_HOST'].'！再次感谢您的惠顾！',
                 'money'     =>  round($order['total_price']/100,2).'元',
                 'orderInfo' =>  $goods_name,
                 'addr'      =>  $uaddr['addr'],
@@ -1019,7 +1040,8 @@ class MallAction extends CommonAction {
             $return   = Wxmesg::net($this->uid, 'OPENTM201490088', $pay_data);
 
             //====================微信支付通知==============================
-	            $this->baoSuccess('恭喜您下单成功！', U('member/order/goods'));
+
+            $this->baoSuccess('恭喜您下单成功！', U('member/order/goods'));
         } else {
             $payment = D('Payment')->checkPayment($code);
             if (empty($payment)) {

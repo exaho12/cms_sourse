@@ -1,6 +1,6 @@
 
 
-
+.tuan-detail{overflow: hidden;position: relative; margin-top: -50px;}
 .tuan-detail .banner{width:100%;position:relative;}
 .tuan-detail .banner img{width:100%;}
 .tuan-detail .title{position:absolute;bottom:0;padding:10px;color:#FFF;background:rgba(0,0,0,0.5);width:100%;}
@@ -22,11 +22,11 @@
 .tuan-detail .intro .container{padding:10px;}
 .tuan-detail .intro .container *{max-width:100%;}
 
-
-.tuan-detail .status{padding:10px;color:#999;}
-.tuan-detail .status2{ border-top:#eee 1px solid;padding:10px;}
-.tuan-detail .status2 a{ color:#06c1ae; font-size:16px; font-weight:bold;}
-.tuan-detail .ui-starbar{margin-top:5px;}
+.tuan-detail2 {  border-top: thin solid #DDD; border-bottom: thin solid #DDD;}
+.tuan-detail2 .status{padding:10px;color:#999;}
+.tuan-detail2 .status2{ border-top:#eee 1px solid;padding:10px;}
+.tuan-detail2 .status2 a{ color:#06c1ae; font-size:16px; font-weight:bold;}
+.tuan-detail2 .ui-starbar{margin-top:5px;}
 
 
 
@@ -154,12 +154,12 @@ footer .i-5{background-position:center -.96rem}
 .list-have-pic .num-input{overflow:hidden}
 .list-have-pic .num-input div{float:left;cursor:pointer}
 .list-have-pic .num-input .btn{width:1.6rem;height:1.62rem;line-height:1.6rem;text-align:center;border:1px #DEDEDE solid;color:#DEDEDE}
-.list-have-pic .num-input .input{margin:0 .85rem;width:1.3rem;padding:0;border:none;box-shadow:none}
-.list-have-pic .num-input input{width:1.3rem;height:1.2rem;border:1px #DEDEDE solid;text-align:center}
+.list-have-pic .num-input .input{margin:0 .9rem;width:1.8rem;padding:0;border:none;box-shadow:none}
+.list-have-pic .num-input input{width:2.05rem;height:1.60rem;border:1px #DEDEDE solid;text-align:center}
 .list-have-pic .num-input .active{border-color:#2FBDAA;color:#2FBDAA}
 .list-have-pic .list-content .button{width:.8rem;height:.3rem;display:block;line-height:.3rem;color:#FFF;background:#2FBDAA;font-size:.14rem;text-align:center;border-radius:.04rem;position:absolute;right:.1rem;bottom:.02rem}
 .list-have-pic .list-content .button a{display:block;color:#fff}
-.list-have-pic .icon-del{width:.2rem;height:.24rem;background:url(../img/icon-del.png) no-repeat;background-size:100% auto;position:absolute;right:.1rem;bottom:.05rem}
+.list-have-pic .icon-del{width:1.3rem;height:1.5rem;background:url(../img/icon-del.png) no-repeat;background-size:100% auto;position:absolute;right:.8rem;bottom:.55rem}
 .list-pic{padding:.1rem 0 0 2.5%}
 .list-pic .box{width:47.5%;margin-right:2.5%;float:left;border:1px #DBDBDB solid;box-sizing:border-box;margin-bottom:.1rem;background:#FFF;padding:.08rem;position:relative}
 .list-pic .box div{width:100%;font-size:0}

@@ -19,9 +19,14 @@ class IndexAction extends CommonAction {
             $lng = $this->_CONFIG['site']['lng'];
         }
         $orderby = " (ABS(lng - '{$lng}') +  ABS(lat - '{$lat}') ) asc ";
-        $shoplist = D('Shop')->where(array('city_id'=>$this->city_id, 'closed' => 0))->order($orderby)->limit(0, 3)->select();
-        $news = D('Article')->where(array('city_id'=>$this->city_id, 'closed' => 0, 'audit' => 1))->order(array('orderby' => 'desc'))->limit(0, 3)->select();
-		$community = D('Community')->where(array('city_id'=>$this->city_id, 'closed' => 0, 'audit' => 1,))->order($orderby)->limit(0, 3)->select();
+        $shoplist = D('Shop')->where(array('city_id'=>$this->city_id, 'closed' => 0))->order($orderby)->limit(0, 5)->select();
+		foreach ($shoplist as $k => $val) {
+            $shoplist[$k]['d'] = getDistance($lat, $lng, $val['lat'], $val['lng']);
+        }
+		
+		
+        $news = D('Article')->where(array('city_id'=>$this->city_id, 'closed' => 0, 'audit' => 1))->order(array('orderby' => 'desc'))->limit(0, 5)->select();
+		$community = D('Community')->where(array('city_id'=>$this->city_id, 'closed' => 0, 'audit' => 1,))->order($orderby)->limit(0, 5)->select();
 		foreach ($community as $k => $val) {
             $community[$k]['d'] = getDistance($lat, $lng, $val['lat'], $val['lng']);
         }
@@ -32,7 +37,8 @@ class IndexAction extends CommonAction {
 
 		$maps = array('status' => 2,'closed'=>0);
 		$this->assign('nav',$nav = D('Navigation') ->where($maps)->order(array('orderby' => 'asc'))->select());
-
+		$bg_time = strtotime(TODAY);
+		$this->assign('sign_day', $sign_day = (int) D('Usersign')->where(array('user_id' => $this->uid, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count());
         $this->display();
     }
    
@@ -54,5 +60,7 @@ class IndexAction extends CommonAction {
 
 	public function more() {
 			$this->display();
-		}
+	}
+	
+	
 }

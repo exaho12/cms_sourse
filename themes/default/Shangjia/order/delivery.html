@@ -2,11 +2,11 @@
 <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
 <div class="sjgl_lead">
     <ul>
-        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>付款订单</a></li>
+        <li><a href="#">商家管理</a> > <a href="">商城</a> > <a>卖出商品</a></li>
     </ul>
 </div>
 <div class="tuan_content">
-    <form method="post" action="<{:U('order/delivery')}>">
+    <form method="post" action="<{:U('order/index')}>">
     <div class="radius5 tuan_top">
         <div class="tuan_top_t">
             <div class="left tuan_topser_l">
@@ -21,68 +21,125 @@
     <div class="tuanfabu_tab">
         <ul>
             <if condition="$ding['is_pei'] neq 0">
-            <li class="tuanfabu_tabli"><a href="<{:U('goods/index')}>">商城商品</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/index')}>">卖出商品</a></li>
-            <li class="tuanfabu_tabli "><a href="<{:U('order/wait')}>">付款订单</a></li>
-            <li class="tuanfabu_tabli"><a href="<{:U('order/wait2')}>">货到付款</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('goods/index')}>">出售中商品</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/index')}>">全部订单列表</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/wait')}>">已付款订单</a></li>
+            <li class="tuanfabu_tabli"><a href="<{:U('order/wait2')}>">货到付款订单</a></li>
             <li class="tuanfabu_tabli"><a href="<{:U('order/picks')}>">捡货单</a></li>
-            <li class="tuanfabu_tabli on "><a href="<{:U('order/delivery')}>">确认订单</a></li>
+            <li class="tuanfabu_tabli on"><a href="<{:U('order/delivery')}>">待确认订单</a></li>
             <else/>
-            <li class="tuanfabu_tabli on"><a href="<{:U('order/delivery')}>">确认订单</a></li>
+            <li class="tuanfabu_tabli  on"><a href="<{:U('order/delivery')}>">待确认订单</a></li>
             </if>
         </ul>
     </div> 
-        <form  target="baocms_frm" method="post">
 
-    <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
-       
-        <foreach name="list" item="order">
-        <tr style="background-color:#f7e9d7;">
-            <td colspan="5">
-            	<div class="mallorder_tBox">
-                    <span class="mallorder_t">订单ID：<span class="mallorder_jg"><{$order.order_id}></span></span>
-                    <span class="mallorder_t">交易时间：<span class="mallorder_jg"><{$order.create_time|date='Y-m-d H:i:s',###}></span></span>
-                    <span class="mallorder_t">买家：<span class="mallorder_jg"><{$users[$order['user_id']]['account']}></span></span>
-                    <span class="mallorder_t">总价值：<span class="mallorder_jg"><{:round($order['total_price']/100,2)}></span></span>
-                    <span class="mallorder_t">收货地址：<span class="mallorder_jg">
-                    <{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}>、
-                    <{$business[$addrs[$order['addr_id']]['business_id']]['business_name']}>、
-                    <{$addrs[$order['addr_id']]['addr']}>
-                    <{$addrs[$order['addr_id']]['name']}>
-                    <{$addrs[$order['addr_id']]['mobile']}>
-                    </span></span>
-                    <span class="mallorder_t">状态：<span class="mallorder_jg">
-                    <eq name="order.is_daofu" value="1">货到付款 ---</eq>
+
+
+
+
+
+<div class="blank-20"></div>
+     <table class="tuan_table3" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="background-color:#F9F9F9;">
+            <td width="350">详情</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>总价</td>
+            <td>买家姓名</td>
+            <td>状态</td>
+            <td>实付金额</td>
+     </table>
+     <div class="blank-10"></div>
+        <form  target="baocms_frm" method="post">
+        
+<foreach name="list" item="order">  
+
+
+              
+  <table  class="tuan_table1"  width="100%" border="0">
+  <tr class="tr_left_2">
+    <td class="left10" colspan="5">
+    订单ID：<span class="mallorder_jg"><{$order.order_id}></span>
+    <span class="td_top_1">交易时间：<{$order.create_time|date='Y-m-d H:i:s',###}>
+    <span class="td_top_1">收货地址：
+   <{$areas[$addrs[$order['addr_id']]['area_id']]['area_name']}>--
+   <{$business[$addrs[$order['addr_id']]['business_id']]['business_name']}>--
+   <{$addrs[$order['addr_id']]['addr']}>--
+   <{$addrs[$order['addr_id']]['name']}>--
+   <{$addrs[$order['addr_id']]['mobile']}></span>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_left_1"> 
+    
+    <foreach name="goods" item="good">
+    <eq name="good.order_id" value="$order.order_id">
+    <table  class="tuan_table2" width="100%" border="0">
+      <tr class="tr_left_1">
+      
+        <td class="left1">
+        
+        <!--商品展示开始-->
+        <div class="index__production___yfP3y" >
+        <a  target="_blank"  href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" class="index__pic___TScfk" ><img src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']}>" ><span></span></a>
+        <div class="index__infos___A6XLq" >
+            <p ><a href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" target="_blank" ><span ></span><span><{$products[$good['goods_id']]['title']}></span><span ></span></a><span></span><span></span></p>
+            <span></span>
+            <p><a href="<{:U('pchome/mall/detail',array('goods_id'=>$products[$good['goods_id']]['goods_id']))}>" style="margin-right:8px;" target="_blank" <img src="https://img.alicdn.com/tps/i4/T1BCidFrNlXXaSQP_X-16-16.png" ></a>
+</p>
+            <span></span>
+        	</div>
+		</div>
+       <!--商品展示END-->
+        
+        </td>
+        <td class="left2">￥<{:round($good['price']/100,2)}></td>
+        <td class="left3"><{$good['num']}></td>
+        <td class="left4">￥<{:round($good['total_price']/100,2)}></td>
+        <td class="left5"> <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
+			<{$goodtypes[$good['status']]}>
+            </if></td>
+      </tr>
+     
+    </table>
+    </eq>
+    </foreach>
+    
+    </td>
+    <td class="left6" width="9%"><{$users[$order['user_id']]['account']}>
+    <eq name="order.is_mobile" value="1"><br/><img src="/themes/default/Shangjia/statics/images/mobile.png" /></eq>
+    </td>
+    <td class="left7" width="8%"><eq name="order.is_daofu" value="1">货到付款 ---</eq>
+                    <{$types[$order['status']]}>
+                    <br/> 
                     <if condition="$order['status'] eq 3">
                     <a class="radius3 btn" mini='confirm' href="<{:U('order/distribution',array('order_id'=>$order['order_id']))}>">确认订单</a>
                     <else/>
                      等待客户确认
                     </if>
-                    </span></span>
-             	</div>
-            </td>
-        </tr>
-        <foreach name="goods" item="good">
-        <eq name="good.order_id" value="$order.order_id">
-        <tr>
-            <td>
-            	<div class="mallorder_xq"><img width="80" src="__ROOT__/attachs/<{$products[$good['goods_id']]['photo']}>" /><p><{$products[$good['goods_id']]['title']}></p></div>
-            </td>
-            <td><span class="mallorder_jg">￥<{:round($good['price']/100,2)}></span></td>
-            <td><{$good['num']}></td>
-            <td><span class="mallorder_jg">￥<{:round($good['total_price']/100,2)}></span></td>
-            <td><span class="mallorder_jg">
-            <if condition="$order['status'] neq 0  && $order['is_daofu'] neq 0">
-			<{$goodtypes[$good['status']]}>
-            </if>
-            </span></td>
-        </tr>
-        </eq>
-        </foreach>
-        </foreach>
-    </table>
-     
-        </form>
+     </td>
+    <td class="left8"width="10%">
+    <span><{:round($order['total_price']/100,2)}></span><br/>
+    <a class="href" href="">查看物流</a>
+    </td>
+  </tr>
+ 
+</table>
+<br/>
+</foreach>
+
+
+
+
+
+
+
+
+
+
+
+
+    <{$page}>
 </div>
 
 <include  file='public:footer'/>

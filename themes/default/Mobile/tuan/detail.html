@@ -81,11 +81,12 @@
 				<span class="text-gray"><{$detail.d}></span>
 			</div>
            <!--小灰灰增加结束-->
-
+			<if condition="$detail['use_integral'] gt 0">
 			<div class="x12 margin-top">
 				<span class="txt-border txt-little radius-circle border-dot"><div class="txt radius-circle bg-dot"><i class="icon-database"></i></div></span>
-				<span class="text-dot">该抢购可以使用<{$detail.use_integral}>积分抵现！</span>
+				<span class="text-dot">该抢购可以使用<{$detail.use_integral}>积分！</span>
 			</div>
+            </if>
 		</div>
 		<hr />
 		<div class="blank-10 bg"></div>
@@ -103,8 +104,12 @@
 		<hr />
 		<div class="line shop">
 			<div class="x9 border-right">
-				<h2> <a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a> <a  style="color:#F00; "href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"> （点击导航）</a></h2>
-				<p><{$shop.addr}></p>
+				<h2> <a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}> </a>
+                <if condition="$shop['is_renzheng'] eq 1">
+                <a style="font-size:12px; background:#F00; padding:0 3px; color:#fff;" href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>">已认证 </a>
+                </if>
+                </h2>
+				<p><{$shop.addr}> &nbsp;<a  style="color:#F00; font-size:12px "href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"> (导航)</a></p>
 			</div>
 			<div class="x3">
 				<a class="tel" href="tel:<{$shop.tel}>"><i class="icon-phone text-main"></i></a>

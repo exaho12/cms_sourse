@@ -489,5 +489,43 @@ class SettingAction extends CommonAction {
             $this->display();
         }
     }
+	
+	public function register() {
+        if ($this->isPost()) {
+            $data = $this->_post('data', false);
+            $data = serialize($data);
+            D('Setting')->save(array('k' => 'register', 'v' => $data));
+            D('Setting')->cleanCache();
+            $this->baoSuccess('设置成功', U('setting/register'));
+        } else {
+            $this->display();
+        }
+    }
+	
+	public function share() {
+        if ($this->isPost()) {
+            $data = $this->_post('data', false);
+            $data = serialize($data);
+            D('Setting')->save(array('k' => 'share', 'v' => $data));
+            D('Setting')->cleanCache();
+            $this->baoSuccess('分享设置成功', U('setting/share'));
+        } else {
+            $this->display();
+        }
+    }
+	
+	public function cash() {
+        if ($this->isPost()) {
+            $data = $this->_post('data', false);
+            $data = serialize($data);
+			
+			
+            D('Setting')->save(array('k' => 'cash', 'v' => $data));
+            D('Setting')->cleanCache();
+            $this->baoSuccess('提现设置成功', U('setting/cash'));
+        } else {
+            $this->display();
+        }
+    }
 }
 

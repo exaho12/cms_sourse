@@ -3,7 +3,7 @@
 /*
  * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
  * 作者：baocms团队
- * 官网：www.taobao.com
+ * 官网：www.baocms.com
  * 邮件: youge@baocms.com  QQ 800026911
  */
 
@@ -37,6 +37,7 @@ class WeixinAction extends CommonAction {
                     $this->success("该抢购券为到店付抢购券，该用户需要额外付消费款给您！", U('index/index'));
                 } else {
                     //增加MONEY 的过程 稍后补充
+                   $data['settlement_price'] =  D('Quanming')->quanming($data['user_id'],$data['settlement_price'],'tuan'); //扣去全民营销
                     $shopmoney->add(array(
                         'shop_id' => $data['shop_id'],
                         'money' => $data['settlement_price'],
@@ -48,11 +49,8 @@ class WeixinAction extends CommonAction {
                     $shop = D('Shop')->find($data['shop_id']);
                     D('Users')->addMoney($shop['user_id'], $data['settlement_price'], '抢购消费'.$data['order_id']);
                     $obj->save(array('code_id' => array('used_time' => NOW_TIME, 'used_ip' => $ip))); //拆分2次更新是保障并发情况下安全问题
-                    $order = D('Tuanorder')->find($data['order_id']);
-                    $tuan = D('Tuan')->find($data['tuan_id']);
-                    $integral = (int) ($order['total_price'] / 100);
-                    D('Users')->addIntegral($data['user_id'], $integral, '抢购' . $tuan['title'] . ';订单' . $order['order_id']);
-                   
+                    D('Users')->gouwu($data['user_id'],$data['price'],'抢购券消费');
+                    
                     $this->assign('waitSecond', 60);
                     $this->success("恭喜您成功使用了该消费券！", U('index/index'));
                 }

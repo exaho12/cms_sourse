@@ -1,134 +1,233 @@
-<include file='life:header_life'/> <include file='life:top'/>  
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav2"/>
+<style>
+    .shfw_xq_ad .syfq_flexslider .flex-direction-nav li a{top:-35px;}
+    .shfw_xq_ad .syfq_flexslider .flex-control-nav{top:115px; text-align: center;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.sy_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
+        $('.syfq_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
+        $('.hottj_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
 
-<div class="container">
-	<div class="blank-10"></div> 
-	
-	<ul class="bread bg">
-		<li><a href="<{:U('index/index')}>" title="<{$CONFIG.site.sitename}>"><{$CONFIG.site.sitename}></a></li>
-		<li><a href="<{:U('life/index')}>">生活信息</a></li>
-        <li><a href="<{:U('life/index',array('channel'=>$channel,'cat'=>0))}>"><{$chl[$channel]}></a></li>
-        <li><a href="<{:U('life/index',array('channel'=>$channel,'cat'=>$cate[cate_id]))}>"><{$cate.cate_name}></a></li>
-        
-		<li><{$detail.title}></li>
-        <li><a style="color:#F00;" href="<{:U('life/fabu')}>">我已要发布信息</a></li>
-	</ul>
+    });//首页轮播js
+</script>
+<div class="content zy_content">
+    <div class="spxq_loca">
+         <a href="<{:U('index/index')}>" title="<{$CONFIG.site.sitename}>"><{$CONFIG.site.sitename}></a>&gt;&gt;
+         <a href="<{:U('life/index')}>">生活信息</a></li>&gt;&gt;
+         <a href="<{:U('life/index',array('channel'=>$channel,'cat'=>0))}>"><{$chl[$channel]}></a>&gt;&gt;
+         <a href="<{:U('life/index',array('channel'=>$channel,'cat'=>$cate[cate_id]))}>"><{$cate.cate_name}></a>&gt;&gt;
+         <{$detail.title}>&gt;&gt;
+         <a style="color:#F00;" href="<{:U('life/fabu')}>">我已要发布信息</a>
+    </div>
+    
+    <div class="spxq_xqgm">
+        <div class="left spxq_xqgm_l">
+            <div class="spxq_qg" style="padding-top: 5px;">
+                <div class="left spxq_qg_l">
+                    <script type="text/javascript">
+                         $(document).ready(function () {
+                             $('.spxq_slider').flexslider({
+                                 slideshow: false,
+                                 controlNav: "thumbnails"
+                             });
+                         });
+                        $(function () {
+                            $(".sy_hotgzLi").hover(function () {
+                                $(".spxq_slider .flex-direction-nav").show();
+                            }, function () {
+                                $(".spxq_slider .flex-direction-nav").hide();
+                            });
+                            $(".spxq_slider .flex-direction-nav").hover(function () {
+                                $(".spxq_slider .flex-direction-nav").show();
+                            }, function () {
+                                $(".spxq_slider .flex-direction-nav").hide();
+                            });
+                        });
+                    </script>
+                    <div class="spxq_slider">
+                        <ul class="slides">
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>">
+                                <img src="__ROOT__/attachs/<{$detail.photo|default='default.jpg'}>" width="470" height="285" />
+                            </li>
+                            <foreach  name="pics" item="item">
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item.photo}>">
+                                    <img src="__ROOT__/attachs/<{$item.photo}>" width="470" height="285" />
+                                </li>
+                            </foreach>
+                        </ul>
+                        <if condition="empty($pics)">
+                        <ol class="flex-control-nav flex-control-thumbs">
+                            <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$detail.photo}>"><img src="__ROOT__/attachs/<{$detail.photo}>" width="108" height="68" /></li>
+                            <php>$i=0;</php>
+                            <foreach name="pics" item="item">
+                                <php>$i++;if($i<=3){</php>
+                                <li class="sy_hotgzLi" data-thumb="__ROOT__/attachs/<{$item.photo}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="108" height="68" /></li>
+                                <php>}</php>
+                            </foreach>
+                        </ol>
+                        </if>
+                    </div>
+                </div>
+                <div class="right spxq_qg_r hdxq_qg_r">
+                    <h3><{$detail.title}></h3>
+                    <ul class="suUl">
+                        <li class="cli1">
+                            <{$user.nickname}>
+                            <em>
+                                注册时间：
+                                <code><{$user.reg_time|date='Y-m-d',###}></code>
+                            </em>
+                        </li>
+                        <li class="cli2">
+                            认证信息
+                            <eq name="detail.is_shop" value="1">
+                            <span>手机</span><span>实名</span><span>邮箱</span><span>营业执照</span>
+                        <else />
+                        <span <if condition="empty($user['mobile'])"> class="cur"</if>>手机</span>
+                        <span class="cur">实名</span> 
+                        <span <if condition="empty($user['email'])"> class="cur"</if>>邮箱</span> 
+                        <span class="cur">营业执照</span>
+                        </eq>  
+                        </li>
+                    </ul>
+                    <!--<p class="jfxq_pj"><span><{$user.nickname}></span>  <span></span> </p>-->
+                    <div class="spxq_qgjgk"><p class="hdxq_p"><if condition="!empty($cate['text1'])"><{$cate.text1}>:<{$detail.text1}></if><if condition="!empty($cate['text2'])"><{$cate.text2}>:<{$detail.text2}></if></p></div>
+                    <div class="spxq_qgjgk">
+                        <p class="hdxq_p">
+                        <if condition="!empty($cate['select1'])">
+                            <{$cate['select1']}>:
+                            <{$attrs['select1'][$detail['select1']]['attr_name']}>
+                        </if>
+                        <span class="jfxq_kcy">
+                            <if condition="!empty($cate['select2'])">
+                                <{$cate['select2']}>:
+                                <{$attrs['select2'][$detail['select2']]['attr_name']}>
+                            </if>
+                        </span>
+                        </p></div>
+                    <div class="spxq_qgjgk">
+                        <p class="hdxq_p">
+                        <if condition="!empty($cate['num1'])"><{$cate.num1}>：<span class="jfxq_jfj"><{$detail.num1}><{$cate.unit1}></span></if>
+                        <if condition="!empty($cate['num2'])"><span class="jfxq_kcy"><{$cate.num2}>：<span class="jfxq_jfj"><{$detail.num2}><{$cate.unit2}></span></span></if>
+                        </p>
+                    </div>
+                    <div class="hdsy_Licj hdxq_Licj">
+                        <div class="left hdsy_Licj_l"><em class="radius100"></em><span><{:msubstr($detail['mobile'],0,7)}></span></div>
+                        <div class="right hdsy_Licj_r"><a class="hdsy_LicjA" rel="<{$detail.mobile}>" href="javascript:void(0);"><em class="sjxq_zxem bg1"></em>点击查看</a><span class="hdsy_LiP"></div>
+                    </div>
+                    <script>
+                        $(document).ready(function (e) {
+                            $(".hdsy_LicjA").click(function () {
+                                $(".hdsy_Licj_l span").html($(this).attr('rel'));
+                            });
+                        });
+                    </script>
+                    <div class="spxq_qgjgk">
+                        <{$detail.create_time|date='Y-m-d H:i:s',###}>  <{$detail.views}>次浏览  信息编号：<{$detail.life_id}>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right spxq_xqgm_r">
+            <div style="margin-top: 20px;" class="share bdsharebuttonbox spxq_qgFx" data-tag="share_1"><a style="margin-right: 7px;" mini='act' class="spxq_qgFxA" href="<{:U('life/love',array('life_id'=>$detail['life_id']))}>"><em>&nbsp;</em>收藏</a><a style="margin-right: 7px;" mini='act' class="spxq_qgFxA" href="<{:U('life/report',array('life_id'=>$detail['life_id']))}>"><em>&nbsp;</em>举报</a><a style="margin-right: 7px;" class="spxq_qgFxA" data-cmd="more" href="javascript:void(0);"><em>&nbsp;</em>分享</a></div>
+            <script>window._bd_share_config = {share: [{"tag": "share_1", 'bdCustomStyle': '__TMPL__statics/empty.css'}]};
+                with (document)
+                    0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+        </div>
+    </div>
+    <div class="shangjiaC">
+        <div class="left shangjiaC_l">
+            <div class="hdxq_xqnr shfw_xq_nr">
+                <div class="hdxq_xqnrT">详细内容</div>
+                <{$ex.details}>
+                <h3 class="ltit"><span><a href="<{:U('life/index')}>">更多信息</a></span>该用户其他信息</h3>
+                <ul class="liveBoxlist">
 
-	<div class="v-box">
-		<div class="line">
-			<div class="x9">
-				<div class="box-l">
-					<div class="detail-block">
-						<div class="block-hd">
-							<h1><{$detail.title}></h1>
-							<p>
-								<span class="mr-10"><i class="icon-clock-o"></i> <em><{$detail.create_time|date='Y-m-d H:i:s',###}></em></span>
-								<span class="mr-10"><i class="icon-eye"></i> <em><{$detail.views}></em></span>
-								<span class="mr-10"><a mini="act" href="<{:U('life/love',array('life_id'=>$detail['life_id']))}>">收藏</a></span>
-								<span class="mr-10"><a mini="act" href="<{:U('life/report',array('life_id'=>$detail['life_id']))}>">举报</a></span>
-							</p>
-							<div class="detail-tag">
-								<if condition="!empty($user['mobile'])"><span class="mob">手机认证</span></if>
-								<if condition="!empty($user['email'])"><span class="mail">邮箱认证</span></if>
-								<eq name="detail.is_shop" value="1"><span class="shop">商家发布</span></eq>  
-							</div>
-						</div>
-						<div class="block-bd">
-							<div class="v-l">
-								<php>$pn = count($pics);</php>
-								<div class="banner">
-									<div class="carousel">
-										<if condition="!empty($detail['photo'])">
-										<div class="item"><img src="__ROOT__/attachs/<{$detail.photo}>" alt="<{$detail.title}>" /></div>
-										<else />
-										<eq name="pn" value="0">
-										<div class="item"><img src="__ROOT__/attachs/default.jpg" alt="<{$detail.title}>" /></div>
-										</eq>
-										</if>
-										<foreach  name="pics" item="item">
-										<div class="item"><img src="__ROOT__/attachs/<{$item.photo}>" alt="<{$detail.title}>" /></div>
-										</foreach>
-									</div>
-								</div>
-							</div>
-							<div class="v-r">
-								<ul class="v-info">
-									<if condition="!empty($cate['text1'])"><li><span><{$cate.text1}>:</span><em><{$detail.text1}></em></li></if>
-									<if condition="!empty($cate['text2'])"><li><span><{$cate.text2}>:</span><em><{$detail.text2}></em></li></if>
-									<if condition="!empty($cate['text3'])"><li><span><{$cate.text2}>:</span><em><{$detail.text3}></em></li></if>
-									<if condition="!empty($cate['num1'])"><li><span><{$cate.num1}>:</span><em><{$detail.num1}><{$cate.unit1}></em></li></if>
-									<if condition="!empty($cate['num2'])"><li><span><{$cate.num2}>:</span><em><{$detail.num2}><{$cate.unit2}></em></li></if>
-									<if condition="!empty($cate['select1'])"><li><span><{$cate['select1']}>:</span><em><{$attrs['select1'][$detail['select1']]['attr_name']}></em></li></if>
-									<if condition="!empty($cate['select2'])"><li><span><{$cate['select2']}>:</span><em><{$attrs['select2'][$detail['select2']]['attr_name']}></em></li></if>
-									<if condition="!empty($cate['select3'])"><li><span><{$cate['select3']}>:</span><em><{$attrs['select3'][$detail['select3']]['attr_name']}></em></li></if>
-									<if condition="!empty($cate['select4'])"><li><span><{$cate['select4']}>:</span><em><{$attrs['select4'][$detail['select4']]['attr_name']}></em></li></if>
-									<if condition="!empty($cate['select5'])"><li><span><{$cate['select5']}>:</span><em><{$attrs['select5'][$detail['select5']]['attr_name']}></em></li></if>
-									<if condition="!empty($detail['area_id'])"><li><span>地区:</span><em><{$areas[$detail['area_id']]['area_name']}><{$bizs[$detail['business_id']]['business_name']}></em></li></if>
-									<if condition="!empty($detail['addr'])"><li><span>地址:</span><em><{$detail['addr']}></em></li></if>
-									<if condition="!empty($detail['contact'])"><li><span>联系人:</span><em><{$detail['contact']}></em></li></if>
-								</ul>
-								<div class="v-tel">
-									<span><i class="icon-mobile"></i></span>
-									<em><{$detail['mobile']}></em>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="blank-10"></div>
-			
-					
-					<div class="text-block">
-						<div class="block-hd">
-							<h3>详细介绍</h3>
-						</div>
-						<div class="block-bd">
-							<if condition="!empty($ex['details'])"><{$ex.details}><else />该内容暂时没有详细介绍，您可以联系信息发布人咨询了解。</if>
-							<p class="tell">联系我时，请说是在<{$CONFIG['site']['sitename']}>上看到的，谢谢！</p>
+                    <foreach name="list"  item="var">
 
-							<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
-							<div id="allmap"  class="allmap"></div>
-							<script type="text/javascript">
-								// 百度地图API功能
-								var map = new BMap.Map("allmap");
-								map.centerAndZoom(new BMap.Point( <{$detail.lng}> , <{$detail.lat}> ), 15);
-								var point = new BMap.Point( <{$detail.lng}> , <{$detail.lat}> );
-								map.centerAndZoom(point, 15);
-								var marker = new BMap.Marker(point); // 创建标注
-								map.clearOverlays();
-								map.addOverlay(marker); // 将标注添加到地图中
-								marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-								map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
-							</script>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="x3">
-				<div class="box-r">
-					<div class="side-block">
-						<div class="block-hd">
-							<h3>热门信息</h3>
-						</div>
-						<div class="block-bd">
-							<ul>
-								<callfunc mdl="Life" func="randTop">
-								<li>
-									<a class="pic" href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" /></a>
-									<div class="des">
-										<a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{:msubstr($item['title'],0,20)}></a>
-										<p><{:msubstr($item['addr'],0,20)}></p>
-									</div>
-								</li>
-								</callfunc>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <li>
+                            <a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank">
+                                <img width="120" height="77" src="__ROOT__/attachs/<{$var.photo|default='default.jpg'}>" />
+                            </a>
+                            <h3><span><{$var.last_time|date='Y-m-d',###}></span>
+                                <a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$var['life_id']))}>" target="_blank"><{:msubstr($var['title'],0,30)}></a>
+                                <gt name="var.urgent_date" value="$today"> <code></code> </gt>
+
+                                <gt name="var.top_date" value="$today"> <code class="c3"></code></gt>
+                                <if condition="$var['is_shop'] eq 1">
+                                    <code class="c2"></code>
+                                    <else/>           
+                                    <code class="c4"></code>
+                                </if>
+                            </h3>
+                            <p><{$areas[$var['area_id']]['area_name']}> - <{$bizs[$var['business_id']]['business_name']}> - <{$var.addr}></p>
+                        <if condition="!empty($var['num1'])">
+                            <p class="red"><{$var.num1}><{$cates[$var['cate_id']]['unit1']}></p>
+                            <else/>
+                            <p class="red"><{$var.text1}></p>
+                        </if>
+                        </li>
+
+                    </foreach>
+
+                </ul>
+            </div>
+        </div>
+        <div class="right shangjiaC_r">
+            <div class="shadowy shfw_xq_ad">
+                <div class="syfq_flexslider">
+                    <ul class="slides">
+                        <calldata mdl="Ad" where=" closed=0 AND site_id=35  and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,3" cache="43200" order="orderby asc">
+                            <li class="sy_hotgzLi"><a target="_blank" href="<{$item.link_url}>"><img src="__ROOT__/attachs/<{$item.photo}>" width="220" height="128" /></a></li>
+                        </calldata>
+                    </ul>
+                    <ol class="flex-control-nav flex-control-paging"></ol>
+                </div>
+            </div>
+            <div class="shadowy shfw_xq_new">
+                <h3>相关类目</h3>
+                <ul>
+                    <foreach name="cates" item="item">
+                        <eq name="item.channel_id" value="$channel">
+                        <li>
+                            <a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a>    
+                        </li>  
+                        </eq>
+                    </foreach>
+                </ul>
+            </div>
+            <div class="shadowy shfw_xq_new">
+                <h3>热门信息</h3>
+                <ul>
+                    <foreach name="tops" item="item">
+                        <li style="list-style: none; padding: 10px 0px;">
+                            <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><img src="__ROOT__/attachs/<{$item.photo|default='default.jpg'}>" width="240" height="130" /></a>
+                            <em><a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{:msubstr($item['title'],0,15)}></a></em>
+                            <p><{:msubstr($item['addr'],0,13)}></p>
+                            <code>
+                                <if condition="!empty($item['num1'])">
+                                    <{$item.num1}><{$cates[$item['cate_id']]['unit1']}>
+                                    <else/>
+                                    <{$item.text1}>
+                                </if>
+                            </code>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<include  file='public:footer'/>   
+<include file="public:footer"/>
